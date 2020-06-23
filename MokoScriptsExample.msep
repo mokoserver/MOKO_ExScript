@@ -6,6 +6,7 @@
 {"script":"03_01_Example_messenger.py","necessary":"false"},
 {"script":"04_01_Example_driver.py","necessary":"false"},
 {"script":"05_01_Example_utility.py","necessary":"false"},
+{"script":"06_01_Example_plugin.py","necessary":"false"},
 {"script":"07_01_Example_end.py","necessary":"false"}
 ],
 "project_libraries":[

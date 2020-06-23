@@ -5,3 +5,40 @@ Moko.Stage(stars('*'))
 Moko.Stage(stars('NEW SCRIPT'))
 Moko.Stage(stars('*'))
 
+Moko.Stage('*Pugin*', 'Plugin')
+Moko.Messenger('set', 'Plugin_info', 'В это скрипте описывается принцип работы функции Plugin ' +
+               'Для примера используется плагин *ExPlugin*, имеющий 2 режима работы: *set* и *get*.')
+Moko.Messenger('set', 'Set Number1|2', 'Команда *Number1|2* задает число Number1 или Number2 в окне Main. Для этого после команды ставиться = и число, которое нужно записать. ' +
+               'По умолчанию числа Number1 и Number2 равны нулю.')
+Moko.Plugin('MOKO ExPlugin', 'set', 'Number1=9')
+Moko.Messenger('set', 'Set String', 'Команда *String* записывает какую-либо строку в ExPlugin. Для этого после команды ставиться = и информация, которую нужно записать. ' +
+               'Информация отобразится в поле String в окне Main.')
+Moko.Plugin('MOKO ExPlugin', 'set', 'String=Hello, World!')
+Moko.Messenger('set', 'Set Screenshot', 'Команда *Screenshot* делает скриншот плагина, название которого состоит из даты и времени в момент скриншота. ' + 
+               'Скриншот сохраняется в отдельную папку App/screenshots в корневом каталоге ExPlugin.')
+Moko.Plugin('MOKO ExPlugin', 'set', 'Screenshot')
+Moko.Messenger('set', 'Set ChangeLedLoop', 'Команда *ChangeLedLoop* меняет значение индикатора Led Loop в окне Main.')
+Moko.Plugin('MOKO ExPlugin', 'set', 'ChangeLedLoop')
+Moko.Messenger('set', 'Set Graph', 'Команда *Graph* запускает или останавливает график в окне Graph. Для старта после команды *Graph* ставиться =start, а для остановки =stop.')
+Moko.Plugin('MOKO ExPlugin', 'set', 'Graph=start')
+Moko.Messenger('set', 'Set ShowTab', 'Команда *Showtab* меняте отображает нужное окно плагина (Main | Graph | Info). ' + 
+               'Для этого после команды ставиться = и название нужного окна.')
+Moko.Plugin('MOKO ExPlugin', 'set', 'ShowTab=Info')
+
+Moko.Messenger('set', 'Get String', 'Команда *String* возвращает строку из поля String в окне Main.')
+a = Moko.Plugin('MOKO ExPlugin', 'get', 'String', 'string')
+Moko.Messenger('set', 'String', 'Строка из ExPlugin: ' + a)
+Moko.Report("explugin", 'set', 'string', a)
+
+Moko.Messenger('set', 'Get Sum', 'Команда *Sum* возвращает сумму из поля Sum в окне Main.')
+sum = Moko.Plugin('MOKO ExPlugin', 'get', 'Sum', 'string')
+Moko.Messenger('set', 'Sum', 'Сумма: ' + sum)
+Moko.Report("explugin_1", 'set', 'string', sum)
+
+Moko.Report("explugin_3", 'set', 'string', 'Скрипт успешно завершён.')
+
+Moko.Stage(stars('*'))
+Moko.Stage(stars('NEXT SCRIPT'))
+Moko.Stage(stars('*'))
+
+Moko.EndScript()
