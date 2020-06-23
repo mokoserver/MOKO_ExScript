@@ -1,9 +1,14 @@
 import MokoRequestsLibrary as Moko
 from MokoFormatedLibrary import stars
+import time
 
 Moko.Stage(stars('*'))
 Moko.Stage(stars('NEW SCRIPT'))
 Moko.Stage(stars('*'))
+
+Moko.Plugin('MOKO ExPlugin', 'init', '')
+
+time.sleep(10)
 
 Moko.Stage('*Pugin*', 'Plugin')
 Moko.Messenger('set', 'Plugin_info', 'В это скрипте описывается принцип работы функции Plugin ' +
@@ -34,6 +39,10 @@ Moko.Messenger('set', 'Get Sum', 'Команда *Sum* возвращает су
 sum = Moko.Plugin('MOKO ExPlugin', 'get', 'Sum', 'string')
 Moko.Messenger('set', 'Sum', 'Сумма: ' + sum)
 Moko.Report("explugin_1", 'set', 'string', sum)
+
+Moko.Messenger('set', 'Get InstantScreenshot', 'Команда *InstantScreenshot* возвращает скриншот окна ExPlugin.')
+screen = Moko.Plugin('MOKO ExPlugin', 'get', 'InstantScreenshot', 'string')
+Moko.Report("explugin_2", 'set', 'picture', screen)
 
 Moko.Report("explugin_3", 'set', 'string', 'Скрипт успешно завершён.')
 
