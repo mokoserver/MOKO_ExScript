@@ -6,22 +6,25 @@ Moko.Stage(stars('NEW SCRIPT'))
 Moko.Stage(stars('*'))
 
 Moko.Stage('Utility', 'Utility')
-Moko.Messenger('set', 'set', 'В этом скрипте демонстрируется принцип работы функции Utility. ' +
-               'Для примера используется утилита *ExUtility*, имеющая два режима работы и одну команду. ')
-Moko.Messenger('set', 'set', 'Режим *set* задает определенную команду в утилиту. В данной утилите - команда *text*. '+
-               'Результатом команды *text* является окно с названием команды и  двумя конпками: *OK* и *Cancel*. Нажатие любой из них приведёт к закрытию окна.')
+Moko.Messenger('set', 'set', 'В этом скрипте демонстрируется принцип работы функции Utility. Для примера используется '
+                             'утилита *ExUtility*, имеющая два режима работы и одну команду. ')
+Moko.Messenger('set', 'set', 'Режим *set* задает определенную команду в утилиту. В данной утилите - команда *text*. '
+                             'Результатом команды *text* является окно с названием команды и  двумя конпками: *OK* и '
+                             '*Cancel*. Нажатие любой из них приведёт к закрытию окна.')
 Moko.Utility('ExUtility', 'set', 'text')
 
-Moko.Messenger('set', 'get', 'Режим *get* возвращает значение типа *boolean*. При нажатии на *OK* возвращает значение True, при *Cancel* - False.')
+Moko.Messenger('set', 'get', 'Режим *get* возвращает значение типа *boolean*. При нажатии на *OK* возвращает значение '
+                             'True, при *Cancel* - False.')
 resp = Moko.Utility('ExUtility', 'get', 'text', 'boolean')
-if resp == True:
+if resp:
     Moko.Messenger('set', 'True', 'You clicked on the *OK* button.')
     Moko.Report("exutility", 'set', 'string', 'Вы нажали на *OK* и ExUtility вернула значение True.')
 else:
     Moko.Messenger('set', 'False', 'You clicked on the *Cancel* button.')
     Moko.Report("exutility", 'set', 'string', 'Вы нажали на *Cancel* и ExUtility вернула значение False.')
 
-Moko.Messenger('set', 'command', 'Команда *text* имеет возможность передать какую-либо информацию во всплывающее окно так же, как и в драйвере. *text=Hello,World!* ')
+Moko.Messenger('set', 'command', 'Команда *text* имеет возможность передать какую-либо информацию во всплывающее окно '
+                                 'так же, как и в драйвере. *text=Hello,World!* ')
 Moko.Utility('ExUtility', 'set', 'text=Hello, World!')
 
 Moko.Report("exutility_1", 'set', 'string', 'Скрипт успешно завершён.')
