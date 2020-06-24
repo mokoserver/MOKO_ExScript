@@ -46,10 +46,6 @@ Moko.Report("explugin_2", 'set', 'picture', screen)
 
 Moko.Report("explugin_3", 'set', 'string', 'Скрипт успешно завершён.')
 
-a = Moko.Messenger('get', 'Report', 'Печатать word протокол?', 'boolean')
-if a == True:
-    Moko.Program('control', 'set', 'save word report')
-
 Moko.Stage(stars('*'))
 Moko.Stage(stars('NEXT SCRIPT'))
 Moko.Stage(stars('*'))
