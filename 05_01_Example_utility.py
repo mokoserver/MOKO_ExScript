@@ -24,6 +24,8 @@ else:
 Moko.Messenger('set', 'command', 'Команда *text* имеет возможность передать какую-либо информацию во всплывающее окно так же, как и в драйвере. *text=Hello,World!* ')
 Moko.Utility('ExUtility', 'set', 'text=Hello, World!')
 
+Moko.Report("exutility_1", 'set', 'string', 'Скрипт успешно завершён.')
+
 Moko.Stage(stars('*'))
 Moko.Stage(stars('NEXT SCRIPT'))
 Moko.Stage(stars('*'))

@@ -25,6 +25,7 @@ else:
     Moko.Messenger('set', 'False', 'You clicked on the *No* button.')
     Moko.Report("exmessenger_2", 'set', 'string', 'False')
 
+Moko.Report("exmessenger_3", 'set', 'string', 'Скрипт успешно завершён.')
 
 Moko.Stage(stars('*'))
 Moko.Stage(stars('NEXT SCRIPT'))
