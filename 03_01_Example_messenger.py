@@ -25,7 +25,7 @@ Moko.Report("exmessenger_1", 'set', 'string', b)
 
 a = Moko.Messenger('get', 'Messenger_7', 'Message №7. It has the type *get*. Retrieves boolean data from the message. '
                                          'When you click on the *Yes* button, returns True, when you click on *No*, '
-                                         'it returns False.', 'boolean')
+                                         'it returns False.', 'choice = hgjgh;fgjhgjhg;fgjfgkjg;')
 if a == True:
     Moko.Messenger('set', 'True', 'You clicked on the *Yes* button.')
     Moko.Report("exmessenger_2", 'set', 'string', 'True')
