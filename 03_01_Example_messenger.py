@@ -1,15 +1,17 @@
 import MokoRequestsLibrary as Moko
 from MokoFormatedLibrary import stars
 
+
 Moko.Stage(stars('*'))
 Moko.Stage(stars('NEW SCRIPT'))
 Moko.Stage(stars('*'))
 
-Moko.Stage('*Messenger*')
-Moko.Messenger('set', 'Messenger_1', 'Message №1. It has the type *set*. Displays a window with some title and '
+#if ex.language == 'English (default)':
+    Moko.Stage('*Messenger*')
+    Moko.Messenger('set', 'Messenger_1', 'Message №1. It has the type *set*. Displays a window with some title and '
                                      'content. Each message has a title and content that may be empty. After pressing '
                                      'the *OK* button, the message closes.')
-Moko.Messenger('set', 'Messenger_2', 'Message №2. It has the type *set*. Has a timer after which the message closes. '
+    Moko.Messenger('set', 'Messenger_2', 'Message №2. It has the type *set*. Has a timer after which the message closes. '
                                      'After pressing the *OK* button, the message will be closed regardless of '
                                      'whether the timer has expired.', 'void', str(10))
 

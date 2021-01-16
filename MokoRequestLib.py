@@ -1,10 +1,10 @@
-'''     Данная библиотека функций служит для осуществления HTTP запросов на MOKO SE. 
+'''     Данная библиотека функций служит для осуществления HTTP запросов на MOKO SE.
 
-        Версия библиотеки: 1.3 от 12.02.2020.
+        Версия библиотеки: 1.4 от 12.10.2020. Добавлена поддержка Modem
 
         Версия документации: 1.2 от 03.02.2020.
  
-        Для работы этой библиотеки требуются библиотеки **requests** и **json**.    
+        Для работы этой библиотеки требуются библиотеки **requests** и **json**.
 
 '''
 
@@ -36,6 +36,9 @@ _UrlUtilityWrite = 'http://localhost:55001/MOKOSE/system/utilitywrite'
 _UrlUtilityRead = 'http://localhost:55001/MOKOSE/system/utilityread'
 
 _UrlProjectStateRead = 'http://localhost:55001/MOKOSE/status/projectstate'
+
+_UrlPSAPWrite = 'http://localhost:55004/Server/plugin/WRITE/'
+_UrlPSAPRead = 'http://localhost:55004/Server/plugin/READ/'
 
 _Messenger_CurrentType = 0
 
@@ -518,6 +521,94 @@ def Plugin(name, mode, command, valuetype='void'):
     value = None
     return value
 
+
+###################################################################################################################
+
+#######          ############            ###             #######
+##     ##       ##                     ##   ##           ##     ##
+##      ##      ##                    ##     ##          ##      ##
+##     ##       ##                   ##       ##         ##     ##
+#######          ###########        #############        #######
+##                         ##       ##         ##        ##
+##                         ##       ##         ##        ##
+##                         ##       ##         ##        ##
+##              ############        ##         ##        ##
+
+###################################################################################################################
+
+# PSAP- полная копия функции Plugin, но предназначенная для работы с Modem
+# Plugin - функция, осуществляющая работу с плагином
+# name - имя плагина
+# mode - тип команды ('get', 'set', 'init')
+# command - команда, которую отправляем в плагин.
+# valuetype (только для type = 'get') - тип данных, получаемый из плагина
+def PSAP(name, mode, command, valuetype='void'):
+
+
+    if ((mode.lower() == 'get') and (valuetype.lower() == 'void')):
+        Stage("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request", 'error')
+        print("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request")
+        return None
+    if ((mode.lower() != 'get') and (mode.lower() != 'set') and (mode.lower() != 'init')):
+        Stage("ERROR IN PYTHON LIBRARY! Wrong request type! " + str(mode), 'error')
+        print("ERROR IN PYTHON LIBRARY! Wrong request type! " + str(mode))
+        return None
+    URLWrite = _UrlPSAPWrite
+    URLRead = _UrlPSAPRead
+    URLPSRead = _UrlProjectStateRead
+
+    response = requests.post(URLWrite, json={"name": name, "type": mode, "command": command})
+
+    timeout = 0
+    badresponse_timeout = 0
+    plgstatus = 'none'
+    serverstate = requests.get(URLPSRead)
+    JSONprojectstate = json.loads(serverstate.content)
+    projectstate = JSONprojectstate.get('projectstate')
+    while ((plgstatus.lower() != 'ready') and (badresponse_timeout < 10)):
+        response = requests.get(URLRead)
+        while (projectstate.lower() != 'run'):
+            serverstate = requests.get(URLPSRead)
+            JSONprojectstate = json.loads(serverstate.content)
+            projectstate = JSONprojectstate.get('projectstate')
+            if (projectstate.lower() == 'stop'):
+                sys.exit()
+                Stage("sys.exit() not work")
+        if (response.status_code != 200):
+            Stage("ERROR IN PYTHON LIBRARY! Bad response code! " + str(response.status_code), 'error')
+            print("ERROR IN PYTHON LIBRARY! Bad response code! " + str(response.status_code) + '\n' + str(
+                10 - badresponse_timeout) + ' tries left')
+            badresponse_timeout += 1
+        else:
+            y = json.loads(response.content)
+            print(y)
+            plgstatus = y.get('status')
+            if (mode.lower() == 'get'):
+                plgdata = y.get('data')
+            timeout += 1
+            # Stage('Wait ' + str(timeout))
+        sleep(0.1)
+
+    if (badresponse_timeout >= 10):
+        Stage("ERROR IN PYTHON LIBRARY! Function exit because of bad responses", 'error')
+        print("ERROR IN PYTHON LIBRARY! Function exit because of bad responses")
+        value = None
+        return value
+
+    if ((plgstatus.lower() == 'ready') and (mode.lower() == 'get')):
+        # Stage(plgdata)
+        ind = plgdata.find(';')
+        if (ind == -1):
+            plgdata = plgdata + ';'
+        ind = plgdata.rfind(';')
+        if (ind != (len(plgdata) - 1)):
+            plgdata = plgdata + ';'
+        value = ParseValue(plgdata, valuetype)
+        return value
+
+    value = None
+    return value
+
 ###################################################################################################################
 
     ##          ##      ############        ##########
@@ -678,6 +769,8 @@ def Messenger(mode, head, body, valuetype='void', delaytime='void'):
         ind = msgdata.rfind(';')
         if (ind != (len(msgdata)-1)):
             msgdata = msgdata + ';'
+        if ((valuetype.lower() != 'boolean') and (valuetype.lower() != 'string')):
+            valuetype = 'string'
         value = ParseValue(msgdata, valuetype)
         return value
 
@@ -761,7 +854,7 @@ def Report(name, mode, kind, data, valuetype='void'):
         Stage("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request", 'error')
         print("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request")
         return None
-    if ((mode.lower() != 'get') and (mode.lower() != 'set') and (mode.lower() != 'init') and (mode.lower() != 'close')):
+    if ((mode.lower() != 'get') and (mode.lower() != 'set') and (mode.lower() != 'info')):
         Stage("ERROR IN PYTHON LIBRARY! Wrong request type! " +  str(mode), 'error')
         print("ERROR IN PYTHON LIBRARY! Wrong request type! " +  str(mode))
         return None
