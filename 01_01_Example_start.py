@@ -1,11 +1,13 @@
-import MokoRequestsLibrary as Moko
+import MokoRequestLib as Moko
 from MokoFormatedLibrary import stars
 
 Moko.Stage(stars('*'))
 Moko.Stage(stars('START'))
 Moko.Stage(stars('*'))
 Moko.Messenger('set', 'Welcome message', 'Dear User!\nThanks for installing MOKO SE.\nEnjoyable using!')
-language = Moko.Messenger('get', 'Language', 'Please select your language in dropdown:', 'choice=English (default);Русский;')
+language = Moko.Messenger('get', 'Language', 'Please select your language in dropdown:',
+                          'choice=English(default);Русский;')
+Moko.Report("language", 'set', 'string', language)
 Moko.Stage(stars('*'))
 Moko.Stage(stars('NEXT SCRIPT'))
 Moko.Stage(stars('*'))

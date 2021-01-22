@@ -1,4 +1,4 @@
-import MokoRequestsLibrary as Moko
+import MokoRequestLib as Moko
 from MokoFormatedLibrary import stars
 
 Moko.Stage(stars('*'))
