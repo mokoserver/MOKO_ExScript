@@ -1,0 +1,16 @@
+{
+"project_name":"Present Project",
+"project_scripts":[
+{"script":"Presentation script.py","necessary":"false"},
+{"script":"Presentation sinusoids with different phase.py","necessary":"false"},
+{"script":"Graph with masks and noise.py","necessary":"false"},
+{"script":"Presentation sinusoids with different frequency.py","necessary":"false"}
+],
+"project_libraries":[
+{"script":"MOKO.py"},
+{"script":"MGPH.py"}
+],
+"project_templates":[
+{"script":"Present Report.docx"}
+]
+}
