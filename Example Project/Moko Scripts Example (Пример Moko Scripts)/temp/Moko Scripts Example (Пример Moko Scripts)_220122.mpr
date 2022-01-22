@@ -2,9 +2,9 @@
 "scripts":
 [
 {"name":"01 Example Start (Начало примера)","smark":"done"},
-{"name":"02 Example Stage (Пример Stage)","smark":"done"},
-{"name":"03 Example Messenger (Пример Messenger)","smark":"done"},
-{"name":"04 Example Driver (Пример Driver)","smark":"passed"},
+{"name":"02 Example Stage (Пример Stage)","smark":""},
+{"name":"03 Example Messenger (Пример Messenger)","smark":""},
+{"name":"04 Example Driver (Пример Driver)","smark":""},
 {"name":"05 Example Utility (Пример Utility)","smark":""},
 {"name":"06 Example Plugin (Пример Plugin)","smark":""},
 {"name":"07 Example Program (Пример Program)","smark":""},
@@ -13,21 +13,7 @@
 "report":
 [
 {"name":"language","kind":"string","info":"","script":"01 Example Start (Начало примера)",
-"data":"Русский"},
-{"name":"exstage","kind":"string","info":"","script":"02 Example Stage (Пример Stage)",
-"data":"Отсутствуют"},
-{"name":"exstage_1","kind":"string","info":"","script":"02 Example Stage (Пример Stage)",
-"data":"Скрипт успешно завершён."},
-{"name":"exmessenger","kind":"string","info":"","script":"03 Example Messenger (Пример Messenger)",
-"data":""},
-{"name":"exmessenger_1","kind":"string","info":"","script":"03 Example Messenger (Пример Messenger)",
-"data":""},
-{"name":"exmessenger_2","kind":"string","info":"","script":"03 Example Messenger (Пример Messenger)",
-"data":"False"},
-{"name":"exmessenger_3","kind":"string","info":"","script":"03 Example Messenger (Пример Messenger)",
-"data":"Скрипт успешно завершён."},
-{"name":"exdriver","kind":"string","info":"","script":"04 Example Driver (Пример Driver)",
-"data":"Вы нажали на ''OK'' и ExDriver вернул значение True."}
+"data":"English(default)"}
 
 ],
 "tree":
