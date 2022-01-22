@@ -12,5 +12,13 @@ import MOKO
 # 8. Coordinates = MOKO.Plugin('ClickServer', 'get', 'GetCoordinates' ,'String') - get mouse cursor coordinates (получить координаты курсора мыши)
 # 9. Minimize Window??
 
+#Region Status (статус)
+#hesh Report
+
+MOKO.Program('control', 'set', 'save word report')
+MOKO.Program('tree', 'set', 'select = ' + 'Report')
+MOKO.Program('tree', 'set', 'chosen = passed')
+#EndRegion Region Status (статус)
+
 
 MOKO.EndScript()

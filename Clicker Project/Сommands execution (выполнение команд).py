@@ -13,11 +13,13 @@ from MOSC import stars
 # 8. Coordinates = MOKO.Plugin('ClickServer', 'get', 'GetCoordinates' ,'String') - get mouse cursor coordinates (получить координаты курсора мыши)
 # 9. Minimize Window??
 
+MOKO.Plugin('ClickServer', 'init', '')
+
 #Region Status (статус)
 #description: Decribe;command;;(описание;команды);
-#hesh The first command: to get a screenshot;of the screen;;(получить;скриншота;экрана)
+#hesh The first command: to get a screenshot;of the screen;;(получить;скриншот;экрана)
 Screenshot = MOKO.Plugin('ClickServer', 'get', 'Screenshot' ,'String')
-MOKO.Report("expluginScr", 'set', 'picture', Screenshot)
+MOKO.Report("ClickerScr", 'set', 'picture', Screenshot)
 
 MOKO.Program('tree', 'set', 'select = ' + 'The first command')
 MOKO.Program('tree', 'set', 'chosen = passed')
@@ -26,7 +28,8 @@ MOKO.Program('tree', 'set', 'chosen = passed')
 #Region Status (Статус)
 #description: Decribe;command;;(описание;команды);
 #hesh The second command: to specify the;image path;;(указать путь;картинки)
-MOKO.Plugin('ClickServer', 'set', 'PngPath = C:\\MOKO SE\\Plugins\\MOKO ClickServer\\data\\Test2.bmp')
+
+MOKO.Plugin('ClickServer', 'set', 'PngPath = C:\\MOKO SE\\Images\\Desktop MOKO Long.png')
 
 MOKO.Program('tree', 'set', 'select = ' + 'The second command')
 MOKO.Program('tree', 'set', 'chosen = passed')
@@ -36,11 +39,9 @@ MOKO.Program('tree', 'set', 'chosen = passed')
 #description: Decribe;command;;(описание;команды);
 #hesh The third command: to get the image;from the specified;path;(получить;картинку;по указанному;пути)
 PngFile = MOKO.Plugin('ClickServer', 'get', 'GetPngFile' ,'String')
-MOKO.Report("expluginFile", 'set', 'picture', PngFile)
+MOKO.Report("ClickerFile", 'set', 'picture', PngFile)
 
 MOKO.Program('tree', 'set', 'select = ' + 'The third command')
-MOKO.Program('tree', 'set', 'chosen = passed')
-MOKO.Program('tree', 'set', 'select = ' + 'третья команда')
 MOKO.Program('tree', 'set', 'chosen = passed')
 #EndRegion Region Status
 

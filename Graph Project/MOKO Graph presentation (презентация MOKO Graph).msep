@@ -1,0 +1,19 @@
+{
+"project_name":"Graph presentation (презентация Graph)",
+"project_autosave":"true",
+"project_scripts":[
+{"script":"Greeting (приветствие).py","necessary":"true"},
+{"script":"The first graph (первый график).py","necessary":"false"},
+{"script":"The second graph (второй график).py","necessary":"false"},
+{"script":"The third graph (третий график).py","necessary":"false"},
+{"script":"Graph report (отчёт Graph).py","necessary":"false"},
+{"script":"Farewell (прощание).py","necessary":"true"}
+],
+"project_libraries":[
+{"script":"MGPH.py"},
+{"script":"MOKO.py"}
+],
+"project_templates":[
+{"script":"Graph report (отчёт Graph).docx"}
+]
+}
