@@ -28,12 +28,12 @@ reports = ['AccuracyClass',  # класс точности
            ]
 
 MOKO.Stage('Проверка форма поверки')
-MOKO.Messenger('set', 'Поверка', 'Пожалуйста, заполните форму поверки.')
+MOKO.Messenger('set', 'Fill the form.jpg', 'Пожалуйста, заполните форму поверки.')
 MOKO.Utility(UN, 'set', 'info')
 Utility_to_Report(reports, UN, 'strings')
 
 # Report print choice:
-ReportPrint = MOKO.Messenger('get', 'Протокол поверки',
+ReportPrint = MOKO.Messenger('get', 'Open report.jpg',
                              'Хотите открыть протокол поверки по окончании поверки?', 'boolean')
 MOKO.Report('ReportPrint', 'set', 'string', str(ReportPrint))
 

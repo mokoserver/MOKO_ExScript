@@ -14,12 +14,9 @@ import MOKO
 
 language = MOKO.Report("language", 'get', 'string', 'string', 'string')
 if language == 'English':
-
-    MOKO.Messenger('set', 'MOKO Clicker presentation',
-                   'It was MOKO Clicker presentation. Thank you for your attention!')
+    MOKO.Messenger('set', 'Farewell.jpg','It was MOKO Clicker presentation. Thank you for your attention!')
 else:
-    MOKO.Messenger('set', 'Презентация MOKO Clicker',
-                    'Вам была продемонстрирована программа MOKO Clicker. Спасибо за внимание!')
+    MOKO.Messenger('set', 'Farewell.jpg', 'Вам была продемонстрирована программа MOKO Clicker. Спасибо за внимание!')
 
 #Region Status (Статус)
 #hesh Farewell

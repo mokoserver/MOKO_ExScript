@@ -2,7 +2,7 @@ import MOKO as Moko
 
 language = Moko.Report("language", 'get', 'string', 'string', 'string')
 
-if language == 'English':
+if language == 'English(default)':
     Moko.Stage('*Messenger*')
     Moko.Messenger('set', 'Messenger_1', 'Message №1. It has the type \'\'set\'\'. Displays a window with some title and '
                                          'content. Each message has a title and content that may be empty. '

@@ -17,7 +17,7 @@ MOKO.Stage(stars('*'))
 # 8. Coordinates = MOKO.Plugin('ClickServer', 'get', 'GetCoordinates' ,'String') - get mouse cursor coordinates (получить координаты курсора мыши)
 # 9. Minimize Window??
 
-language = MOKO.Messenger('get', 'Language. Язык.', 'Please select your language in dropdown.\nПожалуйста, выберите свой язык в раскрывающемся списке:',
+language = MOKO.Messenger('get', 'Language. Язык.jpg', 'Please select your language in dropdown.\nПожалуйста, выберите свой язык в раскрывающемся списке:',
                           'choice=English;Русский;')
 MOKO.Report("language", 'set', 'string', language)
 
@@ -28,13 +28,13 @@ MOKO.Program('tree', 'set', 'chosen = passed')
 #EndRegion Region Choice language
 
 if language == 'English':
-    MOKO.Messenger('set', 'MOKO Clicker presentation',
+    MOKO.Messenger('set', 'Greeting.jpg',
                    'This presentation will show 3 commands, but there are more commands. '
                    'The first command is to get a screenshot of the screen, '
                    'the second command is to specify the image path and '
                    'the last command is to get the image from the specified path.')
 elif language == 'Русский':
-    MOKO.Messenger('set', 'Презентация MOKO Clicker',
+    MOKO.Messenger('set', 'Greeting.jpg',
                    'В данном презентации будут показаны 3 команды, но команд больше. '
                    'Первая команда - получение скриншота экрана, '
                    'вторая команда - указание пути картинки, '
