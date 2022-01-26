@@ -1,0 +1,23 @@
+{
+"scripts":
+[
+{"name":"Greeting (приветствие)","smark":"done"},
+{"name":"Farewell (прощание)","smark":"done"}
+],
+"report":
+[
+{"name":"path_read","kind":"string","info":"","script":"Greeting (приветствие)",
+"data":""},
+{"name":"language","kind":"string","info":"","script":"",
+"data":""}
+
+],
+"tree":
+[
+{"line":"0","name":"Path","type":"project","project":"","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"1","name":"Greeting (приветствие)","type":"script","project":"Path","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"2","name":"Status (статус)","type":"region","project":"Path","script":"Greeting (приветствие)","region":"","status":"empty","pcode":"0","pcount":"2"},
+{"line":"3","name":"Greeting","type":"hesh","project":"Path","script":"Greeting (приветствие)","region":"Status (статус)","status":"passed","pcode":"5","pcount":"2"},
+{"line":"4","name":"Farewell (прощание)","type":"script","project":"Path","script":"","region":"","status":"empty","pcode":"0","pcount":"1"}
+]
+}

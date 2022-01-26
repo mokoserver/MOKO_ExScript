@@ -1,0 +1,15 @@
+{
+"project_name":"Path",
+"project_autosave":"true",
+"project_scripts":[
+{"script":"Greeting (приветствие).py","necessary":"false"},
+{"script":"Farewell (прощание).py","necessary":"false"}
+],
+"project_libraries":[
+{"script":"MOKO.py"},
+{"script":"MOSC.py"}
+],
+"project_templates":[
+{"script":"Messenger report (отчёт Messenger).docx"}
+]
+}
