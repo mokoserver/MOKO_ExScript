@@ -1,5 +1,6 @@
 import MOKO as Moko
 
+
 language = Moko.Report("language", 'get', 'string', 'string', 'string')
 
 if language == 'English':
@@ -57,6 +58,5 @@ elif language == 'Русский':
         Moko.Messenger('set', 'False', 'Вы нажали на кнопку \'\'No\'\' .')
     Moko.Report("exmessenger_2", 'set', 'string', 'False')
     Moko.Report("exmessenger_3", 'set', 'string', 'Скрипт успешно завершён.')
-
 
 Moko.EndScript()

@@ -27,8 +27,10 @@ if language == 'English(default)':
     else:
         Moko.Messenger('set', 'False', 'You clicked on the \'\'Cancel\'\' button.')
         Moko.Report("exdriver", 'set', 'string', 'You clicked \'\'Cancel\'\' and ExDriver returned False.')
-    Moko.Messenger('set', 'init', 'В режиме \'\'init\'\' на экране появляется окно инициализации драйвера. '
-                                  'Так как прибора нет, следует нажать на кнопку \'\'Cancel\'\'.')
+
+    Moko.Messenger('set', 'init', 'In \'\'init\'\' mode, the driver initialization window appears on the screen. '
+                                  'Since there is no device, click on the \'\'Cancel\'\' button.')
+
     Moko.Driver('ExDriver', 'init', '')
     Moko.Messenger('set', 'command', 'The \'\'text\'\' command has the ability to pass any information to the popup '
                                      'window. For example, we want to display a welcome window. '
@@ -41,6 +43,7 @@ elif language == 'Русский':
     Moko.Messenger('set', 'Driver_info', 'В этом скрипте описывается принцип работы функции Driver. Для примера '
                                      'используется драйвер \'\'ExDriver\'\', имеющий несколько режимов работы, '
                                      'которые будут продемонстрированы далее.')
+
     Moko.Messenger('set', 'set', 'Режим \'\'set\'\' задает определенную команду в драйвер. Данный драйвер \'\'ExDriver\'\' имеет '
                              'единственную команду - \'\'text\'\'. Результатом команды \'\'text\'\' является пустое окно с двумя '
                              'конпками: \'\'OK\'\' и \'\'Cancel\'\'. Нажатие любой из них приведёт к закрытию окна.')
@@ -55,16 +58,15 @@ elif language == 'Русский':
     else:
         Moko.Messenger('set', 'False', 'Вы нажали на кнопку \'\'Cancel\'\'.')
         Moko.Report("exdriver", 'set', 'string', 'Вы нажали на \'\'Cancel\'\' и ExDriver вернул значение False.')
-        Moko.Messenger('set', 'init', 'В режиме \'\'init\'\' на экране появляется окно инициализации драйвера. Так как прибора нет, '
-                              'следует нажать на кнопку \'\'Cancel\'\'.')
-        Moko.Driver('ExDriver', 'init', '')
 
-        Moko.Messenger('set', 'command', 'Команда \'\'text\'\' имеет возможность передать какую-либо информацию во всплывающее '
+    Moko.Messenger('set', 'init', 'В режиме \'\'init\'\' на экране появляется окно инициализации драйвера. Так как прибора нет, '
+                              'следует нажать на кнопку \'\'Cancel\'\'.')
+    Moko.Driver('ExDriver', 'init', '')
+    Moko.Messenger('set', 'command', 'Команда \'\'text\'\' имеет возможность передать какую-либо информацию во всплывающее '
                                  'окно. Например, мы хотим вывести окно с приветствием. '+
                'Для этого в скрипте надо записать \'\'text=Hello,World!\'\'. ')
-        Moko.Driver('ExDriver', 'set', 'text=Hello, World!')
-
-        Moko.Report("exdriver_1", 'set', 'string', 'Скрипт успешно завершён.')
+    Moko.Driver('ExDriver', 'set', 'text=Hello, World!')
+    Moko.Report("exdriver_1", 'set', 'string', 'Скрипт успешно завершён.')
 
 
 Moko.Stage(stars('*'))

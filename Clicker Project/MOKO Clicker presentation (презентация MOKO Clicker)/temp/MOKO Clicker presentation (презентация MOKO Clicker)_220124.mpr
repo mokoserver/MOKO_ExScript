@@ -1,0 +1,37 @@
+{
+"scripts":
+[
+{"name":"Greeting (приветствие)","smark":"done"},
+{"name":"Сommands execution (выполнение команд)","smark":""},
+{"name":"Create a report (создание отчёта)","smark":""},
+{"name":"Farewell (прощание)","smark":"protection"}
+],
+"report":
+[
+{"name":"language","kind":"string","info":"","script":"Greeting (приветствие)",
+"data":"English"}
+
+],
+"tree":
+[
+{"line":"0","name":"MOKO Clicker presentation (презентация MOKO Clicker)","type":"project","project":"","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"1","name":"Greeting (приветствие)","type":"script","project":"MOKO Clicker presentation (презентация MOKO Clicker)","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"2","name":"Choice language (выбор языка)","type":"region","project":"MOKO Clicker presentation (презентация MOKO Clicker)","script":"Greeting (приветствие)","region":"","status":"empty","pcode":"0","pcount":"2"},
+{"line":"3","name":"Language","type":"hesh","project":"MOKO Clicker presentation (презентация MOKO Clicker)","script":"Greeting (приветствие)","region":"Choice language (выбор языка)","status":"passed","pcode":"5","pcount":"2"},
+{"line":"4","name":"Status (статус)","type":"region","project":"MOKO Clicker presentation (презентация MOKO Clicker)","script":"Greeting (приветствие)","region":"","status":"empty","pcode":"0","pcount":"2"},
+{"line":"5","name":"Greeting","type":"hesh","project":"MOKO Clicker presentation (презентация MOKO Clicker)","script":"Greeting (приветствие)","region":"Status (статус)","status":"passed","pcode":"5","pcount":"2"},
+{"line":"6","name":"Сommands execution (выполнение команд)","type":"script","project":"MOKO Clicker presentation (презентация MOKO Clicker)","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"7","name":"Status (статус)","type":"region","project":"MOKO Clicker presentation (презентация MOKO Clicker)","script":"Сommands execution (выполнение команд)","region":"","status":"empty","pcode":"0","pcount":"6"},
+{"line":"8","name":"The first command","type":"hesh","project":"MOKO Clicker presentation (презентация MOKO Clicker)","script":"Сommands execution (выполнение команд)","region":"Status (статус)","status":"empty","pcode":"3","pcount":"6"},
+{"line":"9","name":"Status (Статус)","type":"region","project":"MOKO Clicker presentation (презентация MOKO Clicker)","script":"Сommands execution (выполнение команд)","region":"","status":"empty","pcode":"0","pcount":"6"},
+{"line":"10","name":"The second command","type":"hesh","project":"MOKO Clicker presentation (презентация MOKO Clicker)","script":"Сommands execution (выполнение команд)","region":"Status (Статус)","status":"empty","pcode":"3","pcount":"6"},
+{"line":"11","name":"Status (статус)","type":"region","project":"MOKO Clicker presentation (презентация MOKO Clicker)","script":"Сommands execution (выполнение команд)","region":"","status":"empty","pcode":"0","pcount":"6"},
+{"line":"12","name":"The third command","type":"hesh","project":"MOKO Clicker presentation (презентация MOKO Clicker)","script":"Сommands execution (выполнение команд)","region":"Status (статус)","status":"empty","pcode":"3","pcount":"6"},
+{"line":"13","name":"Create a report (создание отчёта)","type":"script","project":"MOKO Clicker presentation (презентация MOKO Clicker)","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"14","name":"Status (статус)","type":"region","project":"MOKO Clicker presentation (презентация MOKO Clicker)","script":"Create a report (создание отчёта)","region":"","status":"empty","pcode":"0","pcount":"2"},
+{"line":"15","name":"Report","type":"hesh","project":"MOKO Clicker presentation (презентация MOKO Clicker)","script":"Create a report (создание отчёта)","region":"Status (статус)","status":"empty","pcode":"3","pcount":"2"},
+{"line":"16","name":"Farewell (прощание)","type":"script","project":"MOKO Clicker presentation (презентация MOKO Clicker)","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"17","name":"Status (Статус)","type":"region","project":"MOKO Clicker presentation (презентация MOKO Clicker)","script":"Farewell (прощание)","region":"","status":"empty","pcode":"0","pcount":"2"},
+{"line":"18","name":"Farewell","type":"hesh","project":"MOKO Clicker presentation (презентация MOKO Clicker)","script":"Farewell (прощание)","region":"Status (Статус)","status":"empty","pcode":"3","pcount":"2"}
+]
+}

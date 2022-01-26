@@ -5,6 +5,8 @@
         Версия библиотеки: 1.5 от 23.06.2021. Изменен формат post-запросов для драйверов.
 
         Версия документации: 1.2 от 03.02.2020.
+        
+        Версия измененая 24.01.2022 для корректной работы старта/паузы/стопа
  
         Для работы этой библиотеки требуются библиотеки **requests** и **json**.
 
@@ -50,52 +52,6 @@ _Driver_CurrentCommand = 0
 
 _ReadTimeout = -1
 
-
-# def SetURL_StageWrite(url):
-#     if not(str(url).startswith('http')):
-#         return -1
-#     _UrlStageWrite = url
-#     return 0
-
-# def SetURL_DriverWrite(url):
-#     if not(str(url).startswith('http')):
-#         return -1
-#     _UrlDriverWrite = url
-#     return 0
-
-# def SetURL_DriverRead(url):
-#     if not(str(url).startswith('http')):
-#         return -1
-#     _UrlDriverRead = url
-#     return 0
-
-# def SetURL_PluginWrite(url):
-#     if not(str(url).startswith('http')):
-#         return -1
-#     _UrlPluginWrite = url
-#     return 0
-
-# def SetURL_PluginRead(url):
-#     if not(str(url).startswith('http')):
-#         return -1
-#     _UrlPluginRead = url
-#     return 0
-
-# def SetURL_MessengerWrite(url):
-#     if not(str(url).startswith('http')):
-#         return -1
-#     _UrlMessengerWrite = url
-#     return 0
-
-# def SetURL_MessengerRead(url):
-#     if not(str(url).startswith('http')):
-#         return -1
-#     _UrlMessengerRead = url
-#     return 0
-
-# def SetReadTimeout(timeout):
-#     _ReadTimeout = timeout
-#     return 0
 
 ###################################################################################################################
 
@@ -194,6 +150,8 @@ def Stage(stage_string, type='info'):
 
 '+str(name)+'
     """
+    # Проверка состояния проекта: Старт/Стоп/Пауза
+
     URL = _UrlStageWrite
     text_to_send = '{"string" :"'+str(stage_string)+'", "type":"'+str(type)+'"}'
     headers = {'Content-Type': 'application/json; charset=utf-8'}
@@ -300,7 +258,8 @@ def Driver(name, mode, command, valuetype='void'):
     
     А если не ввести `valuetype`, то функция не отработает, о чём оповестит в терминале и Stage программы MOKO SE.
     """
-
+    # Проверка состояния проекта: Старт/Стоп/Пауза
+    ProjectState()
     if ((mode.lower() == 'get') and (valuetype.lower() == 'void')):
         Stage("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request", 'error')
         print("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request")
@@ -311,7 +270,6 @@ def Driver(name, mode, command, valuetype='void'):
         return None
     URLWrite = _UrlDriverWrite
     URLRead = _UrlDriverRead
-    URLPSRead = _UrlProjectStateRead
 
     command_to_send = '{"name":"' + str(name) + '","type":"' + str(mode) + '","command":"' + str(command) + '"}'
     headers = {'Content-Type': 'application/json; charset=utf-8'}
@@ -322,18 +280,10 @@ def Driver(name, mode, command, valuetype='void'):
     timeout = 0
     badresponse_timeout = 0
     drvstatus = 'none'
-    serverstate = requests.get(URLPSRead)
-    JSONprojectstate = json.loads(serverstate.content)
-    projectstate = JSONprojectstate.get('projectstate')
     while ((drvstatus.lower() != 'ready') and (badresponse_timeout < 10)):
         response = requests.get(URLRead)
-        while (projectstate.lower() != 'run'):
-            serverstate = requests.get(URLPSRead)
-            JSONprojectstate = json.loads(serverstate.content)
-            projectstate = JSONprojectstate.get('projectstate')
-            if (projectstate.lower() == 'stop'):
-                sys.exit()
-                Stage("sys.exit() not work")
+        # Проверка состояния проекта: Старт/Стоп/Пауза
+        ProjectState()
         if (response.status_code != 200):
             Stage("ERROR IN PYTHON LIBRARY! Bad response code! " + str(response.status_code), 'error')
             print("ERROR IN PYTHON LIBRARY! Bad response code! " + str(response.status_code) + '\n' + str(10 - badresponse_timeout) + ' tries left')
@@ -462,7 +412,8 @@ def Plugin(name, mode, command, valuetype='void'):
     А если не ввести *valuetype*, то функция не отработает, о чём оповестит в терминале и Stage программы MOKO SE.
 
     """
-
+    # Проверка состояния проекта: Старт/Стоп/Пауза
+    ProjectState()
     if ((mode.lower() == 'get') and (valuetype.lower() == 'void')):
         Stage("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request", 'error')
         print("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request")
@@ -473,26 +424,17 @@ def Plugin(name, mode, command, valuetype='void'):
         return None
     URLWrite = _UrlPluginWrite
     URLRead = _UrlPluginRead
-    URLPSRead = _UrlProjectStateRead
 
     response = requests.post(URLWrite, json={"name":name,"type":mode,"command":command})	
     print(response.content)
        
     timeout = 0
     badresponse_timeout = 0
-    plgstatus = 'none'
-    serverstate = requests.get(URLPSRead)
-    JSONprojectstate = json.loads(serverstate.content)
-    projectstate = JSONprojectstate.get('projectstate')   
+    plgstatus = 'none'   
     while ((plgstatus.lower() != 'ready') and (badresponse_timeout < 10)):
         response = requests.get(URLRead)
-        while (projectstate.lower() != 'run'):
-            serverstate = requests.get(URLPSRead)
-            JSONprojectstate = json.loads(serverstate.content)
-            projectstate = JSONprojectstate.get('projectstate')    
-            if (projectstate.lower() == 'stop'):
-                sys.exit()
-                Stage("sys.exit() not work")
+        # Проверка состояния проекта: Старт/Стоп/Пауза
+        ProjectState()
         if (response.status_code != 200):
             Stage("ERROR IN PYTHON LIBRARY! Bad response code! " + str(response.status_code), 'error')
             print("ERROR IN PYTHON LIBRARY! Bad response code! " + str(response.status_code) + '\n' + str(10 - badresponse_timeout) + ' tries left')
@@ -560,25 +502,16 @@ def PSAP(name, mode, command, valuetype='void'):
         return None
     URLWrite = _UrlPSAPWrite
     URLRead = _UrlPSAPRead
-    URLPSRead = _UrlProjectStateRead
 
     response = requests.post(URLWrite, json={"name": name, "type": mode, "command": command})
 
     timeout = 0
     badresponse_timeout = 0
     plgstatus = 'none'
-    serverstate = requests.get(URLPSRead)
-    JSONprojectstate = json.loads(serverstate.content)
-    projectstate = JSONprojectstate.get('projectstate')
     while ((plgstatus.lower() != 'ready') and (badresponse_timeout < 10)):
         response = requests.get(URLRead)
-        while (projectstate.lower() != 'run'):
-            serverstate = requests.get(URLPSRead)
-            JSONprojectstate = json.loads(serverstate.content)
-            projectstate = JSONprojectstate.get('projectstate')
-            if (projectstate.lower() == 'stop'):
-                sys.exit()
-                Stage("sys.exit() not work")
+        # Проверка состояния проекта: Старт/Стоп/Пауза
+        ProjectState()
         if (response.status_code != 200):
             Stage("ERROR IN PYTHON LIBRARY! Bad response code! " + str(response.status_code), 'error')
             print("ERROR IN PYTHON LIBRARY! Bad response code! " + str(response.status_code) + '\n' + str(
@@ -708,6 +641,8 @@ def Messenger(mode, head, body, valuetype='void', delaytime='void'):
     ``b'<!DOCTYPE html><html><head><title>Bad Request</title></head><body><h2>Access Error: 400 -- Bad Request</h2><pre>Bad Request</pre></body></html>'``
 
     """
+    # Проверка состояния проекта: Старт/Стоп/Пауза
+    ProjectState()
     if ((mode.lower() == 'get') and (valuetype.lower() == 'void')):
         Stage("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request", 'error')
         print("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request")
@@ -718,8 +653,7 @@ def Messenger(mode, head, body, valuetype='void', delaytime='void'):
         return None
    # if (valuetype.lower() == 'void') : valuetype =string    
     URLWrite = _UrlMessengerWrite
-    URLRead = _UrlMessengerRead
-    URLPSRead = _UrlProjectStateRead    
+    URLRead = _UrlMessengerRead    
     
     if (delaytime == 'void'):
         text_to_send = '{"type":"'+str(mode)+'","head":"'+str(head)+'","body":"'+str(body)+'","value":"'+str(valuetype)+'"}'
@@ -735,18 +669,10 @@ def Messenger(mode, head, body, valuetype='void', delaytime='void'):
     timeout = 0
     badresponse_timeout = 0
     msgstatus = 'none'
-    serverstate = requests.get(URLPSRead)
-    JSONprojectstate = json.loads(serverstate.content)
-    projectstate = JSONprojectstate.get('projectstate') 
     while ((msgstatus.lower() != 'ready') and (badresponse_timeout < 10)):
         response = requests.get(URLRead)
-        while (projectstate.lower() != 'run'):
-            serverstate = requests.get(URLPSRead)
-            JSONprojectstate = json.loads(serverstate.content)
-            projectstate = JSONprojectstate.get('projectstate')
-            if (projectstate.lower() == 'stop'):
-                sys.exit()
-                Stage("sys.exit() not work")            
+        # Проверка состояния проекта: Старт/Стоп/Пауза
+        ProjectState()           
         if (response.status_code != 200):
             Stage("ERROR IN PYTHON LIBRARY! Bad response code! " + str(response.status_code), 'error')
             print("ERROR IN PYTHON LIBRARY! Bad response code! " + str(response.status_code) + '\n' + str(10 - badresponse_timeout) + ' tries left')
@@ -855,11 +781,13 @@ def Report(name, mode, kind, data, valuetype='void'):
     ``b'<!DOCTYPE html><html><head><title>Bad Request</title></head><body><h2>Access Error: 400 -- Bad Request</h2><pre>Bad Request</pre></body></html>'``
     
     """
+    # Проверка состояния проекта: Старт/Стоп/Пауза
+    ProjectState()
     if ((mode.lower() == 'get') and (valuetype.lower() == 'void')):
         Stage("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request", 'error')
         print("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request")
         return None
-    if ((mode.lower() != 'get') and (mode.lower() != 'set') and (mode.lower() != 'info')):
+    if ((mode.lower() != 'get') and (mode.lower() != 'set') and (mode.lower() != 'info') and (mode.lower() != 'clear') and (mode.lower() != 'delete') and (mode.lower() != 'save')):
         Stage("ERROR IN PYTHON LIBRARY! Wrong request type! " + str(mode), 'error')
         print("ERROR IN PYTHON LIBRARY! Wrong request type! " + str(mode))
         return None
@@ -869,7 +797,6 @@ def Report(name, mode, kind, data, valuetype='void'):
         return None
     URLWrite = _UrlReportWrite
     URLRead = _UrlReportRead
-    URLPSRead = _UrlProjectStateRead
     
     text_to_send = '{"name":"'+str(name)+'","type":"'+str(mode)+'", "kind":"'+str(kind)+'", "data":"'+str(data)+'"}'
 
@@ -883,18 +810,10 @@ def Report(name, mode, kind, data, valuetype='void'):
     repstatus = 'none'
     prjectstate = 'none'
  
-    serverstate = requests.get(URLPSRead)
-    JSONprojectstate = json.loads(serverstate.content)
-    projectstate = JSONprojectstate.get('projectstate') 
     while ((repstatus.lower() != 'ready') and (badresponse_timeout < 10)):
         response = requests.get(URLRead)
-        while (projectstate.lower() != 'run'):
-            serverstate = requests.get(URLPSRead)
-            JSONprojectstate = json.loads(serverstate.content)
-            projectstate = JSONprojectstate.get('projectstate')
-            if (projectstate.lower() == 'stop'):
-                sys.exit()
-                Stage("sys.exit() not work")
+        # Проверка состояния проекта: Старт/Стоп/Пауза
+        ProjectState()
         if (response.status_code != 200):
             Stage("ERROR IN PYTHON LIBRARY! Bad response code! " + str(response.status_code), 'error')
             print("ERROR IN PYTHON LIBRARY! Bad response code! " + str(response.status_code) + '\n' + str(10 - badresponse_timeout) + ' tries left')
@@ -960,7 +879,8 @@ def Utility(name, mode, command, valuetype='void'):
     :rtype: Возвращаемый тип данных меняется в зависимости от полученных из утилиты значений
 
     """
-
+    # Проверка состояния проекта: Старт/Стоп/Пауза
+    ProjectState()
     if ((mode.lower() == 'get') and (valuetype.lower() == 'void')):
         Stage("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request", 'error')
         print("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request")
@@ -971,8 +891,6 @@ def Utility(name, mode, command, valuetype='void'):
         return None
     URLWrite = _UrlUtilityWrite
     URLRead = _UrlUtilityRead
-    URLPSRead = _UrlProjectStateRead
-
 
     text_to_send = '{"name" :"' + str(name) + '", "type":"' + str(mode) + '", "command":"' + str(command) + '"}'
     headers = {'Content-Type': 'application/json; charset=utf-8'}
@@ -984,19 +902,11 @@ def Utility(name, mode, command, valuetype='void'):
        
     timeout = 0
     badresponse_timeout = 0
-    utlstatus = 'none'
-    serverstate = requests.get(URLPSRead)
-    JSONprojectstate = json.loads(serverstate.content)
-    projectstate = JSONprojectstate.get('projectstate') 
+    utlstatus = 'none' 
     while ((utlstatus.lower() != 'ready') and (badresponse_timeout < 10)):
         response = requests.get(URLRead)
-        while (projectstate.lower() != 'run'):
-            serverstate = requests.get(URLPSRead)
-            JSONprojectstate = json.loads(serverstate.content)
-            projectstate = JSONprojectstate.get('projectstate')
-            if (projectstate.lower() == 'stop'):
-                sys.exit()
-                Stage("sys.exit() not work")
+        # Проверка состояния проекта: Старт/Стоп/Пауза
+        ProjectState()
         if (response.status_code != 200):
             Stage("ERROR IN PYTHON LIBRARY! Bad response code! " + str(response.status_code), 'error')
             print("ERROR IN PYTHON LIBRARY! Bad response code! " + str(response.status_code) + '\n' + str(10 - badresponse_timeout) + ' tries left')
@@ -1080,6 +990,8 @@ def Program(name, mode, command, valuetype='void'):
 
     ``b'<!DOCTYPE html><html><head><title>Bad Request</title></head><body><h2>Access Error: 400 -- Bad Request</h2><pre>Bad Request</pre></body></html>'``
     """
+    # Проверка состояния проекта: Старт/Стоп/Пауза
+    ProjectState()
     if ((mode.lower() == 'get') and (valuetype.lower() == 'void')):
         Stage("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request", 'error')
         print("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request")
@@ -1090,7 +1002,6 @@ def Program(name, mode, command, valuetype='void'):
         return None
     URLWrite = _UrlProgramWrite
     URLRead = _UrlProgramRead
-    URLPSRead = _UrlProjectStateRead
 
     response = requests.post(URLWrite, json={"name":name,"type":mode,"command":command})	
     print(response.content)
@@ -1098,18 +1009,10 @@ def Program(name, mode, command, valuetype='void'):
     timeout = 0
     badresponse_timeout = 0
     progstatus = str("none")
-    serverstate = requests.get(URLPSRead)
-    JSONprojectstate = json.loads(serverstate.content)
-    projectstate = JSONprojectstate.get('projectstate') 
     while ((progstatus.lower() != "ready") and (badresponse_timeout < 10)):
         response = requests.get(URLRead)
-        while (projectstate.lower() != 'run'):
-            serverstate = requests.get(URLPSRead)
-            JSONprojectstate = json.loads(serverstate.content)
-            projectstate = JSONprojectstate.get('projectstate')
-            if (projectstate.lower() == 'stop'):
-                sys.exit()
-                Stage("sys.exit() not work")
+        # Проверка состояния проекта: Старт/Стоп/Пауза
+        ProjectState()
         if (response.status_code != 200):
             Stage("ERROR IN PYTHON LIBRARY! Bad response code! " + str(response.status_code), 'error')
             print("ERROR IN PYTHON LIBRARY! Bad response code! " + str(response.status_code) + '\n' + str(10 - badresponse_timeout) + ' tries left')
@@ -1299,111 +1202,18 @@ def ParseValue(data, valuetype='void'):
 
     return
 
-
-def ParseValueOld(data, valuetype='void'):
-    # если вдруг дефолтное или пустое значение valuetype на входе
-    # то возвращаем None с занесением в Stage и терминал
-    if ((valuetype == 'void') or (valuetype == '')):
-        Stage('ERROR IN PYTHON LIBRARY! Type is not specified', 'error')
-        print('ERROR IN PYTHON LIBRARY! Type is not specified')
-        return None
-
-    # если нет разделителя ";"
-    # то возвращаем None с занесением в Stage и терминал
-    ind = data.find(';')
-    if (ind == -1):
-        Stage('ERROR IN PYTHON LIBRARY! Bad data received! ' + data, 'error')
-        print('ERROR IN PYTHON LIBRARY! Bad data received! No ";" at the end! ' + data)
-        return None
-
-    # если разделитель есть и это последний символ в строке
-    if ((ind == data.rfind(';')) and (ind == (len(data) - 1))):
-        # разделение строки на подстроки (чтоб примерно одинаковая схема была у одномерного массива/строки/etc.)
-        spl = data.split(';', maxsplit=1)
-        # если
-        if (valuetype.lower() == 'string'):
-            result = spl[0]
-            return result
-        indcomma = data.find(',')
-
-        if (indcomma == -1):
-            indperiod = data.find('.')
-            val = spl[0]
-
-            if (indperiod == -1):
-                if ((val.lower() == "true") or (val.lower() == "false")):
-                    if (val.lower() == "true"):
-                        result = True
-                    if (val.lower() == "false"):
-                        result = False
-                else:
-                    result = int(val)
-                return result
-            else:
-                result = float(val)
-                return result
-        else:
-            arr = spl[0].split(',')
-
-            result = []
-
-            for x in arr:
-                if (x != ""):
-                    indperiod = x.find('.')
-
-                    if (indperiod == -1):
-                        if ((x.lower() == "true") or (x.lower() == "false")):
-                            if (x.lower() == "true"):
-                                result.append(True)
-                            if (x.lower() == "false"):
-                                result.append(False)
-                        else:
-                            result.append(int(x))
-                    else:
-                        result.append(float(x))
-
-            return result
-    else:
-        spl = data.split(';')
-        result = []
-
-        for x in spl:
-            if (x != ""):
-                indcomma = x.find(',')
-                rarr = []
-                if (indcomma == -1):
-                    indperiod = x.find('.')
-                    val = x
-
-                    if (indperiod == -1):
-                        if ((val.lower() == "true") or (val.lower() == "false")):
-                            if (val.lower() == "true"):
-                                rarr.append(True)
-                            if (val.lower() == "false"):
-                                rarr.append(False)
-                        else:
-                            rarr.append(int(x))
-                    else:
-                        rarr.append(float(val))
-
-                else:
-                    arr = x.split(',')
-
-                    for x in arr:
-                        if (x != ""):
-                            indperiod = x.find('.')
-
-                            if (indperiod == -1):
-                                if ((x.lower() == "true") or (x.lower() == "false")):
-                                    if (x.lower() == "true"):
-                                        rarr.append(True)
-                                    if (x.lower() == "false"):
-                                        rarr.append(False)
-                                else:
-                                    rarr.append(int(x))
-                            else:
-                                rarr.append(float(x))
-                result.append(rarr)
-        return result
-
+#ProjectState - предназначена для проверки старта/паузы/стопа
+def ProjectState():
+    URLPSRead = _UrlProjectStateRead
+    serverstate = requests.get(URLPSRead)
+    JSONprojectstate = json.loads(serverstate.content)
+    projectstate = JSONprojectstate.get('projectstate')
+    while (projectstate.lower() != 'run'):
+        sleep(0.05)
+        serverstate = requests.get(URLPSRead)
+        JSONprojectstate = json.loads(serverstate.content)
+        projectstate = JSONprojectstate.get('projectstate')
+        if (projectstate.lower() == 'stop'):
+            sys.exit()
+            Stage("sys.exit() not work")
     return
