@@ -6,8 +6,8 @@
 ],
 "report":
 [
-{"name":"path_read","kind":"string","info":"","script":"Greeting (приветствие)",
-"data":""},
+{"name":"pathFromWindow","kind":"string","info":"","script":"Greeting (приветствие)",
+"data":"D:/GitHub/MOKO/MOKO_ExScript/Path/data"},
 {"name":"language","kind":"string","info":"","script":"",
 "data":""}
 

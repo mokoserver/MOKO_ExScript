@@ -17,6 +17,11 @@ from time import sleep, monotonic
 
 round_3 = '{:.' + str(3) + 'f}'
 
+def stars(word):
+    """Заполняет строку звездочками"""
+    formated_string = '{:*^60}'.format(word)
+    return formated_string
+
 
 def center_50(message):  # Align text with * filling
     return ('{:*^50}'.format(message))
@@ -114,7 +119,7 @@ def Report_to_Utility(report_name, utility, report_type='string'):
     return Report
 
 
-def Utility_to_Report(report_names, utility, report_type='strings'):
+def Utility_to_Report(report_names, utility, report_type='string'):
     if report_type == 'strings':
         reports_names = ''
         data_reports = ''

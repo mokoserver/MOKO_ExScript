@@ -119,7 +119,7 @@ def Report_to_Utility(report_name, utility, report_type='string'):
     return Report
 
 
-def Utility_to_Report(report_names, utility, report_type='strings'):
+def Utility_to_Report(report_names, utility, report_type='string'):
     if report_type == 'strings':
         reports_names = ''
         data_reports = ''
