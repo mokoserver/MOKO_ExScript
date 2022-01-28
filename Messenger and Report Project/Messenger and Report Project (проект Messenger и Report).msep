@@ -1,0 +1,19 @@
+{
+"project_name":"Messenger and Report Project (проект Messenger и Report)",
+"project_autosave":"true",
+"project_scripts":[
+{"script":"Greeting (приветствие).py","necessary":"false"},
+{"script":"Report save.py","necessary":"false"},
+{"script":"Report clear.py","necessary":"false"},
+{"script":"Report delete.py","necessary":"false"},
+{"script":"Messenger picture.py","necessary":"false"},
+{"script":"Farewell (прощание).py","necessary":"false"}
+],
+"project_libraries":[
+{"script":"MOKO.py"},
+{"script":"MOSC.py"}
+],
+"project_templates":[
+{"script":"Messenger and Report report (отчёт Messenger и Report).docx"}
+]
+}
