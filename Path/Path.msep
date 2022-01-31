@@ -2,8 +2,8 @@
 "project_name":"Path",
 "project_autosave":"true",
 "project_scripts":[
-{"script":"Greeting (приветствие).py","necessary":"false"},
-{"script":"Farewell (прощание).py","necessary":"false"}
+{"script":"Greeting (приветствие).py","necessary":"true"},
+{"script":"Farewell (прощание).py","necessary":"true"}
 ],
 "project_libraries":[
 {"script":"MOKO.py"},
