@@ -2,9 +2,9 @@
 "project_name":"Messenger project (проект Messenger)",
 "project_autosave":"true",
 "project_scripts":[
-{"script":"Greeting (приветствие).py","necessary":"true"},
-{"script":"Messenger picture.py","necessary":"false"},
-{"script":"Farewell (прощание).py","necessary":"true"}
+{"script":"1 Greeting (приветствие).py","necessary":"true"},
+{"script":"2 Messenger picture.py","necessary":"false"},
+{"script":"3 Farewell (прощание).py","necessary":"true"}
 ],
 "project_libraries":[
 {"script":"MOKO.py"},

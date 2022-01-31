@@ -418,7 +418,7 @@ def Plugin(name, mode, command, valuetype='void'):
         Stage("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request", 'error')
         print("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request")
         return None
-    if ((mode.lower() != 'get') and (mode.lower() != 'set') and (mode.lower() != 'init')):
+    if ((mode.lower() != 'get') and (mode.lower() != 'set') and (mode.lower() != 'init') and (mode.lower() != 'close')):
         Stage("ERROR IN PYTHON LIBRARY! Wrong request type! " +  str(mode), 'error')
         print("ERROR IN PYTHON LIBRARY! Wrong request type! " +  str(mode))
         return None

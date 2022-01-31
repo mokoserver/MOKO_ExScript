@@ -2,11 +2,11 @@
 "project_name":"Report project (проект Report)",
 "project_autosave":"true",
 "project_scripts":[
-{"script":"Greeting (приветствие).py","necessary":"true"},
-{"script":"Report save.py","necessary":"false"},
-{"script":"Report clear.py","necessary":"false"},
-{"script":"Report delete.py","necessary":"false"},
-{"script":"Farewell (прощание).py","necessary":"true"}
+{"script":"1 Greeting (приветствие).py","necessary":"true"},
+{"script":"2 Report save.py","necessary":"false"},
+{"script":"3 Report clear.py","necessary":"false"},
+{"script":"4 Report delete.py","necessary":"false"},
+{"script":"5 Farewell (прощание).py","necessary":"true"}
 ],
 "project_libraries":[
 {"script":"MOKO.py"}

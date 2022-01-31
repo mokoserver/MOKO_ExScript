@@ -2,10 +2,10 @@
 "project_name":"MOKO Clicker presentation (презентация MOKO Clicker)",
 "project_autosave":"true",
 "project_scripts":[
-{"script":"Greeting (приветствие).py","necessary":"true"},
-{"script":"Сommands execution (выполнение команд).py","necessary":"false"},
-{"script":"Create a report (создание отчёта).py","necessary":"false"},
-{"script":"Farewell (прощание).py","necessary":"true"}
+{"script":"1 Greeting (приветствие).py","necessary":"true"},
+{"script":"2 Сommands execution (выполнение команд).py","necessary":"false"},
+{"script":"3 Create a report (создание отчёта).py","necessary":"false"},
+{"script":"4 Farewell (прощание).py","necessary":"true"}
 ],
 "project_libraries":[
 {"script":"MOKO.py"},
