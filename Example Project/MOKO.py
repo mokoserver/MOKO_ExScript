@@ -6,7 +6,7 @@
 
         Версия документации: 1.2 от 03.02.2020.
         
-        Версия измененая 24.01.2022 для корректной работы старта/паузы/стопа
+        Версия изменена 24.01.2022 для корректной работы старта/паузы/стопа
  
         Для работы этой библиотеки требуются библиотеки **requests** и **json**.
 
@@ -39,10 +39,11 @@ _UrlProgramRead = 'http://localhost:55001/MOKOSE/system/programread'
 _UrlUtilityWrite = 'http://localhost:55001/MOKOSE/system/utilitywrite'
 _UrlUtilityRead = 'http://localhost:55001/MOKOSE/system/utilityread'
 
+_UrlTelegramWrite = 'http://localhost:55001/MOKOSE/system/telegramwrite'
+_UrlTelegramRead = 'http://localhost:55001/MOKOSE/system/telegramread'
+
 _UrlProjectStateRead = 'http://localhost:55001/MOKOSE/status/projectstate'
 
-_UrlPSAPWrite = 'http://localhost:55004/Server/plugin/WRITE/'
-_UrlPSAPRead = 'http://localhost:55004/Server/plugin/READ/'
 
 _Messenger_CurrentType = 0
 
@@ -469,83 +470,7 @@ def Plugin(name, mode, command, valuetype='void'):
     return value
 
 
-###################################################################################################################
 
-#######          ############            ###             #######
-##     ##       ##                     ##   ##           ##     ##
-##      ##      ##                    ##     ##          ##      ##
-##     ##       ##                   ##       ##         ##     ##
-#######          ###########        #############        #######
-##                         ##       ##         ##        ##
-##                         ##       ##         ##        ##
-##                         ##       ##         ##        ##
-##              ############        ##         ##        ##
-
-###################################################################################################################
-
-# PSAP- полная копия функции Plugin, но предназначенная для работы с Modem
-# Plugin - функция, осуществляющая работу с плагином
-# name - имя плагина
-# mode - тип команды ('get', 'set', 'init')
-# command - команда, которую отправляем в плагин.
-# valuetype (только для type = 'get') - тип данных, получаемый из плагина
-def PSAP(name, mode, command, valuetype='void'):
-
-
-    if ((mode.lower() == 'get') and (valuetype.lower() == 'void')):
-        Stage("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request", 'error')
-        print("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request")
-        return None
-    if ((mode.lower() != 'get') and (mode.lower() != 'set') and (mode.lower() != 'init')):
-        Stage("ERROR IN PYTHON LIBRARY! Wrong request type! " + str(mode), 'error')
-        print("ERROR IN PYTHON LIBRARY! Wrong request type! " + str(mode))
-        return None
-    URLWrite = _UrlPSAPWrite
-    URLRead = _UrlPSAPRead
-
-    response = requests.post(URLWrite, json={"name": name, "type": mode, "command": command})
-
-    timeout = 0
-    badresponse_timeout = 0
-    plgstatus = 'none'
-    while ((plgstatus.lower() != 'ready') and (badresponse_timeout < 10)):
-        response = requests.get(URLRead)
-        # Проверка состояния проекта: Старт/Стоп/Пауза
-        ProjectState()
-        if (response.status_code != 200):
-            Stage("ERROR IN PYTHON LIBRARY! Bad response code! " + str(response.status_code), 'error')
-            print("ERROR IN PYTHON LIBRARY! Bad response code! " + str(response.status_code) + '\n' + str(
-                10 - badresponse_timeout) + ' tries left')
-            badresponse_timeout += 1
-        else:
-            y = json.loads(response.content)
-            print(y)
-            plgstatus = y.get('status')
-            if (mode.lower() == 'get'):
-                plgdata = y.get('data')
-            timeout += 1
-            # Stage('Wait ' + str(timeout))
-        sleep(0.1)
-
-    if (badresponse_timeout >= 10):
-        Stage("ERROR IN PYTHON LIBRARY! Function exit because of bad responses", 'error')
-        print("ERROR IN PYTHON LIBRARY! Function exit because of bad responses")
-        value = None
-        return value
-
-    if ((plgstatus.lower() == 'ready') and (mode.lower() == 'get')):
-        # Stage(plgdata)
-        ind = plgdata.find(';')
-        if (ind == -1):
-            plgdata = plgdata + ';'
-        ind = plgdata.rfind(';')
-        if (ind != (len(plgdata) - 1)):
-            plgdata = plgdata + ';'
-        value = ParseValue(plgdata, valuetype)
-        return value
-
-    value = None
-    return value
 
 ###################################################################################################################
 
@@ -727,7 +652,7 @@ def Messenger(mode, head, body, valuetype='void', delaytime='void'):
 # mode - тип команды (пока что только 'set') 
 # kind - в каком виде данные записываются в отчёт(string - строка и table - таблица)
 # data - записываемые в отчёт данные
-# valuetype (только для type = 'get') - тип данных, получаемый из отчёта
+# valuetype (только для mode = 'get') - тип данных, получаемый из отчёта
 def Report(name, mode, kind, data, valuetype='void'):
     """ 
     Функция осуществляет работу с данными в отчёте.
@@ -1072,6 +997,118 @@ def Script_CancelName(name):
     res = Program('script','set','canceled = name ' + str(name))
     return res
 
+
+###################################################################################################################
+
+####################     #############     ##
+         ##              ##                ##
+         ##              ##                ##
+         ##              ##                ##
+         ##              #############     ##
+         ##              ##                ##
+         ##              ##                ##
+         ##              ##                ##
+         ##              #############     #############
+
+###################################################################################################################
+
+# Telegram - функция, осуществляющая работу с Telegram
+# role - имя драйвера
+# mode - тип команды ('get', 'set')
+# command - команда, которая передается в Telegram
+
+def Telegram(role, mode, command, valuetype='void'):
+    """
+    Функция осуществляет работу с Telegram.
+
+    :param str role: ####################################
+    :param str mode: Тип команды (**'get'**, **'set'**)
+    :param str command: Команда, которая передается в Telegram
+    :return: Функция возвращает *None* (если mode = **'set'**) либо принятые с Telegram данные (если mode = **'get'**)
+    :rtype: Возвращаемый тип данных меняется в зависимости от полученных из драйвера значений
+
+    **Пример:**
+
+    **1.**
+    Мы хотим, чтобы Telegram-бот передал нам введенное сообщение. Для этого напишем следующую команду:
+
+    >>> Telegram('alpha', 'set', 'Hello, I'm a bot!')
+
+    В случае успешного выполнения в терминале должна появиться следующая строка:
+
+    ``b'{"role": "alpha", "type": "set", "command": "Hello, I'm a bot!"}'``
+
+    Вас придет сообщение в Telegram.
+
+    Функция должна вернуть следующее значение:
+
+    ``None``
+
+    Иначе не выполняется, либо отображает в программе MOKO SE какую-то ошибку, либо в терминале отобразится, например, следующая строка:
+
+    ``b'<!DOCTYPE html><html><head><title>Bad Request</title></head><body><h2>Access Error: 400 -- Bad Request</h2><pre>Bad Request</pre></body></html>'``
+
+    """
+    # Проверка состояния проекта: Старт/Стоп/Пауза
+    ProjectState()
+    if ((mode.lower() == 'get') and (valuetype.lower() == 'void')):
+        Stage("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request", 'error')
+        print("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request")
+        return None
+    if ((mode.lower() != 'get') and (mode.lower() != 'set')):
+        Stage("ERROR IN PYTHON LIBRARY! Wrong request type! " + str(mode), 'error')
+        print("ERROR IN PYTHON LIBRARY! Wrong request type! " + str(mode))
+        return None
+    URLWrite = _UrlTelegramWrite
+    URLRead = _UrlTelegramRead
+
+    command_to_send = '{"role":"' + str(role) + '","type":"' + str(mode) + '","command":"' + str(command) + '"}'
+    headers = {'Content-Type': 'application/json; charset=utf-8'}
+    # json = {"role": role, "type": mode, "command": command}
+    response = requests.post(URLWrite, headers=headers, data=command_to_send.encode('utf-8'))
+    print(response.content)
+
+    timeout = 0
+    badresponse_timeout = 0
+    tgmstatus = 'none'
+    while ((tgmstatus.lower() != 'ready') and (badresponse_timeout < 10)):
+        response = requests.get(URLRead)
+        # Проверка состояния проекта: Старт/Стоп/Пауза
+        ProjectState()
+        if (response.status_code != 200):
+            Stage("ERROR IN PYTHON LIBRARY! Bad response code! " + str(response.status_code), 'error')
+            print("ERROR IN PYTHON LIBRARY! Bad response code! " + str(response.status_code) + '\n' + str(
+                10 - badresponse_timeout) + ' tries left')
+            badresponse_timeout += 1
+        else:
+            y = json.loads(response.content)
+            tgmstatus = y.get('telegramstatus')
+            if (mode.lower() == 'get'):
+                tgmdata = y.get('telegramdata')
+            timeout += 1
+            # Stage('Wait ' + str(timeout))
+        sleep(0.05)
+
+    if (badresponse_timeout >= 10):
+        Stage("ERROR IN PYTHON LIBRARY! Function exit because of bad responses", 'error')
+        print("ERROR IN PYTHON LIBRARY! Function exit because of bad responses")
+        value = None
+        return value
+
+    if ((tgmstatus.lower() == 'ready') and (mode.lower() == 'get')):
+        # Stage(tgmdata)
+        ind = tgmdata.find(';')
+        if (ind == -1):
+            tgmdata = tgmdata + ';'
+        ind = tgmdata.rfind(';')
+        if (ind != (len(tgmdata) - 1)):
+            tgmdata = tgmdata + ';'
+        value = ParseValue(tgmdata, valuetype)
+        return value
+
+    value = None
+    return value
+
 ###################################################################################################################
 
     ##        ##    ############    ##              ######
@@ -1217,3 +1254,4 @@ def ProjectState():
             sys.exit()
             Stage("sys.exit() not work")
     return
+
