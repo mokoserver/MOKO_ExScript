@@ -11,9 +11,9 @@ language = MOKO.Messenger('get', 'Language. Язык.jpg', 'Please select your l
 MOKO.Report('language', 'set', 'string', language)
 
 if language == "English":
-    MOKO.Messenger('set', 'Greeting.jpg', 'The current project will show the interaction between MOKO SE and Telegram.')
+    MOKO.Messenger('set', 'Hello.png', 'The current project will show the interaction between MOKO SE and Telegram.')
 elif language == "Русский":
-    MOKO.Messenger('set', 'Greeting.jpg', 'В текущем проекте будет показано взаимодействие MOKO SE и Telegram.')
+    MOKO.Messenger('set', 'Приветствие.png', 'В текущем проекте будет показано взаимодействие MOKO SE и Telegram.')
 
 MOKO.Program('tree', 'set', 'select = ' + 'Greeting')
 MOKO.Program('tree', 'set', 'chosen = passed')
