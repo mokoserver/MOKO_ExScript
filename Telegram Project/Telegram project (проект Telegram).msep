@@ -3,7 +3,7 @@
 "project_autosave":"true",
 "project_scripts":[
 {"script":"1 Greeting (приветствие).py","necessary":"true"},
-{"script":"2 Using Telegram.py","necessary":"false"},
+{"script":"2 Using Telegram (использование Telegram).py","necessary":"false"},
 {"script":"3 Farewell (прощание).py","necessary":"true"}
 ],
 "project_libraries":[

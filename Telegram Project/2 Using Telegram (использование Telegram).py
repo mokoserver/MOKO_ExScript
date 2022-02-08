@@ -5,8 +5,16 @@ language = MOKO.Report("language", 'get', 'string', 'string', 'string')
 #Region Status (статус)
 #hesh Using Telegram
 
+def ParseStringIntoArray(string):
+    array = string.split(';')
+    return array
+
 text = ''
 id = ''
+
+alpha = MOKO.Telegram('alpha', 'get', 'list')
+
+
 
 if language == "English":
     id = MOKO.Messenger('get', 'Telegram.png', 'Please, enter your Telegram ID.', 'string')
