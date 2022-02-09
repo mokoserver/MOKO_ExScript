@@ -7,7 +7,7 @@ path_temp = 'D:\GitHub\MOKO\MOKO_ExScript\Path\data'
 
 MOKO.Messenger('set', 'Language. Язык.jpg', '', f'path = {path_temp}')
 
-pathFromWindow = MOKO.Messenger('get', 'Language. Язык.jpg', '', f'path = {path_temp}') # = {path_temp}')
+pathFromWindow = MOKO.Messenger('get', 'Language. Язык.jpg', '', f'path = {path_temp}')
 
 MOKO.Report('pathFromWindow', 'set', 'string', pathFromWindow)
 
