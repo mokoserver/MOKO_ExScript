@@ -1,9 +1,9 @@
 from pressurelib import *
 from MOSC import Utility_to_Report
 
-#Region Регистрация
-#hesh Заполнение
-#hesh Registration
+#Region 1.1 Этапы регистрации:
+#hesh Заполнение формы
+#EndRegion 1.1 Этапы регистрации:
 
 
 UN = 'PressureGauge'  # Utility Name
@@ -33,22 +33,14 @@ reports = ['AccuracyClass',  # класс точности
            ]
 
 MOKO.Stage('Подключение ADT761')
-MOKO.Messenger('set', 'Подключение ADT761.png', 'Пример подключения ADT761 к какому-либо устройству.')
+MOKO.Messenger('set', 'Подключение ADT761.png', 'Пожалуйста, подключите ADT761 к испытуемому образцу.')
 MOKO.Stage('Проверка формы поверки')
-MOKO.Messenger('set', 'Заполнение формы.png', 'Пожалуйста, заполните форму поверки.')
+MOKO.Messenger('set', 'Заполнение формы.png', 'Пожалуйста, заполните форму поверки.', '','3')
 MOKO.Utility(UN, 'set', 'info')
 Utility_to_Report(reports, UN, 'strings')
 
-MOKO.Program('tree', 'set', 'select = ' + 'Заполнение')
+MOKO.Program('tree', 'set', 'select = ' + 'Заполнение формы')
 MOKO.Program('tree', 'set', 'chosen = passed')
 
-# Report print choice:
-#ReportPrint = MOKO.Messenger('get', 'Открытие протокола.jpg',
-#                             'Хотите открыть протокол поверки по окончании поверки?', 'boolean')
-#MOKO.Report('ReportPrint', 'set', 'string', str(ReportPrint))
-
-MOKO.Program('tree', 'set', 'select = ' + 'Registration')
-MOKO.Program('tree', 'set', 'chosen = passed')
-#MTLG.TelegramProgram('tree', 'set', 'select = ' + 'Регистрация')
 
 MOKO.EndScript()

@@ -1,10 +1,10 @@
 {
-"project_name":"Проект ADT761",
+"project_name":"Поверка преобразователя давления",
 "project_autosave":"true",
 "project_scripts":[
-{"script":"1. Регистрация образца.py","necessary":"false"},
-{"script":"2. Поверка образца.py","necessary":"false"},
-{"script":"3. Создание протокола.py","necessary":"false"}
+{"script":"1. Регистрация образца.py","necessary":"true"},
+{"script":"2. Поверка образца.py","necessary":"true"},
+{"script":"3. Создание протокола.py","necessary":"true"}
 ],
 "project_libraries":[
 {"script":"MOKO.py"},
