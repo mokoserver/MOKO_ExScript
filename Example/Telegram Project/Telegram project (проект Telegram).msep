@@ -1,0 +1,17 @@
+{
+"project_name":"Telegram project (проект Telegram)",
+"project_autosave":"true",
+"project_scripts":[
+{"script":"1 Greeting (приветствие).py","necessary":"true"},
+{"script":"2 Using Telegram (использование Telegram).py","necessary":"false"},
+{"script":"3 Farewell (прощание).py","necessary":"true"}
+],
+"project_libraries":[
+{"script":"MOKO.py"},
+{"script":"MOSC.py"},
+{"script":"MTLG.py"}
+],
+"project_templates":[
+{"script":"Telegram report (отчёт Telegram).docx"}
+]
+}
