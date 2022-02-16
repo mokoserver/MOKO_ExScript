@@ -24,6 +24,7 @@ MTLG.TelegramMessenger('get', 'Language. Язык', 'Please select your language
 
 alpha = MOKO.Telegram('alpha', 'get', 'list', 'string')
 MTLG.TelegramClassic('alpha', 'get', 'list', 'string')
+MTLG.TelegramDriver('alpha', 'get', 'list', 'string')
 
 #if len(alpha) != 0:
 #    if language == "English":
