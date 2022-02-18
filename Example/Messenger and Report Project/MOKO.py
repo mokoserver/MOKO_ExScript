@@ -986,6 +986,7 @@ def EndScript(command='done'):
     **Обязательная** функция, которая должна быть в конце каждого скрипта. Даёт знать серверу, что скрипт закончен.
     """
     res = Program('script','set',command)
+    sys.exit()
     return res
 
 def Script_CancelNumber(number):
