@@ -1,5 +1,7 @@
 import MOKO
 
+MOKO.Plugin("Graph", 'close', '')
+
 language = MOKO.Report("language", 'get', 'string', 'string', 'string')
 
 if language == 'English':

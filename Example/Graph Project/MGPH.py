@@ -4,12 +4,12 @@ def WriteGraphCommand():
     #Отобразить данные на графике
     MOKO.Plugin('Graph', 'set', "Write Graph")
 
-def AddLineCommand(name: object, ArrOy: object, ArrOx: object, LineWidth: object, Color: object, Visible: object) -> object:
+def AddLineCommand(name, ArrOy, ArrOx, LineWidth="3", Color="000000", Visible="True"):
     #Добавление линии
     MOKO.Plugin('Graph', 'set', f"Add Line={name};{ArrOy};{ArrOx};{LineWidth};{Color};{Visible}")
     MOKO.Plugin('Graph', 'set', "Write Graph")
 
-def ChangeLineCommand(numLine, name, ArrOy, ArrOx,LineWidth,Color,Visible):
+def ChangeLineCommand(numLine, name, ArrOy, ArrOx,LineWidth="3", Color="000000", Visible="True"):
     #Изменить параметры уже добавленной линии
     MOKO.Plugin('Graph', 'set', f"Change Line={numLine};{name};{ArrOy};{ArrOx};{LineWidth};{Color};{Visible}")
 
@@ -35,7 +35,7 @@ def ShowLineOnlyCommand(numLine):
     #много линий, а нужно, чтобы на графике остались только конкретные, то используется эта опция
     MOKO.Plugin('Graph', 'set', f"Show Line=Only;{numLine}")
 
-def AddGraphSettCommand(Value_OyOx, Name_OyOx, Autoscale):
+def AddGraphSettCommand(Value_OyOx, Name_OyOx, Autoscale="Yes"):
     #Добавление подписей осей + min/max значения осей
     #Установка Autoscale: "Yes", "No", "Only Ox", "Only Oy"
     MOKO.Plugin('Graph', 'set', f"Add Graph Settings={Value_OyOx};{Name_OyOx};{Autoscale}")

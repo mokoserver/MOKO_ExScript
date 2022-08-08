@@ -1,4 +1,5 @@
 import MOKO
+import random
 
 scull_sml = '%E2%98%A0'
 report_sml = '%F0%9F%93%A2'#'%F0%9F%97%9E'#'%F0%9F%93%87'#'%F0%9F%93%9C'

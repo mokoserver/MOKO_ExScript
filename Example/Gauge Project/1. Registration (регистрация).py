@@ -1,6 +1,7 @@
 from pressurelib import *
 from MOSC import Utility_to_Report
 
+MOKO.Stage('Start script', 'info')
 UN = 'PressureGauge'  # Utility Name
 reports = ['AccuracyClass',  # класс точности
            'UnitOfMeasure',  # единицы измерения
@@ -27,14 +28,15 @@ reports = ['AccuracyClass',  # класс точности
            'UnitNumber'  # Номер образца
            ]
 
-MOKO.Stage('Проверка форма поверки')
-MOKO.Messenger('set', 'Fill the form.jpg', 'Пожалуйста, заполните форму поверки.')
+MOKO.Stage('Проверка формы поверки')
+MOKO.Messenger('set', 'Заполнение формы.jpg', 'Пожалуйста, заполните форму поверки.')
 MOKO.Utility(UN, 'set', 'info')
 Utility_to_Report(reports, UN, 'strings')
 
 # Report print choice:
-ReportPrint = MOKO.Messenger('get', 'Open report.jpg',
+ReportPrint = MOKO.Messenger('get', 'Открытие отчета.jpg',
                              'Хотите открыть протокол поверки по окончании поверки?', 'boolean')
 MOKO.Report('ReportPrint', 'set', 'string', str(ReportPrint))
+MOKO.Stage('Finish script', 'info')
 
 MOKO.EndScript()

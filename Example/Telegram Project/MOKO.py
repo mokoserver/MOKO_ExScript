@@ -426,7 +426,10 @@ def Plugin(name, mode, command, valuetype='void'):
     URLWrite = _UrlPluginWrite
     URLRead = _UrlPluginRead
 
-    response = requests.post(URLWrite, json={"name":name,"type":mode,"command":command})	
+    command_to_send = '{"name":"' + str(name) + '","type":"' + str(mode) + '","command":"' + str(command) + '"}'
+    headers = {'Content-Type': 'application/json; charset=utf-8'}
+    # json = {"name": name, "type": mode, "command": command}
+    response = requests.post(URLWrite, headers=headers, data=command_to_send.encode('utf-8'))
     print(response.content)
        
     timeout = 0

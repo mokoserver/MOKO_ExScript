@@ -1,5 +1,10 @@
 import requests
+import time
 from bs4 import BeautifulSoup as BS
+
+time.sleep(1)
+
+print("44]\n")
 
 LEN_BTWN_Text_n_Code = 40
 LEN_BTWN_Smile_n_Text = 4
@@ -10,14 +15,17 @@ HEADERS = {'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/
 HOST = "https://emojio.ru"
 
 def format_string(smile,text,code):
-    str = smile
-    for i in range(LEN_BTWN_Smile_n_Text - len(smile)):
-        str = str + " "
-    str = str + text
-    for i in range(LEN_BTWN_Text_n_Code - len(text)):
-        str = str + " "
-
-    str = str + code
+    str = "<textarea cols=5 rows=2>"
+    str = str + smile + "</textarea>"
+    str = str + "<textarea cols=30>"
+    #for i in range(LEN_BTWN_Smile_n_Text - len(smile)):
+    #    str = str + " "
+    str = str + text + "</textarea>"
+    str = str + "<textarea cols=70>"
+    #for i in range(LEN_BTWN_Text_n_Code - len(text)):
+    #    str = str + " "
+    #
+    str = str + code + "</textarea>" + "<br><hr>"
     return str.encode("utf-8")
 
 def get_html(url, params=None):
@@ -46,7 +54,7 @@ def get_links(html):
         })
     return links
 
-def get_string(html):
+def get_all(html):
     soup = BS(html, 'html.parser')
     items_code = soup.find_all('table', class_="table table-striped table-hover")
     items_text = soup.find_all('input', class_="form-control")
@@ -62,27 +70,27 @@ def get_string(html):
 
     return format_string(smile, text, code)
 
-def get_text(html):
-    soup = BS(html, 'html.parser')
-    items = soup.find_all('input', class_ = "form-control")
-    text = items[-1].get('value')
-    if text.find(':') == -1:
-        text = ''
-    return text
-
-def get_smile(html):
-    soup = BS(html, 'html.parser')
-    items = soup.find_all('button', class_="btn btn-info copy_anons d-none" )
-    smile = items[0].get('data-clipboard-text')
-    return smile
-
-def get_code(html):
-    soup = BS(html, 'html.parser')
-    items = soup.find_all('table', class_="table table-striped table-hover")
-    code = items[1].find_all_next('tr')[6]
-    code = code.find('td').get_text()
-    code = code.replace("0x", "%").replace(" ", "").replace(",", "")
-    return code
+# def get_text(html):
+#    soup = BS(html, 'html.parser')
+#    items = soup.find_all('input', class_ = "form-control")
+#    text = items[-1].get('value')
+#    if text.find(':') == -1:
+#        text = ''
+#    return text
+#
+# def get_smile(html):
+#    soup = BS(html, 'html.parser')
+#    items = soup.find_all('button', class_="btn btn-info copy_anons d-none" )
+#    smile = items[0].get('data-clipboard-text')
+#     return smile
+#
+# def get_code(html):
+#     soup = BS(html, 'html.parser')
+#     items = soup.find_all('table', class_="table table-striped table-hover")
+#     code = items[1].find_all_next('tr')[6]
+#     code = code.find('td').get_text()
+#     code = code.replace("0x", "%").replace(" ", "").replace(",", "")
+#     return code
 
 def parse():
     html = get_html(URL)
@@ -95,7 +103,7 @@ def parse():
             html = get_html(page_url)
             links = get_links(html.text)
             for link in links:
-                string = get_string(get_html(link.get('link')).text)
+                string = get_all(get_html(link.get('link')).text)
                 f.write(string + '\n'.encode('utf-8'))
                 print(f'{i}. ' + string.decode('utf-8'))
                 i = i + 1

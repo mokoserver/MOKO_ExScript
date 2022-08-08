@@ -13,7 +13,7 @@ MOKO.Report(f'Messenger_delete', 'set', 'table', '1;2;3;4;5;6;7;8;9')
 
 language = MOKO.Messenger('get', 'Language. Язык.jpg', 'Please select your language in dropdown.\n'
                                                        'Пожалуйста, выберите свой язык в раскрывающемся списке:',
-                                                       'path = D:\GitHub\MOKO\MOKO_ExScript\Messenger Project\data')
+                                                       'choice=English;Русский')
 
 MOKO.Report('language', 'set', 'string', language)
 MOKO.Report('language_clear', 'set', 'string', language)

@@ -1,0 +1,19 @@
+{
+"project_name":"Демонстрационный проект",
+"project_autosave":"true",
+"project_scripts":[
+{"script":"1 Начало.py","necessary":"false"},
+{"script":"2 Управление DO.py","necessary":"false"},
+{"script":"3 Управление DI.py","necessary":"false"},
+{"script":"4 Съем показаний с ELait3.py","necessary":"false"},
+{"script":"5 Управление SI8.py","necessary":"false"},
+{"script":"6 Формирование протокола.py","necessary":"false"}
+],
+"project_libraries":[
+{"script":"MOKO.py"},
+{"script":"MTLG.py"}
+],
+"project_templates":[
+{"script":"Отчёт.docx"}
+]
+}
