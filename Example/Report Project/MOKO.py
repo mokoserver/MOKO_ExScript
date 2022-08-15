@@ -927,109 +927,52 @@ def ParseValue(data, valuetype='void'):
         return None
     if valuetype.lower() == 'arraystring':
         value = (data.split(';'))
-        if value[-1] == '' and data[-1] == ';':
-            value.pop(-1)
         return value
-    # если нет разделителя ";"
-    # то возвращаем None с занесением в Stage и терминал
-    ind = data.find(';')
-    if (ind == -1):
-        Stage('ERROR IN PYTHON LIBRARY! Bad data received! ' + data, 'error')
-        print('ERROR IN PYTHON LIBRARY! Bad data received! No ";" at the end! ' + data) 
-        return None
 
-    # если разделитель есть и это последний символ в строке
-    if ((ind == data.rfind(';')) and (ind == (len(data)-1))):
-        # разделение строки на подстроки (чтоб примерно одинаковая схема была у одномерного массива/строки/etc.)
-        spl = data.split(';',maxsplit=1)
-        #если
+    # разделение строки на подстроки (чтоб примерно одинаковая схема была у одномерного массива/строки/etc.)
+    spl = data.split(';',maxsplit=1)
+    if (valuetype.lower() == 'string'):
+        result = spl[0]
+        return result
+    indcomma = data.find(',')
 
-        if (valuetype.lower() == 'string'):
-            result = spl[0]
-            return result
-        indcomma = data.find(',')
+    if (indcomma == -1):
+        indperiod = data.find('.')
+        val = spl[0]
 
-        if (indcomma == -1):
-            indperiod = data.find('.')
-            val = spl[0]
-
-            if (indperiod == -1):
-                if ((val.lower() == "true") or (val.lower() == "false")):
-                    if (val.lower() == "true"):
-                        result = True
-                    if (val.lower() == "false"):
-                        result = False
-                else:
-                     result = int(val)
-                return result
+        if (indperiod == -1):
+            if ((val.lower() == "true") or (val.lower() == "false")):
+                if (val.lower() == "true"):
+                    result = True
+                if (val.lower() == "false"):
+                    result = False
             else:
-                result = float(val)
-                return result
+                 result = int(val)
+            return result
         else:
-            arr = spl[0].split(',')
-
-            result = [ ]
-            
-            for x in arr:
-                if (x != ""):
-                    indperiod = x.find('.')
-                
-                    if (indperiod == -1):
-                        if ((x.lower() == "true") or (x.lower() == "false")):
-                            if (x.lower() == "true"):
-                                result.append(True)
-                            if (x.lower() == "false"):
-                                result.append(False)
-                        else:
-                            result.append(int(x))
-                    else:
-                        result.append(float(x))
-
+            result = float(val)
             return result
     else:
-        spl = data.split(';')
-        result = []
+        arr = spl[0].split(',')
 
-        for x in spl:
+        result = [ ]
+
+        for x in arr:
             if (x != ""):
-                indcomma = x.find(',')
-                rarr = []
-                if (indcomma == -1):
-                    indperiod = x.find('.')
-                    val = x
+                indperiod = x.find('.')
 
-                    if (indperiod == -1):
-                        if ((val.lower() == "true") or (val.lower() == "false")):
-                            if (val.lower() == "true"):
-                                rarr.append(True)
-                            if (val.lower() == "false"):
-                                rarr.append(False)
-                        else:
-                            rarr.append(int(x))
+                if (indperiod == -1):
+                    if ((x.lower() == "true") or (x.lower() == "false")):
+                        if (x.lower() == "true"):
+                            result.append(True)
+                        if (x.lower() == "false"):
+                            result.append(False)
                     else:
-                        rarr.append(float(val))
-
+                        result.append(int(x))
                 else:
-                    arr = x.split(',')
-            
-                    for x in arr:
-                        if (x != ""):
-                            indperiod = x.find('.')
-                
-                            if (indperiod == -1):
-                                if ((x.lower() == "true") or (x.lower() == "false")):
-                                    if (x.lower() == "true"):
-                                        rarr.append(True)
-                                    if (x.lower() == "false"):
-                                        rarr.append(False)
-                                else:
-                                    rarr.append(int(x))
-                            else:
-                                rarr.append(float(x))
-                result.append(rarr)
-        return result
+                    result.append(float(x))
 
-    return
+        return result
 
 #ProjectState - предназначена для проверки старта/паузы/стопа
 def ProjectState():
@@ -1047,7 +990,8 @@ def ProjectState():
             Stage("sys.exit() not work")
     return
 
-#CheckStatus - предназначена для проверки статуса MOKO SE (ready или busy)
+#CheckStatus - предназначена для проверки статуса MOKO SE (ready или busy),
+#а также для проверки status_code (если более 10 раз плохо приняты данные, то выдаем ошибку)
 def CheckStatus(system, mode, URLRead):
     data = ""
     timeout = 0
@@ -1076,10 +1020,10 @@ def CheckStatus(system, mode, URLRead):
 def Parcing(data, mode, valuetype):
     if (mode.lower() == 'get'):
         ind = data.rfind(';')
-        if (ind != (len(data)-1)):
+        if (ind != (len(data)-1) or ind == -1):
             data = data + ';'
         if ((valuetype.lower() != 'boolean') and (valuetype.lower() != 'string') and
-            (valuetype.lower() != 'int') and (valuetype.lower() != 'float')):
+            (valuetype.lower() != 'int') and (valuetype.lower() != 'float') and (valuetype.lower() != 'arraystring')):
             valuetype = 'string'
         return ParseValue(data, valuetype)
     return None
