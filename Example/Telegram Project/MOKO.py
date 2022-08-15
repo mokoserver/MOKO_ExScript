@@ -277,26 +277,8 @@ def Driver(name, mode, command, valuetype='void'):
     #json = {"name": name, "type": mode, "command": command}
     response = requests.post(URLWrite, headers=headers, data=command_to_send.encode('utf-8'))
     print(response.content)
-    
-    timeout = 0
-    badresponse_timeout = 0
-    drvstatus = 'none'
-    while ((drvstatus.lower() != 'ready') and (badresponse_timeout < 10)):
-        response = requests.get(URLRead)
-        # Проверка состояния проекта: Старт/Стоп/Пауза
-        ProjectState()
-        if (response.status_code != 200):
-            Stage("ERROR IN PYTHON LIBRARY! Bad response code! " + str(response.status_code), 'error')
-            print("ERROR IN PYTHON LIBRARY! Bad response code! " + str(response.status_code) + '\n' + str(10 - badresponse_timeout) + ' tries left')
-            badresponse_timeout += 1
-        else:
-            y = json.loads(response.content)
-            drvstatus = y.get('driverstatus')
-            if (mode.lower() == 'get'):
-                drvdata = y.get('driverdata')
-            timeout += 1
-            #Stage('Wait ' + str(timeout))
-        sleep(0.05)
+
+    drvdata, badresponse_timeout = CheckStatus("driver", mode, URLRead)
 
     if (badresponse_timeout >= 10):
         Stage("ERROR IN PYTHON LIBRARY! Function exit because of bad responses", 'error')
@@ -304,19 +286,7 @@ def Driver(name, mode, command, valuetype='void'):
         value = None
         return value
 
-    if ((drvstatus.lower() == 'ready') and (mode.lower() == 'get')):
-        #Stage(drvdata)
-        ind = drvdata.find(';')
-        if (ind == -1):
-            drvdata = drvdata + ';'
-        ind = drvdata.rfind(';')
-        if (ind != (len(drvdata)-1)):
-            drvdata = drvdata + ';'
-        value = ParseValue(drvdata, valuetype)
-        return value
-
-    value = None
-    return value
+    return Parcing(drvdata, mode, valuetype)
 
 ###################################################################################################################
 
@@ -431,26 +401,8 @@ def Plugin(name, mode, command, valuetype='void'):
     # json = {"name": name, "type": mode, "command": command}
     response = requests.post(URLWrite, headers=headers, data=command_to_send.encode('utf-8'))
     print(response.content)
-       
-    timeout = 0
-    badresponse_timeout = 0
-    plgstatus = 'none'   
-    while ((plgstatus.lower() != 'ready') and (badresponse_timeout < 10)):
-        response = requests.get(URLRead)
-        # Проверка состояния проекта: Старт/Стоп/Пауза
-        ProjectState()
-        if (response.status_code != 200):
-            Stage("ERROR IN PYTHON LIBRARY! Bad response code! " + str(response.status_code), 'error')
-            print("ERROR IN PYTHON LIBRARY! Bad response code! " + str(response.status_code) + '\n' + str(10 - badresponse_timeout) + ' tries left')
-            badresponse_timeout += 1
-        else:
-            y = json.loads(response.content)
-            plgstatus = y.get('pluginstatus')
-            if (mode.lower() == 'get'):
-                plgdata = y.get('plugindata')
-            timeout += 1
-            #Stage('Wait ' + str(timeout))
-        sleep(0.05)
+
+    plgdata, badresponse_timeout = CheckStatus("plugin", mode, URLRead)
 
     if (badresponse_timeout >= 10):
         Stage("ERROR IN PYTHON LIBRARY! Function exit because of bad responses", 'error')
@@ -458,19 +410,7 @@ def Plugin(name, mode, command, valuetype='void'):
         value = None
         return value
 
-    if ((plgstatus.lower() == 'ready') and (mode.lower() == 'get')):
-        #Stage(plgdata)
-        ind = plgdata.find(';')
-        if (ind == -1):
-            plgdata = plgdata + ';'
-        ind = plgdata.rfind(';')
-        if (ind != (len(plgdata)-1)):
-            plgdata = plgdata + ';'
-        value = ParseValue(plgdata, valuetype)
-        return value
-
-    value = None
-    return value
+    return Parcing(plgdata, mode, valuetype)
 
 
 
@@ -594,25 +534,7 @@ def Messenger(mode, head, body, valuetype='void', delaytime='void'):
         #response = requests.post(URLWrite, json={"type":mode,"head":head,"body":body,"time":str(delaytime)})
     print(response.content)
 
-    timeout = 0
-    badresponse_timeout = 0
-    msgstatus = 'none'
-    while ((msgstatus.lower() != 'ready') and (badresponse_timeout < 10)):
-        response = requests.get(URLRead)
-        # Проверка состояния проекта: Старт/Стоп/Пауза
-        ProjectState()           
-        if (response.status_code != 200):
-            Stage("ERROR IN PYTHON LIBRARY! Bad response code! " + str(response.status_code), 'error')
-            print("ERROR IN PYTHON LIBRARY! Bad response code! " + str(response.status_code) + '\n' + str(10 - badresponse_timeout) + ' tries left')
-            badresponse_timeout += 1
-        else:
-            y = json.loads(response.content)
-            msgstatus = y.get('messengertatus')
-            if (mode.lower() == 'get'):
-                msgdata = y.get('messengerdata')
-            timeout += 1
-            #Stage('Wait ' + str(timeout))
-        sleep(0.05)
+    msgdata, badresponse_timeout = CheckStatus("messenger", mode, URLRead)
 
     if (badresponse_timeout >= 10):
         Stage("ERROR IN PYTHON LIBRARY! Function exit because of bad responses")
@@ -620,21 +542,7 @@ def Messenger(mode, head, body, valuetype='void', delaytime='void'):
         value = None
         return value
 
-    if ((msgstatus.lower() == 'ready') and (mode.lower() == 'get')):
-        #Stage(msgdata)
-        ind = msgdata.find(';')
-        if (ind == -1):
-            msgdata = msgdata + ';'
-        ind = msgdata.rfind(';')
-        if (ind != (len(msgdata)-1)):
-            msgdata = msgdata + ';'
-        if ((valuetype.lower() != 'boolean') and (valuetype.lower() != 'string')):
-            valuetype = 'string'
-        value = ParseValue(msgdata, valuetype)
-        return value
-
-    value = None
-    return value
+    return Parcing(msgdata, mode, valuetype)
 
 ###################################################################################################################
 
@@ -732,28 +640,8 @@ def Report(name, mode, kind, data, valuetype='void'):
 
     response = requests.post(URLWrite, headers=headers, data=text_to_send.encode('utf-8'))
     print(response.content)
-    
-    timeout = 0
-    badresponse_timeout = 0
-    repstatus = 'none'
-    prjectstate = 'none'
- 
-    while ((repstatus.lower() != 'ready') and (badresponse_timeout < 10)):
-        response = requests.get(URLRead)
-        # Проверка состояния проекта: Старт/Стоп/Пауза
-        ProjectState()
-        if (response.status_code != 200):
-            Stage("ERROR IN PYTHON LIBRARY! Bad response code! " + str(response.status_code), 'error')
-            print("ERROR IN PYTHON LIBRARY! Bad response code! " + str(response.status_code) + '\n' + str(10 - badresponse_timeout) + ' tries left')
-            badresponse_timeout += 1
-        else:
-            y = json.loads(response.text)
-            repstatus = y.get('reportstatus')
-            if (mode.lower() == 'get'):
-                repdata = y.get('reportdata')
-            timeout += 1
-            #Stage('Wait ' + str(timeout))
-        sleep(0.05)
+
+    repdata, badresponse_timeout = CheckStatus("report", mode, URLRead)
 
     if (badresponse_timeout >= 10):
         Stage("ERROR IN PYTHON LIBRARY! Function exit because of bad responses", 'error')
@@ -761,19 +649,7 @@ def Report(name, mode, kind, data, valuetype='void'):
         value = None
         return value
 
-    if ((repstatus.lower() == 'ready') and (mode.lower() == 'get')):
-        #Stage(repdata)
-        ind = repdata.find(';')
-        if (ind == -1):
-            repdata = repdata + ';'
-        ind = repdata.rfind(';')
-        if (ind != (len(repdata)-1)):
-            repdata = repdata + ';'
-        value = ParseValue(repdata, valuetype)
-        return value
-
-    value = None
-    return value
+    return Parcing(repdata, mode, valuetype)
 
 ###################################################################################################################
 
@@ -827,26 +703,8 @@ def Utility(name, mode, command, valuetype='void'):
 
     #response = requests.post(URLWrite, json={"name":name,"type":mode,"command":command})
     print(response.content)
-       
-    timeout = 0
-    badresponse_timeout = 0
-    utlstatus = 'none' 
-    while ((utlstatus.lower() != 'ready') and (badresponse_timeout < 10)):
-        response = requests.get(URLRead)
-        # Проверка состояния проекта: Старт/Стоп/Пауза
-        ProjectState()
-        if (response.status_code != 200):
-            Stage("ERROR IN PYTHON LIBRARY! Bad response code! " + str(response.status_code), 'error')
-            print("ERROR IN PYTHON LIBRARY! Bad response code! " + str(response.status_code) + '\n' + str(10 - badresponse_timeout) + ' tries left')
-            badresponse_timeout += 1
-        else:
-            y = json.loads(response.content)
-            utlstatus = y.get('utilitystatus')
-            if (mode.lower() == 'get'):
-                utldata = y.get('utilitydata')
-            timeout += 1
-            #Stage('Wait ' + str(timeout))
-        sleep(0.05)
+
+    utldata, badresponse_timeout = CheckStatus("utility", mode, URLRead)
 
     if (badresponse_timeout >= 10):
         Stage("ERROR IN PYTHON LIBRARY! Function exit because of bad responses", 'error')
@@ -854,19 +712,7 @@ def Utility(name, mode, command, valuetype='void'):
         value = None
         return value
 
-    if ((utlstatus.lower() == 'ready') and (mode.lower() == 'get')):
-        #Stage(utldata)
-        ind = utldata.find(';')
-        if (ind == -1):
-            utldata = utldata + ';'
-        ind = utldata.rfind(';')
-        if (ind != (len(utldata)-1)):
-            utldata = utldata + ';'
-        value = ParseValue(utldata, valuetype)
-        return value
-
-    value = None
-    return value
+    return Parcing(utldata, mode, valuetype)
 
 
 ###################################################################################################################
@@ -937,25 +783,7 @@ def Program(name, mode, command, valuetype='void'):
     response = requests.post(URLWrite, headers=headers, data=command_to_send.encode('utf-8'))
     print(response.content)
 
-    timeout = 0
-    badresponse_timeout = 0
-    progstatus = str("none")
-    while ((progstatus.lower() != "ready") and (badresponse_timeout < 10)):
-        response = requests.get(URLRead)
-        # Проверка состояния проекта: Старт/Стоп/Пауза
-        ProjectState()
-        if (response.status_code != 200):
-            Stage("ERROR IN PYTHON LIBRARY! Bad response code! " + str(response.status_code), 'error')
-            print("ERROR IN PYTHON LIBRARY! Bad response code! " + str(response.status_code) + '\n' + str(10 - badresponse_timeout) + ' tries left')
-            badresponse_timeout += 1
-        else:
-            y = json.loads(response.content)
-            progstatus = y.get('programstatus')
-            if (mode.lower() == 'get'):
-                progdata = y.get('programdata')
-            timeout += 1
-            #Stage('Wait ' + str(timeout))
-        sleep(0.05)
+    progdata, badresponse_timeout = CheckStatus("program", mode, URLRead)
 
     if (badresponse_timeout >= 10):
         Stage("ERROR IN PYTHON LIBRARY! Function exit because of bad responses", 'error')
@@ -963,19 +791,7 @@ def Program(name, mode, command, valuetype='void'):
         value = None
         return value
 
-    if ((progstatus.lower() == 'ready') and (mode.lower() == 'get')):
-        #Stage(progdata)
-        ind = progdata.find(';')
-        if (ind == -1):
-            progdata = progdata + ';'
-        ind = progdata.rfind(';')
-        if (ind != (len(progdata)-1)):
-            progdata = progdata + ';'
-        value = ParseValue(progdata, valuetype)
-        return value
-
-    value = None
-    return value
+    return Parcing(progdata, mode, valuetype)
 
 def ProgramParam(name, param, valuetype):
     URLRead = _UrlProgramRead + '/' + str(name) + '=' + str(param)
@@ -1075,26 +891,7 @@ def Telegram(role, mode, command, valuetype='void'):
     response = requests.post(URLWrite, headers=headers, data=command_to_send.encode('utf-8'))
     print(response.content)
 
-    timeout = 0
-    badresponse_timeout = 0
-    tgmstatus = 'none'
-    while ((tgmstatus.lower() != 'ready') and (badresponse_timeout < 10)):
-        response = requests.get(URLRead)
-        # Проверка состояния проекта: Старт/Стоп/Пауза
-        ProjectState()
-        if (response.status_code != 200):
-            Stage("ERROR IN PYTHON LIBRARY! Bad response code! " + str(response.status_code), 'error')
-            print("ERROR IN PYTHON LIBRARY! Bad response code! " + str(response.status_code) + '\n' + str(
-                10 - badresponse_timeout) + ' tries left')
-            badresponse_timeout += 1
-        else:
-            y = json.loads(response.content)
-            tgmstatus = y.get('telegramstatus')
-            if (mode.lower() == 'get'):
-                tgmdata = y.get('telegramdata')
-            timeout += 1
-            # Stage('Wait ' + str(timeout))
-        sleep(0.05)
+    tgmdata, badresponse_timeout = CheckStatus("telegram", mode, URLRead)
 
     if (badresponse_timeout >= 10):
         Stage("ERROR IN PYTHON LIBRARY! Function exit because of bad responses", 'error')
@@ -1102,19 +899,7 @@ def Telegram(role, mode, command, valuetype='void'):
         value = None
         return value
 
-    if ((tgmstatus.lower() == 'ready') and (mode.lower() == 'get')):
-        # Stage(tgmdata)
-        ind = tgmdata.find(';')
-        if (ind == -1):
-            tgmdata = tgmdata + ';'
-        ind = tgmdata.rfind(';')
-        if (ind != (len(tgmdata) - 1)):
-            tgmdata = tgmdata + ';'
-        value = ParseValue(tgmdata, valuetype)
-        return value
-
-    value = None
-    return value
+    return Parcing(tgmdata, mode, valuetype)
 
 ###################################################################################################################
 
@@ -1262,3 +1047,39 @@ def ProjectState():
             Stage("sys.exit() not work")
     return
 
+#CheckStatus - предназначена для проверки статуса MOKO SE (ready или busy)
+def CheckStatus(system, mode, URLRead):
+    data = ""
+    timeout = 0
+    badresponse_timeout = 0
+    status = "none"
+    while ((status.lower() != 'ready') and (badresponse_timeout < 10)):
+        response = requests.get(URLRead)
+        # Проверка состояния проекта: Старт/Стоп/Пауза
+        ProjectState()
+        if (response.status_code != 200):
+            Stage("ERROR IN PYTHON LIBRARY! Bad response code! " + str(response.status_code), 'error')
+            print("ERROR IN PYTHON LIBRARY! Bad response code! " + str(response.status_code) + '\n' +
+                  str(10 - badresponse_timeout) + ' tries left')
+            badresponse_timeout += 1
+        else:
+            y = json.loads(response.content)
+            status = y.get(f'{system}status')
+            if (mode.lower() == 'get'):
+                data = y.get(f'{system}data')
+            timeout += 1
+        sleep(0.05)
+
+    return [data, badresponse_timeout]
+
+#Parcing - возвращает данные в нужном формате (если тип 'get') либо возвращает None (если тип 'set')
+def Parcing(data, mode, valuetype):
+    if (mode.lower() == 'get'):
+        ind = data.rfind(';')
+        if (ind != (len(data)-1)):
+            data = data + ';'
+        if ((valuetype.lower() != 'boolean') and (valuetype.lower() != 'string') and
+            (valuetype.lower() != 'int') and (valuetype.lower() != 'float')):
+            valuetype = 'string'
+        return ParseValue(data, valuetype)
+    return None
