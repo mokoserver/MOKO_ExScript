@@ -17,9 +17,9 @@ reports = ['AccuracyClass',  # класс точности
            'VerificationLocation',  # Место проведения поверки
            'WorkplaceNumber',  # Номер рабочего места
            'OrderNumber',  # Номер заказа
-           'Day',       ###########
-           'Month',     ####ДАТА###
-           'Year',      ###########
+           'Day',       ##############
+           'Month',     #### ДАТА ####
+           'Year',      ##############
            'ProtocolNumber',  # Номер протокола
            'Temperature',  # Температура
            'Humidity',  # Влажность

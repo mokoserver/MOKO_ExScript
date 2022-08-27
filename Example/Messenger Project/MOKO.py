@@ -7,6 +7,8 @@
         Версия документации: 1.2 от 03.02.2020.
         
         Версия изменена 24.01.2022 для корректной работы старта/паузы/стопа
+
+        Версия изменена 22.08.2022 для обновления функции парсинга и для переноса повторяющегося кода в функции
  
         Для работы этой библиотеки требуются библиотеки **requests** и **json**.
 
@@ -153,20 +155,12 @@ def Stage(stage_string, type='info'):
     """
     # Проверка состояния проекта: Старт/Стоп/Пауза
 
-    URL = _UrlStageWrite
-    text_to_send = '{"string" :"'+str(stage_string)+'", "type":"'+str(type)+'"}'
-    headers = {'Content-Type': 'application/json; charset=utf-8'}
+    URLWrite = _UrlStageWrite
+    command_to_send = '{"string" :"'+str(stage_string)+'", "type":"'+str(type)+'"}'
+    send_request(URLWrite, command_to_send)
 
-    response = requests.post(URL, headers=headers, data=text_to_send.encode('utf-8'))
-    print(response.content)
+    return None
 
-#    response = requests.post(URL, json={"string":stage_string, "type":type})
-#    print(response.content)
-    return response.status_code
-
-def StageParam(param, value):
-    
-    return
 
 ###################################################################################################################
 
@@ -259,34 +253,22 @@ def Driver(name, mode, command, valuetype='void'):
     
     А если не ввести `valuetype`, то функция не отработает, о чём оповестит в терминале и Stage программы MOKO SE.
     """
+
     # Проверка состояния проекта: Старт/Стоп/Пауза
-    ProjectState()
-    if ((mode.lower() == 'get') and (valuetype.lower() == 'void')):
-        Stage("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request", 'error')
-        print("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request")
-        return None
-    if ((mode.lower() != 'get') and (mode.lower() != 'set') and (mode.lower() != 'init') and (mode.lower() != 'close')):
-        Stage("ERROR IN PYTHON LIBRARY! Wrong request type! " + str(mode), 'error')
-        print("ERROR IN PYTHON LIBRARY! Wrong request type! " + str(mode))
-        return None
+    project_state()
+    if is_mode_incorrect(mode, ["get", "set", "init", "close"]): return None
+    if is_mode_and_valuetype_incorrect(mode, valuetype): return None
+
     URLWrite = _UrlDriverWrite
     URLRead = _UrlDriverRead
 
     command_to_send = '{"name":"' + str(name) + '","type":"' + str(mode) + '","command":"' + str(command) + '"}'
-    headers = {'Content-Type': 'application/json; charset=utf-8'}
-    #json = {"name": name, "type": mode, "command": command}
-    response = requests.post(URLWrite, headers=headers, data=command_to_send.encode('utf-8'))
-    print(response.content)
+    send_request(URLWrite, command_to_send)
 
-    drvdata, badresponse_timeout = CheckStatus("driver", mode, URLRead)
+    drvdata = check_status("driver", mode, URLRead)
 
-    if (badresponse_timeout >= 10):
-        Stage("ERROR IN PYTHON LIBRARY! Function exit because of bad responses", 'error')
-        print("ERROR IN PYTHON LIBRARY! Function exit because of bad responses")
-        value = None
-        return value
-
-    return Parcing(drvdata, mode, valuetype)
+    if not drvdata: return None
+    return parse_data(drvdata, mode, valuetype)
 
 ###################################################################################################################
 
@@ -384,35 +366,20 @@ def Plugin(name, mode, command, valuetype='void'):
 
     """
     # Проверка состояния проекта: Старт/Стоп/Пауза
-    ProjectState()
-    if ((mode.lower() == 'get') and (valuetype.lower() == 'void')):
-        Stage("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request", 'error')
-        print("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request")
-        return None
-    if ((mode.lower() != 'get') and (mode.lower() != 'set') and (mode.lower() != 'init') and (mode.lower() != 'close')):
-        Stage("ERROR IN PYTHON LIBRARY! Wrong request type! " +  str(mode), 'error')
-        print("ERROR IN PYTHON LIBRARY! Wrong request type! " +  str(mode))
-        return None
+    project_state()
+    if is_mode_incorrect(mode, ["get", "set", "init", "close"]): return None
+    if is_mode_and_valuetype_incorrect(mode, valuetype): return None
+
     URLWrite = _UrlPluginWrite
     URLRead = _UrlPluginRead
 
     command_to_send = '{"name":"' + str(name) + '","type":"' + str(mode) + '","command":"' + str(command) + '"}'
-    headers = {'Content-Type': 'application/json; charset=utf-8'}
-    # json = {"name": name, "type": mode, "command": command}
-    response = requests.post(URLWrite, headers=headers, data=command_to_send.encode('utf-8'))
-    print(response.content)
+    send_request(URLWrite, command_to_send)
 
-    plgdata, badresponse_timeout = CheckStatus("plugin", mode, URLRead)
+    plgdata = check_status("plugin", mode, URLRead)
 
-    if (badresponse_timeout >= 10):
-        Stage("ERROR IN PYTHON LIBRARY! Function exit because of bad responses", 'error')
-        print("ERROR IN PYTHON LIBRARY! Function exit because of bad responses")
-        value = None
-        return value
-
-    return Parcing(plgdata, mode, valuetype)
-
-
+    if not plgdata: return None
+    return parse_data(plgdata, mode, valuetype)
 
 
 ###################################################################################################################
@@ -510,39 +477,24 @@ def Messenger(mode, head, body, valuetype='void', delaytime='void'):
 
     """
     # Проверка состояния проекта: Старт/Стоп/Пауза
-    ProjectState()
-    if ((mode.lower() == 'get') and (valuetype.lower() == 'void')):
-        Stage("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request", 'error')
-        print("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request")
-        return None
-    if ((mode.lower() != 'get') and (mode.lower() != 'set')):
-        Stage("ERROR IN PYTHON LIBRARY! Wrong request type! " + str(mode))
-        print("ERROR IN PYTHON LIBRARY! Wrong request type! " + str(mode))
-        return None
-   # if (valuetype.lower() == 'void') : valuetype =string    
+    project_state()
+    if is_mode_incorrect(mode, ["get", "set"]): return None
+    if is_mode_and_valuetype_incorrect(mode, valuetype): return None
+
     URLWrite = _UrlMessengerWrite
     URLRead = _UrlMessengerRead    
     
     if (delaytime == 'void'):
-        text_to_send = '{"type":"'+str(mode)+'","head":"'+str(head)+'","body":"'+str(body)+'","value":"'+str(valuetype)+'"}'
-        headers = {'Content-Type': 'application/json; charset=utf-8'}
-        response = requests.post(URLWrite, headers=headers, data=text_to_send.encode('utf-8'))
+        command_to_send = '{"type":"'+str(mode)+'","head":"'+str(head)+'","body":"'+str(body)+'","value":"'+str(valuetype)+'"}'
     else:
-        text_to_send = '{"type":"'+str(mode)+'","head":"'+str(head)+'","body":"'+str(body)+'","time":"'+str(delaytime)+'"}'
-        headers = {'Content-Type': 'application/json; charset=utf-8'}
-        response = requests.post(URLWrite, headers=headers, data=text_to_send.encode('utf-8'))
-        #response = requests.post(URLWrite, json={"type":mode,"head":head,"body":body,"time":str(delaytime)})
-    print(response.content)
+        command_to_send = '{"type":"'+str(mode)+'","head":"'+str(head)+'","body":"'+str(body)+'","time":"'+str(delaytime)+'"}'
 
-    msgdata, badresponse_timeout = CheckStatus("messenger", mode, URLRead)
+    send_request(URLWrite, command_to_send)
 
-    if (badresponse_timeout >= 10):
-        Stage("ERROR IN PYTHON LIBRARY! Function exit because of bad responses")
-        print("ERROR IN PYTHON LIBRARY! Function exit because of bad responses")
-        value = None
-        return value
+    msgdata = check_status("messenger", mode, URLRead)
 
-    return Parcing(msgdata, mode, valuetype)
+    if not msgdata: return None
+    return parse_data(msgdata, mode, valuetype)
 
 ###################################################################################################################
 
@@ -618,38 +570,24 @@ def Report(name, mode, kind, data, valuetype='void'):
     
     """
     # Проверка состояния проекта: Старт/Стоп/Пауза
-    ProjectState()
-    if ((mode.lower() == 'get') and (valuetype.lower() == 'void')):
-        Stage("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request", 'error')
-        print("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request")
-        return None
-    if ((mode.lower() != 'get') and (mode.lower() != 'set') and (mode.lower() != 'info') and (mode.lower() != 'clear') and (mode.lower() != 'delete') and (mode.lower() != 'save')):
-        Stage("ERROR IN PYTHON LIBRARY! Wrong request type! " + str(mode), 'error')
-        print("ERROR IN PYTHON LIBRARY! Wrong request type! " + str(mode))
-        return None
+    project_state()
+    if is_mode_incorrect(mode, ["get", "set", "info", "clear", "delete", "save"]): return None
+    if is_mode_and_valuetype_incorrect(mode, valuetype): return None
     if ((kind.lower() != 'table') and (kind.lower() != 'string') and (kind.lower() != 'picture') and (kind.lower() != 'strings')):
-        Stage("ERROR IN PYTHON LIBRARY! Wrong report kind! " + str(kind), 'error')
-        print("ERROR IN PYTHON LIBRARY! Wrong report kind! " + str(kind))
+        Stage("ERROR IN PYTHON LIBRARY! WRONG REPORT KIND! " + str(kind), 'error')
+        print("ERROR IN PYTHON LIBRARY! WRONG REPORT KIND! " + str(kind))
         return None
+
     URLWrite = _UrlReportWrite
     URLRead = _UrlReportRead
     
-    text_to_send = '{"name":"'+str(name)+'","type":"'+str(mode)+'", "kind":"'+str(kind)+'", "data":"'+str(data)+'"}'
+    command_to_send = '{"name":"'+str(name)+'","type":"'+str(mode)+'", "kind":"'+str(kind)+'", "data":"'+str(data)+'"}'
+    send_request(URLWrite, command_to_send)
 
-    headers = {'Content-Type': 'application/json; charset=utf-8'}
+    repdata = check_status("report", mode, URLRead)
 
-    response = requests.post(URLWrite, headers=headers, data=text_to_send.encode('utf-8'))
-    print(response.content)
-
-    repdata, badresponse_timeout = CheckStatus("report", mode, URLRead)
-
-    if (badresponse_timeout >= 10):
-        Stage("ERROR IN PYTHON LIBRARY! Function exit because of bad responses", 'error')
-        print("ERROR IN PYTHON LIBRARY! Function exit because of bad responses")
-        value = None
-        return value
-
-    return Parcing(repdata, mode, valuetype)
+    if not repdata: return None
+    return parse_data(repdata, mode, valuetype)
 
 ###################################################################################################################
 
@@ -684,35 +622,20 @@ def Utility(name, mode, command, valuetype='void'):
 
     """
     # Проверка состояния проекта: Старт/Стоп/Пауза
-    ProjectState()
-    if ((mode.lower() == 'get') and (valuetype.lower() == 'void')):
-        Stage("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request", 'error')
-        print("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request")
-        return None
-    if ((mode.lower() != 'get') and (mode.lower() != 'set') and (mode.lower() != 'init')):
-        Stage("ERROR IN PYTHON LIBRARY! Wrong request type! " +  str(mode), 'error')
-        print("ERROR IN PYTHON LIBRARY! Wrong request type! " +  str(mode))
-        return None
+    project_state()
+    if is_mode_incorrect(mode, ["get", "set", "init"]): return None
+    if is_mode_and_valuetype_incorrect(mode, valuetype): return None
+
     URLWrite = _UrlUtilityWrite
     URLRead = _UrlUtilityRead
 
-    text_to_send = '{"name" :"' + str(name) + '", "type":"' + str(mode) + '", "command":"' + str(command) + '"}'
-    headers = {'Content-Type': 'application/json; charset=utf-8'}
+    command_to_send = '{"name" :"' + str(name) + '", "type":"' + str(mode) + '", "command":"' + str(command) + '"}'
+    send_request(URLWrite, command_to_send)
 
-    response = requests.post(URLWrite, headers=headers, data=text_to_send.encode('utf-8'))
+    utldata = check_status("utility", mode, URLRead)
 
-    #response = requests.post(URLWrite, json={"name":name,"type":mode,"command":command})
-    print(response.content)
-
-    utldata, badresponse_timeout = CheckStatus("utility", mode, URLRead)
-
-    if (badresponse_timeout >= 10):
-        Stage("ERROR IN PYTHON LIBRARY! Function exit because of bad responses", 'error')
-        print("ERROR IN PYTHON LIBRARY! Function exit because of bad responses")
-        value = None
-        return value
-
-    return Parcing(utldata, mode, valuetype)
+    if not utldata: return None
+    return parse_data(utldata, mode, valuetype)
 
 
 ###################################################################################################################
@@ -765,35 +688,22 @@ def Program(name, mode, command, valuetype='void'):
     ``b'<!DOCTYPE html><html><head><title>Bad Request</title></head><body><h2>Access Error: 400 -- Bad Request</h2><pre>Bad Request</pre></body></html>'``
     """
     # Проверка состояния проекта: Старт/Стоп/Пауза
-    ProjectState()
-    if ((mode.lower() == 'get') and (valuetype.lower() == 'void')):
-        Stage("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request", 'error')
-        print("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request")
-        return None
-    if ((mode.lower() != 'get') and (mode.lower() != 'set') and (mode.lower() != 'init') and (mode.lower() != 'close')):
-        Stage("ERROR IN PYTHON LIBRARY! Wrong request type! " +  str(mode), 'error')
-        print("ERROR IN PYTHON LIBRARY! Wrong request type! " +  str(mode))
-        return None
+    project_state()
+    if is_mode_incorrect(mode, ["get", "set", "init", "close"]): return None
+    if is_mode_and_valuetype_incorrect(mode, valuetype): return None
+
     URLWrite = _UrlProgramWrite
     URLRead = _UrlProgramRead
 
     command_to_send = '{"name":"' + str(name) + '","type":"' + str(mode) + '","command":"' + str(command) + '"}'
-    headers = {'Content-Type': 'application/json; charset=utf-8'}
-    # json = {"name": name, "type": mode, "command": command}
-    response = requests.post(URLWrite, headers=headers, data=command_to_send.encode('utf-8'))
-    print(response.content)
+    send_request(URLWrite, command_to_send)
 
-    progdata, badresponse_timeout = CheckStatus("program", mode, URLRead)
+    progdata = check_status("program", mode, URLRead)
 
-    if (badresponse_timeout >= 10):
-        Stage("ERROR IN PYTHON LIBRARY! Function exit because of bad responses", 'error')
-        print("ERROR IN PYTHON LIBRARY! Function exit because of bad responses")
-        value = None
-        return value
+    if not progdata: return None
+    return parse_data(progdata, mode, valuetype)
 
-    return Parcing(progdata, mode, valuetype)
-
-def ProgramParam(name, param, valuetype):
+def ProgramParam(name, param):
     URLRead = _UrlProgramRead + '/' + str(name) + '=' + str(param)
 
     response = requests.get(URLRead)	
@@ -873,33 +783,20 @@ def Telegram(role, mode, command, valuetype='void'):
 
     """
     # Проверка состояния проекта: Старт/Стоп/Пауза
-    ProjectState()
-    if ((mode.lower() == 'get') and (valuetype.lower() == 'void')):
-        Stage("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request", 'error')
-        print("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request")
-        return None
-    if ((mode.lower() != 'get') and (mode.lower() != 'set')):
-        Stage("ERROR IN PYTHON LIBRARY! Wrong request type! " + str(mode), 'error')
-        print("ERROR IN PYTHON LIBRARY! Wrong request type! " + str(mode))
-        return None
+    project_state()
+    if is_mode_incorrect(mode, ["get", "set"]): return None
+    if is_mode_and_valuetype_incorrect(mode, valuetype): return None
+
     URLWrite = _UrlTelegramWrite
     URLRead = _UrlTelegramRead
 
     command_to_send = '{"role":"' + str(role) + '","type":"' + str(mode) + '","command":"' + str(command) + '"}'
-    headers = {'Content-Type': 'application/json; charset=utf-8'}
-    # json = {"role": role, "type": mode, "command": command}
-    response = requests.post(URLWrite, headers=headers, data=command_to_send.encode('utf-8'))
-    print(response.content)
+    send_request(URLWrite, command_to_send)
 
-    tgmdata, badresponse_timeout = CheckStatus("telegram", mode, URLRead)
+    tgmdata = check_status("telegram", mode, URLRead)
 
-    if (badresponse_timeout >= 10):
-        Stage("ERROR IN PYTHON LIBRARY! Function exit because of bad responses", 'error')
-        print("ERROR IN PYTHON LIBRARY! Function exit because of bad responses")
-        value = None
-        return value
-
-    return Parcing(tgmdata, mode, valuetype)
+    if not tgmdata: return None
+    return parse_data(tgmdata, mode, valuetype)
 
 ###################################################################################################################
 
@@ -915,67 +812,10 @@ def Telegram(role, mode, command, valuetype='void'):
 
 ###################################################################################################################
 
-# ParseValue - функция, которая парсит полученные данные из других функций с mode = 'get' под указанный тип данных valuetype
-# data - данные для парсинга
-# valuetype - тип данных, который должен получиться на выходе
-def ParseValue(data, valuetype='void'):
-    # если вдруг дефолтное или пустое значение valuetype на входе
-    # то возвращаем None с занесением в Stage и терминал
-    if ((valuetype == 'void') or (valuetype == '')):
-        Stage('ERROR IN PYTHON LIBRARY! Type is not specified', 'error')
-        print('ERROR IN PYTHON LIBRARY! Type is not specified') 
-        return None
-    if valuetype.lower() == 'arraystring':
-        value = (data.split(';'))
-        return value
-
-    # разделение строки на подстроки (чтоб примерно одинаковая схема была у одномерного массива/строки/etc.)
-    spl = data.split(';',maxsplit=1)
-    if (valuetype.lower() == 'string'):
-        result = spl[0]
-        return result
-    indcomma = data.find(',')
-
-    if (indcomma == -1):
-        indperiod = data.find('.')
-        val = spl[0]
-
-        if (indperiod == -1):
-            if ((val.lower() == "true") or (val.lower() == "false")):
-                if (val.lower() == "true"):
-                    result = True
-                if (val.lower() == "false"):
-                    result = False
-            else:
-                 result = int(val)
-            return result
-        else:
-            result = float(val)
-            return result
-    else:
-        arr = spl[0].split(',')
-
-        result = [ ]
-
-        for x in arr:
-            if (x != ""):
-                indperiod = x.find('.')
-
-                if (indperiod == -1):
-                    if ((x.lower() == "true") or (x.lower() == "false")):
-                        if (x.lower() == "true"):
-                            result.append(True)
-                        if (x.lower() == "false"):
-                            result.append(False)
-                    else:
-                        result.append(int(x))
-                else:
-                    result.append(float(x))
-
-        return result
-
-#ProjectState - предназначена для проверки старта/паузы/стопа
-def ProjectState():
+def project_state():
+    """
+        project_state - предназначена для проверки старта/паузы/стопа
+    """
     URLPSRead = _UrlProjectStateRead
     serverstate = requests.get(URLPSRead)
     JSONprojectstate = json.loads(serverstate.content)
@@ -987,25 +827,32 @@ def ProjectState():
         projectstate = JSONprojectstate.get('projectstate')
         if (projectstate.lower() == 'stop'):
             sys.exit()
-            Stage("sys.exit() not work")
     return
 
-#CheckStatus - предназначена для проверки статуса MOKO SE (ready или busy),
-#а также для проверки status_code (если более 10 раз плохо приняты данные, то выдаем ошибку)
-def CheckStatus(system, mode, URLRead):
+def check_status(system, mode, URLRead):
+    """
+        check_status - предназначена для проверки статуса MOKO SE (ready или busy),
+        а также для проверки status_code (если более 9 раз плохо приняты данные, то выдаем ошибку).
+
+        :param str system: функция, которая вызывает (Driver, Program, ...)
+        :param str mode: тип команды ('get', 'set', 'init', 'close', ...)
+        :param str URLRead: URL для получения данных от сервера
+
+        :return: Функция возвращает данные от сервера. Если badresponse > 9, то возвращается пустая строка (False)
+    """
     data = ""
     timeout = 0
-    badresponse_timeout = 0
+    badresponse = 0
     status = "none"
-    while ((status.lower() != 'ready') and (badresponse_timeout < 10)):
+    while ((status.lower() != 'ready') and (badresponse < 10)):
         response = requests.get(URLRead)
         # Проверка состояния проекта: Старт/Стоп/Пауза
-        ProjectState()
+        project_state()
         if (response.status_code != 200):
-            Stage("ERROR IN PYTHON LIBRARY! Bad response code! " + str(response.status_code), 'error')
-            print("ERROR IN PYTHON LIBRARY! Bad response code! " + str(response.status_code) + '\n' +
-                  str(10 - badresponse_timeout) + ' tries left')
-            badresponse_timeout += 1
+            Stage("ERROR IN PYTHON LIBRARY! BAD RESPONSE CODE! " + str(response.status_code), 'error')
+            print("ERROR IN PYTHON LIBRARY! BAD RESPONSE CODE! " + str(response.status_code) + '\n' +
+                  str(10 - badresponse) + ' TRIES LEFT')
+            badresponse += 1
         else:
             y = json.loads(response.content)
             status = y.get(f'{system}status')
@@ -1014,16 +861,149 @@ def CheckStatus(system, mode, URLRead):
             timeout += 1
         sleep(0.05)
 
-    return [data, badresponse_timeout]
+    if is_bad_response(badresponse): return ""
+    return data
 
-#Parcing - возвращает данные в нужном формате (если тип 'get') либо возвращает None (если тип 'set')
-def Parcing(data, mode, valuetype):
-    if (mode.lower() == 'get'):
-        ind = data.rfind(';')
-        if (ind != (len(data)-1) or ind == -1):
-            data = data + ';'
-        if ((valuetype.lower() != 'boolean') and (valuetype.lower() != 'string') and
-            (valuetype.lower() != 'int') and (valuetype.lower() != 'float') and (valuetype.lower() != 'arraystring')):
-            valuetype = 'string'
-        return ParseValue(data, valuetype)
+def parse_data(data, mode, valuetype='void'):
+    """
+        parse_data - парсинг полученных данных в зависимости от переданного valuetype.
+
+        :param str data: полученные данные
+        :param str mode: тип команды ('get', 'set', 'init', 'close', ...)
+        :param str valuetype: тип возвращаемых данных (только при mode = "get")
+
+        :return: Функция возвращает данные того типа, который был указан в valuetype
+    """
+    if mode.lower() != "get": return None
+
+    splitter = ";"
+    if is_semicolon_error(data, splitter, valuetype): return None
+
+    if valuetype.lower() == 'boolean':
+        data = data.split(splitter)[0]
+        return True if data.lower() == "true" else False
+    elif valuetype.lower() == 'float':
+        data = data.split(splitter)[0]
+        return float(data.replace(",", "."))
+    elif valuetype.lower() == 'int':
+        data = data.split(splitter)[0]
+        data = data.split(".")[0]
+        return int(data.split(",")[0])
+    elif valuetype.lower() == 'arrayboolean':
+        return to_list(bool, data, splitter)
+    elif valuetype.lower() == 'arrayfloat':
+        return to_list(float, data, splitter)
+    elif valuetype.lower() == 'arrayint':
+        return to_list(int, data, splitter)
+    elif valuetype.lower() == 'arraystring':
+        return to_list(str, data, splitter)
+    else: # Используется в качестве valuetype = 'string'
+        return data.split(splitter)[0]
+
+def to_list(func, data, splitter=";"):
+    """
+        to_list - предназначена для разбиения входных данных с последующим занесением в список
+
+        :param func: функция, которая применяется к данным (int(), float(), ...)
+        :param str data: полученные данные
+        :param str splitter: символ, по которому идет разбиение данных
+
+        :return: Функция возвращает список, содержащий значения типа, соответствующих типу func() => (int, float, ...)
+    """
+    split_data = data.split(splitter)
+    result = []
+    for spl in split_data:
+        if func is bool:
+            result.append(True if spl.lower() == "true" else False)
+        elif func is int:
+            spl = spl.split(".")[0]
+            result.append(func(spl.split(",")[0]))
+        else:
+            result.append(func(spl.replace(",", ".")))
+    return result
+
+def is_semicolon_error(data, splitter, valuetype):
+    """
+        is_semicolon_error - проверяет наличие двух символов splitter в конце входных данных.
+
+        :param str data: полученные данные
+        :param str splitter: символ, по которому идет разбиение
+        :param str valuetype: - тип возвращаемых данных (только при mode = "get")
+
+        :return: Функция печатает ошибку в консоль и в Stage программы MOKO SE, если в конце два символа splitter.
+                 Если ошибка - возвращает True, иначе - False
+
+        Например, если splitter = ";", а data = "123;;", то будет ошибка.
+    """
+    if data[-2:] == f"{2*splitter}":
+        Stage(f'ERROR IN PYTHON LIBRARY!','error')
+        Stage(f'INPUT DATA CONTAINS MORE THAN 1 \'\'{splitter}\'\' AT THE END!', 'error')
+        Stage(f'DATA: {data}     =>     VALUETYPE: {valuetype.upper()}', 'error')
+        print(f'ERROR IN PYTHON LIBRARY!')
+        print(f'INPUT DATA CONTAINS MORE THAN 1 \'\'{splitter}\'\' AT THE END!')
+        print(f'DATA: {data}     =>     VALUETYPE: {valuetype.upper()}')
+        return True
+    return False
+
+def is_bad_response(badresponse):
+    """
+        is_bad_response - предназначена для проверки ответов сервера.
+        Если больше 9 ответов сервера были "плохими", то функция возвращает True, иначе - False
+
+        :param int badresponse: количество "плохих" ответов сервера
+
+        :return: Функция печатает ошибку в консоль и в Stage программы MOKO SE, если количество "плохих" ответов больше 9.
+                 Если ошибка - возвращает True, иначе - False
+    """
+    if (badresponse >= 10):
+        Stage("ERROR IN PYTHON LIBRARY! FUNCTION EXIT BECAUSE OF BAD RESPONSES", 'error')
+        print("ERROR IN PYTHON LIBRARY! FUNCTION EXIT BECAUSE OF BAD RESPONSES")
+        return True
+    return False
+
+def is_mode_and_valuetype_incorrect(mode, valuetype):
+    """
+        is_mode_and_valuetype_incorrect - предназначена для проверки mode и valuetype.
+        Если mode = get, а valuetype = void - ошибка
+
+        :param str mode: тип команды ('get', 'set', 'init', 'close', ...)
+        :param str valuetype: тип возвращаемых данных (только при mode = "get")
+
+        :return: Функция печатает ошибку в консоль и в Stage программы MOKO SE, если при mode = "get", valuetype = "void" или "".
+                 Если ошибка - возвращает True, иначе - False
+    """
+    if (mode.lower() == 'get') and (valuetype.lower() == 'void' or valuetype.lower() == ''):
+        Stage("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request", 'error')
+        print("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request")
+        return True
+    return False
+
+def is_mode_incorrect(mode, modes_list:list):
+    """
+        is_mode_correct - предназначена для проверки значения mode: корректное либо нет.
+
+        :param str mode: тип команды ('get', 'set', 'init', 'close', ...)
+        :param list modes_list: список mode, который корректен для данной функции (Driver, Program,...)
+
+        :return: Функция печатает ошибку в консоль и в Stage программы MOKO SE, если в modes_list нет указанного mode.
+                 Если ошибка - возвращает True, иначе - False
+    """
+    if mode.lower() not in modes_list:
+        Stage("ERROR IN PYTHON LIBRARY! Wrong request type! " + str(mode), 'error')
+        print("ERROR IN PYTHON LIBRARY! Wrong request type! " + str(mode))
+        return True
+    return False
+
+def send_request(URLWrite, command_to_send):
+    """
+        send_request - предназначена для отсылки команды/запроса на сервер
+
+        :param str URLWrite: адрес сервера, для отправки команды/запроса
+        :param command_to_send: команда/запрос, отправляемый на сервер в формате json
+
+        :return: Функция возвращает None
+    """
+    headers = {'Content-Type': 'application/json; charset=utf-8'}
+    response = requests.post(URLWrite, headers=headers, data=command_to_send.encode('utf-8'))
+    print(response.content)
     return None
