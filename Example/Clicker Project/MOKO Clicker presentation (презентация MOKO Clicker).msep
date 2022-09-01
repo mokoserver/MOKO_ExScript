@@ -9,7 +9,8 @@
 ],
 "project_libraries":[
 {"script":"MOKO.py"},
-{"script":"MOSC.py"}
+{"script":"MOSC.py"},
+{"script":"MCLK.py"}
 ],
 "project_templates":[
 {"script":"MOKO Clicker report (מעק¸ע MOKO Clicker).docx"}

@@ -266,8 +266,6 @@ def Driver(name, mode, command, valuetype='void'):
     send_request(URLWrite, command_to_send)
 
     drvdata = check_status("driver", mode, URLRead)
-
-    if not drvdata: return None
     return parse_data(drvdata, mode, valuetype)
 
 ###################################################################################################################
@@ -377,8 +375,6 @@ def Plugin(name, mode, command, valuetype='void'):
     send_request(URLWrite, command_to_send)
 
     plgdata = check_status("plugin", mode, URLRead)
-
-    if not plgdata: return None
     return parse_data(plgdata, mode, valuetype)
 
 
@@ -492,8 +488,6 @@ def Messenger(mode, head, body, valuetype='void', delaytime='void'):
     send_request(URLWrite, command_to_send)
 
     msgdata = check_status("messenger", mode, URLRead)
-
-    if not msgdata: return None
     return parse_data(msgdata, mode, valuetype)
 
 ###################################################################################################################
@@ -585,8 +579,6 @@ def Report(name, mode, kind, data, valuetype='void'):
     send_request(URLWrite, command_to_send)
 
     repdata = check_status("report", mode, URLRead)
-
-    if not repdata: return None
     return parse_data(repdata, mode, valuetype)
 
 ###################################################################################################################
@@ -633,8 +625,6 @@ def Utility(name, mode, command, valuetype='void'):
     send_request(URLWrite, command_to_send)
 
     utldata = check_status("utility", mode, URLRead)
-
-    if not utldata: return None
     return parse_data(utldata, mode, valuetype)
 
 
@@ -699,8 +689,6 @@ def Program(name, mode, command, valuetype='void'):
     send_request(URLWrite, command_to_send)
 
     progdata = check_status("program", mode, URLRead)
-
-    if not progdata: return None
     return parse_data(progdata, mode, valuetype)
 
 def ProgramParam(name, param):
@@ -794,8 +782,6 @@ def Telegram(role, mode, command, valuetype='void'):
     send_request(URLWrite, command_to_send)
 
     tgmdata = check_status("telegram", mode, URLRead)
-
-    if not tgmdata: return None
     return parse_data(tgmdata, mode, valuetype)
 
 ###################################################################################################################
