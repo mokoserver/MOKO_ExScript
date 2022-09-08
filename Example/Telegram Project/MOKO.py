@@ -256,7 +256,7 @@ def Driver(name, mode, command, valuetype='void'):
 
     # Проверка состояния проекта: Старт/Стоп/Пауза
     project_state()
-    if is_mode_incorrect(mode, ["get", "set", "init", "close"]): return None
+    if is_mode_incorrect(mode, ["get", "set", "init", "close", "check"]): return None
     if is_mode_and_valuetype_incorrect(mode, valuetype): return None
 
     URLWrite = _UrlDriverWrite
@@ -615,7 +615,7 @@ def Utility(name, mode, command, valuetype='void'):
     """
     # Проверка состояния проекта: Старт/Стоп/Пауза
     project_state()
-    if is_mode_incorrect(mode, ["get", "set", "init"]): return None
+    if is_mode_incorrect(mode, ["get", "set", "init", "check"]): return None
     if is_mode_and_valuetype_incorrect(mode, valuetype): return None
 
     URLWrite = _UrlUtilityWrite
@@ -842,7 +842,7 @@ def check_status(system, mode, URLRead):
         else:
             y = json.loads(response.content)
             status = y.get(f'{system}status')
-            if (mode.lower() == 'get'):
+            if (mode.lower() == 'get' or 'check'):
                 data = y.get(f'{system}data')
             timeout += 1
         sleep(0.05)
@@ -860,7 +860,7 @@ def parse_data(data, mode, valuetype='void'):
 
         :return: Функция возвращает данные того типа, который был указан в valuetype
     """
-    if mode.lower() != "get": return None
+    if not (mode.lower() == "get" or "check"): return None
 
     splitter = ";"
     if is_semicolon_error(data, splitter, valuetype): return None
