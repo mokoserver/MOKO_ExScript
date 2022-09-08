@@ -29,9 +29,10 @@ MGPH.ClearGraphCommand()
 #High Mask
 
 Value_OyOx = [-160,-50,2.375,2.445]
-Name_OyOx = ["Power Spectral Density (dBm/Hz)", "Frequency"]
+Name_Oy = "Power Spectral Density (dBm/Hz)"
+Name_Ox = "Frequency"
 Autoscale = "No"
-MGPH.AddGraphSettCommand(Value_OyOx, Name_OyOx, Autoscale)
+MGPH.AddGraphSettCommand(Value_OyOx, Name_Oy, Name_Ox, Autoscale)
 
 #Region Status (статус)
 #description: Width (толщина);Color (цвет);Visible;(видимость)

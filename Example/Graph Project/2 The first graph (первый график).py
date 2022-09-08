@@ -37,14 +37,15 @@ MGPH.ClearGraphCommand()
 #High Mask
 
 Value_OyOx = [-400,400,0,0.04]
-Name_OyOx = ["Amplitude", "Time"]
+Name_Oy = "Amplitude"
+Name_Ox = "Time"
 Autoscale = "No"
-MGPH.AddGraphSettCommand(Value_OyOx, Name_OyOx, Autoscale)
+MGPH.AddGraphSettCommand(Value_OyOx, Name_Oy, Name_Ox, Autoscale)
 
 #4th Plot
 name = "Plot 1"
 ArrOy = [300,300]
-ArrOx = [0,0.04]
+ArrOx = [0,0.05]
 LineWidth = 3
 Color = "FF00FF" #Magenta
 Visible = "Yes"
@@ -53,7 +54,7 @@ MGPH.AddLineCommand(name, ArrOy, ArrOx,LineWidth,Color,Visible)
 #5th Plot
 name = "Plot 1"
 ArrOy = [-300,-300]
-ArrOx = [0,0.04]
+ArrOx = [0,0.05]
 LineWidth = 3
 Color = "FFFF00" #Yellow
 Visible = "Yes"
@@ -62,7 +63,7 @@ MGPH.AddLineCommand(name, ArrOy, ArrOx,LineWidth,Color,Visible)
 #5th Plot
 name = "Plot 1"
 ArrOy = [0,0]
-ArrOx = [0,0.04]
+ArrOx = [0,0.05]
 LineWidth = 3
 Color = "0" #Black
 Visible = "Yes"

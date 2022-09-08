@@ -3,7 +3,7 @@
 "project_autosave":"true",
 "project_scripts":[
 {"script":"1 Greeting (приветствие).py","necessary":"true"},
-{"script":"Farewell (прощание).py","necessary":"true"}
+{"script":"2 Farewell (прощание).py","necessary":"true"}
 ],
 "project_libraries":[
 {"script":"MOKO.py"},

@@ -28,9 +28,10 @@ def Filling_the_Table(ArrOx,ArrOy,ArrOx1,ArrOy1):
 MGPH.ClearGraphCommand()
 
 Value_OyOx = [-1.1,1.1,-0.01,1]
-Name_OyOx = ["Amplitude", "Time"]
+Name_Oy = "Amplitude"
+Name_Ox = "Time"
 Autoscale = "No"
-MGPH.AddGraphSettCommand(Value_OyOx, Name_OyOx, Autoscale)
+MGPH.AddGraphSettCommand(Value_OyOx, Name_Oy, Name_Ox, Autoscale)
 
 #Region Status (статус)
 #description: Frequency;(частота);Phase (фаза);Width (толщина);Color;(цвет);Visible;(видимость)
