@@ -47,15 +47,6 @@ _UrlTelegramRead = 'http://localhost:55001/MOKOSE/system/telegramread'
 _UrlProjectStateRead = 'http://localhost:55001/MOKOSE/status/projectstate'
 
 
-_Messenger_CurrentType = 0
-
-_Driver_CurrentName = 0
-_Driver_CurrentType = 0
-_Driver_CurrentCommand = 0
-
-_ReadTimeout = -1
-
-
 ###################################################################################################################
 
     ##          ##          ####        ##########      ##        ##     
@@ -85,7 +76,7 @@ _ReadTimeout = -1
 
 ###################################################################################################################
 
-# Stage - функция, осуществляющая запись строки в Stage (даёшь рекурсию)
+# Stage - функция, осуществляющая запись строки в Stage
 # stage_string - Строка, записываемая в Stage
 # type - Тип строки в Stage (Info, Error, Plugin, Driver, Report, Warning). По умолчанию Info.
 def Stage(stage_string, type='info'):
@@ -180,7 +171,7 @@ def Stage(stage_string, type='info'):
 # name - имя драйвера
 # mode - тип команды ('get', 'set', 'init', 'close')
 # command - команда, которую записывает драйвер в управляемый прибор
-# valuetype (только для type = 'get') - тип данных, получаемый из драйвера. По умолчанию void
+# valuetype (только для mode = 'get') - тип данных, получаемый из драйвера. По умолчанию void
 def Driver(name, mode, command, valuetype='void'):
     """ 
     Функция осуществляет работу с драйвером.
@@ -201,7 +192,7 @@ def Driver(name, mode, command, valuetype='void'):
 
     В случае успешного выполнения в терминале должна появиться следующая строка:
 
-    ``b'{"name": "SMBV100A", "type": "init", "command": ""}'``
+    ``b'{"name": "SMBV100A", "mode": "init", "command": ""}'``
 
     На экране должно появиться окно инициализации драйвера(выбор интерфейса).
 
@@ -220,7 +211,7 @@ def Driver(name, mode, command, valuetype='void'):
 
     В случае успешного выполнения в терминале должна появиться следующая строка:
 
-    ``b'{"name": "SMBV100A", "type": "set", "command": "reset"}'``
+    ``b'{"name": "SMBV100A", "mode": "set", "command": "reset"}'``
 
     Драйвер должен сбросить настройки прибора SMBV100A.
 
@@ -239,7 +230,7 @@ def Driver(name, mode, command, valuetype='void'):
 
     В случае успешного выполнения в терминале должна появиться следующая строка:
 
-    ``b'{"name": "Test", "type": "get", "command": "test"}'``
+    ``b'{"name": "Test", "mode": "get", "command": "test"}'``
 
     На экране должно отобразиться окно с надписью 'Test' и двумя кнопками 'OK' и 'Cancel'. 
 
@@ -262,7 +253,7 @@ def Driver(name, mode, command, valuetype='void'):
     URLWrite = _UrlDriverWrite
     URLRead = _UrlDriverRead
 
-    command_to_send = '{"name":"' + str(name) + '","type":"' + str(mode) + '","command":"' + str(command) + '"}'
+    command_to_send = '{"name":"' + str(name) + '","mode":"' + str(mode) + '","command":"' + str(command) + '"}'
     send_request(URLWrite, command_to_send)
 
     drvdata = check_status("driver", mode, URLRead)
@@ -286,7 +277,7 @@ def Driver(name, mode, command, valuetype='void'):
 # name - имя плагина
 # mode - тип команды ('get', 'set', 'init')
 # command - команда, которую отправляем в плагин.
-# valuetype (только для type = 'get') - тип данных, получаемый из плагина
+# valuetype (только для mode = 'get') - тип данных, получаемый из плагина
 def Plugin(name, mode, command, valuetype='void'):
 
     """ 
@@ -308,7 +299,7 @@ def Plugin(name, mode, command, valuetype='void'):
 
     В случае успешного выполнения в терминале должна появиться следующая строка:
 
-    ``b'{"name": "NMEA0183", "type": "init", "command": ""}'``
+    ``b'{"name": "NMEA0183", "mode": "init", "command": ""}'``
 
     На экране должно появиться окно плагина.
 
@@ -327,7 +318,7 @@ def Plugin(name, mode, command, valuetype='void'):
 
     В случае успешного выполнения в терминале должна появиться следующая строка:
 
-    ``b'{"name": "NMEA0183", "type": "set", "command": "ProtocolReset=True"}'``
+    ``b'{"name": "NMEA0183", "mode": "set", "command": "ProtocolReset=True"}'``
 
     Плагин NMEA0183 должен сбросить протоколы.
 
@@ -346,7 +337,7 @@ def Plugin(name, mode, command, valuetype='void'):
 
     В случае успешного выполнения в терминале должна появиться следующая строка:
         
-    ``b'{"name": "NMEA0183", "type": "get", "command": "CoordinatesValidTime"}'``
+    ``b'{"name": "NMEA0183", "mode": "get", "command": "CoordinatesValidTime"}'``
 
     Функция должна вернуть следующее значение некоторое время в секундах:
 
@@ -371,7 +362,7 @@ def Plugin(name, mode, command, valuetype='void'):
     URLWrite = _UrlPluginWrite
     URLRead = _UrlPluginRead
 
-    command_to_send = '{"name":"' + str(name) + '","type":"' + str(mode) + '","command":"' + str(command) + '"}'
+    command_to_send = '{"name":"' + str(name) + '","mode":"' + str(mode) + '","command":"' + str(command) + '"}'
     send_request(URLWrite, command_to_send)
 
     plgdata = check_status("plugin", mode, URLRead)
@@ -396,7 +387,7 @@ def Plugin(name, mode, command, valuetype='void'):
 # mode - тип команды ('get', 'set')
 # head - заголовок сообщения
 # body - содержание сообщения
-# valuetype (только для type = 'get') - тип данных, получаемый из cообщения
+# valuetype (только для mode = 'get') - тип данных, получаемый из cообщения
 # delaytime (если необходимо) - время задержки в секундах.
 def Messenger(mode, head, body, valuetype='void', delaytime='void'):
     """ 
@@ -419,7 +410,7 @@ def Messenger(mode, head, body, valuetype='void', delaytime='void'):
 
     В случае успешного выполнения в терминале должна появиться следующая строка:
 
-    ``b'{"type": "set", "head": "Info", "body": "Please connect the device and launch NMEA0183 plugin."}'``
+    ``b'{"mode": "set", "head": "Info", "body": "Please connect the device and launch NMEA0183 plugin."}'``
     
     На экране должно появиться окно с сообщением, в котором в заголовке будет написано 'Info', а в теле - 'Please connect the device and launch NMEA0183 plugin.'.
     
@@ -438,7 +429,7 @@ def Messenger(mode, head, body, valuetype='void', delaytime='void'):
 
     В случае успешного выполнения в терминале должна появиться следующая строка:
 
-    ``b'{"type": "get", "head": "First number", "body": "Please, enter the first number"}'``
+    ``b'{"mode": "get", "head": "First number", "body": "Please, enter the first number"}'``
 
     На экране должно появиться окно с сообщением, в котором в заголовке будет написано 'First number', а в теле - 'Please, enter the first number.'. Также это сообщение будет иметь поле для ввода данных.
     
@@ -461,7 +452,7 @@ def Messenger(mode, head, body, valuetype='void', delaytime='void'):
 
     В случае успешного выполнения в терминале должна появиться следующая строка:
 
-    ``b'{"type": "set", "head": "Info", "body": "Please, wait for 15 minutes", "time": "900"}'``
+    ``b'{"mode": "set", "head": "Info", "body": "Please, wait for 15 minutes", "time": "900"}'``
 
     На экране должно появиться окно с сообщением, в котором в заголовке будет написано 'Info', а в теле - 'Please, wait for 15 minutes.'. 
     
@@ -481,9 +472,9 @@ def Messenger(mode, head, body, valuetype='void', delaytime='void'):
     URLRead = _UrlMessengerRead    
     
     if (delaytime == 'void'):
-        command_to_send = '{"type":"'+str(mode)+'","head":"'+str(head)+'","body":"'+str(body)+'","value":"'+str(valuetype)+'"}'
+        command_to_send = '{"mode":"'+str(mode)+'","head":"'+str(head)+'","body":"'+str(body)+'","value":"'+str(valuetype)+'"}'
     else:
-        command_to_send = '{"type":"'+str(mode)+'","head":"'+str(head)+'","body":"'+str(body)+'","time":"'+str(delaytime)+'"}'
+        command_to_send = '{"mode":"'+str(mode)+'","head":"'+str(head)+'","body":"'+str(body)+'","time":"'+str(delaytime)+'"}'
 
     send_request(URLWrite, command_to_send)
 
@@ -531,7 +522,7 @@ def Report(name, mode, kind, data, valuetype='void'):
 
     В случае успешного выполнения в терминале должна появиться следующая строка:
 
-    ``b'{"name": "rep1", "type": "set", "kind": "string", "data": "FgsFds"}'``
+    ``b'{"name": "rep1", "mode": "set", "kind": "string", "data": "FgsFds"}'``
 
     В программе MOKO SE во вкладке 'Report' в таблице 'Report names' должен появиться элемент 'rep1'. По нажатию на этот элемент в таблице 'Reports' должна появиться строка *FgsFds*.
     
@@ -550,7 +541,7 @@ def Report(name, mode, kind, data, valuetype='void'):
 
     В случае успешного выполнения в терминале должна появиться следующая строка:
 
-    ``b'{"name": "rep2", "type": "set", "kind": "table", "data": "FgsFds, fgsfds, etc"}'``
+    ``b'{"name": "rep2", "mode": "set", "kind": "table", "data": "FgsFds, fgsfds, etc"}'``
     
     В программе MOKO SE во вкладке 'Report' в таблице 'Report names' должен появиться элемент 'rep2'. По нажатию на этот элемент в таблице 'Reports' три столбца в одной строке должны заполниться значениями соответственно 'FgsFds', 'fgsfds' и 'etc'.
     
@@ -575,7 +566,7 @@ def Report(name, mode, kind, data, valuetype='void'):
     URLWrite = _UrlReportWrite
     URLRead = _UrlReportRead
     
-    command_to_send = '{"name":"'+str(name)+'","type":"'+str(mode)+'", "kind":"'+str(kind)+'", "data":"'+str(data)+'"}'
+    command_to_send = '{"name":"'+str(name)+'","mode":"'+str(mode)+'", "kind":"'+str(kind)+'", "data":"'+str(data)+'"}'
     send_request(URLWrite, command_to_send)
 
     repdata = check_status("report", mode, URLRead)
@@ -599,7 +590,7 @@ def Report(name, mode, kind, data, valuetype='void'):
 # name - имя утилиты
 # mode - тип команды ('get', 'set')
 # command - команда, которую отправляем в утилиту.
-# valuetype (только для type = 'get') - тип данных, получаемый из утилиты
+# valuetype (только для mode = 'get') - тип данных, получаемый из утилиты
 def Utility(name, mode, command, valuetype='void'):
 
     """ 
@@ -621,7 +612,7 @@ def Utility(name, mode, command, valuetype='void'):
     URLWrite = _UrlUtilityWrite
     URLRead = _UrlUtilityRead
 
-    command_to_send = '{"name" :"' + str(name) + '", "type":"' + str(mode) + '", "command":"' + str(command) + '"}'
+    command_to_send = '{"name" :"' + str(name) + '", "mode":"' + str(mode) + '", "command":"' + str(command) + '"}'
     send_request(URLWrite, command_to_send)
 
     utldata = check_status("utility", mode, URLRead)
@@ -646,7 +637,7 @@ def Utility(name, mode, command, valuetype='void'):
 # name - название типа, которым нужно управлять ('script', 'project', etc.)
 # mode - тип команды (пока что только 'set') 
 # command - команда, которую посылаем в MOKO SE
-# valuetype (только для type = 'get') - получаемый тип данных
+# valuetype (только для mode = 'get') - получаемый тип данных
 def Program(name, mode, command, valuetype='void'):
     """ 
     Функция осуществляет управление программой MOKO SE (скриптами, проектами и т.д.)
@@ -667,7 +658,7 @@ def Program(name, mode, command, valuetype='void'):
 
     В случае успешного выполнения в терминале должна появиться следующая строка:
 
-    b'{"name": "script", "type": "set", "command": "done"}'
+    b'{"name": "script", "mode": "set", "command": "done"}'
     
     Функция должна вернуть следующее значение:
 
@@ -685,7 +676,7 @@ def Program(name, mode, command, valuetype='void'):
     URLWrite = _UrlProgramWrite
     URLRead = _UrlProgramRead
 
-    command_to_send = '{"name":"' + str(name) + '","type":"' + str(mode) + '","command":"' + str(command) + '"}'
+    command_to_send = '{"name":"' + str(name) + '","mode":"' + str(mode) + '","command":"' + str(command) + '"}'
     send_request(URLWrite, command_to_send)
 
     progdata = check_status("program", mode, URLRead)
@@ -700,11 +691,10 @@ def ProgramParam(name, param):
 
 def EndScript(command='done'):
     """ 
-    **Обязательная** функция, которая должна быть в конце каждого скрипта. Даёт знать серверу, что скрипт закончен.
+        **Обязательная** функция, которая должна быть в конце каждого скрипта. Даёт знать серверу, что скрипт закончен.
     """
-    res = Program('script','set',command)
+    Program('script','set',command)
     sys.exit()
-    return res
 
 def Script_CancelNumber(number):
     if (number.isdigit):
@@ -757,7 +747,7 @@ def Telegram(role, mode, command, valuetype='void'):
 
     В случае успешного выполнения в терминале должна появиться следующая строка:
 
-    ``b'{"role": "alpha", "type": "set", "command": "Hello, I'm a bot!"}'``
+    ``b'{"role": "alpha", "mode": "set", "command": "Hello, I'm a bot!"}'``
 
     Вас придет сообщение в Telegram.
 
@@ -778,7 +768,7 @@ def Telegram(role, mode, command, valuetype='void'):
     URLWrite = _UrlTelegramWrite
     URLRead = _UrlTelegramRead
 
-    command_to_send = '{"role":"' + str(role) + '","type":"' + str(mode) + '","command":"' + str(command) + '"}'
+    command_to_send = '{"role":"' + str(role) + '","mode":"' + str(mode) + '","command":"' + str(command) + '"}'
     send_request(URLWrite, command_to_send)
 
     tgmdata = check_status("telegram", mode, URLRead)
@@ -975,8 +965,8 @@ def is_mode_incorrect(mode, modes_list:list):
                  Если ошибка - возвращает True, иначе - False
     """
     if mode.lower() not in modes_list:
-        Stage("ERROR IN PYTHON LIBRARY! Wrong request type! " + str(mode), 'error')
-        print("ERROR IN PYTHON LIBRARY! Wrong request type! " + str(mode))
+        Stage("ERROR IN PYTHON LIBRARY! Wrong request mode! " + str(mode), 'error')
+        print("ERROR IN PYTHON LIBRARY! Wrong request mode! " + str(mode))
         return True
     return False
 
