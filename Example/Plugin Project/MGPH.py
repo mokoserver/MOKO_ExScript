@@ -1,74 +1,298 @@
 import MOKO
+from subprocess import Popen, PIPE
 
-def WriteGraphCommand():
-    #Отобразить данные на графике
+
+###########################################################################################
+
+    ################       ####        ##      ################      ##################
+           ##              ## ##       ##             ##                     ##
+           ##              ##  ##      ##             ##                     ##
+           ##              ##   ##     ##             ##                     ##
+           ##              ##    ##    ##             ##                     ##
+           ##              ##     ##   ##             ##                     ##
+           ##              ##      ##  ##             ##                     ##
+           ##              ##       ## ##             ##                     ##
+    ################       ##        ####      ################              ##
+
+###########################################################################################
+
+
+def GraphInit() -> None:
+    """
+        This function initializes plugin MOKO Graph
+
+        :return: None
+
+        >>> GraphInit()
+    """
+    MOKO.Plugin("Graph", "init", "")
+
+    processes = Popen('tasklist', stdin=PIPE, stderr=PIPE, stdout=PIPE).communicate()[0]
+    while processes.find("MOKO Clicker".encode("utf8")) == -1:
+        MOKO.Stage("Waiting for the plugin to run...")
+        processes = Popen('tasklist', stdin=PIPE, stderr=PIPE, stdout=PIPE).communicate()[0]
+    return None
+
+
+###########################################################################################
+
+     #########      ###########      ##################
+    ##              ##                       ##
+    ##              ##                       ##
+    ##              ##                       ##
+     ########       #########                ##
+            ##      ##                       ##
+            ##      ##                       ##
+            ##      ##                       ##
+    #########       ###########              ##
+
+###########################################################################################
+
+
+def WriteGraph() -> None:
+    """
+        Show lines in the graph
+
+        :return: None
+
+        >>> WriteGraph()
+    """
     MOKO.Plugin('Graph', 'set', "Write Graph")
+    return None
 
-def AddLineCommand(name: object, ArrOy: object, ArrOx: object, LineWidth: object, Color: object, Visible: object) -> object:
-    #Добавление линии
+def AddLine(name:str, ArrOy:list, ArrOx:list, LineWidth:str ="3", Color:str ="000000", Visible:str ="True") -> None:
+    """
+        This function adds a line in the plugin memory
+
+        :param name: name of the line
+        :param ArrOy: array of points for axis Oy
+        :param ArrOx:  array of points for axis Ox
+        :param LineWidth: width of the line
+        :param Color: color of the line. Color is transmitted in hexadecimal representation (FFFFFF - white)
+        :param Visible: visible of the line: True, False, Yes or No
+
+        :return: None
+
+        >>> AddLine("Sinus", [1,2,3,4], [2,5,7,1], "5", "00FF00", "True")
+    """
     MOKO.Plugin('Graph', 'set', f"Add Line={name};{ArrOy};{ArrOx};{LineWidth};{Color};{Visible}")
     MOKO.Plugin('Graph', 'set', "Write Graph")
+    return None
 
-def ChangeLineCommand(numLine, name, ArrOy, ArrOx,LineWidth,Color,Visible):
-    #Изменить параметры уже добавленной линии
+def ChangeLine(numLine:str, name:str, ArrOy:list, ArrOx:list,LineWidth:str ="3", Color:str ="000000", Visible:str ="True") -> None:
+    """
+        This function changes the line which has already added
+
+        :param numLine: serial number or name of the line, which an user wants to change. The numbers begin with 0.
+                        Also the user can pass the name of the line
+        :param name: new name of the line
+        :param ArrOy: new array of points for axis Oy
+        :param ArrOx:  new array of points for axis Ox
+        :param LineWidth: new width of the line
+        :param Color: new color of the line. Color is transmitted in hexadecimal representation (FFFFFF - white)
+        :param Visible: new parameter of visible of the line: True, False, Yes or No
+
+        :return: None
+
+        >>> ChangeLine("Sinus", "Plot 1",[6,1,4,3], [2,5,7,1], "3", "00FF00", "True")
+        >>> ChangeLine(0, "Plot 1",[6,1,4,3], [2,5,7,1], "3", "00FF00", "True")
+    """
     MOKO.Plugin('Graph', 'set', f"Change Line={numLine};{name};{ArrOy};{ArrOx};{LineWidth};{Color};{Visible}")
+    return None
 
-def DeleteLineCommand(numLine):
-    #Команда "All" - удаление всех линий
-    #Можно указывать как одну линию, так и массив с номерами линий для удаления
+def DeleteLine(numLine:list) -> None:
+    """
+        This function deletes lines
+
+        :param numLine: serial number or name of the line, which an user wants to delete. The numbers begin with 0.
+                        Also the user can pass a list of lines' numbers or names. If the user wants to delete all lines,
+                        he can pass "All"
+
+        :return: None
+
+        >>> DeleteLine("All")
+        >>> DeleteLine([0,2,1,3])
+        >>> DeleteLine(["Plot 1 ", "Plot 2", "Plot 3"])
+        >>> DeleteLine(2)
+    """
     MOKO.Plugin('Graph', 'set', f"Delete Line={numLine}")
+    return None
 
-def HideLineCommand(numLine):
-    #Команда: "All" - скрыть все линии, которые есть на графике, также
-    #Можно указывать как одну линию, так и массив с номерами линий для скрытия
+def HideLine(numLine:list) -> None:
+    """
+        This function hides lines
+
+        :param numLine: serial number or name of the line, which an user wants to hide. The numbers begin with 0.
+                        Moreover the user can pass a list of lines' numbers or names. If the user wants to hide all lines,
+                        he can pass "All"
+
+        :return: None
+
+        >>> HideLine("All")
+        >>> HideLine([0,2,1,3])
+        >>> HideLine(["Plot 1 ", "Plot 2", "Plot 3"])
+        >>> HideLine(2)
+    """
     MOKO.Plugin('Graph', 'set', f"Hide Line={numLine}")
+    return None
 
-def ShowLineCommand(numLine):
-    #Команда: "All" - показать все линии, которые есть на графике, также
-    #Можно указывать как одну линию, так и массив с номерами\именами линий для отображения
-    #Опция "Only" - показать только те линии, номера которых были переданы,т.е. если на графике отображено
-    #много линий, а нужно, чтобы на графике остались только конкретные, то используется эта опция
+def ShowLine(numLine:list) -> None:
+    """
+        This function shows lines
+
+        :param numLine: serial number or name of the line, which an user wants to show. The numbers begin with 0.
+                        Moreover the user can pass a list of lines' numbers or names. If the user wants to show all lines,
+                        he can pass "All"
+
+        :return: None
+
+        >>> ShowLine("All")
+        >>> ShowLine([0,2,1,3])
+        >>> ShowLine(["Plot 1 ", "Plot 2", "Plot 3"])
+        >>> ShowLine(2)
+    """
     MOKO.Plugin('Graph', 'set', f"Show Line={numLine}")
+    return None
 
-def ShowLineOnlyCommand(numLine):
-    #Опция "Only" - показать только те линии, номера или имена которых были переданы,т.е. если на графике отображено
-    #много линий, а нужно, чтобы на графике остались только конкретные, то используется эта опция
+def ShowLineOnly(numLine:list) -> None:
+    """
+        This function shows only chosen lines
+
+        :param numLine: serial number or name of the line, which an user wants to show. The numbers begin with 0.
+                        Moreover the user can pass a list of lines' numbers or names. The chosen lines will be shown
+                        and the others will be hidden
+
+        :return: None
+
+        >>> ShowOnlyLine([0,2,1,3])
+        >>> ShowOnlyLine(["Plot 1 ", "Plot 2", "Plot 3"])
+        >>> ShowOnlyLine(2)
+    """
     MOKO.Plugin('Graph', 'set', f"Show Line=Only;{numLine}")
+    return None
 
-def AddGraphSettCommand(Value_OyOx, Name_OyOx, Autoscale):
-    #Добавление подписей осей + min/max значения осей
-    #Установка Autoscale: "Yes", "No", "Only Ox", "Only Oy"
-    MOKO.Plugin('Graph', 'set', f"Add Graph Settings={Value_OyOx};{Name_OyOx};{Autoscale}")
+def AddGraphSett(Value_OyOx:list, Name_Oy:str, Name_Ox:str, Autoscale:str = "Yes") -> None:
+    """
+        This function sets graph settings
 
-def AutoscaleCommand(command):
-    #Команды: "No" - отключить Autoscale осей
-    #         "Yes" - включить Autoscale осей
-    #         "Only Ox" - включить Autoscale только для оси Ox
-    #         "Only Oy" - включить Autoscale только для оси Оy
-    MOKO.Plugin('Graph', 'set', f"Autoscale={command}")
+        :param Value_OyOx: the list of [min,max,min,max] values of axises Oy and Ox respectively
+        :param Name_Oy: the name of axis Oy
+        :param Name_Ox: the name of axis Ox
+        :param Autoscale: the parameter of the graph scaling. It can be:
+                          OnlyOy - scaling only axis Oy;
+                          OnlyOx - scaling only axis Ox;
+                          No - off scaling;
+                          Yes - on scaling
 
-def ScreenshotWindowCommand():
-    #Сделать скриншот фронтальной панели программы и сохранить в папку
+        :return: None
+
+        >>> AddGraphSett([0,5,-10,10], "Амплитуда", "Частота, Гц", "No")
+    """
+    MOKO.Plugin('Graph', 'set', f"Add Graph Settings={Value_OyOx};{Name_Oy};{Name_Ox};{Autoscale}")
+    return None
+
+def Autoscale(mode:str = "Yes") -> None:
+    """
+        This function sets autoscale
+
+        :param mode: the parameter of the graph scaling. It can be:
+                          OnlyOy - scaling only axis Oy;
+                          OnlyOx - scaling only axis Ox;
+                          No - off scaling;
+                          Yes - on scaling
+
+        :return: None
+
+        >>> Autoscale("OnlyOy")
+        >>> Autoscale("OnlyOx")
+        >>> Autoscale("No")
+        >>> Autoscale("Yes")
+    """
+    MOKO.Plugin('Graph', 'set', f"Autoscale={mode}")
+    return None
+
+def ScreenshotWindow() -> None:
+    """
+        This function makes a screenshot of the plugin front panel. The screenshot is saved
+        in "C:/MOKO SE/Plugins/MOKO Graph/screenshots/"
+
+        :return: None
+
+        >>> ScreenshotWindow()
+    """
     MOKO.Plugin('Graph', 'set', f"Screenshot Window")
+    return None
 
-def ScreenshotGraphCommand():
-    #Graph - сделать скриншот только графика
+def ScreenshotGraph() -> None:
+    """
+        This function makes a screenshot of the graph front panel. The screenshot is saved
+        in "C:/MOKO SE/Plugins/MOKO Graph/screenshots/"
+
+        :return: None
+
+        >>> ScreenshotGraph()
+    """
     MOKO.Plugin('Graph', 'set', f"Screenshot Graph")
+    return None
 
-def GetScreenshotWindow():
-    #Сделать скриншот фронтальной панели программы и сохранить в папку
+def Legend() -> None:
+    """
+        This function hide or show the graph legend. If there are no lines in the graph, legend won't be shown
+
+        :return: None
+
+         >>> Legend()
+    """
+    MOKO.Plugin('Graph', 'set', "Legend")
+    return None
+
+def ClearGraph() -> None:
+    """
+        This function clear the graph
+
+        :return: None
+
+        >>> ClearGraph()
+    """
+    MOKO.Plugin('Graph', 'set', "Clear Graph")
+    return None
+
+
+###########################################################################################
+
+     #########      ###########      ##################
+    ##              ##                       ##
+    ##              ##                       ##
+    ##              ##                       ##
+    ##    #####     #########                ##
+    ##    #  ##     ##                       ##
+    ##       ##     ##                       ##
+    ##       ##     ##                       ##
+     #########      ###########              ##
+
+###########################################################################################
+
+
+def GetScreenshotWindow() -> str:
+    """
+        This function makes a screenshot of the plugin front panel and returns it in base64 format. The screenshot is saved
+        in "C:/MOKO SE/Plugins/MOKO Graph/screenshots/"
+
+        :return: Returns the screeshot in base64 format
+
+        >>> window_screen = GetScreenshotWindow()
+    """
     screen = MOKO.Plugin('Graph', 'get', f"ScreenshotWindow", 'string')
     return screen
 
-def GetScreenshotGraph():
-    #Graph - сделать скриншот только графика
+def GetScreenshotGraph() -> str:
+    """
+        This function makes a screenshot of the graph front panel and returns it in base64 format.
+        The screenshot is saved in "C:/MOKO SE/Plugins/MOKO Graph/screenshots/"
+
+        :return: Returns the screeshot in base64 format
+
+        >>> graph_screen = GetScreenshotGraph()
+    """
     screen = MOKO.Plugin('Graph', 'get', f"ScreenshotGraph", 'string')
     return screen
-
-def LegendCommand():
-    #Показать легенду или скрыть
-    MOKO.Plugin('Graph', 'set', "Legend")
-
-def ClearGraphCommand():
-    #Очистить график
-    MOKO.Plugin('Graph', 'set', "Clear Graph")

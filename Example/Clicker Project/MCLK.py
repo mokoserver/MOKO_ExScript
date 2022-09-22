@@ -49,7 +49,7 @@ def ClickerInit() -> None:
 ###########################################################################################
 
 
-def MouseLeftClickCommand(x:int, y:int) -> None:
+def MouseLeftClick(x:int, y:int) -> None:
     """
         This function imitates pressing mouse left button
 
@@ -58,13 +58,13 @@ def MouseLeftClickCommand(x:int, y:int) -> None:
 
         :return: None
 
-        >>> MouseLeftClickCommand(1000, 2000)
-        >>> MouseLeftClickCommand("1000", "2000")
+        >>> MouseLeftClick(1000, 2000)
+        >>> MouseLeftClick("1000", "2000")
     """
     MOKO.Plugin("Clicker", "set", f"MouseLeftClick = {x} {y}")
     return None
 
-def MouseRightClickCommand(x:int, y:int) -> None:
+def MouseRightClick(x:int, y:int) -> None:
     """
         This function imitates pressing mouse right button
 
@@ -73,13 +73,13 @@ def MouseRightClickCommand(x:int, y:int) -> None:
 
         :return: None
 
-        >>> MouseRightClickCommand(1000, 2000)
-        >>> MouseRightClickCommand("1000", "2000")
+        >>> MouseRightClick(1000, 2000)
+        >>> MouseRightClick("1000", "2000")
     """
     MOKO.Plugin("Clicker", "set", f"MouseRightClick = {x} {y}")
     return None
 
-def MouseMiddleClickCommand(x:int, y:int) -> None:
+def MouseMiddleClick(x:int, y:int) -> None:
     """
         This function imitates pressing mouse middle button
 
@@ -88,13 +88,13 @@ def MouseMiddleClickCommand(x:int, y:int) -> None:
 
         :return: None
 
-        >>> MouseMiddleClickCommand(1000, 2000)
-        >>> MouseMiddleClickCommand("1000", "2000")
+        >>> MouseMiddleClick(1000, 2000)
+        >>> MouseMiddleClick("1000", "2000")
     """
     MOKO.Plugin("Clicker", "set", f"MouseMiddleClick = {x} {y}")
     return None
 
-def MouseMoveCommand(x:int, y:int) -> None:
+def MouseMove(x:int, y:int) -> None:
     """
         This function moves mouse cursor to the point (x,y)
 
@@ -103,30 +103,30 @@ def MouseMoveCommand(x:int, y:int) -> None:
 
         :return: None
 
-        >>> MouseMoveCommand(1000, 2000)
-        >>> MouseMoveCommand("1000", "2000")
+        >>> MouseMove(1000, 2000)
+        >>> MouseMove("1000", "2000")
     """
     MOKO.Plugin("Clicker", "set", f"MouseMove = {x} {y}")
     return None
 
-def ScreenshotCommand() -> None:
+def Screenshot() -> None:
     """
         This function makes a screenshot. The screenshot is saved in "C:/MOKO SE/Plugins/MOKO Clicker/screenshots/"
 
         :return: None
 
-        >>> ScreenshotCommand()
+        >>> Screenshot()
     """
     MOKO.Plugin("Clicker", "set", f"Screenshot")
     return None
 
-def PngPathCommand(path:str) -> None:
+def PngPath(path:str) -> None:
     """
         This function sets a path to the png file.
 
         :return: None
 
-        >>> PngPathCommand("C:/MOKO SE/Plugins/MOKO Clicker/screenshots/Clicker.png")
+        >>> PngPath("C:/MOKO SE/Plugins/MOKO Clicker/screenshots/Clicker.png")
     """
     MOKO.Plugin("Clicker", "set", f"PngPath = {path}")
     return None
@@ -146,24 +146,24 @@ def PngPathCommand(path:str) -> None:
 
 ###########################################################################################
 
-def GetScreenshotCommand() -> str:
+def GetScreenshot() -> str:
     """
         This function makes a screenshot and returns it in base64 format
 
         :return: Returns the screenshot in base64 format
 
-        >>> screenshot = GetScreenshotCommand()
+        >>> screenshot = GetScreenshot()
     """
     screenshot = MOKO.Plugin("Clicker", "get", f"Screenshot", "string")
     return screenshot
 
-def GetPngFileCommand() -> str:
+def GetPngFile() -> str:
     """
         This function returns png file in base64 format from the chosen png path
 
         :return: Returns png file in base64 format
 
-        >>> png_file = GetPngFileCommand()
+        >>> png_file = GetPngFile()
     """
     png_file = MOKO.Plugin("Clicker", "get", f"PngFile", "string")
     return png_file
