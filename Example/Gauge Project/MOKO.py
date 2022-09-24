@@ -853,10 +853,12 @@ def parse_data(data, mode, valuetype='void'):
 
         :return: Функция возвращает данные того типа, который был указан в valuetype
     """
-    if not (mode.lower() == "get" or "check"): return None
+    if mode.lower() not in ["get", "check"]: return None
 
     splitter = ";"
     if is_semicolon_error(data, splitter, valuetype): return None
+
+    data = check_data(data, splitter)
 
     if valuetype.lower() == 'boolean':
         data = data.split(splitter)[0]
@@ -879,6 +881,20 @@ def parse_data(data, mode, valuetype='void'):
     else: # Используется в качестве valuetype = 'string'
         return data.split(splitter)[0]
 
+def check_data(data: str, splitter: str = ";") -> str:
+    """
+        check_data - предназначена для проверки полученных данных. Если есть символ ";" в конце полученных данных, то он
+                     удаляется
+
+        :param str data: полученные данные
+        :param str splitter: символ, по которому идет разбиение данных
+
+        :return: Функция возвращает проверенные данные
+    """
+    if data.rfind(splitter) == len(data)-1:
+        data = data[:-1]
+    return data
+
 def to_list(func, data, splitter=";"):
     """
         to_list - предназначена для разбиения входных данных с последующим занесением в список
@@ -897,8 +913,10 @@ def to_list(func, data, splitter=";"):
         elif func is int:
             spl = spl.split(".")[0]
             result.append(func(spl.split(",")[0]))
-        else:
+        elif func is float:
             result.append(func(spl.replace(",", ".")))
+        else:
+            result.append(func(spl))
     return result
 
 def is_semicolon_error(data, splitter, valuetype):
