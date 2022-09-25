@@ -24,7 +24,7 @@ def Filling_the_Table(ArrOx,ArrOy,ArrOx1,ArrOy1,ArrOx2,ArrOy2):
                                   + '\\r'
         i = i + 1
 
-MGPH.ClearGraphCommand()
+MGPH.ClearGraph()
 
 #High Mask
 
@@ -32,7 +32,7 @@ Value_OyOx = [-160,-50,2.375,2.445]
 Name_Oy = "Power Spectral Density (dBm/Hz)"
 Name_Ox = "Frequency"
 Autoscale = "No"
-MGPH.AddGraphSettCommand(Value_OyOx, Name_Oy, Name_Ox, Autoscale)
+MGPH.AddGraphSett(Value_OyOx, Name_Oy, Name_Ox, Autoscale)
 
 #Region Status (статус)
 #description: Width (толщина);Color (цвет);Visible;(видимость)
@@ -42,12 +42,12 @@ MOKO.Report('Name13;Name16;Name19;Name22', 'set', 'strings', f'{name};{name};{na
 ArrOx = [2.379,2.383,2.4,2.402,2.422,2.424,2.441,2.445]
 valueOy = -92
 ArrOy = [valueOy,valueOy,valueOy+20,valueOy+40,valueOy+40,valueOy+20,valueOy,valueOy]
-LineWidth = 2
+LineWidth = "2"
 Color = '00FFFF' #Blue
 Visible = 'Yes'
-MGPH.AddLineCommand(name,ArrOy, ArrOx,LineWidth,Color,Visible)
+MGPH.AddLine(name,ArrOy, ArrOx,LineWidth,Color,Visible)
 
-MGPH.WriteGraphCommand()
+MGPH.WriteGraph()
 
 MOKO.Program('tree', 'set', 'select = ' + 'High mask')
 MOKO.Program('tree', 'set', 'chosen = passed')
@@ -158,10 +158,10 @@ name = 'Plot 5' #hesh Noise signal: 1;Red (красный);Yes;(да)
 MOKO.Report('Name14;Name17;Name20;Name23', 'set', 'strings', f'{name};{name};{name};{name}')
 ArrOx1 = array
 ArrOy1 = noise
-LineWidth = 1
+LineWidth = "1"
 Color = 'FF0000' #Red
 Visible = 'Yes'
-MGPH.AddLineCommand(name,ArrOy1, ArrOx1,LineWidth,Color,Visible)
+MGPH.AddLine(name,ArrOy1, ArrOx1,LineWidth,Color,Visible)
 
 MOKO.Program('tree', 'set', 'select = ' + 'Noise signal')
 MOKO.Program('tree', 'set', 'chosen = passed')
@@ -173,10 +173,10 @@ MOKO.Report('Name15;Name18;Name21;Name24', 'set', 'strings', f'{name};{name};{na
 ArrOx2 = [2.379,2.383,2.4,2.402,2.422,2.424,2.441,2.445]
 valueOy= -150
 ArrOy2 = [valueOy,valueOy,valueOy+20,valueOy+40,valueOy+40,valueOy+20,valueOy,valueOy]
-LineWidth = 2
+LineWidth = "2"
 Color = '00FF00' #Lime
 Visible = 'Yes'
-MGPH.AddLineCommand(name,ArrOy2, ArrOx2,LineWidth,Color,Visible)
+MGPH.AddLine(name,ArrOy2, ArrOx2,LineWidth,Color,Visible)
 
 MOKO.Program('tree', 'set', 'select = ' + 'Low mask')
 MOKO.Program('tree', 'set', 'chosen = passed')

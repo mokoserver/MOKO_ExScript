@@ -8,7 +8,7 @@ MCLK.ClickerInit()
 #Region Status (статус)
 #description: Decribe;command;;(описание;команды);
 #hesh The first command: to get a screenshot;of the screen;;(получить;скриншот;экрана)
-screenshot = MCLK.GetScreenshotCommand()
+screenshot = MCLK.GetScreenshot()
 MOKO.Report("ClickerScr", 'set', 'picture', screenshot)
 
 MOKO.Program('tree', 'set', 'select = ' + 'The first command')

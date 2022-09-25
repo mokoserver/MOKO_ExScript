@@ -31,7 +31,6 @@ def ClickerInit() -> None:
     while processes.find("MOKO Clicker".encode("utf8")) == -1:
         MOKO.Stage("Waiting for the plugin to run...")
         processes = Popen('tasklist', stdin=PIPE, stderr=PIPE, stdout=PIPE).communicate()[0]
-    return None
 
 
 ###########################################################################################
@@ -77,7 +76,6 @@ def MouseRightClick(x:int, y:int) -> None:
         >>> MouseRightClick("1000", "2000")
     """
     MOKO.Plugin("Clicker", "set", f"MouseRightClick = {x} {y}")
-    return None
 
 def MouseMiddleClick(x:int, y:int) -> None:
     """
@@ -92,7 +90,6 @@ def MouseMiddleClick(x:int, y:int) -> None:
         >>> MouseMiddleClick("1000", "2000")
     """
     MOKO.Plugin("Clicker", "set", f"MouseMiddleClick = {x} {y}")
-    return None
 
 def MouseMove(x:int, y:int) -> None:
     """
@@ -107,7 +104,6 @@ def MouseMove(x:int, y:int) -> None:
         >>> MouseMove("1000", "2000")
     """
     MOKO.Plugin("Clicker", "set", f"MouseMove = {x} {y}")
-    return None
 
 def Screenshot() -> None:
     """
@@ -118,7 +114,6 @@ def Screenshot() -> None:
         >>> Screenshot()
     """
     MOKO.Plugin("Clicker", "set", f"Screenshot")
-    return None
 
 def PngPath(path:str) -> None:
     """
@@ -129,7 +124,6 @@ def PngPath(path:str) -> None:
         >>> PngPath("C:/MOKO SE/Plugins/MOKO Clicker/screenshots/Clicker.png")
     """
     MOKO.Plugin("Clicker", "set", f"PngPath = {path}")
-    return None
 
 
 ###########################################################################################

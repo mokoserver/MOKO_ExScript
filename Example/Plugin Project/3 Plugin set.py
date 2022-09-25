@@ -20,10 +20,10 @@ elif language == "Русский":
 name = "Plot 1"
 ArrOy = [300,300]
 ArrOx = [0,0.04]
-LineWidth = 3
+LineWidth = "3"
 Color = "FF00FF" #Magenta
 Visible = "Yes"
-MGPH.AddLineCommand(name, ArrOy, ArrOx,LineWidth,Color,Visible)
+MGPH.AddLine(name, ArrOy, ArrOx, LineWidth,Color,Visible)
 
 MOKO.Program('tree', 'set', 'select = ' + 'Plugin set')
 MOKO.Program('tree', 'set', 'chosen = passed')

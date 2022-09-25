@@ -31,7 +31,6 @@ def GraphInit() -> None:
     while processes.find("MOKO Clicker".encode("utf8")) == -1:
         MOKO.Stage("Waiting for the plugin to run...")
         processes = Popen('tasklist', stdin=PIPE, stderr=PIPE, stdout=PIPE).communicate()[0]
-    return None
 
 
 ###########################################################################################
@@ -51,14 +50,13 @@ def GraphInit() -> None:
 
 def WriteGraph() -> None:
     """
-        Show lines in the graph
+        This function shows lines in the graph
 
         :return: None
 
         >>> WriteGraph()
     """
     MOKO.Plugin('Graph', 'set', "Write Graph")
-    return None
 
 def AddLine(name:str, ArrOy:list, ArrOx:list, LineWidth:str ="3", Color:str ="000000", Visible:str ="True") -> None:
     """
@@ -77,7 +75,6 @@ def AddLine(name:str, ArrOy:list, ArrOx:list, LineWidth:str ="3", Color:str ="00
     """
     MOKO.Plugin('Graph', 'set', f"Add Line={name};{ArrOy};{ArrOx};{LineWidth};{Color};{Visible}")
     MOKO.Plugin('Graph', 'set', "Write Graph")
-    return None
 
 def ChangeLine(numLine:str, name:str, ArrOy:list, ArrOx:list,LineWidth:str ="3", Color:str ="000000", Visible:str ="True") -> None:
     """
@@ -98,7 +95,6 @@ def ChangeLine(numLine:str, name:str, ArrOy:list, ArrOx:list,LineWidth:str ="3",
         >>> ChangeLine(0, "Plot 1",[6,1,4,3], [2,5,7,1], "3", "00FF00", "True")
     """
     MOKO.Plugin('Graph', 'set', f"Change Line={numLine};{name};{ArrOy};{ArrOx};{LineWidth};{Color};{Visible}")
-    return None
 
 def DeleteLine(numLine:list) -> None:
     """
@@ -116,7 +112,6 @@ def DeleteLine(numLine:list) -> None:
         >>> DeleteLine(2)
     """
     MOKO.Plugin('Graph', 'set', f"Delete Line={numLine}")
-    return None
 
 def HideLine(numLine:list) -> None:
     """
@@ -134,7 +129,6 @@ def HideLine(numLine:list) -> None:
         >>> HideLine(2)
     """
     MOKO.Plugin('Graph', 'set', f"Hide Line={numLine}")
-    return None
 
 def ShowLine(numLine:list) -> None:
     """
@@ -152,7 +146,6 @@ def ShowLine(numLine:list) -> None:
         >>> ShowLine(2)
     """
     MOKO.Plugin('Graph', 'set', f"Show Line={numLine}")
-    return None
 
 def ShowLineOnly(numLine:list) -> None:
     """
@@ -169,7 +162,6 @@ def ShowLineOnly(numLine:list) -> None:
         >>> ShowOnlyLine(2)
     """
     MOKO.Plugin('Graph', 'set', f"Show Line=Only;{numLine}")
-    return None
 
 def AddGraphSett(Value_OyOx:list, Name_Oy:str, Name_Ox:str, Autoscale:str = "Yes") -> None:
     """
@@ -189,7 +181,6 @@ def AddGraphSett(Value_OyOx:list, Name_Oy:str, Name_Ox:str, Autoscale:str = "Yes
         >>> AddGraphSett([0,5,-10,10], "Амплитуда", "Частота, Гц", "No")
     """
     MOKO.Plugin('Graph', 'set', f"Add Graph Settings={Value_OyOx};{Name_Oy};{Name_Ox};{Autoscale}")
-    return None
 
 def Autoscale(mode:str = "Yes") -> None:
     """
@@ -209,7 +200,6 @@ def Autoscale(mode:str = "Yes") -> None:
         >>> Autoscale("Yes")
     """
     MOKO.Plugin('Graph', 'set', f"Autoscale={mode}")
-    return None
 
 def ScreenshotWindow() -> None:
     """
@@ -221,7 +211,6 @@ def ScreenshotWindow() -> None:
         >>> ScreenshotWindow()
     """
     MOKO.Plugin('Graph', 'set', f"Screenshot Window")
-    return None
 
 def ScreenshotGraph() -> None:
     """
@@ -233,29 +222,26 @@ def ScreenshotGraph() -> None:
         >>> ScreenshotGraph()
     """
     MOKO.Plugin('Graph', 'set', f"Screenshot Graph")
-    return None
 
 def Legend() -> None:
     """
-        This function hide or show the graph legend. If there are no lines in the graph, legend won't be shown
+        This function hides or shows the graph legend. If there are no lines in the graph, legend won't be shown
 
         :return: None
 
          >>> Legend()
     """
     MOKO.Plugin('Graph', 'set', "Legend")
-    return None
 
 def ClearGraph() -> None:
     """
-        This function clear the graph
+        This function clears the graph
 
         :return: None
 
         >>> ClearGraph()
     """
     MOKO.Plugin('Graph', 'set', "Clear Graph")
-    return None
 
 
 ###########################################################################################

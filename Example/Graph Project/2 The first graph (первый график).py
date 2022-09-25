@@ -32,7 +32,7 @@ MOKO.Plugin('Graph', 'init', '')
 
 time.sleep(4)
 
-MGPH.ClearGraphCommand()
+MGPH.ClearGraph()
 
 #High Mask
 
@@ -40,34 +40,34 @@ Value_OyOx = [-400,400,0,0.04]
 Name_Oy = "Amplitude"
 Name_Ox = "Time"
 Autoscale = "No"
-MGPH.AddGraphSettCommand(Value_OyOx, Name_Oy, Name_Ox, Autoscale)
+MGPH.AddGraphSett(Value_OyOx, Name_Oy, Name_Ox, Autoscale)
 
 #4th Plot
 name = "Plot 1"
 ArrOy = [300,300]
 ArrOx = [0,0.05]
-LineWidth = 3
+LineWidth = "3"
 Color = "FF00FF" #Magenta
 Visible = "Yes"
-MGPH.AddLineCommand(name, ArrOy, ArrOx,LineWidth,Color,Visible)
+MGPH.AddLine(name, ArrOy, ArrOx,LineWidth,Color,Visible)
 
 #5th Plot
 name = "Plot 1"
 ArrOy = [-300,-300]
 ArrOx = [0,0.05]
-LineWidth = 3
+LineWidth = "3"
 Color = "FFFF00" #Yellow
 Visible = "Yes"
-MGPH.AddLineCommand(name, ArrOy, ArrOx,LineWidth,Color,Visible)
+MGPH.AddLine(name, ArrOy, ArrOx,LineWidth,Color,Visible)
 
 #5th Plot
 name = "Plot 1"
 ArrOy = [0,0]
 ArrOx = [0,0.05]
-LineWidth = 3
+LineWidth = "3"
 Color = "0" #Black
 Visible = "Yes"
-MGPH.AddLineCommand(name, ArrOy, ArrOx,LineWidth,Color,Visible)
+MGPH.AddLine(name, ArrOy, ArrOx,LineWidth,Color,Visible)
 
 #Region Status (статус)
 #description: Frequency;(частота);Phase (фаза);Width (толщина);Color (цвет);Visible;(видимость)
@@ -83,10 +83,10 @@ freq = 40
 Ampl = 300
 ArrOy = SinusGenerator(x,Ampl,freq,90)
 ArrOx = list(x)
-LineWidth = 3
+LineWidth = "3"
 Color = "00FF00" #Lime
 Visible = "Yes"
-MGPH.AddLineCommand(name, ArrOy, ArrOx,LineWidth,Color,Visible)
+MGPH.AddLine(name, ArrOy, ArrOx,LineWidth,Color,Visible)
 
 MOKO.Program('tree', 'set', 'select = ' + 'Sinus with phase 90')
 MOKO.Program('tree', 'set', 'chosen = passed')
@@ -105,10 +105,10 @@ freq = 40
 Ampl = 300
 ArrOy1 = SinusGenerator(x,Ampl,freq,0)
 ArrOx1 = list(x)
-LineWidth = 3
+LineWidth = "3"
 Color = "00FFFF" #Aqua
 Visible = "Yes"
-MGPH.AddLineCommand(name, ArrOy1, ArrOx1,LineWidth,Color,Visible)
+MGPH.AddLine(name, ArrOy1, ArrOx1,LineWidth,Color,Visible)
 
 MOKO.Program('tree', 'set', 'select = ' + 'Sinus with phase 0')
 MOKO.Program('tree', 'set', 'chosen = passed')
@@ -127,10 +127,10 @@ freq = 40
 Ampl = 300
 ArrOy2 = SinusGenerator(x,Ampl,freq,-90)
 ArrOx2 = list(x)
-LineWidth = 3
+LineWidth = "3"
 Color = "FF0000" #Red
 Visible = "Yes"
-MGPH.AddLineCommand(name, ArrOy2, ArrOx2,LineWidth,Color,Visible)
+MGPH.AddLine(name, ArrOy2, ArrOx2,LineWidth,Color,Visible)
 
 MOKO.Program('tree', 'set', 'select = ' + 'Sinus with phase -90')
 MOKO.Program('tree', 'set', 'chosen = passed')
