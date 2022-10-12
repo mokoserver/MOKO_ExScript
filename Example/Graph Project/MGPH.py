@@ -28,7 +28,7 @@ def GraphInit() -> None:
     MOKO.Plugin("Graph", "init", "")
 
     processes = Popen('tasklist', stdin=PIPE, stderr=PIPE, stdout=PIPE).communicate()[0]
-    while processes.find("MOKO Clicker".encode("utf8")) == -1:
+    while processes.find("MOKO Graph".encode("utf8")) == -1:
         MOKO.Stage("Waiting for the plugin to run...")
         processes = Popen('tasklist', stdin=PIPE, stderr=PIPE, stdout=PIPE).communicate()[0]
 
