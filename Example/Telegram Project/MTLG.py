@@ -1,21 +1,20 @@
 import MOKO
 
-scull_sml = '%E2%98%A0'
-report_sml = '%F0%9F%93%A2'#'%F0%9F%97%9E'#'%F0%9F%93%87'#'%F0%9F%93%9C'
-driver_sml = '%F0%9F%96%A8'
-prog_sml = '%F0%9F%85%BF'
-message_sml = '%F0%9F%92%AC'
+scull_sml: str = '%E2%98%A0'
+report_sml: str = '%F0%9F%93%A2'
+driver_sml: str = '%F0%9F%96%A8'
+prog_sml: str = '%F0%9F%85%BF'
+message_sml: str = '%F0%9F%92%AC'
+mode_sml: str = '%F0%9F%93%97'
+name_sml: str = '%F0%9F%93%99'
+head_sml: str = '%F0%9F%93%92'
+command_sml: str = '%F0%9F%93%94'
+type_sml: str = '%F0%9F%93%9A'
+delay_sml: str = '%E2%8C%9B'
+body_sml: str = '%F0%9F%93%B0'
+data_sml: str = '%F0%9F%93%96'
 
-mode_sml = '%F0%9F%93%97'
-name_sml = '%F0%9F%93%99'
-head_sml = '%F0%9F%93%92'
-command_sml = '%F0%9F%93%94'
-type_sml = '%F0%9F%93%9A'
-delay_sml = '%E2%8C%9B'
-body_sml = '%F0%9F%93%B0'
-data_sml = '%F0%9F%93%96'
-
-def TelegramReport(name, mode, kind, data, valuetype='void'):
+def TelegramReport(name: str, mode: str, kind: str, data: str, valuetype: str = 'void') -> None:
     MOKO.Telegram('alpha', 'set', f'{report_sml} {report_sml} {report_sml} MOKO SE REPORT {report_sml} {report_sml} {report_sml}\n'
                                   '\n'
                                   f'{name_sml} NAME: {name}\n'
@@ -28,7 +27,7 @@ def TelegramReport(name, mode, kind, data, valuetype='void'):
                                   '\n'
                                   f'{type_sml} VALUETYPE: {valuetype}')
 
-def TelegramMessenger(mode, head, body, valuetype='void', delaytime='void'):
+def TelegramMessenger(mode: str, head: str, body: str, valuetype: str = 'void', delaytime: str = 'void') -> None:
     MOKO.Telegram('alpha', 'set', f'{message_sml} {message_sml} {message_sml} MOKO SE MESSENGER {message_sml} {message_sml} {message_sml}\n'
                                   '\n'
                                   f'{mode_sml} MODE: {mode}\n'
@@ -41,7 +40,7 @@ def TelegramMessenger(mode, head, body, valuetype='void', delaytime='void'):
                                   '\n'
                                   f'{delay_sml} DELAYTIME: {delaytime}')
 
-def TelegramPlugin(name, mode, command, valuetype='void'):
+def TelegramPlugin(name: str, mode: str, command: str, valuetype: str = 'void') -> None:
     MOKO.Telegram('alpha', 'set', f'{scull_sml} {scull_sml} {scull_sml} MOKO SE PLUGIN {scull_sml} {scull_sml} {scull_sml}\n'
                                   '\n'
                                   f'{name_sml} NAME: {name}\n'
@@ -52,7 +51,7 @@ def TelegramPlugin(name, mode, command, valuetype='void'):
                                   '\n'
                                   f'{type_sml} VALUETYPE: {valuetype}')
 
-def TelegramUtility(name, mode, command, valuetype='void'):
+def TelegramUtility(name: str, mode: str, command: str, valuetype: str = 'void') -> None:
     MOKO.Telegram('alpha', 'set', f'{scull_sml} {scull_sml} {scull_sml} MOKO SE UTILITY {scull_sml} {scull_sml} {scull_sml}\n'
                                   '\n'
                                   f'{name_sml} NAME: {name}\n'
@@ -63,7 +62,7 @@ def TelegramUtility(name, mode, command, valuetype='void'):
                                   '\n'
                                   f'{type_sml} VALUETYPE: {valuetype}')
 
-def TelegramProgram(name, mode, command, valuetype='void'):
+def TelegramProgram(name: str, mode: str, command: str, valuetype: str = 'void') -> None:
     MOKO.Telegram('alpha', 'set', f'{prog_sml} {prog_sml} {prog_sml} MOKO SE PROGRAM {prog_sml} {prog_sml} {prog_sml}\n'
                                   '\n'
                                   f'{name_sml} NAME: {name}\n'
@@ -74,7 +73,7 @@ def TelegramProgram(name, mode, command, valuetype='void'):
                                   '\n'
                                   f'{type_sml} VALUETYPE: {valuetype}')
 
-def TelegramClassic(role, mode, command, valuetype='void'):
+def TelegramClassic(role: str, mode: str, command: str, valuetype: str = 'void') -> None:
     MOKO.Telegram('alpha', 'set', f'{scull_sml} {scull_sml} {scull_sml} MOKO SE TELEGRAM {scull_sml} {scull_sml} {scull_sml}\n'
                                   '\n'
                                   f'{name_sml} ROLE: {role}\n'
@@ -85,7 +84,7 @@ def TelegramClassic(role, mode, command, valuetype='void'):
                                   '\n'
                                   f'{type_sml} VALUETYPE: {valuetype}')
 
-def TelegramDriver(name, mode, command, valuetype='void'):
+def TelegramDriver(name: str, mode: str, command: str, valuetype: str = 'void') -> None:
     MOKO.Telegram('alpha', 'set', f'{driver_sml} {driver_sml} {driver_sml} MOKO SE DRIVER {driver_sml} {driver_sml} {driver_sml}\n'
                                   '\n'
                                   f'{name_sml} NAME: {name}\n'
@@ -96,12 +95,12 @@ def TelegramDriver(name, mode, command, valuetype='void'):
                                   '\n'
                                   f'{type_sml} VALUETYPE: {valuetype}')
 
-def TelegramStage(stage_string, type):
+def TelegramStage(stage_string: str, type: str) -> None:
     MOKO.Telegram('alpha', 'set', f'{scull_sml} {scull_sml} {scull_sml} MOKO SE STAGE {scull_sml} {scull_sml} {scull_sml}\n'
                                   '\n'
                                   f'STAGE_STRING: {stage_string}\n'
                                   '\n'
                                   f'{type_sml} TYPE: {type}')
 
-def TelegramEndScript(command='done'):
+def TelegramEndScript(command: str = 'done') -> None:
     TelegramProgram('script', 'set', command)

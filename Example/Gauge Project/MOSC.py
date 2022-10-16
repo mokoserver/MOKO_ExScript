@@ -12,7 +12,6 @@
 import MOKO
 import os
 import sys
-from time import sleep, monotonic
 
 #####################################
 #                FORMATTING
@@ -23,66 +22,127 @@ round_3 = '{:.' + str(3) + 'f}'
 # %F0%9F%8F%B4%E2%80%8D%E2%98%A0%EF%B8%8F
 
 
-def ScriptName():  #return name of the script
+def script_name() -> str:
+    """
+        This function returns executable script name
+
+        :return: Executable script name
+    """
     scriptname = os.path.basename(sys.argv[0])
     return scriptname
 
-def stars(word):
-    """Заполняет строку звездочками"""
+def stars(word: str) -> str:
+    """
+        This function fills a string with asterisks
+
+        :param word: getting word
+        :return: format string with asterisks and the word in the middle of the string (till 15 symbols)
+    """
     formated_string = '{:*^15}'.format(word)
     return formated_string
 
+def center_50(message: str) -> str:
+    """
+        This function fills a string with asterisks
 
-def center_50(message):  # Align text with * filling
+        :param message: getting message
+        :return: format string with asterisks and the message in the middle of the string (till 50 symbols)
+    """
     return ('{:*^50}'.format(message))
 
+def stage_header(test_name: str, GOST_point: str) -> None:
+    """
+        This function fills MOKO SE stage fields.
 
-def Stage_Header(test_name, GOST_point):
+        :param test_name: name of measurements
+        :param GOST_point: GOST point
+        :return:
+    """
     MOKO.Stage(center_50('*'))
     MOKO.Stage(center_50(' Measurements of ' + test_name + ' '))
     MOKO.Stage(center_50(' check point ' + GOST_point + ' '))
     MOKO.Stage(center_50('*'))
     MOKO.Stage("")
-    return
 
+def format_header(header: str) -> str:
+    """
+        This function calculate width of a column and returns header string for a table
 
-def format_header(header):  # formats the headers in the report by length
+        :param header: column name
+        :return: Header string
+    """
     h = header.split('\\n')
     len_max = 0
     for i in h:
-        len(i)
         if len(i) > len_max:
             len_max = len(i)
     return header + '#' + str(len_max * 7.5) + ';'
 
+def table_headers(table_data: list, table_headers: list) -> str:
+    """
+        This function calculate widths of all columns and returns header string for a table
+
+        :param table_data: data from MOKO SE table
+        :param table_headers: headers for MOKO SE table
+        :return: Header string for all columns
+    """
+    headers = ""
+    for i in range(len(table_data[0].split(","))):
+        max_len = len(table_headers[i])
+        column = [string.split(",")[i] for string in table_data]
+        for cell in column:
+            split_cell = cell.split("\n")
+            split_cell_lens = [len(item) for item in split_cell]
+            if max_len < max(split_cell_lens): max_len = max(split_cell_lens)
+
+        headers += f"{table_headers[i]}#{max_len * 7.5};"
+    return headers
+
 ################################################
-#                SCRIPT CONTROLL AND STATE
+#                SCRIPT CONTROL AND STATE
 ################################################
 
-# Delay script execution time
-def Delay(minutes):
+def Delay(minutes: int) -> None:
+    """
+        This function delays script execution time
+
+        :param minutes: minutes
+        :return: None
+    """
     MOKO.Stage('Delay script execution time for ' + str(minutes) + ' minutes')
     MOKO.Messenger('set', 'Info', "Please, wait for " + str(minutes) + " minutes while taking a measurement", 'void',
                    str(minutes * 60))
-    return
 
+def Done() -> None:
+    """
+        This function makes report name ScriptState with string "Done"
 
-def Done():
+        :return: None
+    """
     MOKO.Report('ScriptState', 'set', 'string', 'Done')
-    return
-
 
 def Passed():
-    MOKO.Report('ScriptState', 'set', 'string', 'Passed')
-    return
+    """
+        This function makes report name ScriptState with string "Passed"
 
+        :return: None
+    """
+    MOKO.Report('ScriptState', 'set', 'string', 'Passed')
 
 def Failed():
+    """
+        This function makes report name ScriptState with string "Failed"
+
+        :return: None
+    """
     MOKO.Report('ScriptState', 'set', 'string', 'Failed')
-    return
 
+def ScriptState() -> None:
+    """
+        This function gets string ScriptState from MOKO SE and depending on the content sets script execution result
 
-def ScriptState():
+        :return: None
+    """
     state = MOKO.Report('ScriptState', 'get', 'string', 'string', 'string')
     if state == 'Done':
         MOKO.EndScript('done')
@@ -90,16 +150,35 @@ def ScriptState():
         MOKO.EndScript('passed')
     else:
         MOKO.EndScript('failed')
-    return
-
 
 #####################################
 #                TREE & HESH
 #####################################
 
-def status_tree(HESH):
-    MOKO.Program('tree', 'set', 'select = ' + HESH)
-    status = MOKO.Program('tree', 'get', 'hesh ' + HESH, 'string')
+def hesh_failed() -> None:
+    """
+        This function sets a hash to pass with an error
+
+        :return: None
+    """
+    MOKO.Program('tree', 'set', 'chosen=failed')
+
+def hesh_passed() -> None:
+    """
+        This function sets a hash to pass without any errors
+
+        :return: None
+    """
+    MOKO.Program('tree', 'set', 'chosen=passed')
+
+def status_tree(hesh: str) -> bool:
+    """
+        This function selects tree hesh and checks it content
+
+        :return: True if hesh status not equal 'canceled' else False
+    """
+    MOKO.Program('tree', 'set', 'select = ' + hesh)
+    status = MOKO.Program('tree', 'get', 'hesh ' + hesh, 'string')
     if status != 'canceled':
         return True
     return False
@@ -129,7 +208,16 @@ def Report_to_Utility(report_name, utility, report_type='string'):
     return Report
 
 
-def Utility_to_Report(report_names, utility, report_type='string'):
+def Utility_to_Report(report_names: [list, str], utility: str, report_type: str = 'string') -> str:
+    """
+        This function gets data from utility and sets it in MOKO SE Report
+
+        :param report_names: names for utility commands and reports
+        :param utility: utility
+        :param report_type: report type
+
+        :return: reports data
+    """
     if report_type == 'strings':
         reports_names = ''
         data_reports = ''
@@ -149,16 +237,21 @@ def Utility_to_Report(report_names, utility, report_type='string'):
 #                REPORTS
 #####################################
 
-# Function getting array of elements and creating tabular report, elements of array set to string
-def table_report(reportName, result):
+def table_report(report_name: str, result: list) -> None:
+    """
+        This function getting array of elements and creating tabular report, elements of array set to string
+
+        :param report_name: report name
+        :param result: table data
+
+        :return: none
+    """
     dataString = str('')
     for i in result:
         element = str(i)
         dataString += (element + ';')
     dataString = dataString[0:-1]
-    MOKO.Report(reportName, 'set', 'table', dataString)
-    return
-
+    MOKO.Report(report_name, 'set', 'table', dataString)
 
 #####################################
 #       Test iteration structure
@@ -193,3 +286,21 @@ def iteration_structure(test_function, iterations = 3): # Decorator of iteration
                             test_iterator = 0
         return test_result
     return wrapper
+
+def formated_value(value: str, ndigits: int) -> str:
+    """
+        This function formats input value according to ndigits and returns it
+
+        :param value: input value
+        :param ndigits: a number of simbols after comma
+        :return: Formated value
+    """
+    try:
+        value_format: float = round(float(value.replace(",", ".")), ndigits)
+        value_format: str = str(value_format).replace('.', ',')
+        value_ndigits: int = len(value_format.split(',')[-1])
+        if value_ndigits < ndigits:
+            value_format += (ndigits-value_ndigits)*'0'
+    except:
+        value_format: str = value
+    return value_format
