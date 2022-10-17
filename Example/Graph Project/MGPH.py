@@ -1,5 +1,8 @@
 import MOKO
-from subprocess import Popen, PIPE
+import requests
+import time
+
+PLUGIN_NAME: str = "Graph"
 
 
 ###########################################################################################
@@ -25,12 +28,36 @@ def GraphInit() -> None:
 
         >>> GraphInit()
     """
-    MOKO.Plugin("Graph", "init", "")
+    MOKO.Plugin(PLUGIN_NAME, "init", "")
 
-    # processes = Popen('tasklist', stdin=PIPE, stderr=PIPE, stdout=PIPE).communicate()[0]
-    # while processes.find("MOKO Graph".encode("utf8")) == -1:
-    #     MOKO.Stage("Waiting for the plugin to run...")
-    #     processes = Popen('tasklist', stdin=PIPE, stderr=PIPE, stdout=PIPE).communicate()[0]
+    server: str = "55001"
+    timeout: float = 10
+    with open('C:/MOKO SE/Settings/PluginsInfo.cnf') as file:
+        for line in file:
+            if line.find(PLUGIN_NAME) != -1:
+                file.readline()
+                file.readline()
+                server: str = file.readline()
+                server: str = server.split('"')[3]
+                timeout: str = file.readline()
+                timeout: float = int(timeout.split('"')[3]) / 1000
+                break
+
+    url: str = f"http://127.0.0.1:{server}/"
+    start_time = time.time()
+    WAIT_TIME = 10  # seconds
+    while time.time() - start_time < WAIT_TIME:
+        try:
+            res = requests.get(url + r'/get', timeout=timeout)
+            MOKO.Stage(f"The plugin {PLUGIN_NAME} is working now")
+            print(f"The plugin {PLUGIN_NAME} is working now")
+            break
+        except requests.exceptions.ConnectionError:
+            print(f"The plugin {PLUGIN_NAME} isn't working now")
+    else:
+        MOKO.Stage(f"The plugin {PLUGIN_NAME} isn't working now", 'error')
+
+    time.sleep(1)
 
 
 ###########################################################################################
