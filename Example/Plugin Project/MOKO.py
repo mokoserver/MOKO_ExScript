@@ -940,6 +940,6 @@ def send_request(URLWrite: str, command_to_send: str) -> None:
         :param command_to_send: команда/запрос, отправляемый на сервер в формате json
         :return: Функция возвращает None
     """
-    headers = {'Content-Type': 'application/json; charset=utf-8'}
+    headers: dict = {'Content-Type': 'application/json; charset=utf-8'}
     response = requests.post(URLWrite, headers=headers, data=command_to_send.encode('utf-8'))
     print(response.content)
