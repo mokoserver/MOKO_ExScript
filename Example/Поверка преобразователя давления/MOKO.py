@@ -1,19 +1,19 @@
-'''     Данная библиотека функций служит для осуществления HTTP запросов на MOKO SE.
+'''     This library works for connecting user scripts and the program MOKO SE using HTTP requests.
 
-        26.02.2021 Библиотека переименована в MOKO для удобства разработчиков
+        26.02.2021 The library was renamed to MOKO.py
 
-        Версия библиотеки: 1.5 от 23.06.2021. Изменен формат post-запросов для драйверов.
+        Library version: 1.5 dated 06.23.2021. Post requests format was changed for drivers.
 
-        Версия документации: 1.2 от 03.02.2020.
+        Documentation version: 1.2 - 02.03.2020.
         
-        Версия изменена 24.01.2022 для корректной работы старта/паузы/стопа
+        The version was changed 01.24.2022 for correct working start/pause/stop
 
-        Версия изменена 22.08.2022 для обновления функции парсинга и для переноса повторяющегося кода в функции
+        The version was changed 08.22.2022 for updating parsing function and moving repeated code in functions
 
-        Версия изменена 09.09.2022. В формате json параметр type заменен на mode (кроме Stage), поэтому все старые проекты не будут
-                                    работать с новой библиотекой, обратной совместимости нет.
- 
-        Для работы этой библиотеки требуются библиотеки **requests** и **json**.
+        The version was changed 09.09.2022. A parameter type was changed to mode (except Stage) in json format.
+        That's why all old projects won't work with the new version, there is no backward compatibility.
+
+        Libraries 'requests' and 'json' are needed for working the library.
 
 '''
 
@@ -82,71 +82,53 @@ _UrlProjectStateRead: str = 'http://localhost:55001/MOKOSE/status/projectstate'
 
 def Stage(stage_string: str, type: str = 'info') -> None:
     """ 
-        Функция осуществляет запись строки в Stage.
+        This function writes a string in Stage.
 
-        :param str stage_string: Строка, записываемая в Stage.
-        :param str type: Тип строки в Stage (**Info**, **Error**, **Plugin**, **Driver**, **Report**, **Warning**). По умолчанию **Info**.
+        :param str stage_string: a string, writing in Stage.
+        :param str type: string type in Stage (**Info**, **Error**, **Plugin**, **Driver**, **Report**, **Warning**). По умолчанию **Info**.
         :return: None
-        :rtype: *int*
 
-        **Пример:**
+        **Examples:**
 
         **1.**
-        Нам нужно записать строку **'Hello, World!'** в Stage. Для этого напишем следующую команду:
+        We need to write a string **'Hello, World!'** in Stage. Let's write the next command:
 
         >>> Stage('Hello, World!')
 
-        В случае успешного выполнения в терминале должна появиться следующая строка:
+        The next string appears in terminal in case of successfull execution:
 
         ``b'{"string": "Hello World!", "type":"info"}'``
 
-        В Stage программы MOKO SE должна появиться информационная строка:
+        An Info string appears in the program MOKO SE Stage:
 
         ``Hello World!``
 
-        Функция должна вернуть следующее значение:
-
-        ``200``
-
-        Иначе не выполняется либо возвращает код состояния HTTP запроса. Например:
-
-        ``400``
-
-        А в терминале:
+        Else if the command isn't executed you will see the next string in a terminal:
 
         ``b'<!DOCTYPE html><html><head><title>Bad Request</title></head><body><h2>Access Error: 400 -- Bad Request</h2><pre>Bad Request</pre></body></html>'``
 
         **2.**
-        Нам нужно записать строку ошибки **'ERROR! Wrong request type!'** в Stage.
+        We need to write an error string **'ERROR! Wrong request type!'** in Stage.
 
-        Если мы указываем тип выводимой строки, то команда будет иметь следующий вид:
+        If we specify the type of output string, the command will look like this:
 
         >>> Stage('ERROR! Wrong request type!', 'ERROR')
 
-        В случае успешного выполнения в терминале должна появиться следующая строка:
+        The next string appears in terminal in case of successfull execution:
 
         ``b'{"string": "ERROR IN PYTHON LIBRARY! Wrong request type!", "type":"ERROR"}'``
 
-        В Stage программы MOKO SE должна появиться строка ошибки:
+        An error string appears in the program MOKO SE Stage:
 
         ``ERROR! Wrong request type!``
 
-        А также функция должна вернуть следующее значение:
-
-        ``200``
-
-        Иначе не выполняется либо возвращает код состояния HTTP запроса. Например:
-
-        ``404``
-
-        А в терминале:
+        Else if the command isn't executed you will see the next string in a terminal:
 
         ``b'<!DOCTYPE html><html><head><title>Bad Request</title></head><body><h2>Access Error: 400 -- Bad Request</h2><pre>Bad Request</pre></body></html>'``
 
     '+str(name)+'
     """
-    # Проверка состояния проекта: Старт/Стоп/Пауза
-
+    check_project_state()
     URLWrite: str = _UrlStageWrite
     command_to_send: str = '{"string" :"'+str(stage_string)+'", "type":"'+str(type)+'"}'
     send_request(URLWrite, command_to_send)
@@ -168,80 +150,61 @@ def Stage(stage_string: str, type: str = 'info') -> None:
 
 
 def Driver(name: str, mode: str, command: str, valuetype: str = 'void') -> ...:
-    """ 
-        Функция осуществляет работу с драйвером.
+    """
+        This function works with drivers.
 
-        :param str name: Имя драйвера
-        :param str mode: Тип команды (**'get'**, **'set'**, **'init'**, **'close'**)
-        :param str command: Команда, которую записывает драйвер в управляемый прибор
-        :param str valuetype: **(только для mode = 'get')** Тип данных, получаемых из драйвера. По умолчанию *void*.
-        :return: Функция возвращает *None* (если mode = **'set'**) либо принятые с драйвера данные (если mode = **'get'**)
-        :rtype: Возвращаемый тип данных меняется в зависимости от полученных из драйвера значений
+        :param str name: driver name
+        :param str mode: command mode (**'get'**, **'set'**, **'init'**, **'close'**)
+        :param str command: executable command
+        :param str valuetype: **(only for mode = 'get')** Data type, received from d driver. Default *void*.
+        :return: None (if mode = **'set'**) or received data from a driver if mode = **'get'**)
 
-        **Пример:**
+        **Examples:**
 
         **1.**
-        Нам нужно проиницилизировать драйвер прибора SMBV100A. Для этого напишем следующую команду:
+        We need to initialize the driver SMBV100A. Let's write the next command:
 
         >>> Driver('SMBV100A', 'init', '')
 
-        В случае успешного выполнения в терминале должна появиться следующая строка:
+        The next string appears in terminal in case of successfull execution:
 
         ``b'{"name": "SMBV100A", "mode": "init", "command": ""}'``
 
-        На экране должно появиться окно инициализации драйвера(выбор интерфейса).
+        The initialize window should appears on a screen (interface choice).
 
-        Функция должна вернуть следующее значение:
-
-        ``None``
-
-        Иначе не выполняется, либо отображает в программе MOKO SE какую-то ошибку, либо в терминале отобразится, например, следующая строка:
+        Else if the command isn't executed you will see the next string in a terminal:
 
         ``b'<!DOCTYPE html><html><head><title>Bad Request</title></head><body><h2>Access Error: 400 -- Bad Request</h2><pre>Bad Request</pre></body></html>'``
 
         **2.**
-        Нам нужно сбросить прибор SMBV100A. Для этого напишем следующую команду:
+        We need to reset the instrument SMBV100A. Let's write the next command:
 
         >>> Driver('SMBV100A', 'set', 'reset')
 
-        В случае успешного выполнения в терминале должна появиться следующая строка:
+        The next string appears in terminal in case of successfull execution:
 
         ``b'{"name": "SMBV100A", "mode": "set", "command": "reset"}'``
 
-        Драйвер должен сбросить настройки прибора SMBV100A.
-
-        Функция должна вернуть следующее значение:
-
-        ``None``
-
-        Иначе не выполняется, либо отображает в программе MOKO SE какую-то ошибку, либо в терминале отобразится, например, следующая строка:
+        Else if the command isn't executed you will see the next string in a terminal:
 
         ``b'<!DOCTYPE html><html><head><title>Bad Request</title></head><body><h2>Access Error: 400 -- Bad Request</h2><pre>Bad Request</pre></body></html>'``
 
         **3.**
-        Нам нужно прочитать значение тестового окошка тестового драйвера. Для этого напишем следующую команду:
+        We need to read random value from ExDriver (example driver). Let's write the next command:
 
-        >>> Driver('Test', 'get', 'test', 'bool')
+        >>> Driver('ExDriver', 'get', 'random', 'float')
 
-        В случае успешного выполнения в терминале должна появиться следующая строка:
+        The next string appears in terminal in case of successfull execution:
 
         ``b'{"name": "Test", "mode": "get", "command": "test"}'``
 
-        На экране должно отобразиться окно с надписью 'Test' и двумя кнопками 'OK' и 'Cancel'.
-
-        В зависимости от нажатой кнопки драйвер и функция должны вернуть:
-
-        ``True('OK') либо False('Cancel').``
-
-        В случае какой-либо ошибки функция не выполняется, либо отображает в программе MOKO SE какую-то ошибку, либо в терминале отобразится, например, следующая строка:
+        Else if the command isn't executed you will see the next string in a terminal:
 
         ``b'<!DOCTYPE html><html><head><title>Bad Request</title></head><body><h2>Access Error: 400 -- Bad Request</h2><pre>Bad Request</pre></body></html>'``
 
-        А если не ввести `valuetype`, то функция не отработает, о чём оповестит в терминале и Stage программы MOKO SE.
+        If valuetype = 'void' and mode = 'get', the error will appear and will be shown in MOKO SE Stage
     """
-
-    # Проверка состояния проекта: Старт/Стоп/Пауза
-    project_state()
+    check_project_state()
     if is_mode_incorrect(mode, ["get", "set", "init", "close", "check"]): return None
     if is_mode_and_valuetype_incorrect(mode, valuetype): return None
 
@@ -272,82 +235,70 @@ def Driver(name: str, mode: str, command: str, valuetype: str = 'void') -> ...:
 
 def Plugin(name: str, mode: str, command: str, valuetype: str = 'void') -> ...:
 
-    """ 
-        Функция осуществляет работу с плагином.
+    """
+        This function works with plugins.
 
-        :param str name: Имя плагина
-        :param str mode: Тип команды (**'get'**, **'set'**, **'init'**)
-        :param str command: Команда, которую отправляем в плагин.
-        :param str valuetype: (только для mode = **'get'**) Тип данных, получаемых из плагина. По умолчанию *void*.
-        :return: Функция возвращает *None* (если mode = **'set'**) либо принятые с плагина данные (если mode = **'get'**)
-        :rtype: Возвращаемый тип данных меняется в зависимости от полученных из плагина значений
+        :param str name: plugin name
+        :param str mode: command mode (**'get'**, **'set'**, **'init'**)
+        :param str command: executed command
+        :param str valuetype: (only for mode = **'get'**) data type receiving from a plugin. Default *void*.
+        :return: None (if mode = **'set'**) or received data from a plugin (if mode = **'get'**)
 
-        **Пример:**
+        **Examples:**
 
         **1.**
-        Нам нужно проинициализировать плагин NMEA0183. Для этого напишем следующую команду:
+        We need to initialize the plugin NMEA0183. Let's write the next command:
 
         >>> Plugin("NMEA0183", "init", "")
 
-        В случае успешного выполнения в терминале должна появиться следующая строка:
+        The next string appears in terminal in case of successfull execution:
 
         ``b'{"name": "NMEA0183", "mode": "init", "command": ""}'``
 
-        На экране должно появиться окно плагина.
+        The plugin windowm should appear in a screen
 
-        Функция должна вернуть следующее значение:
-
-        ``None``
-
-        Иначе не выполняется, либо отображает в программе MOKO SE какую-то ошибку, либо в терминале отобразится, например, следующая строка:
+        Else if the command isn't executed you will see the next string in a terminal:
 
         ``b'<!DOCTYPE html><html><head><title>Bad Request</title></head><body><h2>Access Error: 400 -- Bad Request</h2><pre>Bad Request</pre></body></html>'``
 
         **2.**
-        Нам нужно сбросить протоколы плагина NMEA0183. Для этого напишем следующую команду:
+        We need to reset the plugin NMEA0183 protocols. Let's write the next command:
 
         >>> Plugin("NMEA0183", "set", "ProtocolReset=True")
 
-        В случае успешного выполнения в терминале должна появиться следующая строка:
+        The next string appears in terminal in case of successfull execution:
 
         ``b'{"name": "NMEA0183", "mode": "set", "command": "ProtocolReset=True"}'``
 
-        Плагин NMEA0183 должен сбросить протоколы.
-
-        Функция должна вернуть следующее значение:
-
-        ``None``
-
-        Иначе не выполняется, либо отображает в программе MOKO SE какую-то ошибку, либо в терминале отобразится, например, следующая строка:
+        Else if the command isn't executed you will see the next string in a terminal:
 
         ``b'<!DOCTYPE html><html><head><title>Bad Request</title></head><body><h2>Access Error: 400 -- Bad Request</h2><pre>Bad Request</pre></body></html>'``
 
         **3.**
-        Нам нужно прочитать время определения координат из плагина NMEA0183. Для этого напишем следующую команду:
+        We need to read coordinate determination time from the plugin NMEA0183. Let's write the next command:
 
         >>> Plugin('NMEA0183', 'get','CoordinatesValidTime', 'float')
 
-        В случае успешного выполнения в терминале должна появиться следующая строка:
+        The next string appears in terminal in case of successfull execution:
 
         ``b'{"name": "NMEA0183", "mode": "get", "command": "CoordinatesValidTime"}'``
 
-        Функция должна вернуть следующее значение некоторое время в секундах:
+        The function should return time in seconds:
 
-        ``0 (но для данной команды плагина NMEA0183 это признак ошибки при работе)``
+        ``0 (but it is an error for the plugin NMEA0183 command)``
 
-        либо, например:
+        or for instance:
 
         ``17.56``
 
-        В случае какой-либо ошибки функция не выполняется, либо отображает какую-то ошибку, либо в терминале отобразится, например, следующая строка:
+        Else if the command isn't executed you will see the next string in a terminal:
 
         ``b'<!DOCTYPE html><html><head><title>Bad Request</title></head><body><h2>Access Error: 400 -- Bad Request</h2><pre>Bad Request</pre></body></html>'``
 
-        А если не ввести *valuetype*, то функция не отработает, о чём оповестит в терминале и Stage программы MOKO SE.
-
+        If valuetype = 'void' and mode = 'get', the error will appear and will be shown in MOKO SE Stage
     """
     # Проверка состояния проекта: Старт/Стоп/Пауза
-    project_state()
+    check_project_state()
     if is_mode_incorrect(mode, ["get", "set", "init", "close"]): return None
     if is_mode_and_valuetype_incorrect(mode, valuetype): return None
 
@@ -377,81 +328,68 @@ def Plugin(name: str, mode: str, command: str, valuetype: str = 'void') -> ...:
 
 
 def Messenger(mode: str, head: str, body: str, valuetype: str = 'void', delaytime: str = 'void') -> ...:
-    """ 
-        Функция осуществляет появление на экране всплывающего сообщения с опциональным полем для ввода данных
+    """
+        This function causes a pop-up message to appear on the screen with an optional data entry field.
 
-        :param str mode: Тип команды (**'get'**, **'set'**)
-        :param str head: Заголовок сообщения.
-        :param str body: Содержание сообщения.
-        :param str valuetype: **(только для mode = 'get')** Тип данных, получаемых из сообщения. По умолчанию *void*.
-        :param str delaytime: *(если необходимо)* Время задержки в секундах.
-        :return: Функция возвращает *None* (если mode = **'set'**) либо введённые в окне сообщения данные (если mode = **'get'**)
-        :rtype: Возвращаемый тип данных меняется в зависимости от полученных из сообщения значений
+        :param str mode: command mode (**'get'**, **'set'**)
+        :param str head: message head.
+        :param str body: message content.
+        :param str valuetype: **(only for mode = 'get')** data type received from a message window. Default *void*.
+        :param str delaytime: *(if it is needed)* delay time in seconds.
+        :return: None (if mode = **'set'**) or entered data from a message window (if mode = **'get'**)
 
-        **Пример:**
+        **Examples:**
 
         **1.**
-        Нам нужно отобразить сообщение для пользователя, которое просит присоединить прибор и запустить плагин NMEA0183. Для этого напишем следующую команду:
+        We need to show an user message. Let's write the next command:
 
         >>> Messenger('set', 'Info', 'Please connect the device and launch NMEA0183 plugin.')
 
-        В случае успешного выполнения в терминале должна появиться следующая строка:
+        The next string appears in terminal in case of successfull execution:
 
         ``b'{"mode": "set", "head": "Info", "body": "Please connect the device and launch NMEA0183 plugin."}'``
 
-        На экране должно появиться окно с сообщением, в котором в заголовке будет написано 'Info', а в теле - 'Please connect the device and launch NMEA0183 plugin.'.
-
-        Функция должна вернуть следующее значение:
-
-        ``None``
-
-        Иначе не выполняется, либо в терминале отобразится, например, следующая строка:
+        Else if the command isn't executed you will see the next string in a terminal:
 
         ``b'<!DOCTYPE html><html><head><title>Bad Request</title></head><body><h2>Access Error: 400 -- Bad Request</h2><pre>Bad Request</pre></body></html>'``
 
         **2.**
-        Нам нужно отобразить сообщение для пользователя, чтобы он ввёл некоторое число. Для этого напишем следующую команду:
+        We nned to show a message for user to enter a number. Let's write the next command:
 
         >>> Messenger('get', 'First number', 'Please, enter the first number', 'int')
 
-        В случае успешного выполнения в терминале должна появиться следующая строка:
+        The next string appears in terminal in case of successfull execution:
 
         ``b'{"mode": "get", "head": "First number", "body": "Please, enter the first number"}'``
 
-        На экране должно появиться окно с сообщением, в котором в заголовке будет написано 'First number', а в теле - 'Please, enter the first number.'. Также это сообщение будет иметь поле для ввода данных.
-
-        Функция должна вернуть введённое число, например:
+        The function should return entered number, for example:
 
         ``123``
 
-        Иначе не выполняется, либо в терминале отобразится, например, следующая строка:
+        Else if the command isn't executed you will see the next string in a terminal:
 
         ``b'<!DOCTYPE html><html><head><title>Bad Request</title></head><body><h2>Access Error: 400 -- Bad Request</h2><pre>Bad Request</pre></body></html>'``
 
-        А если не ввести *valuetype*, то функция не отработает, о чём оповестит в терминале и Stage программы MOKO SE.
+        If valuetype = 'void' and mode = 'get', the error will appear and will be shown in MOKO SE Stage.
 
         **3.**
-        Нам нужно отобразить сообщение о задержке выполнения скрипта на 15 минут.
+        We need to show a message that the script execution is delayed by 15 minutes.
 
-        Если нам необходима задержка в сообщении, то это делается как в следующем примере:
+        if we need a delay in a message, it is done like the next example:
 
         >>> MOKO.Messenger('set', 'Info', 'Please, wait for 15 minutes', 'void', str(15*60))
 
-        В случае успешного выполнения в терминале должна появиться следующая строка:
+        The next string appears in terminal in case of successfull execution:
 
         ``b'{"mode": "set", "head": "Info", "body": "Please, wait for 15 minutes", "time": "900"}'``
 
-        На экране должно появиться окно с сообщением, в котором в заголовке будет написано 'Info', а в теле - 'Please, wait for 15 minutes.'.
 
-        Также должен появиться таймер, отсчитывающий 15 минут.
-
-        В случае какой-либо ошибки функция не выполняется, либо в терминале отобразится, например, следующая строка:
+        Else if the command isn't executed you will see the next string in a terminal:
 
         ``b'<!DOCTYPE html><html><head><title>Bad Request</title></head><body><h2>Access Error: 400 -- Bad Request</h2><pre>Bad Request</pre></body></html>'``
 
     """
-    # Проверка состояния проекта: Старт/Стоп/Пауза
-    project_state()
+    check_project_state()
     if is_mode_incorrect(mode, ["get", "set"]): return None
     if is_mode_and_valuetype_incorrect(mode, valuetype): return None
 
@@ -485,60 +423,51 @@ def Messenger(mode: str, head: str, body: str, valuetype: str = 'void', delaytim
 
 
 def Report(name: str, mode: str, kind: str, data: str, valuetype: str = 'void') -> ...:
-    """ 
-        Функция осуществляет работу с данными в отчёте.
+    """
+        This function works with data in a report.
 
-        :param str name: Название для записываемых в отчёт данных и имя закладки в документе-шаблоне Word
-        :param str mode: Тип команды (пока что только **'set'**)
-        :param str kind: В каком виде данные записываются в отчёт(**string** - строка и **table** - таблица)
-        :param str data: Записываемые в отчёт данные
-        :param str valuetype: (только для mode = 'get') Тип данных, получаемых из отчёта. По умолчанию *void*.
-        :return: Функция возвращает *None* (если mode = **'set'**) либо полученные из отчёта данные (если mode = **'get'**)
-        :rtype: Возвращаемый тип данных меняется в зависимости от полученных из отчёта значений
+        :param str name: report name and bookmark name in a document-template Microsoft Word
+        :param str mode: command mode
+        :param str kind: type of record in a report (**string**, **table** and **picture**)
+        :param str data: data written to the report
+        :param str valuetype: (only for mode = 'get') data type received from a report. Default *void*.
+        :return: None (if mode = **'set'**) or received data from a report (if mode = **'get'**)
 
-        **Пример:**
+        **Examples:**
 
         **1.**
-        Нам нужно вывести строку *'FgsFds'* в отчёт. Для этого напишем следующую команду:
+        We need to
+        We need to output the string *'FgsFds'* to the report. Let's write the next command:
 
         >>> Report("rep1",'set', 'string', 'FgsFds')
 
-        В случае успешного выполнения в терминале должна появиться следующая строка:
+        The next string appears in case of successfull execution in the terminal:
 
         ``b'{"name": "rep1", "mode": "set", "kind": "string", "data": "FgsFds"}'``
 
-        В программе MOKO SE во вкладке 'Report' в таблице 'Report names' должен появиться элемент 'rep1'. По нажатию на этот элемент в таблице 'Reports' должна появиться строка *FgsFds*.
+        The element 'rep1' should appear in the table 'Report names' in the tab 'Report' in the program MOKO SE. By clicking on this element, the *FgsFds* line should appear in the 'Reports' table.
 
-        Функция должна вернуть следующее значение:
-
-        ``None``
-
-        Иначе не выполняется, либо в терминале отобразится, например, следующая строка:
+        Else if the command isn't executed you will see the next string in a terminal:
 
         ``b'<!DOCTYPE html><html><head><title>Bad Request</title></head><body><h2>Access Error: 400 -- Bad Request</h2><pre>Bad Request</pre></body></html>'``
 
         **2.**
-        Нам нужно вывести 3 строки в таблицу отчёта. Для этого напишем следующую команду:
+        We need to output 3 strings in the report table. Let's write the next command:
 
         >>> Report("rep2",'set', 'table', 'FgsFds, fgsfds, etc')
 
-        В случае успешного выполнения в терминале должна появиться следующая строка:
+        The next string appears in case of successfull execution in the terminal:
 
         ``b'{"name": "rep2", "mode": "set", "kind": "table", "data": "FgsFds, fgsfds, etc"}'``
 
-        В программе MOKO SE во вкладке 'Report' в таблице 'Report names' должен появиться элемент 'rep2'. По нажатию на этот элемент в таблице 'Reports' три столбца в одной строке должны заполниться значениями соответственно 'FgsFds', 'fgsfds' и 'etc'.
+        The element 'rep2' should appear in the table 'Report names' in the tab 'Report' in the program MOKO SE. By clicking on this element in the 'Reports' table, three columns in one row should be filled with the values 'FgsFds', 'fgsfds' and 'etc' respectively.
 
-        Функция должна вернуть следующее значение:
-
-        ``None``
-
-        Иначе не выполняется, либо в терминале отобразится, например, следующая строка:
+        Else if the command isn't executed you will see the next string in a terminal:
 
         ``b'<!DOCTYPE html><html><head><title>Bad Request</title></head><body><h2>Access Error: 400 -- Bad Request</h2><pre>Bad Request</pre></body></html>'``
     
     """
-    # Проверка состояния проекта: Старт/Стоп/Пауза
-    project_state()
+    check_project_state()
     if is_mode_incorrect(mode, ["get", "set", "info", "clear", "delete", "save"]): return None
     if is_mode_and_valuetype_incorrect(mode, valuetype): return None
     if ((kind.lower() != 'table') and (kind.lower() != 'string') and (kind.lower() != 'picture') and (kind.lower() != 'strings')):
@@ -573,18 +502,46 @@ def Report(name: str, mode: str, kind: str, data: str, valuetype: str = 'void') 
 
 def Utility(name: str, mode: str, command: str, valuetype: str = 'void') -> ...:
 
-    """ 
-        Функция осуществляет работу с утилитой.
-
-        :param str name: Имя утилиты
-        :param str mode: Тип команды (**'get'**, **'set'**)
-        :param str command: Команда, которую отправляем в утилиту.
-        :param str valuetype: (только для mode = **'get'**) Тип данных, получаемых из утилиты. По умолчанию *void*.
-        :return: Функция возвращает *None* (если mode = **'set'**) либо принятые с утилиты данные (если mode = **'get'**)
-        :rtype: Возвращаемый тип данных меняется в зависимости от полученных из утилиты значений
     """
-    # Проверка состояния проекта: Старт/Стоп/Пауза
-    project_state()
+        This function works with utilities.
+
+        :param str name: utulity name
+        :param str mode: command mode (**'get'**, **'set'**)
+        :param str command: executable command
+        :param str valuetype: (only if mode = **'get'**) data type received from a utility. Default *void*.
+        :return: None (if mode = **'set'**) or received data from a utility (if mode = **'get'**)
+
+        **Examples:**
+
+        **1.**
+        We need to show an user window in the CSM_GNSS utility. Let's write the next command:
+
+        >>> Utility('CSM_GNSS', 'set', 'info')
+
+        The next string appears in case of successfull execution in the terminal:
+
+        ``b'{"name": "CSM_GNSS", "mode": "set", "command": "info"}'``
+
+        Else if the command isn't executed you will see the next string in a terminal:
+
+        ``b'<!DOCTYPE html><html><head><title>Bad Request</title></head><body><h2>Access Error: 400 -- Bad Request</h2><pre>Bad Request</pre></body></html>'``
+
+        **2.**
+        We need to get temperature from the CSM_GNSS utility. Let's write the next command:
+
+        >>> Utility('CSM_GNSS', 'get', 'temperature', 'float')
+
+        The next string appears in case of successfull execution in the terminal:
+
+        ``b'{"name": "CSM_GNSS", "mode": "get", "command": "temperature"}'``
+
+        Else if the command isn't executed you will see the next string in a terminal:
+
+        ``b'<!DOCTYPE html><html><head><title>Bad Request</title></head><body><h2>Access Error: 400 -- Bad Request</h2><pre>Bad Request</pre></body></html>'``
+
+        If valuetype = 'void' and mode = 'get', the error will appear and will be shown in MOKO SE Stage
+    """
+    check_project_state()
     if is_mode_incorrect(mode, ["get", "set", "init", "check"]): return None
     if is_mode_and_valuetype_incorrect(mode, valuetype): return None
 
@@ -614,37 +571,34 @@ def Utility(name: str, mode: str, command: str, valuetype: str = 'void') -> ...:
 
 
 def Program(name: str, mode: str, command: str, valuetype: str = 'void') -> ...:
-    """ 
-        Функция осуществляет управление программой MOKO SE (скриптами, проектами и т.д.)
+    """
+        This function manages the MOKO SE program (scripts, projects, etc.)
 
-        :param str name: название типа, которым нужно управлять ('script', 'project', etc.)
-        :param str mode: тип команды (пока что только **'set'**).
-        :param str command: Команда, которую посылаем в MOKO SE.
-        :param str valuetype: (только для mode = 'get') Тип возвращаемых данных. По умолчанию *void*.
-        :return: Функция возвращает *None* (если mode = **'set'**) либо полученные данные (если mode = **'get'**)
-        :rtype: Возвращаемый тип данных меняется в зависимости от полученных из отчёта значений
+        :param str name: type name to be controlled ('script', 'project', etc.)
+        :param str mode: command mode (now only **'set'**).
+        :param str command: executable command
+        :param str valuetype: (only for mode = 'get') type of received data. Default *void*.
+        :return: None (if mode = **'set'**) or received data (if mode = **'get'**)
 
-        **Пример:**
+        **Examples:**
 
         **1.**
-        Нам нужно дать серверу знать, что скрипт окончен. для этого напишем следующую команду:
+        We need to
+        We need to let the server know that the script is over. Let's write the next command:
 
         >>> Program('script', 'set', 'done')
 
-        В случае успешного выполнения в терминале должна появиться следующая строка:
+        The next string appears in case of successfull execution in the terminal:
 
         b'{"name": "script", "mode": "set", "command": "done"}'
 
-        Функция должна вернуть следующее значение:
-
-        ``None``
-
-        Иначе не выполняется, либо в терминале отобразится, например, следующая строка:
+        Else if the command isn't executed you will see the next string in a terminal:
 
         ``b'<!DOCTYPE html><html><head><title>Bad Request</title></head><body><h2>Access Error: 400 -- Bad Request</h2><pre>Bad Request</pre></body></html>'``
+
+        If valuetype = 'void' and mode = 'get', the error will appear and will be shown in MOKO SE Stage
     """
-    # Проверка состояния проекта: Старт/Стоп/Пауза
-    project_state()
+    check_project_state()
     if is_mode_incorrect(mode, ["get", "set", "init", "close"]): return None
     if is_mode_and_valuetype_incorrect(mode, valuetype): return None
 
@@ -658,8 +612,11 @@ def Program(name: str, mode: str, command: str, valuetype: str = 'void') -> ...:
     return parse_data(progdata, mode, valuetype)
 
 def EndScript(command: str = 'done') -> None:
-    """ 
-        Обязательная функция, которая должна быть в конце каждого скрипта. Даёт знать серверу, что скрипт закончен.
+    """
+        Required function that must be at the end of every script. Lets the server know that the script is finished.
+
+        :param command: executable command
+        :return: None
     """
     Program('script','set',command)
     sys.exit()
@@ -682,37 +639,31 @@ def EndScript(command: str = 'done') -> None:
 
 def Telegram(role: str, mode: str, command: str, valuetype: str = 'void') -> ...:
     """
-        Функция осуществляет работу с Telegram.
+        This function works with Telegram
 
-        :param str role: ####################################
-        :param str mode: Тип команды (**'get'**, **'set'**)
-        :param str command: Команда, которая передается в Telegram
-        :return: Функция возвращает *None* (если mode = **'set'**) либо принятые с Telegram данные (если mode = **'get'**)
-        :rtype: Возвращаемый тип данных меняется в зависимости от полученных из драйвера значений
+        :param str role: belonging to the group that messages are sent to (alpha, beta, gamma, delta (developer))
+        :param str mode: command mode (**'get'**, **'set'**)
+        :param str command: executable command
+        :return: None (if mode = **'set'**) of received data from Telegram (if mode = **'get'**)
 
-        **Пример:**
+        **Examples:**
 
         **1.**
-        Мы хотим, чтобы Telegram-бот передал нам введенное сообщение. Для этого напишем следующую команду:
+        We need to get a message from Telegram-bot (MOKO SE BOT). Let's write the next command:
 
         >>> Telegram('alpha', 'set', 'Hello, I\\'m a bot!')
 
-        В случае успешного выполнения в терминале должна появиться следующая строка:
+        The next string appears in case of successfull execution in the terminal:
 
         ``b'{"role": "alpha", "mode": "set", "command": "Hello, I'm a bot!"}'``
 
-        Вас придет сообщение в Telegram.
-
-        Функция должна вернуть следующее значение:
-
-        ``None``
-
-        Иначе не выполняется, либо отображает в программе MOKO SE какую-то ошибку, либо в терминале отобразится, например, следующая строка:
+        Else if the command isn't executed you will see the next string in a terminal:
 
         ``b'<!DOCTYPE html><html><head><title>Bad Request</title></head><body><h2>Access Error: 400 -- Bad Request</h2><pre>Bad Request</pre></body></html>'``
+
+        If valuetype = 'void' and mode = 'get', the error will appear and will be shown in MOKO SE Stage
     """
-    # Проверка состояния проекта: Старт/Стоп/Пауза
-    project_state()
+    check_project_state()
     if is_mode_incorrect(mode, ["get", "set"]): return None
     if is_mode_and_valuetype_incorrect(mode, valuetype): return None
 
@@ -741,9 +692,11 @@ def Telegram(role: str, mode: str, command: str, valuetype: str = 'void') -> ...
 ###################################################################################################################
 
 
-def project_state() -> None:
+def check_project_state() -> None:
     """
-        project_state - предназначена для проверки старта/паузы/стопа
+        This function checks project state
+
+        :return: None
     """
     URLPSRead: str = _UrlProjectStateRead
     serverstate = requests.get(URLPSRead)
@@ -759,13 +712,13 @@ def project_state() -> None:
 
 def check_status(system: str, mode: str, URLRead: str) -> str:
     """
-        check_status - предназначена для проверки статуса MOKO SE (ready или busy),
-        а также для проверки status_code (если более 9 раз плохо приняты данные, то выдаем ошибку).
+        This function checks MOKO SE status (ready or busy) and status code
+        (if data was received bad more than 9 time, the error will appear)
 
-        :param str system: функция, которая вызывает (Driver, Program, ...)
-        :param str mode: тип команды ('get', 'set', 'init', 'close', ...)
-        :param str URLRead: URL для получения данных от сервера
-        :return: Функция возвращает данные от сервера. Если badresponse > 9, то возвращается пустая строка (False)
+        :param str system: called function (Driver, Program, ...)
+        :param str mode: command mode ('get', 'set', 'init', 'close', ...)
+        :param str URLRead: URL for getting data from a server
+        :return: Data from a server. If badresponse > 9, an empty string wll return
     """
     data: str = ""
     timeout: int = 0
@@ -773,8 +726,7 @@ def check_status(system: str, mode: str, URLRead: str) -> str:
     status: str = "none"
     while ((status.lower() != 'ready') and (badresponse < 10)):
         response = requests.get(URLRead)
-        # Проверка состояния проекта: Старт/Стоп/Пауза
-        project_state()
+        check_project_state()
         if (response.status_code != 200):
             Stage("ERROR IN PYTHON LIBRARY! BAD RESPONSE CODE! " + str(response.status_code), 'error')
             print("ERROR IN PYTHON LIBRARY! BAD RESPONSE CODE! " + str(response.status_code) + '\n' +
@@ -793,12 +745,12 @@ def check_status(system: str, mode: str, URLRead: str) -> str:
 
 def parse_data(data: str, mode: str, valuetype: str = 'void') -> ...:
     """
-        parse_data - парсинг полученных данных в зависимости от переданного valuetype.
+        This function parses the received ata depending on valuetype.
 
-        :param str data: полученные данные
-        :param str mode: тип команды ('get', 'set', 'init', 'close', ...)
-        :param str valuetype: тип возвращаемых данных (только при mode = "get")
-        :return: Функция возвращает данные того типа, который был указан в valuetype
+        :param str data: received adta
+        :param str mode: command mode ('get', 'set', 'init', 'close', ...)
+        :param str valuetype: data type, received from something (only if mode = "get")
+        :return: Data of the type specified in valuetype
     """
     if mode.lower() not in ["get", "check"]: return None
 
@@ -830,12 +782,12 @@ def parse_data(data: str, mode: str, valuetype: str = 'void') -> ...:
 
 def check_data(data: str, splitter: str = ";") -> str:
     """
-        check_data - предназначена для проверки полученных данных. Если есть символ ";" в конце полученных данных, то он
-                     удаляется
+        This function checks received data. If there is the character ';' at the end of the data,
+        the character will be deleted
 
-        :param str data: полученные данные
-        :param str splitter: символ, по которому идет разбиение данных
-        :return: Функция возвращает проверенные данные
+        :param str data: received data
+        :param str splitter: character to split
+        :return: Checked data
     """
     if data.rfind(splitter) == len(data)-1:
         data: str = data[:-1]
@@ -843,12 +795,12 @@ def check_data(data: str, splitter: str = ";") -> str:
 
 def to_list(func, data: str, splitter: str = ";") -> ...:
     """
-        to_list - предназначена для разбиения входных данных с последующим занесением в список
+        This function splits entered data creating a list
 
-        :param func: функция, которая применяется к данным (int(), float(), ...)
-        :param str data: полученные данные
-        :param str splitter: символ, по которому идет разбиение данных
-        :return: Функция возвращает список, содержащий значения типа, соответствующих типу func() => (int, float, ...)
+        :param func: a function that is related to the data (int(), float(), ...)
+        :param str data: received data
+        :param str splitter: character to split
+        :return: A list of values with type specified in func() => (int, float, ...)
     """
     split_data: list = data.split(splitter)
     result: list = []
@@ -866,15 +818,13 @@ def to_list(func, data: str, splitter: str = ";") -> ...:
 
 def is_semicolon_error(data: str, splitter: str, valuetype: str) -> bool:
     """
-        is_semicolon_error - проверяет наличие двух символов splitter в конце входных данных.
+        This function checks the presence of two splitter characters at the end of the input.
 
-        :param str data: полученные данные
-        :param str splitter: символ, по которому идет разбиение
-        :param str valuetype: - тип возвращаемых данных (только при mode = "get")
-        :return: Функция печатает ошибку в консоль и в Stage программы MOKO SE, если в конце два символа splitter.
-                 Если ошибка - возвращает True, иначе - False
-
-        Например, если splitter = ";", а data = "123;;", то будет ошибка.
+        :param str data: received data
+        :param str splitter: character to split
+        :param str valuetype: specified value type
+        :return: Will print the error in the console and in the program MOKO SE Stage and return True,
+                 if there are 2 characters splitter at the end of the data, else - False
     """
     if data[-2:] == f"{2*splitter}":
         Stage(f'ERROR IN PYTHON LIBRARY!','error')
@@ -888,12 +838,11 @@ def is_semicolon_error(data: str, splitter: str, valuetype: str) -> bool:
 
 def is_bad_response(badresponse: int) -> bool:
     """
-        is_bad_response - предназначена для проверки ответов сервера.
-        Если больше 9 ответов сервера были "плохими", то функция возвращает True, иначе - False
+        This function checks server responses. if data was received bad more than 9 time
 
-        :param int badresponse: количество "плохих" ответов сервера
-        :return: Функция печатает ошибку в консоль и в Stage программы MOKO SE, если количество "плохих" ответов больше 9.
-                 Если ошибка - возвращает True, иначе - False
+        :param int badresponse: the number of bad responses
+        :return: Will print the error in the console and in the program MOKO SE Stage and return True,
+                 if badresponses more than 9, else - False
     """
     if (badresponse >= 10):
         Stage("ERROR IN PYTHON LIBRARY! FUNCTION EXIT BECAUSE OF BAD RESPONSES", 'error')
@@ -903,13 +852,12 @@ def is_bad_response(badresponse: int) -> bool:
 
 def is_mode_and_valuetype_incorrect(mode: str, valuetype: str) -> bool:
     """
-        is_mode_and_valuetype_incorrect - предназначена для проверки mode и valuetype.
-        Если mode = get, а valuetype = void - ошибка
+        This function checks mode and valuetype
 
-        :param str mode: тип команды ('get', 'set', 'init', 'close', ...)
-        :param str valuetype: тип возвращаемых данных (только при mode = "get")
-        :return: Функция печатает ошибку в консоль и в Stage программы MOKO SE, если при mode = "get", valuetype = "void" или "".
-                 Если ошибка - возвращает True, иначе - False
+        :param str mode: command mode ('get', 'set', 'init', 'close', ...)
+        :param str valuetype: specified value type
+        :return: Will print the error in the console and in the program MOKO SE Stage and return True,
+                 if mode = "get" and valuetype = "void" or "", else - False
     """
     if (mode.lower() == 'get') and (valuetype.lower() == 'void' or valuetype.lower() == ''):
         Stage("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request", 'error')
@@ -919,12 +867,12 @@ def is_mode_and_valuetype_incorrect(mode: str, valuetype: str) -> bool:
 
 def is_mode_incorrect(mode: str, modes_list:list) -> bool:
     """
-        is_mode_correct - предназначена для проверки значения mode: корректное либо нет.
+        This function checks mode: correct or incorrect
 
-        :param str mode: тип команды ('get', 'set', 'init', 'close', ...)
-        :param list modes_list: список mode, который корректен для данной функции (Driver, Program,...)
-        :return: Функция печатает ошибку в консоль и в Stage программы MOKO SE, если в modes_list нет указанного mode.
-                 Если ошибка - возвращает True, иначе - False
+        :param str mode: command mode ('get', 'set', 'init', 'close', ...)
+        :param list modes_list: the list mode that is correct for the given function (Driver, Program,...)
+        :return: Will print the error in the console and in the program MOKO SE Stage and return True,
+                 if there isn't the mode in the modes_list, else - False
     """
     if mode.lower() not in modes_list:
         Stage("ERROR IN PYTHON LIBRARY! Wrong request mode! " + str(mode), 'error')
@@ -932,14 +880,14 @@ def is_mode_incorrect(mode: str, modes_list:list) -> bool:
         return True
     return False
 
-def send_request(URLWrite: str, command_to_send: str) -> None:
+def send_request(URLWrite: str, request: str) -> None:
     """
-        send_request - предназначена для отсылки команды/запроса на сервер
+        This function sends requests to a server
 
-        :param str URLWrite: адрес сервера, для отправки команды/запроса
-        :param command_to_send: команда/запрос, отправляемый на сервер в формате json
-        :return: Функция возвращает None
+        :param str URLWrite: URL for sending data to a server
+        :param request: send request in json format
+        :return: None
     """
     headers: dict = {'Content-Type': 'application/json; charset=utf-8'}
-    response = requests.post(URLWrite, headers=headers, data=command_to_send.encode('utf-8'))
+    response = requests.post(URLWrite, headers=headers, data=request.encode('utf-8'))
     print(response.content)
