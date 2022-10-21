@@ -354,7 +354,7 @@ def Messenger(mode: str, head: str, body: str, valuetype: str = 'void', delaytim
         ``b'<!DOCTYPE html><html><head><title>Bad Request</title></head><body><h2>Access Error: 400 -- Bad Request</h2><pre>Bad Request</pre></body></html>'``
 
         **2.**
-        We nned to show a message for user to enter a number. Let's write the next command:
+        We need to show a message for user to enter a number. Let's write the next command:
 
         >>> Messenger('get', 'First number', 'Please, enter the first number', 'int')
 
@@ -436,7 +436,6 @@ def Report(name: str, mode: str, kind: str, data: str, valuetype: str = 'void') 
         **Examples:**
 
         **1.**
-        We need to
         We need to output the string *'FgsFds'* to the report. Let's write the next command:
 
         >>> Report("rep1",'set', 'string', 'FgsFds')
@@ -583,7 +582,6 @@ def Program(name: str, mode: str, command: str, valuetype: str = 'void') -> ...:
         **Examples:**
 
         **1.**
-        We need to
         We need to let the server know that the script is over. Let's write the next command:
 
         >>> Program('script', 'set', 'done')
