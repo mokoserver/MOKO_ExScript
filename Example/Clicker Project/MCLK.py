@@ -1,7 +1,7 @@
 import MOKO
 
 
-# Library version - 1.0
+# Library version 2.10.24.1
 # Added commands description at 24.10.2022
 
 # **init**
