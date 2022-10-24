@@ -1,5 +1,22 @@
 import MOKO
-from subprocess import Popen, PIPE
+
+
+# Library version - 1.0
+# Added commands description at 24.10.2022
+
+# **init**
+# ClickerInit() - this function initializes plugin MOKO Clicker
+# **set**
+# MouseLeftClick() - this function imitates pressing mouse left button
+# MouseRightClick() - this function imitates pressing mouse right button
+# MouseMiddleClick() - this function imitates pressing mouse middle button
+# MouseMove() - this function moves mouse cursor to the point (x,y)
+# Screenshot() - this function makes a screenshot
+# PngPath() - this function sets a path to the png file
+# **get**
+# GetScreenshot() - this function makes a screenshot and returns it in base64 format
+# GetPngFile() - this function returns png file in base64 format from the chosen png path
+# GetCoordinates() - this function returns coordinates (x,y)
 
 
 ###########################################################################################
@@ -27,10 +44,11 @@ def ClickerInit() -> None:
     """
     MOKO.Plugin("Clicker", "init", "")
 
-    processes = Popen('tasklist', stdin=PIPE, stderr=PIPE, stdout=PIPE).communicate()[0]
-    while processes.find("MOKO Clicker".encode("utf8")) == -1:
-        MOKO.Stage("Waiting for the plugin to run...")
-        processes = Popen('tasklist', stdin=PIPE, stderr=PIPE, stdout=PIPE).communicate()[0]
+    # The next code strings was commented because of inoperability
+    # processes = Popen('tasklist', stdin=PIPE, stderr=PIPE, stdout=PIPE).communicate()[0]
+    # while processes.find("MOKO Clicker".encode("utf8")) == -1:
+    #     MOKO.Stage("Waiting for the plugin to run...")
+    #     processes = Popen('tasklist', stdin=PIPE, stderr=PIPE, stdout=PIPE).communicate()[0]
 
 
 ###########################################################################################
@@ -117,7 +135,7 @@ def Screenshot() -> None:
 
 def PngPath(path:str) -> None:
     """
-        This function sets a path to the png file.
+        This function sets a path to the png file
 
         :return: None
 

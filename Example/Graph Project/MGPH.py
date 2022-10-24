@@ -1,6 +1,29 @@
 import MOKO
-import requests
-import time
+
+# Library version - 1.0
+# Added commands description at 24.10.2022
+
+# **init**
+# GraphInit() - this function initializes plugin MOKO Graph
+# **set**
+# WriteGraph() - this function shows lines in the graph
+# WriteGraph() - this function shows lines in the graph
+# AddLine() - this function adds a line in the plugin memory
+# ChangeLine() - this function changes the line which has already added
+# DeleteLine() - this function deletes lines
+# HideLine() - this function hides lines
+# ShowLine() - this function shows lines
+# ShowLineOnly() - this function shows only chosen lines
+# AddGraphSett() - this function sets graph settings
+# Autoscale() - this function sets autoscale
+# ScreenshotWindow() - this function makes a screenshot of the plugin front panel
+# ScreenshotGraph() - this function makes a screenshot of the graph front panel
+# Legend() - this function hides or shows the graph legend
+# ClearGraph() - this function clears the graph
+# **get**
+# GetScreenshotWindow() - this function makes a screenshot of the plugin front panel and returns it in base64 format
+# GetScreenshotGraph() - this function makes a screenshot of the graph front panel and returns it in base64 format
+
 
 PLUGIN_NAME: str = "Graph"
 
@@ -30,34 +53,35 @@ def GraphInit() -> None:
     """
     MOKO.Plugin(PLUGIN_NAME, "init", "")
 
-    server: str = "55001"
-    timeout: float = 10
-    with open('C:/MOKO SE/Settings/PluginsInfo.cnf') as file:
-        for line in file:
-            if line.find(PLUGIN_NAME) != -1:
-                file.readline()
-                file.readline()
-                server: str = file.readline()
-                server: str = server.split('"')[3]
-                timeout: str = file.readline()
-                timeout: float = int(timeout.split('"')[3]) / 1000
-                break
-
-    url: str = f"http://127.0.0.1:{server}/"
-    start_time = time.time()
-    WAIT_TIME = 10  # seconds
-    while time.time() - start_time < WAIT_TIME:
-        try:
-            res = requests.get(url + r'/get', timeout=timeout)
-            MOKO.Stage(f"The plugin {PLUGIN_NAME} is working now")
-            print(f"The plugin {PLUGIN_NAME} is working now")
-            break
-        except requests.exceptions.ConnectionError:
-            print(f"The plugin {PLUGIN_NAME} isn't working now")
-    else:
-        MOKO.Stage(f"The plugin {PLUGIN_NAME} isn't working now", 'error')
-
-    time.sleep(1)
+    # The next code strings was commented because of inoperability
+    # server: str = "55001"
+    # timeout: float = 10
+    # with open('C:/MOKO SE/Settings/PluginsInfo.cnf') as file:
+    #     for line in file:
+    #         if line.find(PLUGIN_NAME) != -1:
+    #             file.readline()
+    #             file.readline()
+    #             server: str = file.readline()
+    #             server: str = server.split('"')[3]
+    #             timeout: str = file.readline()
+    #             timeout: float = int(timeout.split('"')[3]) / 1000
+    #             break
+    #
+    # url: str = f"http://127.0.0.1:{server}/"
+    # start_time = time.time()
+    # WAIT_TIME = 10  # seconds
+    # while time.time() - start_time < WAIT_TIME:
+    #     try:
+    #         res = requests.get(url + r'/get', timeout=timeout)
+    #         MOKO.Stage(f"The plugin {PLUGIN_NAME} is working now")
+    #         print(f"The plugin {PLUGIN_NAME} is working now")
+    #         break
+    #     except requests.exceptions.ConnectionError:
+    #         print(f"The plugin {PLUGIN_NAME} isn't working now")
+    # else:
+    #     MOKO.Stage(f"The plugin {PLUGIN_NAME} isn't working now", 'error')
+    #
+    # time.sleep(1)
 
 
 ###########################################################################################
