@@ -8,6 +8,10 @@ from time import sleep
 #hesh second point$1.1: First;2;Good
 #hesh third point$1.1: First;3;Good
 
+MOKO.Program('tree', 'set', 'select = Test script:$1.1')
+sleep(0.5)
+MOKO.Program('tree', 'set', 'chosen = passed')
+
 MOKO.Program('tree', 'set', 'select = first point$1.1')
 sleep(0.5)
 MOKO.Program('tree', 'set', 'chosen = passed')
@@ -28,6 +32,10 @@ MOKO.Program('tree', 'set', 'chosen = passed')
 #hesh first point$1.2: First;4;Good
 #hesh second point$1.2: First;5;Good
 #hesh third point$1.2: First;6;Good
+
+MOKO.Program('tree', 'set', 'select = Test script:$1.2')
+sleep(0.5)
+MOKO.Program('tree', 'set', 'chosen = passed')
 
 MOKO.Program('tree', 'set', 'select = first point$1.2')
 sleep(0.5)

@@ -8,6 +8,10 @@ from time import sleep
 #hesh  $4.2: Fourth;2;Good
 #hesh  $4.3: Fourth;3;Good
 
+MOKO.Program('tree', 'set', 'select = Test script:$4.1')
+sleep(0.5)
+MOKO.Program('tree', 'set', 'chosen = passed')
+
 MOKO.Program('tree', 'set', 'select =  $4.1')
 sleep(0.5)
 MOKO.Program('tree', 'set', 'chosen = passed')
