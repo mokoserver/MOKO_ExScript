@@ -1,7 +1,7 @@
 import MOKO
 from time import sleep
 
-#Region Second script:
+#Region Test script:
 
 #hesh first point$2.1
 #hesh second point$2.1
@@ -19,6 +19,6 @@ MOKO.Program('tree', 'set', 'select = third point$2.1')
 sleep(0.5)
 MOKO.Program('tree', 'set', 'chosen = passed')
 
-#EndRegion Second script:
+#EndRegion Test script:
 
 MOKO.EndScript()
