@@ -12,6 +12,7 @@
 import MOKO
 import os
 import sys
+from datetime import datetime
 
 #####################################
 #                FORMATTING
@@ -183,6 +184,20 @@ def status_tree(hesh: str) -> bool:
         return True
     return False
 
+# Обновления 23.11.2022 Johnny Respect
+
+def HeshStatus(hesh: str) -> bool:
+    """
+        This function selects tree hesh and checks it content
+
+        :return: True if hesh status not equal 'canceled' else False
+    """
+    MOKO.Program('tree', 'set', 'select = ' + hesh)
+    status = MOKO.Program('tree', 'get', 'hesh ' + hesh, 'string')
+    if status == 'empty':
+        return True
+    return False
+
 
 #####################################
 #                UTILITY CONTROL
@@ -304,3 +319,37 @@ def formated_value(value: str, ndigits: int) -> str:
     except:
         value_format: str = value
     return value_format
+
+
+def InitScriptExecutionTime() -> None:
+    """
+            This function initializes the table with script execution time
+
+            :return: None
+        """
+
+    MOKO.Report("ScriptExecutionTime", "info", "table", "Название скрипта#350;"
+                                                        "Start time#100;"
+                                                        "Stop time#100;"
+                                                        "Время исполнения#150")
+
+def ScriptExecutionTime (StartTime: datetime) -> None:
+    """
+        This function calculates script executable time and reports it
+
+        :param StartTime: start time of a script
+        :return: None
+    """
+    TimeOfCompletion: str = str(datetime.now() - StartTime)     # Время выполнения скрипта
+    ScriptName: str = os.path.basename(sys.argv[0])             # Имя скрипта
+    report_name: str = ScriptName.split(" ")[0]                 # Example: 6.6.3 ... renamed to 6_6_3_time
+    StartTime = str(StartTime)
+    StopTime = str(datetime.now())
+    RepTimeOfCompletion: str = TimeOfCompletion[:TimeOfCompletion.find(".")]
+    RepStartTime: str = StartTime[str(StartTime).find(" "):str(StartTime).find(".")]
+    RepStopTime: str = StopTime[str(StopTime).find(" "):str(StopTime).find(".")]
+
+    MOKO.Report("ScriptExecutionTime", "set", "table", str(ScriptName) + ";" +
+                                                       RepStartTime + ";" +
+                                                       RepStopTime + ";" +
+                                                       RepTimeOfCompletion)
