@@ -1,0 +1,29 @@
+Form № - FormNumber
+Gos № - GosNumber
+-----------------------------
+
+PROTOCOL  № - ProtocolNumber
+D_CURRENT_DATE - CurrentDate
+D_MODEL   - ModelDevice
+serial no.№    - SerialNumber
+owned by  - Owner
+Request- Request
+Verifier                         Verifier                        
+Certificate of verification No    - VerificationDate
+
+
+
+
+
+
+VerificationConditions
+VerificationTools
+VerificationResults
+
+
+
+
+
+
+
+

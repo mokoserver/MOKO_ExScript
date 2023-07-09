@@ -1,0 +1,114 @@
+{
+"scripts":
+[
+{"name":"01 Registration unit","smark":"protection"},
+{"name":"02 Init devices","smark":"protection"},
+{"name":"03 Measurement","smark":""},
+{"name":"04 Word report","smark":"protection"}
+],
+"report":
+[
+{"name":"VDC","kind":"table","info":"Range#100;Point#100;Result#100;Accuracy#100;Permissible error#100;Conclusion#100;","script":"",
+"data":""},
+{"name":"VAC","kind":"table","info":"Range#100;Point#100;Frequency#100;Result#100;Accuracy#100;Permissible error#100;Conclusion#100;","script":"",
+"data":""},
+{"name":"RES","kind":"table","info":"Range#100;Point#100;Result#100;Accuracy#100;Permissible error#100;Conclusion#100;","script":"",
+"data":""},
+{"name":"IDC","kind":"table","info":"Range#100;Point#100;Result#100;Accuracy#100;Permissible error#100;Conclusion#100;","script":"",
+"data":"100mk;10,0000mk;9,9499mk;0,0500mk;0,0750mk;OK;\r
+1m;1,0000m;0,9950m;0,0050m;0,560mk;Failed;\r
+10m;10,0000m;9,9500m;0,0500m;0,7mk;Failed;\r
+100m;100,0000m;99,5000m;0,5000m;0,55mk;Failed;\r
+1;1,0000;0,9950;0,0050;1,1m;Failed;\r
+3;2,0000;1,9900;0,0100;4,6m;Failed;\r
+"},
+{"name":"IAC","kind":"table","info":"Range#100;Point#100;Frequency#100;Result#100;Accuracy#100;Permissible error#100;Conclusion#100;","script":"",
+"data":"100mk;100,0000mk;1k;99,5000mk;0,5000mk;0,14mk;Failed;\r
+100mk;100,0000mk;5k;99,5000mk;0,5000mk;0,14mk;Failed;\r
+1m;1,0000m;1k;0,9950m;0,0050m;1,4mk;Failed;\r
+1m;1,0000m;5k;0,9950m;0,0050m;1,4mk;Failed;\r
+10m;1,0000m;1k;0,9950m;0,0050m;4,1mk;Failed;\r
+10m;1,0000m;1k;0,9950m;0,0050m;5,0mk;Failed;\r
+10m;10,0000m;1k;9,9500m;0,0500m;14mk;Failed;\r
+10m;10,0000m;5k;9,9500m;0,0500m;14mk;Failed;\r
+100m;100,0000m;0,01k;99,5000m;0,5000m;140mk;Failed;\r
+100m;100,0000m;1k;99,5000m;0,5000m;140mk;Failed;\r
+100m;100,0000m;5k;99,5000m;0,5000m;140mk;Failed;\r
+1;1,0000;1k;0,9950;0,0050;1,4m;Failed;\r
+1;1,0000;5k;0,9950;0,0050;1,4m;Failed;\r
+3;1,0000;1k;0,9950;0,0050;5,8m;OK;\r
+3;1,0000;5k;0,9950;0,0050;5,8m;OK;\r
+"}
+
+],
+"tree":
+[
+{"line":"0","name":"FLUKE5520_Agilent34460A","type":"project","project":"","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"1","name":"01 Registration unit","type":"script","project":"FLUKE5520_Agilent34460A","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"2","name":"02 Init devices","type":"script","project":"FLUKE5520_Agilent34460A","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"3","name":"03 Measurement","type":"script","project":"FLUKE5520_Agilent34460A","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"4","name":"#  Determining the absolute error of DC voltage measurement$VDC","type":"region","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"","status":"empty","pcode":"0","pcount":"4"},
+{"line":"5","name":"Meas 1$VDC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"#  Determining the absolute error of DC voltage measurement$VDC","status":"empty","pcode":"3","pcount":"4"},
+{"line":"6","name":"Meas 2$VDC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"#  Determining the absolute error of DC voltage measurement$VDC","status":"empty","pcode":"3","pcount":"4"},
+{"line":"7","name":"Meas 3$VDC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"#  Determining the absolute error of DC voltage measurement$VDC","status":"empty","pcode":"3","pcount":"4"},
+{"line":"8","name":"Meas 4$VDC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"#  Determining the absolute error of DC voltage measurement$VDC","status":"empty","pcode":"3","pcount":"4"},
+{"line":"9","name":"Meas 5$VDC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"#  Determining the absolute error of DC voltage measurement$VDC","status":"empty","pcode":"3","pcount":"4"},
+{"line":"10","name":"Meas 6$VDC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"#  Determining the absolute error of DC voltage measurement$VDC","status":"empty","pcode":"3","pcount":"4"},
+{"line":"11","name":"Meas 7$VDC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"#  Determining the absolute error of DC voltage measurement$VDC","status":"empty","pcode":"3","pcount":"4"},
+{"line":"12","name":"Meas 8$VDC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"#  Determining the absolute error of DC voltage measurement$VDC","status":"empty","pcode":"3","pcount":"4"},
+{"line":"13","name":"Meas 9$VDC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"#  Determining the absolute error of DC voltage measurement$VDC","status":"empty","pcode":"3","pcount":"4"},
+{"line":"14","name":"Meas 10$VDC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"#  Determining the absolute error of DC voltage measurement$VDC","status":"empty","pcode":"3","pcount":"4"},
+{"line":"15","name":"Meas 11$VDC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"#  Determining the absolute error of DC voltage measurement$VDC","status":"empty","pcode":"3","pcount":"4"},
+{"line":"16","name":"#  Determining the absolute error of AC voltage measurement$VAC","type":"region","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"","status":"empty","pcode":"0","pcount":"6"},
+{"line":"17","name":"Meas 1$VAC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"#  Determining the absolute error of AC voltage measurement$VAC","status":"empty","pcode":"3","pcount":"6"},
+{"line":"18","name":"Meas 2$VAC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"#  Determining the absolute error of AC voltage measurement$VAC","status":"empty","pcode":"3","pcount":"6"},
+{"line":"19","name":"Meas 3$VAC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"#  Determining the absolute error of AC voltage measurement$VAC","status":"empty","pcode":"3","pcount":"6"},
+{"line":"20","name":"Meas 4$VAC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"#  Determining the absolute error of AC voltage measurement$VAC","status":"empty","pcode":"3","pcount":"6"},
+{"line":"21","name":"Meas 5$VAC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"#  Determining the absolute error of AC voltage measurement$VAC","status":"empty","pcode":"3","pcount":"6"},
+{"line":"22","name":"Meas 6$VAC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"#  Determining the absolute error of AC voltage measurement$VAC","status":"empty","pcode":"3","pcount":"6"},
+{"line":"23","name":"Meas 7$VAC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"#  Determining the absolute error of AC voltage measurement$VAC","status":"empty","pcode":"3","pcount":"6"},
+{"line":"24","name":"Meas 8$VAC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"#  Determining the absolute error of AC voltage measurement$VAC","status":"empty","pcode":"3","pcount":"6"},
+{"line":"25","name":"Meas 9$VAC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"#  Determining the absolute error of AC voltage measurement$VAC","status":"empty","pcode":"3","pcount":"6"},
+{"line":"26","name":"Meas 10$VAC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"#  Determining the absolute error of AC voltage measurement$VAC","status":"empty","pcode":"3","pcount":"6"},
+{"line":"27","name":"Meas 11$VAC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"#  Determining the absolute error of AC voltage measurement$VAC","status":"empty","pcode":"3","pcount":"6"},
+{"line":"28","name":"Meas 12$VAC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"#  Determining the absolute error of AC voltage measurement$VAC","status":"empty","pcode":"3","pcount":"6"},
+{"line":"29","name":"Meas 13$VAC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"#  Determining the absolute error of AC voltage measurement$VAC","status":"empty","pcode":"3","pcount":"6"},
+{"line":"30","name":"Meas 14$VAC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"#  Determining the absolute error of AC voltage measurement$VAC","status":"empty","pcode":"3","pcount":"6"},
+{"line":"31","name":"Meas 15$VAC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"#  Determining the absolute error of AC voltage measurement$VAC","status":"empty","pcode":"3","pcount":"6"},
+{"line":"32","name":"Meas 16$VAC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"#  Determining the absolute error of AC voltage measurement$VAC","status":"empty","pcode":"3","pcount":"6"},
+{"line":"33","name":"Meas 17$VAC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"#  Determining the absolute error of AC voltage measurement$VAC","status":"empty","pcode":"3","pcount":"6"},
+{"line":"34","name":"#  Determination of the measurement error of the resistance of a 2-wire circuit$R2","type":"region","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"","status":"empty","pcode":"0","pcount":"4"},
+{"line":"35","name":"Meas 1$R2","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"#  Determination of the measurement error of the resistance of a 2-wire circuit$R2","status":"empty","pcode":"3","pcount":"4"},
+{"line":"36","name":"Meas 2$R2","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"#  Determination of the measurement error of the resistance of a 2-wire circuit$R2","status":"empty","pcode":"3","pcount":"4"},
+{"line":"37","name":"Meas 3$R2","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"#  Determination of the measurement error of the resistance of a 2-wire circuit$R2","status":"empty","pcode":"3","pcount":"4"},
+{"line":"38","name":"#  Determination of the measurement error of the resistance of a 4-wire circuit$R4","type":"region","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"","status":"empty","pcode":"0","pcount":"4"},
+{"line":"39","name":"Meas 1$R4","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"#  Determination of the measurement error of the resistance of a 4-wire circuit$R4","status":"empty","pcode":"3","pcount":"4"},
+{"line":"40","name":"Meas 2$R4","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"#  Determination of the measurement error of the resistance of a 4-wire circuit$R4","status":"empty","pcode":"3","pcount":"4"},
+{"line":"41","name":"Meas 3$R4","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"#  Determination of the measurement error of the resistance of a 4-wire circuit$R4","status":"empty","pcode":"3","pcount":"4"},
+{"line":"42","name":"Meas 4$R4","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"#  Determination of the measurement error of the resistance of a 4-wire circuit$R4","status":"empty","pcode":"3","pcount":"4"},
+{"line":"43","name":"Determination of the absolute error in the measurement of direct current$IDC","type":"region","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"","status":"empty","pcode":"0","pcount":"4"},
+{"line":"44","name":"Meas 1$IDC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"Determination of the absolute error in the measurement of direct current$IDC","status":"passed","pcode":"5","pcount":"4"},
+{"line":"45","name":"Meas 2$IDC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"Determination of the absolute error in the measurement of direct current$IDC","status":"passed","pcode":"5","pcount":"4"},
+{"line":"46","name":"Meas 3$IDC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"Determination of the absolute error in the measurement of direct current$IDC","status":"passed","pcode":"5","pcount":"4"},
+{"line":"47","name":"Meas 4$IDC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"Determination of the absolute error in the measurement of direct current$IDC","status":"passed","pcode":"5","pcount":"4"},
+{"line":"48","name":"Meas 5$IDC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"Determination of the absolute error in the measurement of direct current$IDC","status":"passed","pcode":"5","pcount":"4"},
+{"line":"49","name":"Meas 6$IDC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"Determination of the absolute error in the measurement of direct current$IDC","status":"passed","pcode":"5","pcount":"4"},
+{"line":"50","name":"Determination of the absolute error of measuring the strength of alternating current$IAC","type":"region","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"","status":"empty","pcode":"0","pcount":"6"},
+{"line":"51","name":"Meas 1$IAC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"Determination of the absolute error of measuring the strength of alternating current$IAC","status":"passed","pcode":"5","pcount":"6"},
+{"line":"52","name":"Meas 2$IAC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"Determination of the absolute error of measuring the strength of alternating current$IAC","status":"passed","pcode":"5","pcount":"6"},
+{"line":"53","name":"Meas 3$IAC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"Determination of the absolute error of measuring the strength of alternating current$IAC","status":"passed","pcode":"5","pcount":"6"},
+{"line":"54","name":"Meas 4$IAC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"Determination of the absolute error of measuring the strength of alternating current$IAC","status":"passed","pcode":"5","pcount":"6"},
+{"line":"55","name":"Meas 5$IAC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"Determination of the absolute error of measuring the strength of alternating current$IAC","status":"passed","pcode":"5","pcount":"6"},
+{"line":"56","name":"Meas 6$IAC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"Determination of the absolute error of measuring the strength of alternating current$IAC","status":"passed","pcode":"5","pcount":"6"},
+{"line":"57","name":"Meas 7$IAC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"Determination of the absolute error of measuring the strength of alternating current$IAC","status":"passed","pcode":"5","pcount":"6"},
+{"line":"58","name":"Meas 8$IAC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"Determination of the absolute error of measuring the strength of alternating current$IAC","status":"passed","pcode":"5","pcount":"6"},
+{"line":"59","name":"Meas 9$IAC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"Determination of the absolute error of measuring the strength of alternating current$IAC","status":"passed","pcode":"5","pcount":"6"},
+{"line":"60","name":"Meas 10$IAC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"Determination of the absolute error of measuring the strength of alternating current$IAC","status":"passed","pcode":"5","pcount":"6"},
+{"line":"61","name":"Meas 11$IAC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"Determination of the absolute error of measuring the strength of alternating current$IAC","status":"passed","pcode":"5","pcount":"6"},
+{"line":"62","name":"Meas 12$IAC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"Determination of the absolute error of measuring the strength of alternating current$IAC","status":"passed","pcode":"5","pcount":"6"},
+{"line":"63","name":"Meas 13$IAC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"Determination of the absolute error of measuring the strength of alternating current$IAC","status":"passed","pcode":"5","pcount":"6"},
+{"line":"64","name":"Meas 14$IAC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"Determination of the absolute error of measuring the strength of alternating current$IAC","status":"passed","pcode":"5","pcount":"6"},
+{"line":"65","name":"Meas 15$IAC","type":"hesh","project":"FLUKE5520_Agilent34460A","script":"03 Measurement","region":"Determination of the absolute error of measuring the strength of alternating current$IAC","status":"passed","pcode":"5","pcount":"6"},
+{"line":"66","name":"04 Word report","type":"script","project":"FLUKE5520_Agilent34460A","script":"","region":"","status":"empty","pcode":"0","pcount":"1"}
+]
+}
