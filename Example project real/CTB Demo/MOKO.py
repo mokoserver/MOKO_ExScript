@@ -5,7 +5,7 @@
         Library version: 1.5 dated 06.23.2021. Post requests format was changed for drivers.
 
         Documentation version: 1.2 - 02.03.2020.
-        
+
         The version was changed 01.24.2022 for correct working start/pause/stop
 
         The version was changed 08.22.2022 for updating parsing function and moving repeated code in functions
@@ -17,8 +17,8 @@
 
 '''
 
+import time
 import requests
-from time import sleep
 import json
 import sys
 
@@ -52,7 +52,7 @@ _UrlProjectStateRead: str = 'http://localhost:55001/MOKOSE/status/projectstate'
 
 ###################################################################################################################
 
-    ##          ##          ####        ##########      ##        ##     
+    ##          ##          ####        ##########      ##        ##
     ####      ####         ##  ##           ##          ####      ##
     ## ##    ## ##        ##    ##          ##          ## ##     ##
     ##  ##  ##  ##       ##      ##         ##          ##  ##    ##
@@ -67,21 +67,21 @@ _UrlProjectStateRead: str = 'http://localhost:55001/MOKOSE/status/projectstate'
 
 ###################################################################################################################
 
-    ##########      ##################          ####     
+    ##########      ##################          ####
     ##                      ##                 ##  ##
-    ##                      ##                ##    ##  
-    ##                      ##               ##      ## 
+    ##                      ##                ##    ##
+    ##                      ##               ##      ##
     ##########              ##              ############
             ##              ##              ##        ##
             ##              ##              ##        ##
             ##              ##              ##        ##
-    ##########              ##              ##        ##          
+    ##########              ##              ##        ##
 
 ###################################################################################################################
 
 
 def Stage(stage_string: str, type: str = 'info') -> None:
-    """ 
+    """
         This function writes a string in Stage.
 
         :param str stage_string: a string, writing in Stage.
@@ -138,8 +138,8 @@ def Stage(stage_string: str, type: str = 'info') -> None:
 
     #####           #######         ##########
     ##   ##         ##     ##           ##
-    ##     ##       ##      ##          ##    
-    ##      ##      ##     ##           ##    
+    ##     ##       ##      ##          ##
+    ##      ##      ##     ##           ##
     ##      ##      #######             ##
     ##      ##      ####                ##
     ##     ##       ## ##               ##
@@ -149,14 +149,14 @@ def Stage(stage_string: str, type: str = 'info') -> None:
 ###################################################################################################################
 
 
-def Driver(name: str, mode: str, command: str, valuetype: str = 'void') -> ...:
+def Driver(name: str, mode: str, command: str, valuetype: str = 'string') -> ...:
     """
         This function works with drivers.
 
         :param str name: driver name
         :param str mode: command mode (**'get'**, **'set'**, **'init'**, **'close'**)
         :param str command: executable command
-        :param str valuetype: **(only for mode = 'get')** Data type, received from d driver. Default *void*.
+        :param str valuetype: **(only for mode = 'get')** Data type, received from d driver. Default *string*.
         :return: None (if mode = **'set'**) or received data from a driver if mode = **'get'**)
 
         **Examples:**
@@ -228,7 +228,7 @@ def Driver(name: str, mode: str, command: str, valuetype: str = 'void') -> ...:
     ##              ##                  ##         ##
     ##              ##                  ##         ##
     ##              ##                  ##         ##
-    ##              #############       #############         
+    ##              #############       #############
 
 ###################################################################################################################
 
@@ -315,9 +315,9 @@ def Plugin(name: str, mode: str, command: str, valuetype: str = 'void') -> ...:
 ###################################################################################################################
 
     ##          ##      ############        ##########
-    ####      ####      ##                  ##        
-    ## ##    ## ##      ##                  ##        
-    ##  ##  ##  ##      ##                  ##        
+    ####      ####      ##                  ##
+    ## ##    ## ##      ##                  ##
+    ##  ##  ##  ##      ##                  ##
     ##   ####   ##      ########            ##########
     ##    ##    ##      ##                          ##
     ##          ##      ##                          ##
@@ -377,7 +377,7 @@ def Messenger(mode: str, head: str, body: str, valuetype: str = 'void', delaytim
 
         if we need a delay in a message, it is done like the next example:
 
-        >>> MOKO.Messenger('set', 'Info', 'Please, wait for 15 minutes', 'void', str(15*60))
+        >>> Messenger('set', 'Info', 'Please, wait for 15 minutes', 'void', str(15*60))
 
         The next string appears in terminal in case of successfull execution:
 
@@ -395,7 +395,7 @@ def Messenger(mode: str, head: str, body: str, valuetype: str = 'void', delaytim
 
     URLWrite: str = _UrlMessengerWrite
     URLRead: str = _UrlMessengerRead
-    
+
     if (delaytime == 'void'):
         command_to_send: str = '{"mode":"'+str(mode)+'","head":"'+str(head)+'","body":"'+str(body)+'","value":"'+str(valuetype)+'"}'
     else:
@@ -413,7 +413,7 @@ def Messenger(mode: str, head: str, body: str, valuetype: str = 'void', delaytim
     ##    ##        ##                  ##     ##
     ##     ##       ##                  ##      ##
     ##   ##         ##                  ##     ##
-    ## ##           ######              ####### 
+    ## ##           ######              #######
     ####            ##                  ##
     ## ##           ##                  ##
     ##   ##         ##                  ##
@@ -464,7 +464,7 @@ def Report(name: str, mode: str, kind: str, data: str, valuetype: str = 'void') 
         Else if the command isn't executed you will see the next string in a terminal:
 
         ``b'<!DOCTYPE html><html><head><title>Bad Request</title></head><body><h2>Access Error: 400 -- Bad Request</h2><pre>Bad Request</pre></body></html>'``
-    
+
     """
     check_project_state()
     if is_mode_incorrect(mode, ["get", "set", "info", "clear", "delete", "save"]): return None
@@ -476,7 +476,7 @@ def Report(name: str, mode: str, kind: str, data: str, valuetype: str = 'void') 
 
     URLWrite: str = _UrlReportWrite
     URLRead: str = _UrlReportRead
-    
+
     command_to_send: str = '{"name":"'+str(name)+'","mode":"'+str(mode)+'", "kind":"'+str(kind)+'", "data":"'+str(data)+'"}'
     send_request(URLWrite, command_to_send)
 
@@ -486,10 +486,10 @@ def Report(name: str, mode: str, kind: str, data: str, valuetype: str = 'void') 
 
 ###################################################################################################################
 
-    ##         ##   ##################      
-    ##         ##           ##          
-    ##         ##           ##          
-    ##         ##           ##  
+    ##         ##   ##################
+    ##         ##           ##
+    ##         ##           ##
+    ##         ##           ##
     ##         ##           ##
     ##         ##           ##
     ##         ##           ##
@@ -566,7 +566,7 @@ def Utility(name: str, mode: str, command: str, valuetype: str = 'void') -> ...:
     ##              ##   ##         ##         ##
     ##              ##     ##       #############
 
-###################################################################################################################    
+###################################################################################################################
 
 
 def Program(name: str, mode: str, command: str, valuetype: str = 'void') -> ...:
@@ -685,7 +685,7 @@ def Telegram(role: str, mode: str, command: str, valuetype: str = 'void') -> ...
     ##        ##    ##              ##              ##
     ##        ##    ##              ##              ##
     ##        ##    ##              ##              ##
-    ##        ##    ############    #############   ##        
+    ##        ##    ############    #############   ##
 
 ###################################################################################################################
 
@@ -697,16 +697,15 @@ def check_project_state() -> None:
         :return: None
     """
     URLPSRead: str = _UrlProjectStateRead
-    serverstate = requests.get(URLPSRead)
-    JSONprojectstate = json.loads(serverstate.content)
-    projectstate: str = JSONprojectstate.get('projectstate')
+    projectstate: str = ''
     while (projectstate.lower() != 'run'):
-        sleep(0.05)
         serverstate = requests.get(URLPSRead)
         JSONprojectstate = json.loads(serverstate.content)
         projectstate: str = JSONprojectstate.get('projectstate')
         if (projectstate.lower() == 'stop'):
             sys.exit()
+        if projectstate.lower() == 'pause':
+            time.sleep(0.05)
 
 def check_status(system: str, mode: str, URLRead: str) -> str:
     """
@@ -719,12 +718,11 @@ def check_status(system: str, mode: str, URLRead: str) -> str:
         :return: Data from a server. If badresponse > 9, an empty string wll return
     """
     data: str = ""
-    timeout: int = 0
     badresponse: int = 0
     status: str = "none"
     while ((status.lower() != 'ready') and (badresponse < 10)):
         response = requests.get(URLRead)
-        check_project_state()
+        # check_project_state()
         if (response.status_code != 200):
             Stage("ERROR IN PYTHON LIBRARY! BAD RESPONSE CODE! " + str(response.status_code), 'error')
             print("ERROR IN PYTHON LIBRARY! BAD RESPONSE CODE! " + str(response.status_code) + '\n' +
@@ -735,8 +733,7 @@ def check_status(system: str, mode: str, URLRead: str) -> str:
             status: str = y.get(f'{system}status')
             if (mode.lower() == 'get' or 'check'):
                 data: str = y.get(f'{system}data')
-            timeout += 1
-        sleep(0.05)
+        time.sleep(0.05)
 
     if is_bad_response(badresponse): return ""
     return data
@@ -745,12 +742,12 @@ def parse_data(data: str, mode: str, valuetype: str = 'void') -> ...:
     """
         This function parses the received ata depending on valuetype.
 
-        :param str data: received adta
+        :param str data: received data
         :param str mode: command mode ('get', 'set', 'init', 'close', ...)
         :param str valuetype: data type, received from something (only if mode = "get")
         :return: Data of the type specified in valuetype
     """
-    if mode.lower() not in ["get", "check"]: return None
+    if mode.lower() not in ["get", "check", "init"]: return None
 
     splitter: str = ";"
     if is_semicolon_error(data, splitter, valuetype): return None

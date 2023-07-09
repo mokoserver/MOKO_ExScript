@@ -1,0 +1,35 @@
+{
+"scripts":
+[
+{"name":"01 Example Start (Начало примера)","smark":"done"},
+{"name":"02 Example Stage (Пример Stage)","smark":"done"},
+{"name":"03 Example Messenger (Пример Messenger)","smark":""},
+{"name":"04 Example Driver (Пример Driver)","smark":""},
+{"name":"05 Example Utility (Пример Utility)","smark":""},
+{"name":"06 Example Plugin (Пример Plugin)","smark":""},
+{"name":"07 Example Program (Пример Program)","smark":""},
+{"name":"08 Example End (Конец примера)","smark":"protection"}
+],
+"report":
+[
+{"name":"language","kind":"string","info":"","script":"01 Example Start (Начало примера)",
+"data":"English(default)"},
+{"name":"exstage","kind":"string","info":"","script":"02 Example Stage (Пример Stage)",
+"data":"Absent"},
+{"name":"exstage_1","kind":"string","info":"","script":"02 Example Stage (Пример Stage)",
+"data":"The script completed successfully."}
+
+],
+"tree":
+[
+{"line":"0","name":"Moko Scripts Example (Пример Moko Scripts)","type":"project","project":"","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"1","name":"01 Example Start (Начало примера)","type":"script","project":"Moko Scripts Example (Пример Moko Scripts)","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"2","name":"02 Example Stage (Пример Stage)","type":"script","project":"Moko Scripts Example (Пример Moko Scripts)","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"3","name":"03 Example Messenger (Пример Messenger)","type":"script","project":"Moko Scripts Example (Пример Moko Scripts)","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"4","name":"04 Example Driver (Пример Driver)","type":"script","project":"Moko Scripts Example (Пример Moko Scripts)","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"5","name":"05 Example Utility (Пример Utility)","type":"script","project":"Moko Scripts Example (Пример Moko Scripts)","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"6","name":"06 Example Plugin (Пример Plugin)","type":"script","project":"Moko Scripts Example (Пример Moko Scripts)","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"7","name":"07 Example Program (Пример Program)","type":"script","project":"Moko Scripts Example (Пример Moko Scripts)","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"8","name":"08 Example End (Конец примера)","type":"script","project":"Moko Scripts Example (Пример Moko Scripts)","script":"","region":"","status":"empty","pcode":"0","pcount":"1"}
+]
+}

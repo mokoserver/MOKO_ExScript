@@ -1,0 +1,67 @@
+{
+"scripts":
+[
+{"name":"1. Registration (регистраци€)","smark":"done"},
+{"name":"2. Verification (поверка)","smark":"protection"},
+{"name":"3. Create a report (создание отчЄта)","smark":"protection"}
+],
+"report":
+[
+{"name":"AccuracyClass","kind":"string","info":"","script":"1. Registration (регистраци€)",
+"data":"0,4"},
+{"name":"UnitOfMeasure","kind":"string","info":"","script":"1. Registration (регистраци€)",
+"data":"ћѕа"},
+{"name":"ScaleMax","kind":"string","info":"","script":"1. Registration (регистраци€)",
+"data":"10.0000"},
+{"name":"FirstPoint","kind":"string","info":"","script":"1. Registration (регистраци€)",
+"data":"2.00000"},
+{"name":"FirstMultiplePoint","kind":"string","info":"","script":"1. Registration (регистраци€)",
+"data":"0"},
+{"name":"ValueofDivision","kind":"string","info":"","script":"1. Registration (регистраци€)",
+"data":"2,000"},
+{"name":"TypeofUnit","kind":"string","info":"","script":"1. Registration (регистраци€)",
+"data":"ћанометр"},
+{"name":"PermissibleError","kind":"string","info":"","script":"1. Registration (регистраци€)",
+"data":"0.0500"},
+{"name":"StampNumber","kind":"string","info":"","script":"1. Registration (регистраци€)",
+"data":"111222"},
+{"name":"Owner","kind":"string","info":"","script":"1. Registration (регистраци€)",
+"data":" омпани€ 'MOKO'"},
+{"name":"Verifier","kind":"string","info":"","script":"1. Registration (регистраци€)",
+"data":"Johnny Respect"},
+{"name":"VerificationLocation","kind":"string","info":"","script":"1. Registration (регистраци€)",
+"data":"ѕланета земл€"},
+{"name":"WorkplaceNumber","kind":"string","info":"","script":"1. Registration (регистраци€)",
+"data":"1"},
+{"name":"OrderNumber","kind":"string","info":"","script":"1. Registration (регистраци€)",
+"data":"1"},
+{"name":"Day","kind":"string","info":"","script":"1. Registration (регистраци€)",
+"data":"21"},
+{"name":"Month","kind":"string","info":"","script":"1. Registration (регистраци€)",
+"data":"ќкт€брь"},
+{"name":"Year","kind":"string","info":"","script":"1. Registration (регистраци€)",
+"data":"2022"},
+{"name":"ProtocolNumber","kind":"string","info":"","script":"1. Registration (регистраци€)",
+"data":"G-111111"},
+{"name":"Temperature","kind":"string","info":"","script":"1. Registration (регистраци€)",
+"data":"22,0"},
+{"name":"Humidity","kind":"string","info":"","script":"1. Registration (регистраци€)",
+"data":"60,0"},
+{"name":"AmbientPressure","kind":"string","info":"","script":"1. Registration (регистраци€)",
+"data":"750,0"},
+{"name":"Driver","kind":"string","info":"","script":"1. Registration (регистраци€)",
+"data":"XP2i"},
+{"name":"UnitNumber","kind":"string","info":"","script":"1. Registration (регистраци€)",
+"data":"5555,0"},
+{"name":"ReportPrint","kind":"string","info":"","script":"1. Registration (регистраци€)",
+"data":"True"}
+
+],
+"tree":
+[
+{"line":"0","name":"Verification of gauges (поверка манометров)","type":"project","project":"","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"1","name":"1. Registration (регистраци€)","type":"script","project":"Verification of gauges (поверка манометров)","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"2","name":"2. Verification (поверка)","type":"script","project":"Verification of gauges (поверка манометров)","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"3","name":"3. Create a report (создание отчЄта)","type":"script","project":"Verification of gauges (поверка манометров)","script":"","region":"","status":"empty","pcode":"0","pcount":"1"}
+]
+}

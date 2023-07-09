@@ -747,7 +747,7 @@ def parse_data(data: str, mode: str, valuetype: str = 'void') -> ...:
         :param str valuetype: data type, received from something (only if mode = "get")
         :return: Data of the type specified in valuetype
     """
-    if mode.lower() not in ["get", "check"]: return None
+    if mode.lower() not in ["get", "check", "init"]: return None
 
     splitter: str = ";"
     if is_semicolon_error(data, splitter, valuetype): return None
