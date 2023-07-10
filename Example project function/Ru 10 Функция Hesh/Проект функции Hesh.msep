@@ -1,0 +1,16 @@
+{
+"project_name":"Testing hesh",
+"project_autosave":"true",
+"project_scripts":[
+{"script":"1 first script.py","necessary":"false"},
+{"script":"2 second script.py","necessary":"false"},
+{"script":"3 third script.py","necessary":"false"},
+{"script":"4 fourth script.py","necessary":"false"}
+],
+"project_libraries":[
+{"script":"MOKO.py"}
+],
+"project_templates":[
+{"script":"Testing hesh.docx"}
+]
+}
