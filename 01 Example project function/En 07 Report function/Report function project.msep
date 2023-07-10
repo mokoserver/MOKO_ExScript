@@ -1,17 +1,18 @@
 {
-"project_name":"Report project (проект Report)",
+"project_name":"Report function project",
 "project_autosave":"true",
 "project_scripts":[
-{"script":"1 Greeting (приветствие).py","necessary":"true"},
+{"script":"1 Greeting.py","necessary":"true"},
 {"script":"2 Report save.py","necessary":"false"},
 {"script":"3 Report clear.py","necessary":"false"},
 {"script":"4 Report delete.py","necessary":"false"},
-{"script":"5 Farewell (прощание).py","necessary":"true"}
+{"script":"5 Farewell.py","necessary":"true"}
 ],
 "project_libraries":[
-{"script":"MOKO.py"}
+{"script":"MOKO.py"},
+{"script":"MOSC.py"}
 ],
 "project_templates":[
-{"script":"Report report (отчёт Report).docx"}
+{"script":"Report.docx"}
 ]
 }

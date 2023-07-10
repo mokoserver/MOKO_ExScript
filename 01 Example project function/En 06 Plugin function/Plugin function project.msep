@@ -1,18 +1,20 @@
 {
-"project_name":"Plugin project (проект Plugin)",
+"project_name":"Plugin function project",
 "project_autosave":"true",
 "project_scripts":[
-{"script":"1 Greeting (приветствие).py","necessary":"true"},
+{"script":"1 Greeting.py","necessary":"true"},
 {"script":"2 Plugin init.py","necessary":"false"},
 {"script":"3 Plugin set.py","necessary":"false"},
 {"script":"4 Plugin get.py","necessary":"false"},
 {"script":"5 Plugin close.py","necessary":"false"},
-{"script":"6 Farewell (прощание).py","necessary":"true"}
+{"script":"6 Farewell.py","necessary":"true"}
 ],
 "project_libraries":[
-{"script":"MOKO.py"}
+{"script":"MOKO.py"},
+{"script":"MGPH.py"},
+{"script":"MOSC.py"}
 ],
 "project_templates":[
-{"script":"Plugin report (отчёт Plugin).docx"}
+{"script":"Report.docx"}
 ]
 }

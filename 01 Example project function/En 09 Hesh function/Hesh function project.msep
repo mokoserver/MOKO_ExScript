@@ -1,5 +1,5 @@
 {
-"project_name":"Testing hesh",
+"project_name":"Hesh function project",
 "project_autosave":"true",
 "project_scripts":[
 {"script":"1 first script.py","necessary":"false"},
@@ -8,9 +8,10 @@
 {"script":"4 fourth script.py","necessary":"false"}
 ],
 "project_libraries":[
-{"script":"MOKO.py"}
+{"script":"MOKO.py"},
+{"script":"MOSC.py"}
 ],
 "project_templates":[
-{"script":"Testing hesh.docx"}
+{"script":"Report.docx"}
 ]
 }

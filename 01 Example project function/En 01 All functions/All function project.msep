@@ -1,21 +1,21 @@
 {
-"project_name":"Moko Scripts Example (Пример Moko Scripts)",
+"project_name":"All function project",
 "project_autosave":"true",
 "project_scripts":[
-{"script":"01 Example Start (Начало примера).py","necessary":"true"},
-{"script":"02 Example Stage (Пример Stage).py","necessary":"false"},
-{"script":"03 Example Messenger (Пример Messenger).py","necessary":"false"},
-{"script":"04 Example Driver (Пример Driver).py","necessary":"false"},
-{"script":"05 Example Utility (Пример Utility).py","necessary":"false"},
-{"script":"06 Example Plugin (Пример Plugin).py","necessary":"false"},
-{"script":"07 Example Program (Пример Program).py","necessary":"false"},
-{"script":"08 Example End (Конец примера).py","necessary":"true"}
+{"script":"01 Example Start.py","necessary":"true"},
+{"script":"02 Example Stage.py","necessary":"false"},
+{"script":"03 Example Messenger.py","necessary":"false"},
+{"script":"04 Example Driver.py","necessary":"false"},
+{"script":"05 Example Utility.py","necessary":"false"},
+{"script":"06 Example Plugin.py","necessary":"false"},
+{"script":"07 Example Program.py","necessary":"false"},
+{"script":"08 Example End.py","necessary":"true"}
 ],
 "project_libraries":[
 {"script":"MOKO.py"},
 {"script":"MOSC.py"}
 ],
 "project_templates":[
-{"script":"MokoWordExample (ПримерMokoWord).docx"}
+{"script":"Report.docx"}
 ]
 }

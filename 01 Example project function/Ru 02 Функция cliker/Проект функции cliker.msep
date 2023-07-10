@@ -1,11 +1,11 @@
 {
-"project_name":"MOKO Clicker presentation (презентация MOKO Clicker)",
+"project_name":"Проект функции cliker",
 "project_autosave":"true",
 "project_scripts":[
-{"script":"1 Greeting (приветствие).py","necessary":"true"},
-{"script":"2 Сommands execution (выполнение команд).py","necessary":"false"},
-{"script":"3 Create a report (создание отчёта).py","necessary":"false"},
-{"script":"4 Farewell (прощание).py","necessary":"true"}
+{"script":"1 Приветствие.py","necessary":"true"},
+{"script":"2 Выполнение команд.py","necessary":"false"},
+{"script":"3 Создание отчёта.py","necessary":"false"},
+{"script":"4 Прощание.py","necessary":"true"}
 ],
 "project_libraries":[
 {"script":"MOKO.py"},
@@ -13,6 +13,6 @@
 {"script":"MCLK.py"}
 ],
 "project_templates":[
-{"script":"MOKO Clicker report (отчёт MOKO Clicker).docx"}
+{"script":"Отчет.docx"}
 ]
 }

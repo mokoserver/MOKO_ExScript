@@ -10,7 +10,9 @@
 {"script":"6 Farewell (прощание).py","necessary":"true"}
 ],
 "project_libraries":[
-{"script":"MOKO.py"}
+{"script":"MOKO.py"},
+{"script":"MOSC.py"},
+{"script":"MGPH.py"}
 ],
 "project_templates":[
 {"script":"Plugin report (отчёт Plugin).docx"}

@@ -1,19 +1,20 @@
 {
-"project_name":"MOKO Graph presentation (презентация MOKO Graph)",
+"project_name":"Проект функции Graph",
 "project_autosave":"true",
 "project_scripts":[
-{"script":"1 Greeting (приветствие).py","necessary":"true"},
-{"script":"2 The first graph (первый график).py","necessary":"false"},
-{"script":"3 The second graph (второй график).py","necessary":"false"},
-{"script":"4 The third graph (третий график).py","necessary":"false"},
-{"script":"5 Graph report (отчёт Graph).py","necessary":"false"},
-{"script":"6 Farewell (прощание).py","necessary":"true"}
+{"script":"1 Приветствие.py","necessary":"true"},
+{"script":"2 Первый график.py","necessary":"false"},
+{"script":"3 Второй график.py","necessary":"false"},
+{"script":"4 Третий график.py","necessary":"false"},
+{"script":"5 Создание отчета.py","necessary":"false"},
+{"script":"6 Прощание.py","necessary":"true"}
 ],
 "project_libraries":[
 {"script":"MGPH.py"},
-{"script":"MOKO.py"}
+{"script":"MOKO.py"},
+{"script":"MOSC.py"}
 ],
 "project_templates":[
-{"script":"Graph report (отчёт Graph).docx"}
+{"script":"Отчет.docx"}
 ]
 }

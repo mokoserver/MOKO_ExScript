@@ -1,18 +1,18 @@
 {
-"project_name":"MOKO Clicker presentation (презентация MOKO Clicker)",
+"project_name":"Cliker function project",
 "project_autosave":"true",
 "project_scripts":[
-{"script":"1 Greeting (приветствие).py","necessary":"true"},
-{"script":"2 Сommands execution (выполнение команд).py","necessary":"false"},
-{"script":"3 Create a report (создание отчёта).py","necessary":"false"},
-{"script":"4 Farewell (прощание).py","necessary":"true"}
+{"script":"1 Greeting.py","necessary":"true"},
+{"script":"2 Сommands execution.py","necessary":"false"},
+{"script":"3 Create a report.py","necessary":"false"},
+{"script":"4 Farewell.py","necessary":"true"}
 ],
 "project_libraries":[
+{"script":"MCLK.py"},
 {"script":"MOKO.py"},
-{"script":"MOSC.py"},
-{"script":"MCLK.py"}
+{"script":"MOSC.py"}
 ],
 "project_templates":[
-{"script":"MOKO Clicker report (отчёт MOKO Clicker).docx"}
+{"script":"Report.docx"}
 ]
 }

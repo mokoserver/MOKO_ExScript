@@ -36,9 +36,8 @@ class ExFluke5000Agilent34460A:
                 MOKO.Stage(f'VDC Measure -> range = {range}, verified = {verified}, error = {error}')
                 MOKO.Stage(f'Driver: AgilentDMM >> mode: set >> command: range = {range}', 'driver')
                 MOKO.Stage(f'Driver: Fluke5000 >> mode: set >> command: VDC = {verified}', 'driver')
-                time.sleep(0.5)
                 MOKO.Stage(f'DriverSet AgilentDMM >> mode: get >> command: result = read', 'driver')
-                result = f_verified * 0.995
+                result = f_verified * 1.00000001
                 MOKO.Stage(" ")
                 f_result = MFRT.ConvertStringToFloat(result)
                 accuracy = abs(f_verified - f_result)
@@ -84,9 +83,8 @@ class ExFluke5000Agilent34460A:
                 MOKO.Stage(f'DriverSet AgilentDMM >> mode: set >> command: range = {range}', 'driver')
                 MOKO.Stage(f'DriverSet AgilentDMM >> mode: set >> command: ACBand = {filter}', 'driver')
                 MOKO.Stage(f'DriverSet Fluke5000 >> mode: set >> command: VAC = {verified} {frequency}', 'driver')
-                time.sleep(0.5)
                 MOKO.Stage(f'DriverSet AgilentDMM >> mode: get >> command: result = read', 'driver')
-                result = f_verified * 0.995
+                result = f_verified * 1.00000001
                 MOKO.Stage(" ")
                 f_result = MFRT.ConvertStringToFloat(result)
                 accuracy = abs(f_verified - f_result)
@@ -131,9 +129,8 @@ class ExFluke5000Agilent34460A:
                 MOKO.Stage(f'R2 Measure -> range = {range}, verified = {verified}, error = {error}')
                 MOKO.Stage(f'Driver: AgilentDMM >> mode: set >> command: range = {range}', 'driver')
                 MOKO.Stage(f'Driver: Fluke5000 >> mode: set >> command: R2 = {verified}', 'driver')
-                time.sleep(0.5)
                 MOKO.Stage(f'DriverSet AgilentDMM >> mode: get >> command: result = read', 'driver')
-                result = f_verified * 0.995
+                result = f_verified * 1.00000001
                 MOKO.Stage(" ")
                 f_result = MFRT.ConvertStringToFloat(result)
                 accuracy = abs(f_verified - f_result)
@@ -177,9 +174,8 @@ class ExFluke5000Agilent34460A:
                 MOKO.Stage(f'R4 Measure -> range = {range}, verified = {verified}, error = {error}')
                 MOKO.Stage(f'Driver: AgilentDMM >> mode: set >> command: range = {range}', 'driver')
                 MOKO.Stage(f'Driver: Fluke5000 >> mode: set >> command: R4 = {verified}', 'driver')
-                time.sleep(0.5)
                 MOKO.Stage(f'DriverSet AgilentDMM >> mode: get >> command: result = read', 'driver')
-                result = f_verified * 0.995
+                result = f_verified * 1.00000001
                 MOKO.Stage(" ")
                 f_result = MFRT.ConvertStringToFloat(result)
                 accuracy = abs(f_verified - f_result)
@@ -223,9 +219,8 @@ class ExFluke5000Agilent34460A:
                 MOKO.Stage(f'IDC Measure -> range = {range}, verified = {verified}, error = {error}')
                 MOKO.Stage(f'Driver: AgilentDMM >> mode: set >> command: range = {range}', 'driver')
                 MOKO.Stage(f'Driver: Fluke5000 >> mode: set >> command: IDC = {verified}', 'driver')
-                time.sleep(0.5)
                 MOKO.Stage(f'DriverSet AgilentDMM >> mode: get >> command: result = read', 'driver')
-                result = f_verified * 0.995
+                result = f_verified * 1.00000001
                 MOKO.Stage(" ")
                 f_result = MFRT.ConvertStringToFloat(result)
                 accuracy = abs(f_verified - f_result)
@@ -271,9 +266,8 @@ class ExFluke5000Agilent34460A:
                 MOKO.Stage(f'DriverSet AgilentDMM >> mode: set >> command: range = {range}', 'driver')
                 MOKO.Stage(f'DriverSet AgilentDMM >> mode: set >> command: ACBand = {filter}', 'driver')
                 MOKO.Stage(f'DriverSet Fluke5000 >> mode: set >> command: IAC = {verified} {frequency}', 'driver')
-                time.sleep(0.5)
                 MOKO.Stage(f'DriverSet AgilentDMM >> mode: get >> command: result = read', 'driver')
-                result = f_verified * 0.995
+                result = f_verified * 1.00000001
                 MOKO.Stage(" ")
                 f_result = MFRT.ConvertStringToFloat(result)
                 accuracy = abs(f_verified - f_result)

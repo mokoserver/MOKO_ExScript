@@ -1,4 +1,3 @@
-import time
 import MOKO
 import MFRT
 
@@ -37,7 +36,6 @@ class ExFluke5000Agilent34460A:
                 MOKO.Stage(f'VDC Measure -> range = {range}, verified = {verified}, error = {error}')
                 MOKO.Driver('AgilentDMM', 'set', f'range = {range}')
                 MOKO.Driver('Fluke5000', 'set', f'VDC = {verified}')
-                time.sleep(0.5)
                 result = MOKO.Driver('AgilentDMM', 'get', 'read')
                 MOKO.Stage(" ")
                 f_result = MFRT.ConvertStringToFloat(result)
@@ -84,7 +82,6 @@ class ExFluke5000Agilent34460A:
                 MOKO.Driver('AgilentDMM', 'set', f'range = {range}')
                 MOKO.Driver('AgilentDMM', 'set', f'ACBand = {filter}')
                 MOKO.Driver('Fluke5000', 'set', f'VAC = {verified} {frequency}')
-                time.sleep(0.5)
                 result = MOKO.Driver('AgilentDMM', 'get', 'read')
                 MOKO.Stage(" ")
                 f_result = MFRT.ConvertStringToFloat(result)
@@ -130,7 +127,6 @@ class ExFluke5000Agilent34460A:
                 MOKO.Stage(f'R2 Measure -> range = {range}, verified = {verified}, error = {error}')
                 MOKO.Driver('AgilentDMM', 'set', f'range = {range}')
                 MOKO.Driver('Fluke5000', 'set', f'R2 = {verified}')
-                time.sleep(0.5)
                 result = MOKO.Driver('AgilentDMM', 'get', 'read')
                 MOKO.Stage(" ")
                 f_result = MFRT.ConvertStringToFloat(result)
@@ -175,7 +171,6 @@ class ExFluke5000Agilent34460A:
                 MOKO.Stage(f'R4 Measure -> range = {range}, verified = {verified}, error = {error}')
                 MOKO.Driver('AgilentDMM', 'set', f'range = {range}')
                 MOKO.Driver('Fluke5000', 'set', f'R4 = {verified}')
-                time.sleep(0.5)
                 result = MOKO.Driver('AgilentDMM', 'get', 'read')
                 MOKO.Stage(" ")
                 f_result = MFRT.ConvertStringToFloat(result)
@@ -220,7 +215,6 @@ class ExFluke5000Agilent34460A:
                 MOKO.Stage(f'IDC Measure -> range = {range}, verified = {verified}, error = {error}')
                 MOKO.Driver('AgilentDMM', 'set', f'range = {range}')
                 MOKO.Driver('Fluke5000', 'set', f'IDC = {verified}')
-                time.sleep(0.5)
                 result = MOKO.Driver('AgilentDMM', 'get', 'read')
                 MOKO.Stage(" ")
                 f_result = MFRT.ConvertStringToFloat(result)
@@ -265,7 +259,6 @@ class ExFluke5000Agilent34460A:
                 MOKO.Driver('AgilentDMM', 'set', f'range={range}')
                 MOKO.Driver('AgilentDMM', 'set', f'ACBand = {filter}')
                 MOKO.Driver('Fluke5000', 'set', f'IAC = {verified} {frequency}')
-                time.sleep(0.5)
                 result = MOKO.Driver('AgilentDMM', 'get', 'read')
                 MOKO.Stage(" ")
                 f_result = MFRT.ConvertStringToFloat(result)

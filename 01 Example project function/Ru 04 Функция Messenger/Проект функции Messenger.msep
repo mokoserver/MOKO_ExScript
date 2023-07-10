@@ -1,16 +1,19 @@
 {
-"project_name":"Messenger project (проект Messenger)",
+"project_name":"Проект функции Messenger",
 "project_autosave":"true",
 "project_scripts":[
-{"script":"1 Greeting (приветствие).py","necessary":"true"},
-{"script":"2 Messenger picture.py","necessary":"false"},
-{"script":"3 Farewell (прощание).py","necessary":"true"}
+{"script":"1 Приветствие.py","necessary":"true"},
+{"script":"2 Функция Messenger - Report save.py","necessary":"false"},
+{"script":"3 Функция Messenger - Report clear.py","necessary":"false"},
+{"script":"4 Функция Messenger - Report delete.py","necessary":"false"},
+{"script":"5 Изображение messenger.py","necessary":"false"},
+{"script":"6 Прощание.py","necessary":"true"}
 ],
 "project_libraries":[
 {"script":"MOKO.py"},
 {"script":"MOSC.py"}
 ],
 "project_templates":[
-{"script":"Messenger report (отчёт Messenger).docx"}
+{"script":"Отчет.docx"}
 ]
 }

@@ -1,15 +1,15 @@
 {
-"project_name":"Path project (проект Path)",
+"project_name":"Path function project",
 "project_autosave":"true",
 "project_scripts":[
-{"script":"1 Greeting (приветствие).py","necessary":"true"},
-{"script":"2 Farewell (прощание).py","necessary":"true"}
+{"script":"1 Greeting.py","necessary":"true"},
+{"script":"2 Farewell.py","necessary":"true"}
 ],
 "project_libraries":[
 {"script":"MOKO.py"},
 {"script":"MOSC.py"}
 ],
 "project_templates":[
-{"script":"Path report (отчёт Path).docx"}
+{"script":"Report.docx"}
 ]
 }
