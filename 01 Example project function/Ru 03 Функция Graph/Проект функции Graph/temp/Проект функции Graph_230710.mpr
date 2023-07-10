@@ -1,0 +1,40 @@
+{
+"scripts":
+[
+{"name":"1 Приветствие","smark":"done"},
+{"name":"2 Первый график","smark":""},
+{"name":"3 Второй график","smark":""},
+{"name":"4 Третий график","smark":""},
+{"name":"5 Создание отчета","smark":""},
+{"name":"6 Прощание","smark":"protection"}
+],
+"report":
+[
+
+],
+"tree":
+[
+{"line":"0","name":"Проект функции Graph","type":"project","project":"","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"1","name":"1 Приветствие","type":"script","project":"Проект функции Graph","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"2","name":"Status","type":"region","project":"Проект функции Graph","script":"1 Приветствие","region":"","status":"empty","pcode":"0","pcount":"2"},
+{"line":"3","name":"Greeting","type":"hesh","project":"Проект функции Graph","script":"1 Приветствие","region":"Status","status":"passed","pcode":"5","pcount":"2"},
+{"line":"4","name":"2 Первый график","type":"script","project":"Проект функции Graph","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"5","name":"Status (статус)","type":"region","project":"Проект функции Graph","script":"2 Первый график","region":"","status":"empty","pcode":"0","pcount":"8"},
+{"line":"6","name":"Sinus with phase 90","type":"hesh","project":"Проект функции Graph","script":"2 Первый график","region":"Status (статус)","status":"empty","pcode":"3","pcount":"8"},
+{"line":"7","name":"Sinus with phase 0","type":"hesh","project":"Проект функции Graph","script":"2 Первый график","region":"Status (статус)","status":"empty","pcode":"3","pcount":"8"},
+{"line":"8","name":"Sinus with phase -90","type":"hesh","project":"Проект функции Graph","script":"2 Первый график","region":"Status (статус)","status":"empty","pcode":"3","pcount":"8"},
+{"line":"9","name":"3 Второй график","type":"script","project":"Проект функции Graph","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"10","name":"Status (статус)","type":"region","project":"Проект функции Graph","script":"3 Второй график","region":"","status":"empty","pcode":"0","pcount":"5"},
+{"line":"11","name":"High mask","type":"hesh","project":"Проект функции Graph","script":"3 Второй график","region":"Status (статус)","status":"empty","pcode":"3","pcount":"5"},
+{"line":"12","name":"Noise signal","type":"hesh","project":"Проект функции Graph","script":"3 Второй график","region":"Status (статус)","status":"empty","pcode":"3","pcount":"5"},
+{"line":"13","name":"Low mask","type":"hesh","project":"Проект функции Graph","script":"3 Второй график","region":"Status (статус)","status":"empty","pcode":"3","pcount":"5"},
+{"line":"14","name":"4 Третий график","type":"script","project":"Проект функции Graph","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"15","name":"Status (статус)","type":"region","project":"Проект функции Graph","script":"4 Третий график","region":"","status":"empty","pcode":"0","pcount":"9"},
+{"line":"16","name":"Sinus with frequency 4","type":"hesh","project":"Проект функции Graph","script":"4 Третий график","region":"Status (статус)","status":"empty","pcode":"3","pcount":"9"},
+{"line":"17","name":"Sinus with frequency 30","type":"hesh","project":"Проект функции Graph","script":"4 Третий график","region":"Status (статус)","status":"empty","pcode":"3","pcount":"9"},
+{"line":"18","name":"5 Создание отчета","type":"script","project":"Проект функции Graph","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"19","name":"Status (статус)","type":"region","project":"Проект функции Graph","script":"5 Создание отчета","region":"","status":"empty","pcode":"0","pcount":"2"},
+{"line":"20","name":"report","type":"hesh","project":"Проект функции Graph","script":"5 Создание отчета","region":"Status (статус)","status":"empty","pcode":"3","pcount":"2"},
+{"line":"21","name":"6 Прощание","type":"script","project":"Проект функции Graph","script":"","region":"","status":"empty","pcode":"0","pcount":"1"}
+]
+}

@@ -1,0 +1,41 @@
+{
+"scripts":
+[
+{"name":"1 Первый скрипт","smark":"done"},
+{"name":"2 Второй скрипт","smark":"done"},
+{"name":"3 Третий скрипт","smark":"done"},
+{"name":"4 Четвертый скрипт","smark":"done"}
+],
+"report":
+[
+
+],
+"tree":
+[
+{"line":"0","name":"Проект функции Hesh","type":"project","project":"","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"1","name":"1 Первый скрипт","type":"script","project":"Проект функции Hesh","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"2","name":"Test script:$1.1","type":"region","project":"Проект функции Hesh","script":"1 Первый скрипт","region":"","status":"passed","pcode":"5","pcount":"4"},
+{"line":"3","name":"first point$1.1","type":"hesh","project":"Проект функции Hesh","script":"1 Первый скрипт","region":"Test script:$1.1","status":"passed","pcode":"5","pcount":"4"},
+{"line":"4","name":"second point$1.1","type":"hesh","project":"Проект функции Hesh","script":"1 Первый скрипт","region":"Test script:$1.1","status":"passed","pcode":"5","pcount":"4"},
+{"line":"5","name":"third point$1.1","type":"hesh","project":"Проект функции Hesh","script":"1 Первый скрипт","region":"Test script:$1.1","status":"passed","pcode":"5","pcount":"4"},
+{"line":"6","name":"Test script:$1.2","type":"region","project":"Проект функции Hesh","script":"1 Первый скрипт","region":"","status":"passed","pcode":"5","pcount":"4"},
+{"line":"7","name":"first point$1.2","type":"hesh","project":"Проект функции Hesh","script":"1 Первый скрипт","region":"Test script:$1.2","status":"passed","pcode":"5","pcount":"4"},
+{"line":"8","name":"second point$1.2","type":"hesh","project":"Проект функции Hesh","script":"1 Первый скрипт","region":"Test script:$1.2","status":"passed","pcode":"5","pcount":"4"},
+{"line":"9","name":"third point$1.2","type":"hesh","project":"Проект функции Hesh","script":"1 Первый скрипт","region":"Test script:$1.2","status":"passed","pcode":"5","pcount":"4"},
+{"line":"10","name":"2 Второй скрипт","type":"script","project":"Проект функции Hesh","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"11","name":"Test script:$2.1","type":"region","project":"Проект функции Hesh","script":"2 Второй скрипт","region":"","status":"passed","pcode":"5","pcount":"4"},
+{"line":"12","name":"first point$2.1","type":"hesh","project":"Проект функции Hesh","script":"2 Второй скрипт","region":"Test script:$2.1","status":"passed","pcode":"5","pcount":"4"},
+{"line":"13","name":"second point$2.1","type":"hesh","project":"Проект функции Hesh","script":"2 Второй скрипт","region":"Test script:$2.1","status":"passed","pcode":"5","pcount":"4"},
+{"line":"14","name":"third point$2.1","type":"hesh","project":"Проект функции Hesh","script":"2 Второй скрипт","region":"Test script:$2.1","status":"passed","pcode":"5","pcount":"4"},
+{"line":"15","name":"3 Третий скрипт","type":"script","project":"Проект функции Hesh","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"16","name":"Test script:$3.1","type":"region","project":"Проект функции Hesh","script":"3 Третий скрипт","region":"","status":"passed","pcode":"5","pcount":"4"},
+{"line":"17","name":"first point$3.1","type":"hesh","project":"Проект функции Hesh","script":"3 Третий скрипт","region":"Test script:$3.1","status":"passed","pcode":"5","pcount":"4"},
+{"line":"18","name":"second point$3.1","type":"hesh","project":"Проект функции Hesh","script":"3 Третий скрипт","region":"Test script:$3.1","status":"passed","pcode":"5","pcount":"4"},
+{"line":"19","name":"third point$3.1","type":"hesh","project":"Проект функции Hesh","script":"3 Третий скрипт","region":"Test script:$3.1","status":"passed","pcode":"5","pcount":"4"},
+{"line":"20","name":"4 Четвертый скрипт","type":"script","project":"Проект функции Hesh","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"21","name":"Test script:$4.1","type":"region","project":"Проект функции Hesh","script":"4 Четвертый скрипт","region":"","status":"passed","pcode":"5","pcount":"4"},
+{"line":"22","name":"$4.1","type":"hesh","project":"Проект функции Hesh","script":"4 Четвертый скрипт","region":"Test script:$4.1","status":"passed","pcode":"5","pcount":"4"},
+{"line":"23","name":"$4.2","type":"hesh","project":"Проект функции Hesh","script":"4 Четвертый скрипт","region":"Test script:$4.1","status":"passed","pcode":"5","pcount":"4"},
+{"line":"24","name":"$4.3","type":"hesh","project":"Проект функции Hesh","script":"4 Четвертый скрипт","region":"Test script:$4.1","status":"passed","pcode":"5","pcount":"4"}
+]
+}

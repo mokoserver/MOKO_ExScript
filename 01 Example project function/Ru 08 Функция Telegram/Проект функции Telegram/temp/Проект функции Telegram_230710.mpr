@@ -1,0 +1,25 @@
+{
+"scripts":
+[
+{"name":"1 Приветствие","smark":"done"},
+{"name":"2 Использование Telegram","smark":"done"},
+{"name":"3 Прощание","smark":"done"}
+],
+"report":
+[
+
+],
+"tree":
+[
+{"line":"0","name":"Проект функции Telegram","type":"project","project":"","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"1","name":"1 Приветствие","type":"script","project":"Проект функции Telegram","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"2","name":"Status (статус)","type":"region","project":"Проект функции Telegram","script":"1 Приветствие","region":"","status":"empty","pcode":"0","pcount":"2"},
+{"line":"3","name":"Greeting","type":"hesh","project":"Проект функции Telegram","script":"1 Приветствие","region":"Status (статус)","status":"passed","pcode":"5","pcount":"2"},
+{"line":"4","name":"2 Использование Telegram","type":"script","project":"Проект функции Telegram","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"5","name":"Status (статус)","type":"region","project":"Проект функции Telegram","script":"2 Использование Telegram","region":"","status":"empty","pcode":"0","pcount":"2"},
+{"line":"6","name":"Using Telegram","type":"hesh","project":"Проект функции Telegram","script":"2 Использование Telegram","region":"Status (статус)","status":"passed","pcode":"5","pcount":"2"},
+{"line":"7","name":"3 Прощание","type":"script","project":"Проект функции Telegram","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"8","name":"Status (статус)","type":"region","project":"Проект функции Telegram","script":"3 Прощание","region":"","status":"empty","pcode":"0","pcount":"2"},
+{"line":"9","name":"Farewell","type":"hesh","project":"Проект функции Telegram","script":"3 Прощание","region":"Status (статус)","status":"passed","pcode":"5","pcount":"2"}
+]
+}

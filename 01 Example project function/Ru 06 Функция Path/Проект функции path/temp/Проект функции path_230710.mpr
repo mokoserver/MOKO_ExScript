@@ -1,0 +1,21 @@
+{
+"scripts":
+[
+{"name":"1 Приветствие","smark":"done"},
+{"name":"2 Прощание","smark":"done"}
+],
+"report":
+[
+{"name":"pathFromWindow","kind":"string","info":"","script":"1 Приветствие",
+"data":"D:/GitHub/MOKO/MOKO_ExScript/Path/data"}
+
+],
+"tree":
+[
+{"line":"0","name":"Проект функции path","type":"project","project":"","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"1","name":"1 Приветствие","type":"script","project":"Проект функции path","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"2","name":"Status (статус)","type":"region","project":"Проект функции path","script":"1 Приветствие","region":"","status":"empty","pcode":"0","pcount":"2"},
+{"line":"3","name":"Greeting","type":"hesh","project":"Проект функции path","script":"1 Приветствие","region":"Status (статус)","status":"passed","pcode":"5","pcount":"2"},
+{"line":"4","name":"2 Прощание","type":"script","project":"Проект функции path","script":"","region":"","status":"empty","pcode":"0","pcount":"1"}
+]
+}
