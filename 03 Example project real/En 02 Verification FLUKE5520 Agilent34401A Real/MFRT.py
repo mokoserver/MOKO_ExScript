@@ -70,7 +70,7 @@ class MFRTLibrary:
             self.__get_prefix = False
             return self.__prefix_value
         self.__translate_value = self.__translate_value * self.__CreateTranslationConstant()
-        return float(f'{self.__translate_value:.15f}')
+        return float(f'{self.__translate_value:.10f}')
 
     def __CreateTranslationConstant(self):
         """
@@ -99,13 +99,13 @@ class MFRTLibrary:
             return str(self.__value)
         if isinstance(self.__value, (float, int)):
             if isinstance(self.__value, int):
-                self.__value = f'{float(self.__value):.15f}'.split('.')[0]
+                self.__value = f'{float(self.__value):.10f}'.split('.')[0]
             else:
                 if 'e' in str(self.__value) and not self.__resolution and not self.__reference_number:
                     self.__resolution = int(str(self.__value)[-2:])
                 elif not self.__resolution and not self.__reference_number:
                     self.__resolution = len(str(self.__value).split('.')[1])
-                self.__value = f'{float(self.__value):.15f}'
+                self.__value = f'{float(self.__value):.10f}'
                 self.__value = self.__value.split('.')[0] + '.' + self.__value.split('.')[1]
         elif isinstance(self.__value, str) and not self.__reference_number and not self.__resolution:
             delimiter_value = next((x for x in self.__value[1:] if not x.isdigit() and not x.isalpha()), None)
@@ -143,7 +143,7 @@ class MFRTLibrary:
             if self.__delimiter:
                 self.__value = self.__value.replace(self.__delimiter, '.')
                 self.__value = self.__value[:-len(self.__prefix)] if self.__prefix != '-' else self.__value
-            self.__value = f'{float(self.__value):.15f}'.split('.')
+            self.__value = f'{float(self.__value):.10f}'.split('.')
             return self.__value[0] + f"{self.__delimiter if self.__delimiter else '.'}" + \
                 self.__value[1][:self.__resolution]
         else:
@@ -184,7 +184,7 @@ class MFRTLibrary:
             self.__prefix_value = self.__prefix
         translation_cost = self.__CreateTranslationConstant()
         translation_value = float(float(self.__value) / translation_cost)
-        formatted_translation_value = f'{translation_value:.15f}'.split('.')
+        formatted_translation_value = f'{translation_value:.10f}'.split('.')
         if not self.__prefix:
             self.__prefix = ''
         else:

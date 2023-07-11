@@ -1,0 +1,20 @@
+{
+"project_name":"Plugin project (проект Plugin)",
+"project_autosave":"true",
+"project_scripts":[
+{"script":"1 Приветствие.py","necessary":"true"},
+{"script":"2 Функция Plugin init.py","necessary":"false"},
+{"script":"3 Функция Plugin set.py","necessary":"false"},
+{"script":"4 Функция Plugin get.py","necessary":"false"},
+{"script":"5 Функция Plugin close.py","necessary":"false"},
+{"script":"6 Прощание.py","necessary":"true"}
+],
+"project_libraries":[
+{"script":"MOKO.py"},
+{"script":"MOSC.py"},
+{"script":"MGPH.py"}
+],
+"project_templates":[
+{"script":"Отчет.docx"}
+]
+}

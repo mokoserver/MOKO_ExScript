@@ -2,159 +2,67 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="49f1463b-5181-4a8a-a89a-78da664e57e2" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/Example.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 01 All functions/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 01 All functions/.idea/ExampleScript.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 01 All functions/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../En 01 All functions/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 01 All functions/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../En 01 All functions/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 01 All functions/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../En 01 All functions/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 01 All functions/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 01 All functions/All function project.msep" beforeDir="false" afterPath="$PROJECT_DIR$/../En 01 All functions/All function project.msep" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 02 Clicker function/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 02 Clicker function/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 02 Clicker function/.idea/MOKO Clicker.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 02 Clicker function/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 02 Clicker function/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 02 Clicker function/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 02 Clicker function/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 02 Clicker function/Cliker function project.msep" beforeDir="false" afterPath="$PROJECT_DIR$/../En 02 Clicker function/Cliker function project.msep" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 03 Graph function/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 03 Graph function/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 03 Graph function/.idea/Present Project.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 03 Graph function/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../En 03 Graph function/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 03 Graph function/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../En 03 Graph function/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 03 Graph function/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../En 03 Graph function/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 03 Graph function/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../En 03 Graph function/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 03 Graph function/Graph function project.msep" beforeDir="false" afterPath="$PROJECT_DIR$/../En 03 Graph function/Graph function project.msep" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 04 Messenger function/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 04 Messenger function/.idea/Messenger and Report Project.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 04 Messenger function/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 04 Messenger function/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 04 Messenger function/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 04 Messenger function/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 04 Messenger function/Messenger function.msep" beforeDir="false" afterPath="$PROJECT_DIR$/../En 04 Messenger function/Messenger function.msep" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 04 Messenger function/data/image_screenshot.png" beforeDir="false" afterPath="$PROJECT_DIR$/../En 04 Messenger function/data/image_screenshot.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 05 Path function/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 05 Path function/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 05 Path function/.idea/Messenger and Report Project.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 05 Path function/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 05 Path function/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 05 Path function/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 05 Path function/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 05 Path function/Path function project.msep" beforeDir="false" afterPath="$PROJECT_DIR$/../En 05 Path function/Path function project.msep" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 05 Path function/Path function projects/temp/Path project (проект Path)_220208.mpr" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 06 Plugin function/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 06 Plugin function/.idea/Report Project.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 06 Plugin function/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 06 Plugin function/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 06 Plugin function/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 06 Plugin function/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 06 Plugin function/Plugin function project.msep" beforeDir="false" afterPath="$PROJECT_DIR$/../En 06 Plugin function/Plugin function project.msep" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 07 Report function/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 07 Report function/.idea/Report Project.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 07 Report function/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 07 Report function/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 07 Report function/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 07 Report function/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 07 Report function/Report function project.msep" beforeDir="false" afterPath="$PROJECT_DIR$/../En 07 Report function/Report function project.msep" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 08 Telegram function/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 08 Telegram function/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 08 Telegram function/.idea/Messenger and Report Project.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 08 Telegram function/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 08 Telegram function/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 08 Telegram function/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 08 Telegram function/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 08 Telegram function/Telegram function project.msep" beforeDir="false" afterPath="$PROJECT_DIR$/../En 08 Telegram function/Telegram function project.msep" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 09 Hesh function/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 09 Hesh function/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 09 Hesh function/.idea/Testing hesh.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 09 Hesh function/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 09 Hesh function/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 09 Hesh function/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 09 Hesh function/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 09 Hesh function/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 09 Hesh function/Hesh function project.msep" beforeDir="false" afterPath="$PROJECT_DIR$/../En 09 Hesh function/Hesh function project.msep" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../En 09 Hesh function/Hesh function projects/temp/Testing hesh_221025.mpr" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 01 Пример всех функции/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 01 Пример всех функции/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 01 Пример всех функции/.idea/ExampleScript.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 01 Пример всех функции/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 01 Пример всех функции/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 01 Пример всех функции/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 01 Пример всех функции/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 01 Пример всех функции/Проект выполнения всех функций.msep" beforeDir="false" afterPath="$PROJECT_DIR$/../Ru 01 Пример всех функции/Проект выполнения всех функций.msep" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 02 Функция cliker/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 02 Функция cliker/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 02 Функция cliker/.idea/MOKO Clicker.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 02 Функция cliker/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 02 Функция cliker/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 02 Функция cliker/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 02 Функция cliker/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 02 Функция cliker/Проект функции cliker.msep" beforeDir="false" afterPath="$PROJECT_DIR$/../Ru 02 Функция cliker/Проект функции cliker.msep" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Present Project.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1 Приветствие.py" beforeDir="false" afterPath="$PROJECT_DIR$/1 Приветствие.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Проект функции Graph.msep" beforeDir="false" afterPath="$PROJECT_DIR$/Проект функции Graph.msep" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 04 Функция Messenger/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 04 Функция Messenger/.idea/Messenger and Report Project.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 04 Функция Messenger/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 04 Функция Messenger/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 04 Функция Messenger/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 04 Функция Messenger/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 04 Функция Messenger/Проект функции Messenger.msep" beforeDir="false" afterPath="$PROJECT_DIR$/../Ru 04 Функция Messenger/Проект функции Messenger.msep" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 05 Plugin fuction/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 05 Plugin fuction/.idea/Report Project.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 05 Plugin fuction/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 05 Plugin fuction/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 05 Plugin fuction/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 05 Plugin fuction/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 05 Plugin fuction/Plugin project (проект Plugin).msep" beforeDir="false" afterPath="$PROJECT_DIR$/../Ru 05 Plugin fuction/Plugin project (проект Plugin).msep" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 05 Plugin fuction/Plugin project (проект Plugin)/temp/Plugin project (проект Plugin)_220131.mpr" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 05 Plugin fuction/Plugin project (проект Plugin)/temp/Plugin project (проект Plugin)_220204.mpr" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 05 Plugin fuction/Plugin project (проект Plugin)/temp/Plugin project (проект Plugin)_220206.mpr" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 06 Функция Path/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 06 Функция Path/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 06 Функция Path/.idea/Messenger and Report Project.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 06 Функция Path/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 06 Функция Path/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 06 Функция Path/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 06 Функция Path/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 06 Функция Path/Проект функции path.msep" beforeDir="false" afterPath="$PROJECT_DIR$/../Ru 06 Функция Path/Проект функции path.msep" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 07 Функция Report/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 07 Функция Report/.idea/Report Project.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 07 Функция Report/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 07 Функция Report/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 07 Функция Report/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 07 Функция Report/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 07 Функция Report/Проект функции Report.msep" beforeDir="false" afterPath="$PROJECT_DIR$/../Ru 07 Функция Report/Проект функции Report.msep" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 08 Функция Telegram/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 08 Функция Telegram/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 08 Функция Telegram/.idea/Messenger and Report Project.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 08 Функция Telegram/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 08 Функция Telegram/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 08 Функция Telegram/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 08 Функция Telegram/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 08 Функция Telegram/Проект функции Telegram.msep" beforeDir="false" afterPath="$PROJECT_DIR$/../Ru 08 Функция Telegram/Проект функции Telegram.msep" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 09 Функция Hesh/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 09 Функция Hesh/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 09 Функция Hesh/.idea/Testing hesh.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 09 Функция Hesh/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 09 Функция Hesh/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 09 Функция Hesh/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 09 Функция Hesh/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 09 Функция Hesh/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ru 09 Функция Hesh/Проект функции Hesh.msep" beforeDir="false" afterPath="$PROJECT_DIR$/../Ru 09 Функция Hesh/Проект функции Hesh.msep" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../02 Example project demo/En 03 Test IoT 4 Wave Demo/01 Registration unit.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../02 Example project demo/En 03 Test IoT 4 Wave Demo/02 Init devices.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../02 Example project demo/En 03 Test IoT 4 Wave Demo/03 Measurement.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../02 Example project demo/En 03 Test IoT 4 Wave Demo/04 Word report.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../02 Example project demo/En 03 Test IoT 4 Wave Demo/DemoTestIoTReport.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../02 Example project demo/En 03 Test IoT 4 Wave Demo/Demo_Test_IoT.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../02 Example project demo/En 03 Test IoT 4 Wave Demo/MFRT.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../02 Example project demo/En 03 Test IoT 4 Wave Demo/MGPH.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../02 Example project demo/En 03 Test IoT 4 Wave Demo/MOKO.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../02 Example project demo/En 03 Test IoT 4 Wave Demo/MOSC.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../02 Example project demo/En 03 Test IoT 4 Wave Demo/MTLG.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../02 Example project demo/En 03 Test IoT 4 Wave Demo/Test IoT 4 Wave.msep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../02 Example project demo/En 03 Test IoT 4 Wave Demo/data/TestIoT.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../02 Example project demo/En 03 Test IoT 4 Wave Demo/data/TestIoT_IDC.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../02 Example project demo/En 03 Test IoT 4 Wave Demo/data/TestIoT_VDC.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../02 Example project demo/En 04 Test IoT 8 Wave Demo/01 Registration unit.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../02 Example project demo/En 04 Test IoT 8 Wave Demo/02 Init devices.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../02 Example project demo/En 04 Test IoT 8 Wave Demo/03 Measurement.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../02 Example project demo/En 04 Test IoT 8 Wave Demo/04 Word report.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../02 Example project demo/En 04 Test IoT 8 Wave Demo/DemoTestIoTReport.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../02 Example project demo/En 04 Test IoT 8 Wave Demo/Demo_Test_IoT.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../02 Example project demo/En 04 Test IoT 8 Wave Demo/MFRT.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../02 Example project demo/En 04 Test IoT 8 Wave Demo/MGPH.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../02 Example project demo/En 04 Test IoT 8 Wave Demo/MOKO.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../02 Example project demo/En 04 Test IoT 8 Wave Demo/MOSC.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../02 Example project demo/En 04 Test IoT 8 Wave Demo/MTLG.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../02 Example project demo/En 04 Test IoT 8 Wave Demo/Test IoT 8 Wave.msep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../02 Example project demo/En 04 Test IoT 8 Wave Demo/data/TestIoT.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../02 Example project demo/En 04 Test IoT 8 Wave Demo/data/TestIoT_IDC.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../02 Example project demo/En 04 Test IoT 8 Wave Demo/data/TestIoT_VDC.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../03 Example project real/En 03 Test IoT 4 Wave Real/01 Registration unit.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../03 Example project real/En 03 Test IoT 4 Wave Real/02 Init devices.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../03 Example project real/En 03 Test IoT 4 Wave Real/03 Measurement.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../03 Example project real/En 03 Test IoT 4 Wave Real/04 Word report.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../03 Example project real/En 03 Test IoT 4 Wave Real/DemoTestIoTReport.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../03 Example project real/En 03 Test IoT 4 Wave Real/Demo_Test_IoT.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../03 Example project real/En 03 Test IoT 4 Wave Real/MFRT.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../03 Example project real/En 03 Test IoT 4 Wave Real/MGPH.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../03 Example project real/En 03 Test IoT 4 Wave Real/MOKO.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../03 Example project real/En 03 Test IoT 4 Wave Real/MOSC.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../03 Example project real/En 03 Test IoT 4 Wave Real/MTLG.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../03 Example project real/En 03 Test IoT 4 Wave Real/Test IoT 4 Wave.msep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../03 Example project real/En 03 Test IoT 4 Wave Real/data/TestIoT.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../03 Example project real/En 03 Test IoT 4 Wave Real/data/TestIoT_IDC.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../03 Example project real/En 03 Test IoT 4 Wave Real/data/TestIoT_VDC.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../03 Example project real/En 04 Test IoT 8 Wave Real/01 Registration unit.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../03 Example project real/En 04 Test IoT 8 Wave Real/02 Init devices.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../03 Example project real/En 04 Test IoT 8 Wave Real/03 Measurement.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../03 Example project real/En 04 Test IoT 8 Wave Real/04 Word report.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../03 Example project real/En 04 Test IoT 8 Wave Real/DemoTestIoTReport.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../03 Example project real/En 04 Test IoT 8 Wave Real/Demo_Test_IoT.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../03 Example project real/En 04 Test IoT 8 Wave Real/MFRT.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../03 Example project real/En 04 Test IoT 8 Wave Real/MGPH.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../03 Example project real/En 04 Test IoT 8 Wave Real/MOKO.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../03 Example project real/En 04 Test IoT 8 Wave Real/MOSC.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../03 Example project real/En 04 Test IoT 8 Wave Real/MTLG.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../03 Example project real/En 04 Test IoT 8 Wave Real/Test IoT 8 Wave.msep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../03 Example project real/En 04 Test IoT 8 Wave Real/data/TestIoT.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../03 Example project real/En 04 Test IoT 8 Wave Real/data/TestIoT_IDC.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../03 Example project real/En 04 Test IoT 8 Wave Real/data/TestIoT_VDC.png" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -172,7 +80,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "D:/GitHub/MOKO/MOKO_ExScript/01 Example project function/Ru 03 Функция Graph"
+    "last_opened_file_path": "D:/GitHub/MOKO/MOKO_ExScript"
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

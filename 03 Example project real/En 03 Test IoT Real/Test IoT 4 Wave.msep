@@ -1,0 +1,20 @@
+{
+"project_name":"Test IoT 4 Wave",
+"project_autosave":"true",
+"project_scripts":[
+{"script":"01 Registration unit.py","necessary":"true"},
+{"script":"02 Init devices.py","necessary":"true"},
+{"script":"03 Measurement_4_Wave.py","necessary":"false"},
+{"script":"04 Word report.py","necessary":"true"}
+],
+"project_libraries":[
+{"script":"MFRT.py"},
+{"script":"MOKO.py"},
+{"script":"MOSC.py"},
+{"script":"MTLG.py"},
+{"script":"MGPH.py"}
+],
+"project_templates":[
+{"script":"Report Real Test IoT 4 Wave.docx"}
+]
+}
