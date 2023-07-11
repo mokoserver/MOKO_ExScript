@@ -174,7 +174,7 @@ class ExFluke5000Agilent34401A:
 
                 if self.R4FirstResult:
                     MOKO.Stage(f'Driver: Fluke5000 >> mode: set >> command: R = 0', 'driver')
-                    MOKO.Messenger('set', 'Make settings#FLUKE5520_AGILENT34401.jpg',
+                    MOKO.Messenger('set', 'Make settings#@attention',
                                    'Set the resolution to 4th decimal places;\n'
                                    'Zero the multimeter if necessary;\n'
                                    'Click OK')
@@ -320,7 +320,7 @@ class ExFluke5000Agilent34401A:
 
             if WireConnection in ['IDC', 'IAC', 'VAC']:
                 body_message = 'Set the filter to 3 Hz;\n' if WireConnection != 'IDC' else '' + 'Press OK'
-                MOKO.Messenger('set', 'Make settings#FLUKE5520_AGILENT34401.jpg',
+                MOKO.Messenger('set', 'Make settings#@attention',
                                'Set Resolution = 6.5;\n' + body_message)
 
             if WireConnection in ['IDC', 'IAC']:

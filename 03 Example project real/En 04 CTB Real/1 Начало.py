@@ -4,7 +4,7 @@ import MOKO
 #hesh Приветствие
 
 MOKO.Stage("Начало скрипта")
-MOKO.Messenger('set', 'Greeting.jpg', 'В данном проекте будут показаны возможности чего-то там. Приятного просмотра!', '', '7')
+MOKO.Messenger('set', 'Greeting#@hello', 'В данном проекте будут показаны возможности чего-то там. Приятного просмотра!', '', '7')
 
 MOKO.Program('tree', 'set', 'select = ' + 'Приветствие')
 MOKO.Program('tree', 'set', 'chosen = passed')

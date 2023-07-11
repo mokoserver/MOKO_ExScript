@@ -1,6 +1,6 @@
 import MOKO
 
-MOKO.Messenger('set', 'Прощание.jpg', 'Вам была продемонстрирована программа MOKO Clicker. Спасибо за внимание!')
+MOKO.Messenger('set', 'Прощание#@buy', 'Вам была продемонстрирована программа MOKO Clicker. Спасибо за внимание!')
 
 #Region Status (Статус)
 #hesh Farewell

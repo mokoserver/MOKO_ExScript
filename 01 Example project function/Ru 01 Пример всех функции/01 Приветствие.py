@@ -5,9 +5,9 @@ Moko.Stage(stars('*'))
 Moko.Stage(stars('Старт'))
 Moko.Stage(stars('*'))
 
-Moko.Messenger('set', 'Приветствие.jpg', 'Дорогой пользователь!\n'
-                                         'Спасибо, что установили MOKO SE.\n'
-                                         'Приятного пользования!')
+Moko.Messenger('set', 'Приветствие#@hello', 'Дорогой пользователь!\n'
+                                            'Спасибо, что установили MOKO SE.\n'
+                                            'Приятного пользования!')
 
 Moko.Stage(stars('*'))
 Moko.Stage(stars('Следующий SCRIPT'))

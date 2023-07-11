@@ -29,7 +29,7 @@
 {"name":"GosNumber","kind":"string","info":"Measurement number","script":"01 Registration unit",
 "data":"52147-12"},
 {"name":"VerificationConditions","kind":"table","info":"Controlled parameters#150;ND requirements#100;Measured values#100;","script":"01 Registration unit",
-"data":"Temperature; 20°C; 1,0;\r
+"data":"Temperature; 20°C; ;\r
 Humidity; 60%; ;\r
 Pressure; 100kPa; ;\r
 "},

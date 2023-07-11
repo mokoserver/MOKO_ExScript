@@ -1,6 +1,6 @@
 import MOKO
 
-MOKO.Messenger('set', 'Greeting.jpg', 'Dear user! Right now, the work of the Graph plugin will be demonstrated to you. '
+MOKO.Messenger('set', 'Greeting#@hello', 'Dear user! Right now, the work of the Graph plugin will be demonstrated to you. '
                                       'Happy viewing!')
 
 #Region Status

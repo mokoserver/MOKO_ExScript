@@ -10,7 +10,7 @@ MTLG.TelegramClassic('alpha', 'set', f'********START SCRIPT********')
 alpha = MOKO.Telegram('alpha', 'get', 'list', 'string')
 MTLG.TelegramClassic('alpha', 'get', 'list', 'string')
 
-MOKO.Messenger('set', 'Farewell.jpg', 'That\'s all! Good luck!')
+MOKO.Messenger('set', 'Farewell#@bye', 'That\'s all! Good luck!')
 MTLG.TelegramMessenger('set', 'Farewell', 'That\'s all! Good luck!')
 
 MOKO.Program('tree', 'set', 'select = ' + 'Farewell')

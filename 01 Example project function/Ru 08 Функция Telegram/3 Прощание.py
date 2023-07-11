@@ -10,7 +10,7 @@ MTLG.TelegramClassic('alpha', 'set', f'********Старт скрипта********
 alpha = MOKO.Telegram('alpha', 'get', 'list', 'string')
 MTLG.TelegramClassic('alpha', 'get', 'list', 'string')
 
-MOKO.Messenger('set', 'Прощание.jpg', 'На этом всё! Удачи!')
+MOKO.Messenger('set', 'Прощание#@buy', 'На этом всё! Удачи!')
 MTLG.TelegramMessenger('set', 'Прощание', 'На этом всё! Удачи!')
 
 MOKO.Program('tree', 'set', 'select = ' + 'Farewell')

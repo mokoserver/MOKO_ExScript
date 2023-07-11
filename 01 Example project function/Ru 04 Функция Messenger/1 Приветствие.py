@@ -10,7 +10,7 @@ MOKO.Report(f'Messenger_delete', 'set', 'table', '1;2;3;4;5;6;7;8;9')
 #Region Status (статус)
 #hesh Greeting
 
-MOKO.Messenger('set', 'Приветствие.jpg', 'В текущем проекте будут показаны дополнительные возможности Messenger.')
+MOKO.Messenger('set', 'Приветствие#@hello', 'В текущем проекте будут показаны дополнительные возможности Messenger.')
 
 MOKO.Program('tree', 'set', 'select = ' + 'Greeting')
 MOKO.Program('tree', 'set', 'chosen = passed')

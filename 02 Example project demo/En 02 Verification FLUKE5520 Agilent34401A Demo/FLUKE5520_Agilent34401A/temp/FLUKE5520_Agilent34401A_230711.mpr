@@ -29,12 +29,12 @@
 {"name":"GosNumber","kind":"string","info":"Measurement number","script":"01 Registration unit",
 "data":"52147-12"},
 {"name":"VerificationConditions","kind":"table","info":"Controlled parameters#150;ND requirements#100;Measured values#100;","script":"01 Registration unit",
-"data":"Temperature; 20°C; 1,0;\r
+"data":"Temperature; 20°C; ;\r
 Humidity; 60%; ;\r
 Pressure; 100kPa; ;\r
 "},
 {"name":"VerificationTools","kind":"table","info":"Name, type, serial number#350;Metrological characteristics#400;","script":"01 Registration unit",
-"data":"Fluke 5522A Multifunctional Calibrator Serial ¹2182904; U=(34mV-1000V), Error±(0,0012-0,005)%, 2nd category\nI=(24mkA-10A), Error±(0,011-0,1)%, 1 category\nU~(25mV-1000V), 10Hz-500kHz, Error±(0,017-1)% 2nd category\nI~=(2mkA-10A), 20Hz-20kHz, Error±(0,046-3,02)%, 2nd category\nR=(0,5Î?-5Î?), (110M?-1100M?), Error ±(0,33-2)%, 3nd category;\r
+"data":"Fluke 5522A Multifunctional Calibrator Serial ¹2182904; U=(34mV-1000V), Error±(0,0012-0,005)%, 2nd category\nI=(24mkA-10A), Error±(0,011-0,1)%, 1 category\nU~(25mV-1000V), 10Hz-500kHz, Error±(0,017-1)% 2nd category\nI~=(2mkA-10A), 20Hz-20kHz, Error±(0,046-3,02)%, 2nd category\nR=(0,50[Ohm]-50[Ohm]), (110M[Ohm]-1100M[Ohm]), Error ±(0,33-2)%, 3nd category;\r
 Universal voltmeter calibrator H4-12 Serial ¹005211; U=(0,001V-1000V), Error±(0,000315 – 0,0011)%  2-nd category\nU~=(0.75mV-1000V), 10Hz-50kHz, Error±(0,003 – 0,23)%, 2-nd category\nI=(70nA-30A), Error±(0,00275 – 0,05)%, 1 category\nI~=(70nA-20A), 0,1Hz-10kHz, Error±(0,0165 – 0,55)%, 2-nd category;\r
 "},
 {"name":"VAC","kind":"table","info":"Range#100;Point#100;Frequency#100;Result#100;Accuracy#100;Permissible error#100;Conclusion#100;","script":"03 Measurement",

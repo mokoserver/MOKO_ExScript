@@ -6,7 +6,7 @@ MOKO.Stage(stars('MOKO Clicker'))
 MOKO.Stage(stars('*'))
 
 
-MOKO.Messenger('set', 'Greeting.jpg',
+MOKO.Messenger('set', 'Greeting#@hello',
                'This presentation will show 3 commands, but there are more commands. '
                'The first command is to get a screenshot of the screen, '
                'the second command is to specify the image path and '
