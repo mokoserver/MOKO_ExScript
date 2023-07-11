@@ -36,7 +36,7 @@ class ExFluke5000Agilent34401A:
                 MOKO.Stage(f'VDC Measure -> range = {range}, verified = {verified}, error = {error}')
                 MOKO.Driver('AgilentDMM', 'set', f'range = {range}')
                 MOKO.Driver('Fluke5000', 'set', f'VDC = {verified}')
-                result = MOKO.Driver('AgilentDMM', 'set', 'read')
+                result = MOKO.Driver('AgilentDMM', 'get', 'read')
                 MOKO.Stage(" ")
                 f_result = MFRT.ConvertStringToFloat(result)
                 accuracy = abs(f_verified - f_result)
@@ -125,9 +125,10 @@ class ExFluke5000Agilent34401A:
 #######################################################################################################################
 
                 MOKO.Stage(f'R2 Measure -> range = {range}, verified = {verified}, error = {error}')
+
                 MOKO.Driver('AgilentDMM', 'set', f'range = {range}')
                 MOKO.Driver('Fluke5000', 'set', f'R2 = {verified}')
-                result = MOKO.Driver('AgilentDMM', 'set', 'read')
+                result = MOKO.Driver('AgilentDMM', 'get', 'read')
                 MOKO.Stage(" ")
                 f_result = MFRT.ConvertStringToFloat(result)
                 accuracy = abs(f_verified - f_result)
@@ -181,7 +182,7 @@ class ExFluke5000Agilent34401A:
 
                 MOKO.Driver('AgilentDMM', 'set', f'range = {range}')
                 MOKO.Driver('Fluke5000', 'set', f'VDC = {verified}')
-                result = MOKO.Driver('AgilentDMM', 'set', 'read')
+                result = MOKO.Driver('AgilentDMM', 'get', 'read')
                 MOKO.Stage(" ")
                 f_result = MFRT.ConvertStringToFloat(result)
                 accuracy = abs(f_verified - f_result)
@@ -222,9 +223,11 @@ class ExFluke5000Agilent34401A:
 #####################################################  IDC MEAS  ######################################################
 #######################################################################################################################
 
+                MOKO.Stage(f'IDC Measure -> range = {range}, verified = {verified}, error = {error}')
+
                 MOKO.Driver('AgilentDMM', 'set', f'range = {range}')
                 MOKO.Driver('Fluke5000', 'set', f'VDC = {verified}')
-                result = MOKO.Driver('AgilentDMM', 'set', 'read')
+                result = MOKO.Driver('AgilentDMM', 'get', 'read')
                 MOKO.Stage(" ")
                 f_result = MFRT.ConvertStringToFloat(result)
                 accuracy = abs(f_verified - f_result)
