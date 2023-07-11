@@ -1,5 +1,5 @@
 {
-"project_name":"FLUKE5520_Agilent34401A",
+"project_name":"FLUKE5520_Agilent34460A",
 "project_autosave":"true",
 "project_scripts":[
 {"script":"01 Registration unit.py","necessary":"true"},
@@ -12,6 +12,6 @@
 {"script":"MOSC.py"}
 ],
 "project_templates":[
-{"script":"FLUKE5520_Agilent34401A.docx"}
+{"script":"FLUKE5520_Agilent34460A.docx"}
 ]
 }
