@@ -56,8 +56,8 @@ MOKO.Report("VerificationConditions", "set", "table", f"Temperature; 20°C; {Tem
 MOKO.Report("VerificationConditions", "set", "table", f"Humidity; 60%; {Humidity}")
 MOKO.Report("VerificationConditions", "set", "table", f"Pressure; 100kPa; {Pressure}")
 
-text_report_fluke = "U=(34mV-1000V), Error±(0,0012-0,005)%, 2nd category\\nI=(24mkA-10A), Error±(0,011-0,1)%, " \
-    "1 category\\nU~(25mV-1000V), 10Hz-500kHz, Error±(0,017-1)% 2nd category\\nI~=(2mkA-10A), 20Hz-20kHz, " \
+text_report_fluke = "U=(34mV-1000V), Error±(0,0012-0,005)%, 2nd category\\nI=(24uA-10A), Error±(0,011-0,1)%, " \
+    "1 category\\nU~(25mV-1000V), 10Hz-500kHz, Error±(0,017-1)% 2nd category\\nI~=(2uA-10A), 20Hz-20kHz, " \
     "Error±(0,046-3,02)%, 2nd category\\nR=(0,50[[Ohm]]-50[Ohm]), (110M[Ohm]-1100M[Ohm]), Error ±(0,33-2)%, 3nd category"
 text_report_voltmeter = "U=(0,001V-1000V), Error±(0,000315 – 0,0011)%  2-nd category\\nU~=(0.75mV-1000V), " \
                         "10Hz-50kHz, Error±(0,003 – 0,23)%, 2-nd category\\nI=(70nA-30A), Error±(0,00275 – 0,05)%, " \

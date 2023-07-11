@@ -23,10 +23,10 @@ def VDC(range: (str, float, int), verified: (str, float, int), error: (str, floa
         Poverka.MeasurementStartCommand(WireConnection='VDC')
         Poverka.MeasurementAndReport(range=range, verified=verified, error=error, WireConnection="VDC")
 
-    if Poverka.Status == 'Failed':
-        MOSC.hesh_failed()
-    else:
-        MOSC.hesh_passed()
+        if Poverka.Status == 'Failed':
+            MOSC.hesh_failed()
+        else:
+            MOSC.hesh_passed()
 
 
 def VAC(range: str, verified: str, frequency: str, filter: str, error: str, hesh: str):
@@ -37,10 +37,10 @@ def VAC(range: str, verified: str, frequency: str, filter: str, error: str, hesh
         Poverka.MeasurementAndReport(range=range, verified=verified, error=error, frequency=frequency, filter=filter,
                                      WireConnection="VAC")
 
-    if Poverka.Status == 'Failed':
-        MOSC.hesh_failed()
-    else:
-        MOSC.hesh_passed()
+        if Poverka.Status == 'Failed':
+            MOSC.hesh_failed()
+        else:
+            MOSC.hesh_passed()
 
 
 def R2(range: (str, float, int), verified: (str, float, int), error: (str, float, int), hesh: str):
@@ -50,10 +50,10 @@ def R2(range: (str, float, int), verified: (str, float, int), error: (str, float
         Poverka.MeasurementStartCommand(WireConnection='R2')
         Poverka.MeasurementAndReport(range=range, verified=verified, error=error, WireConnection="R2")
 
-    if Poverka.Status == 'Failed':
-        MOSC.hesh_failed()
-    else:
-        MOSC.hesh_passed()
+        if Poverka.Status == 'Failed':
+            MOSC.hesh_failed()
+        else:
+            MOSC.hesh_passed()
 
 
 def R4(range: (str, float, int), verified: (str, float, int), error: (str, float, int), hesh: str):
@@ -101,13 +101,13 @@ def IAC(range: (str, float, int), verified: (str, float, int), frequency: (str, 
 #description: range of \nmeasurement, V;verified point, V;range of \npermissible \nabsolute error, V;
 MOKO.Program('tree', 'set', 'select = Determining the absolute error of DC voltage measurement$VDC')
 
-VDC(range='100m', verified='100,0000m',  error='15,5mk', hesh='Meas 1$VDC')   #hesh Meas 1$VDC:  100m  ;100,0000m   ;15,5mk;
-VDC(range='100m', verified='-100,0000m', error='15,5mk', hesh='Meas 2$VDC')   #hesh Meas 2$VDC:  100m  ;-100,0000m  ;15,5mk;
-VDC(range='1',    verified='1,000000',   error='90mk',   hesh='Meas 3$VDC')   #hesh Meas 3$VDC:  1     ;1,000000    ;90mk;
-VDC(range='1',    verified='-1,000000',  error='90mk',   hesh='Meas 4$VDC')   #hesh Meas 4$VDC:  1     ;-1,000000   ;90mk;
-VDC(range='10',   verified='4,00000',    error='350mk',  hesh='Meas 5$VDC')   #hesh Meas 5$VDC:  10    ;4,00000     ;350mk;
-VDC(range='10',   verified='10,00000',   error='800mk',  hesh='Meas 6$VDC')   #hesh Meas 6$VDC:  10    ;10,00000    ;800mk;
-VDC(range='10',   verified='-10,00000',  error='800mk',  hesh='Meas 7$VDC')   #hesh Meas 7$VDC:  10    ;-10,00000   ;800mk;
+VDC(range='100m', verified='100,000m',   error='15,5u',  hesh='Meas 1$VDC')   #hesh Meas 1$VDC:  100m  ;10,0000m    ;15,5u;
+VDC(range='100m', verified='-100,0000m', error='15,5u',  hesh='Meas 2$VDC')   #hesh Meas 2$VDC:  100m  ;-100,0000m  ;15,5u;
+VDC(range='1',    verified='1,000000',   error='90u',    hesh='Meas 3$VDC')   #hesh Meas 3$VDC:  1     ;1,000000    ;90u;
+VDC(range='1',    verified='-1,000000',  error='90u',    hesh='Meas 4$VDC')   #hesh Meas 4$VDC:  1     ;-1,000000   ;90u;
+VDC(range='10',   verified='4,00000',    error='350u',   hesh='Meas 5$VDC')   #hesh Meas 5$VDC:  10    ;4,00000     ;350u;
+VDC(range='10',   verified='10,00000',   error='800u',   hesh='Meas 6$VDC')   #hesh Meas 6$VDC:  10    ;10,00000    ;800u;
+VDC(range='10',   verified='-10,00000',  error='800u',   hesh='Meas 7$VDC')   #hesh Meas 7$VDC:  10    ;-10,00000   ;800u;
 VDC(range='100',  verified='100,0000',   error='9,1m',   hesh='Meas 8$VDC')   #hesh Meas 8$VDC:  100   ;100,0000    ;9,1m;
 VDC(range='100',  verified='-100,0000',  error='9,1m',   hesh='Meas 9$VDC')   #hesh Meas 9$VDC:  100   ;-100,0000   ;9,1m;
 VDC(range='1000', verified='1000,000',   error='95m',    hesh='Meas 10$VDC')  #hesh Meas 10$VDC: 1000  ;1000,000    ;95m;
@@ -120,8 +120,8 @@ Poverka.MeasurementStopCommand()
 #description: range of \nmeasurement, V;verified point, V;frequency, Hz;filter, Hz;range of \npermissible \nabsolute error, V;
 MOKO.Program('tree', 'set', 'select = Determining the absolute error of AC voltage measurement$VAC')
 
-VAC(range="100m", verified="100,00000m", frequency="1k",    filter="200", error="120mk", hesh='Meas 1$VAC')   #hesh Meas 1$VAC:  100m ;100,00000m  ;1k    ;200  ;120mk;
-VAC(range="100m", verified="100,00000m", frequency="50k",   filter="200", error="200mk", hesh='Meas 2$VAC')   #hesh Meas 2$VAC:  100m ;100,00000m  ;50k   ;200  ;200mk;
+VAC(range="100m", verified="100,00000m", frequency="1k",    filter="200", error="120u",  hesh='Meas 1$VAC')   #hesh Meas 1$VAC:  100m ;100,00000m  ;1k    ;200  ;120u;
+VAC(range="100m", verified="100,00000m", frequency="50k",   filter="200", error="200u",  hesh='Meas 2$VAC')   #hesh Meas 2$VAC:  100m ;100,00000m  ;50k   ;200  ;200u;
 VAC(range="100m", verified="100,00000m", frequency="300k",  filter="200", error="4,5m",  hesh='Meas 3$VAC')   #hesh Meas 3$VAC:  100m ;100,00000m  ;300k  ;200  ;4,5m;
 VAC(range="1",    verified="1,000000",   frequency="1k",    filter="200", error="1,2m",  hesh='Meas 4$VAC')   #hesh Meas 4$VAC:  1    ;1,000000    ;1k    ;200  ;1,2m;
 VAC(range="1",    verified="1,000000",   frequency="50k",   filter="200", error="2m",    hesh='Meas 5$VAC')   #hesh Meas 5$VAC:  1    ;1,000000    ;50k   ;200  ;2,0m;
@@ -168,10 +168,10 @@ Poverka.MeasurementStopCommand()
 #description: range of \nmeasurement, A;verified point, A;range of \npermissible \nabsolute error, A;
 MOKO.Program('tree', 'set', 'select = Determination of the absolute error in the measurement of direct current$IDC')
 
-IDC(range="100mk", verified="10,0000mk", error="0,0750mk", hesh='Meas 1$IDC')  #hesh Meas 1$IDC: 100mk  ;10,0000mk  ;0,0750mk;
-IDC(range="1m",    verified="1,000000m", error="0,560mk",  hesh='Meas 2$IDC')  #hesh Meas 2$IDC: 1m     ;1,000000m  ;0,560mk;
-IDC(range="10m",   verified="10,00000m", error="0,7mk",    hesh='Meas 3$IDC')  #hesh Meas 3$IDC: 10m    ;10,00000m  ;7mk;
-IDC(range="100m",  verified="100,0000m", error="0,55mk",   hesh='Meas 4$IDC')  #hesh Meas 4$IDC: 100m   ;100,0000m  ;55mk;
+IDC(range="100u",  verified="10,0000u",  error="0,0750u",  hesh='Meas 1$IDC')  #hesh Meas 1$IDC: 100u   ;10,0000u   ;0,0750u;
+IDC(range="1m",    verified="1,000000m", error="0,560u",   hesh='Meas 2$IDC')  #hesh Meas 2$IDC: 1m     ;1,000000m  ;0,560u;
+IDC(range="10m",   verified="10,00000m", error="0,7u",     hesh='Meas 3$IDC')  #hesh Meas 3$IDC: 10m    ;10,00000m  ;7u;
+IDC(range="100m",  verified="100,0000m", error="0,55u",    hesh='Meas 4$IDC')  #hesh Meas 4$IDC: 100m   ;100,0000m  ;55u;
 IDC(range="1",     verified="1,000000",  error="1,1m",     hesh='Meas 5$IDC')  #hesh Meas 5$IDC: 1      ;1,000000   ;1,1m;
 IDC(range="3",     verified="2,00000",   error="4,6m",     hesh='Meas 6$IDC')  #hesh Meas 6$IDC: 3      ;2,00000    ;4,6m;
 
@@ -182,17 +182,17 @@ Poverka.MeasurementStopCommand()
 #description: range of \nmeasurement, A;verified point, A;frequency, Hz;filter, Hz;range of \npermissible \nabsolute error, A;
 MOKO.Program('tree', 'set', 'select = Determination of the absolute error of measuring the strength of alternating current$IAC')
 
-IAC(range="100mk", verified="100,0000mk", frequency="1k",    filter="200", error="0,14mk", hesh='Meas 1$IAC')   #hesh Meas 1$IAC:  100mk ;100,0000mk ;1k     ;200   ;0,14mk;
-IAC(range="100mk", verified="100,0000mk", frequency="5k",    filter="200", error="0,14mk", hesh='Meas 2$IAC')   #hesh Meas 2$IAC:  100mk ;100,0000mk ;5k     ;200   ;0,14mk;
-IAC(range="1m",    verified="1,000000m",  frequency="1k",    filter="200", error="1,4mk",  hesh='Meas 3$IAC')   #hesh Meas 3$IAC:  1m    ;1,000000m  ;1k     ;200   ;1,4mk;
-IAC(range="1m",    verified="1,000000m",  frequency="5k",    filter="200", error="1,4mk",  hesh='Meas 4$IAC')   #hesh Meas 4$IAC:  1m    ;1,000000m  ;5k     ;200   ;1,4mk;
-IAC(range="10m",   verified="1,00000m",   frequency="1k",    filter="200", error="4,1mk",  hesh='Meas 5$IAC')   #hesh Meas 5$IAC:  10m   ;1,00000m   ;1k     ;200   ;4,1mk;
-IAC(range="10m",   verified="1,00000m",   frequency="1k",    filter="200", error="5,0mk",  hesh='Meas 6$IAC')   #hesh Meas 6$IAC:  10m   ;1,00000m   ;1k     ;200   ;5,0mk;
-IAC(range="10m",   verified="10,00000m",  frequency="1k",    filter="200", error="14mk",   hesh='Meas 7$IAC')   #hesh Meas 7$IAC:  10m   ;10,00000   ;1k     ;200   ;14mk;
-IAC(range="10m",   verified="10,00000m",  frequency="5k",    filter="200", error="14mk",   hesh='Meas 8$IAC')   #hesh Meas 8$IAC:  10m   ;10,00000   ;5k     ;200   ;14mk;
-IAC(range="100m",  verified="100,0000m",  frequency="0,01k", filter="3",   error="140mk",  hesh='Meas 9$IAC')   #hesh Meas 9$IAC:  100m  ;100,0000   ;0,01k  ;30    ;140mk;
-IAC(range="100m",  verified="100,0000m",  frequency="1k",    filter="200", error="140mk",  hesh='Meas 10$IAC')  #hesh Meas 10$IAC: 100m  ;100,0000   ;1k     ;200   ;140mk;
-IAC(range="100m",  verified="100,0000m",  frequency="5k",    filter="200", error="140mk",  hesh='Meas 11$IAC')  #hesh Meas 11$IAC: 100m  ;100,0000   ;5k     ;200   ;140mk;
+IAC(range="100u",  verified="100,0000u",  frequency="1k",    filter="200", error="0,14u",  hesh='Meas 1$IAC')   #hesh Meas 1$IAC:  100u  ;100,0000u  ;1k     ;200   ;0,14u;
+IAC(range="100u",  verified="100,0000u",  frequency="5k",    filter="200", error="0,14u",  hesh='Meas 2$IAC')   #hesh Meas 2$IAC:  100u  ;100,0000u  ;5k     ;200   ;0,14u;
+IAC(range="1m",    verified="1,000000m",  frequency="1k",    filter="200", error="1,4u",   hesh='Meas 3$IAC')   #hesh Meas 3$IAC:  1m    ;1,000000m  ;1k     ;200   ;1,4u;
+IAC(range="1m",    verified="1,000000m",  frequency="5k",    filter="200", error="1,4u",   hesh='Meas 4$IAC')   #hesh Meas 4$IAC:  1m    ;1,000000m  ;5k     ;200   ;1,4u;
+IAC(range="10m",   verified="1,00000m",   frequency="1k",    filter="200", error="4,1u",   hesh='Meas 5$IAC')   #hesh Meas 5$IAC:  10m   ;1,00000m   ;1k     ;200   ;4,1u;
+IAC(range="10m",   verified="1,00000m",   frequency="1k",    filter="200", error="5,0u",   hesh='Meas 6$IAC')   #hesh Meas 6$IAC:  10m   ;1,00000m   ;1k     ;200   ;5,0u;
+IAC(range="10m",   verified="10,00000m",  frequency="1k",    filter="200", error="14u",    hesh='Meas 7$IAC')   #hesh Meas 7$IAC:  10m   ;10,00000   ;1k     ;200   ;14u;
+IAC(range="10m",   verified="10,00000m",  frequency="5k",    filter="200", error="14u",    hesh='Meas 8$IAC')   #hesh Meas 8$IAC:  10m   ;10,00000   ;5k     ;200   ;14u;
+IAC(range="100m",  verified="100,0000m",  frequency="0,01k", filter="3",   error="140u",   hesh='Meas 9$IAC')   #hesh Meas 9$IAC:  100m  ;100,0000   ;0,01k  ;30    ;140u;
+IAC(range="100m",  verified="100,0000m",  frequency="1k",    filter="200", error="140u",   hesh='Meas 10$IAC')  #hesh Meas 10$IAC: 100m  ;100,0000   ;1k     ;200   ;140u;
+IAC(range="100m",  verified="100,0000m",  frequency="5k",    filter="200", error="140u",   hesh='Meas 11$IAC')  #hesh Meas 11$IAC: 100m  ;100,0000   ;5k     ;200   ;140u;
 IAC(range="1",     verified="1,000000",   frequency="1k",    filter="200", error="1,4m",   hesh='Meas 12$IAC')  #hesh Meas 12$IAC: 1     ;1,000000   ;1k     ;200   ;1,4m;
 IAC(range="1",     verified="1,000000",   frequency="5k",    filter="200", error="1,4m",   hesh='Meas 13$IAC')  #hesh Meas 13$IAC: 1     ;1,000000   ;5k     ;200   ;1,4m;
 IAC(range="3",     verified="2,00000",    frequency="1k",    filter="200", error="5,8m",   hesh='Meas 14$IAC')  #hesh Meas 14$IAC: 3     ;2,00000    ;1k     ;200   ;5,8m;

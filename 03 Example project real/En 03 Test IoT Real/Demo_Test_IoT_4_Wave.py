@@ -31,6 +31,7 @@ class DemoTestIoTMeasurement:
         self.ContinueMeasurement = True
 
         f_value = MFRT.ConvertStringToFloat(value)
+        result, f_result = 0, 0
 
         self.ListValue.append(f_value)
 
@@ -38,23 +39,24 @@ class DemoTestIoTMeasurement:
                    f"amplitude = {amplitude}, amplitude_limit = {amplitude_limit}, frequency = {frequency}, "
                    f"percent_error = {percent_error}")
 
-        while self.ContinueMeasurement:
-
 #######################################################################################################################
 #####################################################  VDC  ###########################################################
 #######################################################################################################################
 
-            if WireConnection == 'VDC':
+        if WireConnection == 'VDC':
 
 #######################################################################################################################
 ###################################################  VDC MEAS  ########################################################
 #######################################################################################################################
 
-                MOKO.Driver('BK1697B', 'set', f'VDC = {value}', 'string')
-                MOKO.Driver('FY6900', 'set', f'WAVE = {wave}', 'string')
-                MOKO.Driver('FY6900', 'set', f'amplitude = {amplitude}', 'string')
-                MOKO.Driver('FY6900', 'set', f'frequency = {frequency}', 'string')
-                self.CheckFirstResult()
+            MOKO.Driver('BK1697B', 'set', f'VDC = {value}', 'string')
+            MOKO.Driver('FY6900', 'set', f'WAVE = {wave}', 'string')
+            MOKO.Driver('FY6900', 'set', f'amplitude = {amplitude}', 'string')
+            MOKO.Driver('FY6900', 'set', f'frequency = {frequency}', 'string')
+
+            self.CheckFirstResult()
+
+            while self.ContinueMeasurement:
                 result = MOKO.Driver('APPA207', 'get', 'read', 'string')
                 MOKO.Stage(" ")
                 f_result = MFRT.ConvertStringToFloat(result)
@@ -71,38 +73,41 @@ class DemoTestIoTMeasurement:
                     self.Count_meas = 0
 
                 self.ContinueMeasurement = False
-                self.ListResult.append(f_result)
+            self.ListResult.append(f_result)
 
 #######################################################################################################################
 ##################################################  VDC REPORT  #######################################################
 #######################################################################################################################
 
-                MOKO.Report(name_table, "set", "table", f"{value};"
-                                                        f"{value_limit};"
-                                                        f"{percent_error};"
-                                                        f"{MFRT.ConvertFloatToString(value * (percent_error / 100), resolution=3)};"
-                                                        f"{wave};"
-                                                        f"{amplitude};"
-                                                        f"{amplitude_limit};"
-                                                        f"{frequency};"
-                                                        f"{result};")
-                MOKO.Stage(" ")
+            MOKO.Report(name_table, "set", "table", f"{value};"
+                                                    f"{value_limit};"
+                                                    f"{percent_error};"
+                                                    f"{MFRT.ConvertFloatToString(value * (percent_error / 100), resolution=3)};"
+                                                    f"{wave};"
+                                                    f"{amplitude};"
+                                                    f"{amplitude_limit};"
+                                                    f"{frequency};"
+                                                    f"{result};")
+            MOKO.Stage(" ")
 
 #######################################################################################################################
 ####################################################  IDC  ############################################################
 #######################################################################################################################
 
-            elif WireConnection == 'IDC':
+        elif WireConnection == 'IDC':
 
 #######################################################################################################################
 #################################################  IDC MEAS  ##########################################################`
 #######################################################################################################################
 
-                MOKO.Driver('BK1697B', 'set', f'IDC = {value}', 'string')
-                MOKO.Driver('FY6900', 'set', f'WAVE = {wave}', 'string')
-                MOKO.Driver('FY6900', 'set', f'amplitude = {amplitude}', 'string')
-                MOKO.Driver('FY6900', 'set', f'frequency = {frequency}', 'string')
-                self.CheckFirstResult()
+            MOKO.Driver('BK1697B', 'set', f'IDC = {value}', 'string')
+            MOKO.Driver('FY6900', 'set', f'WAVE = {wave}', 'string')
+            MOKO.Driver('FY6900', 'set', f'amplitude = {amplitude}', 'string')
+            MOKO.Driver('FY6900', 'set', f'frequency = {frequency}', 'string')
+
+            self.CheckFirstResult()
+
+            while self.ContinueMeasurement:
                 result = MOKO.Driver('APPA207', 'get', 'read', 'string')
                 MOKO.Stage(" ")
                 f_result = MFRT.ConvertStringToFloat(result)
@@ -119,23 +124,23 @@ class DemoTestIoTMeasurement:
                     self.Count_meas = 0
 
                 self.ContinueMeasurement = False
-                self.ListResult.append(f_result)
+            self.ListResult.append(f_result)
 
 #######################################################################################################################
 ####################################################  IDC REPORT  #####################################################
 #######################################################################################################################
 
-                MOKO.Report(name_table, "set", "table", f"{value};"
-                                                        f"{value_limit};"
-                                                        f"{percent_error};"
-                                                        f"{MFRT.ConvertFloatToString(f_value * (percent_error / 100), resolution=3)};"
-                                                        f"{wave};"
-                                                        f"{amplitude};"
-                                                        f"{amplitude_limit};"
-                                                        f"{frequency};"
-                                                        f"{result};")
+            MOKO.Report(name_table, "set", "table", f"{value};"
+                                                    f"{value_limit};"
+                                                    f"{percent_error};"
+                                                    f"{MFRT.ConvertFloatToString(f_value * (percent_error / 100), resolution=3)};"
+                                                    f"{wave};"
+                                                    f"{amplitude};"
+                                                    f"{amplitude_limit};"
+                                                    f"{frequency};"
+                                                    f"{result};")
 
-                MOKO.Stage(" ")
+            MOKO.Stage(" ")
 
 ########################################################################################################################
 ##################################### Module check wire connection devices #############################################

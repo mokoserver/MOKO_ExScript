@@ -35,10 +35,10 @@ def VDC(value: (str, float, int),
                                      hesh=hesh, WireConnection='VDC')
         Testing.CreateGraph()
 
-    if Testing.FailedResult:
-        hesh_failed()
-    else:
-        hesh_passed()
+        if Testing.FailedResult:
+            hesh_failed()
+        else:
+            hesh_passed()
 
 
 def IDC(value: (str, float, int),
@@ -61,10 +61,10 @@ def IDC(value: (str, float, int),
                                      hesh=hesh, WireConnection='IDC')
         Testing.CreateGraph()
 
-    if Testing.FailedResult:
-        hesh_failed()
-    else:
-        hesh_passed()
+        if Testing.FailedResult:
+            hesh_failed()
+        else:
+            hesh_passed()
 
 #region Voltage measurement with generator signal sin$VDC_SIN
 #description: value \nmeasurement, V;value limit, V;percentage of \nallowed error, %;wave amplitude;amplitude, V;amplitude\nlimit, V;frequency, Hz;

@@ -1,3 +1,5 @@
+import time
+
 import MOKO
 import MFRT
 
@@ -21,39 +23,43 @@ class ExFluke5000Agilent34401A:
         """
         f_verified = MFRT.ConvertStringToFloat(verified)
         f_error = MFRT.ConvertStringToFloat(error)
+        f_result, accuracy = 0, 0
 
-        while self.ContinueMeasurement is True:
 #######################################################################################################################
 #######################################################  VDC  #########################################################
 #######################################################################################################################
 
-            if WireConnection == 'VDC':
+        if WireConnection == 'VDC':
 
 #######################################################################################################################
 #####################################################  VDC MEAS  ######################################################
 #######################################################################################################################
 
-                MOKO.Stage(f'VDC Measure -> range = {range}, verified = {verified}, error = {error}')
-                MOKO.Stage(f'Driver: AgilentDMM >> mode: set >> command: range = {range}', 'driver')
-                MOKO.Stage(f'Driver: Fluke5000 >> mode: set >> command: VDC = {verified}', 'driver')
+            MOKO.Stage(f'VDC Measure -> range = {range}, verified = {verified}, error = {error}')
+
+            MOKO.Stage(f'Driver: AgilentDMM >> mode: set >> command: range = {range}', 'driver')
+            MOKO.Stage(f'Driver: Fluke5000 >> mode: set >> command: VDC = {verified}', 'driver')
+
+            while self.ContinueMeasurement:
+                time.sleep(0.3)
                 MOKO.Stage(f'DriverSet AgilentDMM >> mode: get >> command: result = read', 'driver')
-                result = f_verified * 1.00000001
+                result = f_verified
                 MOKO.Stage(" ")
                 f_result = MFRT.ConvertStringToFloat(result)
                 accuracy = abs(f_verified - f_result)
                 if accuracy > f_error:
                     if self.Count_meas == self.NumberOfRemeasurementAttempts - 1:
                         choices = self.CallMessengerChoices(
-                            verified=f_verified, error=f_error, result=result, reference_number=verified)
+                            verified=f_verified, error=f_error, result=f_result, reference_number=verified)
                         if choices:
                             continue
                     else:
                         self.CallMessengerErrorPoint(
-                            verified=f_verified, error=f_error, result=result, reference_number=verified)
+                            verified=f_verified, error=f_error, result=f_result, reference_number=verified)
                         continue
                 else:
-                    self.Count_meas = 0
                     self.Status = 'OK'
+                    self.Count_meas = 0
 
                 self.ContinueMeasurement = False
 
@@ -61,45 +67,49 @@ class ExFluke5000Agilent34401A:
 ####################################################  VDC REPORT  #####################################################
 #######################################################################################################################
 
-                MOKO.Report("VDC", "set", "table", f"{range};"
-                                                   f"{verified};"
-                                                   f"{MFRT.ConvertFloatToString(f_result, verified)};"
-                                                   f"{MFRT.ConvertFloatToString(accuracy, verified)};"
-                                                   f"{MFRT.ConvertFloatToString(error)};"
-                                                   f"{self.Status}")
+            MOKO.Report("VDC", "set", "table", f"{range};"
+                                               f"{verified};"
+                                               f"{MFRT.ConvertFloatToString(f_result, verified)};"
+                                               f"{MFRT.ConvertFloatToString(accuracy, verified)};"
+                                               f"{MFRT.ConvertFloatToString(error)};"
+                                               f"{self.Status}")
 
 #######################################################################################################################
 #######################################################  VAC  #########################################################
 #######################################################################################################################
 
-            elif WireConnection == 'VAC':
+        elif WireConnection == 'VAC':
 
 #######################################################################################################################
 ####################################################  VAC MEAS  #######################################################
 #######################################################################################################################
 
-                MOKO.Stage(f'VAC Measure -> range = {range}, verified = {verified}, '
-                           f'frequency = {frequency}, error = {error}')
-                MOKO.Stage(f'DriverSet AgilentDMM >> mode: set >> command: range = {range}', 'driver')
-                MOKO.Stage(f'DriverSet Fluke5000 >> mode: set >> command: VAC = {verified} {frequency}', 'driver')
+            MOKO.Stage(f'VAC Measure -> range = {range}, verified = {verified}, frequency = {frequency}, '
+                       f'error = {error}')
+
+            MOKO.Stage(f'DriverSet AgilentDMM >> mode: set >> command: range = {range}', 'driver')
+            MOKO.Stage(f'DriverSet Fluke5000 >> mode: set >> command: VAC = {verified} {frequency}', 'driver')
+
+            while self.ContinueMeasurement:
+                time.sleep(0.3)
                 MOKO.Stage(f'DriverSet AgilentDMM >> mode: get >> command: result = read', 'driver')
-                result = f_verified * 1.00000001
+                result = f_verified
                 MOKO.Stage(" ")
                 f_result = MFRT.ConvertStringToFloat(result)
                 accuracy = abs(f_verified - f_result)
                 if accuracy > f_error:
                     if self.Count_meas == self.NumberOfRemeasurementAttempts - 1:
                         choices = self.CallMessengerChoices(
-                            verified=f_verified, error=f_error, result=result, reference_number=verified)
+                            verified=f_verified, error=f_error, result=f_result, reference_number=verified)
                         if choices:
                             continue
                     else:
                         self.CallMessengerErrorPoint(
-                            verified=f_verified, error=f_error, result=result, reference_number=verified)
+                            verified=f_verified, error=f_error, result=f_result, reference_number=verified)
                         continue
                 else:
-                    self.Count_meas = 0
                     self.Status = 'OK'
+                    self.Count_meas = 0
 
                 self.ContinueMeasurement = False
 
@@ -107,45 +117,49 @@ class ExFluke5000Agilent34401A:
 ###################################################  VAC REPORT  ######################################################
 #######################################################################################################################
 
-                MOKO.Report("VAC", "set", "table", f"{range};"
-                                                   f"{verified};"
-                                                   f"{frequency};"
-                                                   f"{MFRT.ConvertFloatToString(f_result, verified)};"
-                                                   f"{MFRT.ConvertFloatToString(accuracy, verified)};"
-                                                   f"{error};"
-                                                   f"{self.Status}")
+            MOKO.Report("VAC", "set", "table", f"{range};"
+                                               f"{verified};"
+                                               f"{frequency};"
+                                               f"{MFRT.ConvertFloatToString(f_result, verified)};"
+                                               f"{MFRT.ConvertFloatToString(accuracy, verified)};"
+                                               f"{error};"
+                                               f"{self.Status}")
 
 #######################################################################################################################
 #######################################################   R2  #########################################################
 #######################################################################################################################
 
-            elif WireConnection == 'R2':
+        elif WireConnection == 'R2':
 
 #######################################################################################################################
 ######################################################  R2 MEAS  ######################################################
 #######################################################################################################################
 
-                MOKO.Stage(f'R2 Measure -> range = {range}, verified = {verified}, error = {error}')
-                MOKO.Stage(f'Driver: AgilentDMM >> mode: set >> command: range = {range}', 'driver')
-                MOKO.Stage(f'Driver: Fluke5000 >> mode: set >> command: R2 = {verified}', 'driver')
+            MOKO.Stage(f'R2 Measure -> range = {range}, verified = {verified}, error = {error}')
+
+            MOKO.Stage(f'Driver: AgilentDMM >> mode: set >> command: range = {range}', 'driver')
+            MOKO.Stage(f'Driver: Fluke5000 >> mode: set >> command: R2 = {verified}', 'driver')
+
+            while self.ContinueMeasurement:
+                time.sleep(0.3)
                 MOKO.Stage(f'DriverSet AgilentDMM >> mode: get >> command: result = read', 'driver')
-                result = f_verified * 1.00000001
+                result = f_verified
                 MOKO.Stage(" ")
                 f_result = MFRT.ConvertStringToFloat(result)
                 accuracy = abs(f_verified - f_result)
                 if accuracy > f_error:
                     if self.Count_meas == self.NumberOfRemeasurementAttempts - 1:
                         choices = self.CallMessengerChoices(
-                            verified=f_verified, error=f_error, result=result, reference_number=verified)
+                            verified=f_verified, error=f_error, result=f_result, reference_number=verified)
                         if choices:
                             continue
                     else:
                         self.CallMessengerErrorPoint(
-                            verified=f_verified, error=f_error, result=result, reference_number=verified)
+                            verified=f_verified, error=f_error, result=f_result, reference_number=verified)
                         continue
                 else:
-                    self.Count_meas = 0
                     self.Status = 'OK'
+                    self.Count_meas = 0
 
                 self.ContinueMeasurement = False
 
@@ -153,53 +167,48 @@ class ExFluke5000Agilent34401A:
 ###################################################  R2 REPORT  #######################################################
 #######################################################################################################################
 
-                MOKO.Report("RES", "set", "table", f"{range};"
-                                                   f"{verified};"
-                                                   f"{MFRT.ConvertFloatToString(f_result, verified)};"
-                                                   f"{MFRT.ConvertFloatToString(accuracy, verified)};"
-                                                   f"{error};"
-                                                   f"{self.Status}")
+            MOKO.Report("RES", "set", "table", f"{range};"
+                                               f"{verified};"
+                                               f"{MFRT.ConvertFloatToString(f_result, verified)};"
+                                               f"{MFRT.ConvertFloatToString(accuracy, verified)};"
+                                               f"{error};"
+                                               f"{self.Status}")
 
 #######################################################################################################################
 #####################################################   R4  ###########################################################
 #######################################################################################################################
 
-            elif WireConnection == 'R4':
+        elif WireConnection == 'R4':
 
 #######################################################################################################################
 #####################################################  R4 MEAS  #######################################################
 #######################################################################################################################
 
-                MOKO.Stage(f'R4 Measure -> range = {range}, verified = {verified}, error = {error}')
+            MOKO.Stage(f'R4 Measure -> range = {range}, verified = {verified}, error = {error}')
 
-                if self.R4FirstResult:
-                    MOKO.Stage(f'Driver: Fluke5000 >> mode: set >> command: R = 0', 'driver')
-                    MOKO.Messenger('set', 'Make settings#@attention',
-                                   'Set the resolution to 4th decimal places;\n'
-                                   'Zero the multimeter if necessary;\n'
-                                   'Click OK')
-                    self.R4FirstResult = False
+            MOKO.Stage(f'Driver: AgilentDMM >> mode: set >> command: range = {range}', 'driver')
+            MOKO.Stage(f'Driver: Fluke5000 >> mode: set >> command: R4 = {verified}', 'driver')
 
-                MOKO.Stage(f'Driver: AgilentDMM >> mode: set >> command: range = {range}', 'driver')
-                MOKO.Stage(f'Driver: Fluke5000 >> mode: set >> command: R4 = {verified}', 'driver')
+            while self.ContinueMeasurement:
+                time.sleep(0.3)
                 MOKO.Stage(f'DriverSet AgilentDMM >> mode: get >> command: result = read', 'driver')
-                result = f_verified * 1.00000001
+                result = f_verified
                 MOKO.Stage(" ")
                 f_result = MFRT.ConvertStringToFloat(result)
                 accuracy = abs(f_verified - f_result)
                 if accuracy > f_error:
                     if self.Count_meas == self.NumberOfRemeasurementAttempts - 1:
                         choices = self.CallMessengerChoices(
-                            verified=f_verified, error=f_error, result=result, reference_number=verified)
+                            verified=f_verified, error=f_error, result=f_result, reference_number=verified)
                         if choices:
                             continue
                     else:
                         self.CallMessengerErrorPoint(
-                            verified=f_verified, error=f_error, result=result, reference_number=verified)
+                            verified=f_verified, error=f_error, result=f_result, reference_number=verified)
                         continue
                 else:
-                    self.Count_meas = 0
                     self.Status = 'OK'
+                    self.Count_meas = 0
 
                 self.ContinueMeasurement = False
 
@@ -207,44 +216,48 @@ class ExFluke5000Agilent34401A:
 ##############################################  R4 REPORT  ############################################################
 #######################################################################################################################
 
-                MOKO.Report("RES", "set", "table", f"{range};"
-                                                   f"{verified};"
-                                                   f"{MFRT.ConvertFloatToString(f_result, verified)};"
-                                                   f"{MFRT.ConvertFloatToString(accuracy, verified)};"
-                                                   f"{error};"
-                                                   f"{self.Status}")
+            MOKO.Report("RES", "set", "table", f"{range};"
+                                               f"{verified};"
+                                               f"{MFRT.ConvertFloatToString(f_result, verified)};"
+                                               f"{MFRT.ConvertFloatToString(accuracy, verified)};"
+                                               f"{error};"
+                                               f"{self.Status}")
 
 #######################################################################################################################
 #######################################################  IDC  #########################################################
 #######################################################################################################################
 
-            elif WireConnection == 'IDC':
+        elif WireConnection == 'IDC':
 
 #######################################################################################################################
 #####################################################  IDC MEAS  ######################################################
 #######################################################################################################################
 
-                MOKO.Stage(f'IDC Measure -> range = {range}, verified = {verified}, error = {error}')
-                MOKO.Stage(f'Driver: AgilentDMM >> mode: set >> command: range = {range}', 'driver')
-                MOKO.Stage(f'Driver: Fluke5000 >> mode: set >> command: IDC = {verified}', 'driver')
+            MOKO.Stage(f'IDC Measure -> range = {range}, verified = {verified}, error = {error}')
+
+            MOKO.Stage(f'Driver: AgilentDMM >> mode: set >> command: range = {range}', 'driver')
+            MOKO.Stage(f'Driver: Fluke5000 >> mode: set >> command: IDC = {verified}', 'driver')
+
+            while self.ContinueMeasurement:
+                time.sleep(0.3)
                 MOKO.Stage(f'DriverSet AgilentDMM >> mode: get >> command: result = read', 'driver')
-                result = f_verified * 1.00000001
+                result = f_verified
                 MOKO.Stage(" ")
                 f_result = MFRT.ConvertStringToFloat(result)
                 accuracy = abs(f_verified - f_result)
                 if accuracy > f_error:
                     if self.Count_meas == self.NumberOfRemeasurementAttempts - 1:
                         choices = self.CallMessengerChoices(
-                            verified=f_verified, error=f_error, result=result, reference_number=verified)
+                            verified=f_verified, error=f_error, result=f_result, reference_number=verified)
                         if choices:
                             continue
                     else:
                         self.CallMessengerErrorPoint(
-                            verified=f_verified, error=f_error, result=result, reference_number=verified)
+                            verified=f_verified, error=f_error, result=f_result, reference_number=verified)
                         continue
                 else:
-                    self.Count_meas = 0
                     self.Status = 'OK'
+                    self.Count_meas = 0
 
                 self.ContinueMeasurement = False
 
@@ -252,29 +265,33 @@ class ExFluke5000Agilent34401A:
 ####################################################  IDC REPORT  #####################################################
 #######################################################################################################################
 
-                MOKO.Report("IDC", "set", "table", f"{range};"
-                                                   f"{verified};"
-                                                   f"{MFRT.ConvertFloatToString(f_result, verified)};"
-                                                   f"{MFRT.ConvertFloatToString(accuracy, verified)};"
-                                                   f"{error};"
-                                                   f"{self.Status}")
+            MOKO.Report("IDC", "set", "table", f"{range};"
+                                               f"{verified};"
+                                               f"{MFRT.ConvertFloatToString(f_result, verified)};"
+                                               f"{MFRT.ConvertFloatToString(accuracy, verified)};"
+                                               f"{error};"
+                                               f"{self.Status}")
 
 #######################################################################################################################
 #######################################################  IAC  #########################################################
 #######################################################################################################################
 
-            elif WireConnection == 'IAC':
+        elif WireConnection == 'IAC':
 
 #######################################################################################################################
 #####################################################  IAC MEAS  ######################################################
 #######################################################################################################################
 
-                MOKO.Stage(f'IAC Measure -> range = {range}, verified = {verified}, frequency = {frequency}, '
-                           f'error = {error}')
-                MOKO.Stage(f'DriverSet AgilentDMM >> mode: set >> command: range = {range}', 'driver')
-                MOKO.Stage(f'DriverSet Fluke5000 >> mode: set >> command: IAC = {verified} {frequency}', 'driver')
+            MOKO.Stage(f'IAC Measure -> range = {range}, verified = {verified}, frequency = {frequency},'
+                       f' error = {error}')
+
+            MOKO.Stage(f'DriverSet AgilentDMM >> mode: set >> command: range = {range}', 'driver')
+            MOKO.Stage(f'DriverSet Fluke5000 >> mode: set >> command: IAC = {verified} {frequency}', 'driver')
+
+            while self.ContinueMeasurement:
+                time.sleep(0.3)
                 MOKO.Stage(f'DriverSet AgilentDMM >> mode: get >> command: result = read', 'driver')
-                result = f_verified * 1.00000001
+                result = f_verified
                 MOKO.Stage(" ")
                 f_result = MFRT.ConvertStringToFloat(result)
                 accuracy = abs(f_verified - f_result)
@@ -289,8 +306,8 @@ class ExFluke5000Agilent34401A:
                             verified=f_verified, error=f_error, result=f_result, reference_number=verified)
                         continue
                 else:
-                    self.Count_meas = 0
                     self.Status = 'OK'
+                    self.Count_meas = 0
 
                 self.ContinueMeasurement = False
 
@@ -298,13 +315,14 @@ class ExFluke5000Agilent34401A:
 ###################################################  IAC REPORT  ######################################################
 #######################################################################################################################
 
-                MOKO.Report("IAC", "set", "table", f"{range};"
-                                                   f"{verified};"
-                                                   f"{frequency};"
-                                                   f"{MFRT.ConvertFloatToString(f_result, verified)};"
-                                                   f"{MFRT.ConvertFloatToString(accuracy, verified)};"
-                                                   f"{error};"
-                                                   f"{self.Status}")
+            MOKO.Report("IAC", "set", "table", f"{range};"
+                                               f"{verified};"
+                                               f"{frequency};"
+                                               f"{MFRT.ConvertFloatToString(f_result, verified)};"
+                                               f"{MFRT.ConvertFloatToString(accuracy, verified)};"
+                                               f"{error};"
+                                               f"{self.Status}")
+            
 
 #######################################################################################################################
 #######################################################################################################################

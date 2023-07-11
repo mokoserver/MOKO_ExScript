@@ -31,6 +31,7 @@ class DemoTestIoTMeasurement:
         self.ContinueMeasurement = True
 
         f_value = MFRT.ConvertStringToFloat(value)
+        result, f_result = 0, 0
 
         self.ListValue.append(f_value)
 
@@ -38,22 +39,22 @@ class DemoTestIoTMeasurement:
                    f"amplitude = {amplitude}, amplitude_limit = {amplitude_limit}, frequency = {frequency}, "
                    f"percent_error = {percent_error}")
 
-        while self.ContinueMeasurement:
-
 #######################################################################################################################
 #####################################################  VDC  ###########################################################
 #######################################################################################################################
 
-            if WireConnection == 'VDC':
+        if WireConnection == 'VDC':
 
 #######################################################################################################################
 ###################################################  VDC MEAS  ########################################################
 #######################################################################################################################
 
-                MOKO.Stage(f"name -> BK1697B; mode -> set; command -> VDC = {value}", 'driver')
-                MOKO.Stage(f"name -> FY6900; mode -> set; command -> WAVE = {wave}", 'driver')
-                MOKO.Stage(f"name -> FY6900; mode -> set; command -> amplitude = {amplitude}", 'driver')
-                MOKO.Stage(f"name -> FY6900; mode -> set; command -> frequency = {frequency}", 'driver')
+            MOKO.Stage(f"name -> BK1697B; mode -> set; command -> VDC = {value}", 'driver')
+            MOKO.Stage(f"name -> FY6900; mode -> set; command -> WAVE = {wave}", 'driver')
+            MOKO.Stage(f"name -> FY6900; mode -> set; command -> amplitude = {amplitude}", 'driver')
+            MOKO.Stage(f"name -> FY6900; mode -> set; command -> frequency = {frequency}", 'driver')
+
+            while self.ContinueMeasurement:
                 MOKO.Stage("name: APPA207 >> mode: get >> command: read >> valuetype: string", "Driver")
                 result = f_value
                 MOKO.Stage(" ")
@@ -71,38 +72,40 @@ class DemoTestIoTMeasurement:
                     self.Count_meas = 0
 
                 self.ContinueMeasurement = False
-                self.ListResult.append(f_result)
+            self.ListResult.append(f_result)
 
 #######################################################################################################################
 ##################################################  VDC REPORT  #######################################################
 #######################################################################################################################
 
-                MOKO.Report(name_table, "set", "table", f"{value};"
-                                                        f"{value_limit};"
-                                                        f"{percent_error};"
-                                                        f"{MFRT.ConvertFloatToString(value * (percent_error / 100), resolution=3)};"
-                                                        f"{wave};"
-                                                        f"{amplitude};"
-                                                        f"{amplitude_limit};"
-                                                        f"{frequency};"
-                                                        f"{result};")
+            MOKO.Report(name_table, "set", "table", f"{value};"
+                                                    f"{value_limit};"
+                                                    f"{percent_error};"
+                                                    f"{MFRT.ConvertFloatToString(value * (percent_error / 100), resolution=3)};"
+                                                    f"{wave};"
+                                                    f"{amplitude};"
+                                                    f"{amplitude_limit};"
+                                                    f"{frequency};"
+                                                    f"{result};")
 
-                MOKO.Stage(" ")
+            MOKO.Stage(" ")
 
 #######################################################################################################################
 ####################################################  IDC  ############################################################
 #######################################################################################################################
 
-            elif WireConnection == 'IDC':
+        elif WireConnection == 'IDC':
 
 #######################################################################################################################
 #################################################  IDC MEAS  ##########################################################`
 #######################################################################################################################
 
-                MOKO.Stage(f"name -> BK1697B; mode -> set; command -> VDC = {value}", 'driver')
-                MOKO.Stage(f"name -> FY6900; mode -> set; command -> WAVE = {wave}", 'driver')
-                MOKO.Stage(f"name -> FY6900; mode -> set; command -> amplitude = {amplitude}", 'driver')
-                MOKO.Stage(f"name -> FY6900; mode -> set; command -> frequency = {frequency}", 'driver')
+            MOKO.Stage(f"name -> BK1697B; mode -> set; command -> VDC = {value}", 'driver')
+            MOKO.Stage(f"name -> FY6900; mode -> set; command -> WAVE = {wave}", 'driver')
+            MOKO.Stage(f"name -> FY6900; mode -> set; command -> amplitude = {amplitude}", 'driver')
+            MOKO.Stage(f"name -> FY6900; mode -> set; command -> frequency = {frequency}", 'driver')
+
+            while self.ContinueMeasurement:
                 MOKO.Stage("name: APPA207 >> mode: get >> command: read >> valuetype: string", "Driver")
                 result = f_value
                 MOKO.Stage(" ")
@@ -120,23 +123,23 @@ class DemoTestIoTMeasurement:
                     self.Count_meas = 0
 
                 self.ContinueMeasurement = False
-                self.ListResult.append(f_result)
+            self.ListResult.append(f_result)
 
 #######################################################################################################################
 ####################################################  IDC REPORT  #####################################################
 #######################################################################################################################
 
-                MOKO.Report(name_table, "set", "table", f"{value};"
-                                                        f"{value_limit};"
-                                                        f"{percent_error};"
-                                                        f"{MFRT.ConvertFloatToString(f_value * (percent_error / 100), resolution=3)};"
-                                                        f"{wave};"
-                                                        f"{amplitude};"
-                                                        f"{amplitude_limit};"
-                                                        f"{frequency};"
-                                                        f"{result};")
+            MOKO.Report(name_table, "set", "table", f"{value};"
+                                                    f"{value_limit};"
+                                                    f"{percent_error};"
+                                                    f"{MFRT.ConvertFloatToString(f_value * (percent_error / 100), resolution=3)};"
+                                                    f"{wave};"
+                                                    f"{amplitude};"
+                                                    f"{amplitude_limit};"
+                                                    f"{frequency};"
+                                                    f"{result};")
 
-                MOKO.Stage(" ")
+            MOKO.Stage(" ")
 
 ########################################################################################################################
 ##################################### Module check wire connection devices #############################################

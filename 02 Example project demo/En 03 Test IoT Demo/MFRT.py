@@ -43,7 +43,7 @@ class MFRTLibrary:
         self.__prefix_value = None
         self.__get_prefix, self.__check = False, False
         self.__translate_value = self.__reference_number if self.__reference_number else self.__value
-        self.__list_prefix_english = ['P', 'T', 'G', 'M', 'k', '-', 'm', 'mk', 'n', 'p', 'f']
+        self.__list_prefix_english = ['P', 'T', 'G', 'M', 'k', '-', 'm', 'u', 'n', 'p', 'f']
         self.__list_prefix_russian = ['П', 'Т', 'Г', 'М', 'к', '-', 'м', 'мк', 'н', 'п', 'ф']
 
     def GetPrefixInValue(self):
