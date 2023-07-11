@@ -1,0 +1,17 @@
+{
+"project_name":"FLUKE5520_Agilent34401A",
+"project_autosave":"true",
+"project_scripts":[
+{"script":"01 Registration unit.py","necessary":"true"},
+{"script":"02 Init devices.py","necessary":"true"},
+{"script":"03 Measurement.py","necessary":"false"},
+{"script":"04 Word report.py","necessary":"true"}
+],
+"project_libraries":[
+{"script":"MOKO.py"},
+{"script":"MOSC.py"}
+],
+"project_templates":[
+{"script":"FLUKE5520_Agilent34401A.docx"}
+]
+}
