@@ -7,8 +7,8 @@ import time
 #hesh Delete string
 #hesh Delete picture
 
-MOKO.Messenger('set', 'Report - delete.jpg', 'The current script will demonstrate the \'\'delete\'\' command, '
-                                             'which deletes rows, tables and pictures in the Report field.')
+MOKO.Messenger('set', 'Report - delete#@delete', 'The current script will demonstrate the \'\'delete\'\' command, '
+                                                 'which deletes rows, tables and pictures in the Report field.')
 
 MOKO.Report("Report_delete", 'delete', 'picture', '')
 MOKO.Program('tree', 'set', 'select = ' + 'Delete table')

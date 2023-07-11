@@ -6,8 +6,8 @@ import time
 #hesh Clear string
 #hesh Clear picture
 
-MOKO.Messenger('set', 'Report - clear.jpg', 'В данном скрипте будет продемонстрирована команда \'\'clear\'\', '
-                                             'которая очищает содержимое строк, таблиц и картинок в поле Report.')
+MOKO.Messenger('set', 'Report - clear#@clear', 'В данном скрипте будет продемонстрирована команда \'\'clear\'\', '
+                                               'которая очищает содержимое строк, таблиц и картинок в поле Report.')
 
 
 MOKO.Report("Report_clear", 'clear', 'picture', 'png')  

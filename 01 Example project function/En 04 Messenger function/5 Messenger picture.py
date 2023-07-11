@@ -5,11 +5,11 @@ import MOKO
 #hesh Save screenshot
 #hesh Insert screenshot
 
-MOKO.Messenger('set', 'Messenger - picture.jpg', 'This script will demonstrate how to insert a picture into Messenger. '
-                                                 'To do this, take a screenshot of the screen with the command '
-                                                 'screenshot = MOKO.Program(\'control\', \'get\', \'screenshot\', \'string\'), '
-                                                 'then save it with the '
-                                                 'command MOKO.Report(\'screenshot\', \'set\', \'picture\', screenshot).')
+MOKO.Messenger('set', 'Messenger - picture#@insert', 'This script will demonstrate how to insert a picture into Messenger. '
+                                                     'To do this, take a screenshot of the screen with the command '
+                                                     'screenshot = MOKO.Program(\'control\', \'get\', \'screenshot\', \'string\'), '
+                                                     'then save it with the '
+                                                     'command MOKO.Report(\'screenshot\', \'set\', \'picture\', screenshot).')
 
 screenshot = MOKO.Program('control', 'get', 'screenshot', 'string')
 MOKO.Program('tree', 'set', 'select = ' + 'Make screenshot')

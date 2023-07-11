@@ -14,11 +14,11 @@ MOKO.Report(f'Report_delete', 'set', 'table', '1;2;3;4;5;6;7;8;9')
 #hesh Save picture
 
 
-MOKO.Messenger('set', 'Report - save.jpg', 'This script will demonstrate the \'\'save\'\' command, '
-                                           'which saves rows from Report to text files, '
-                                           'tables to excel files, and pictures to png files. '
-                                           'All this is stored in the \'\'data\'\' folder, which is created '
-                                           '(if it does not exist) in the project folder.')
+MOKO.Messenger('set', 'Report - save#@save', 'This script will demonstrate the \'\'save\'\' command, '
+                                             'which saves rows from Report to text files, '
+                                             'tables to excel files, and pictures to png files. '
+                                             'All this is stored in the \'\'data\'\' folder, which is created '
+                                             '(if it does not exist) in the project folder.')
 
 
 screenshot = MOKO.Program('control', 'get', 'screenshot', 'string')
