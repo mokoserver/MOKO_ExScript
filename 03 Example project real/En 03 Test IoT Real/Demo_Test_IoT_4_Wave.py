@@ -11,12 +11,12 @@ class DemoTestIoTMeasurement:
     def __init__(self):
         self.FirstScriptStart, self.FirstResult, self.ContinueMeasurement = True, True, True
         self.WireConnection = None  # [VDC] [IDC]
-        self.Count_meas, self.Measurement_start, self.Count_bad_meas = 0, 0, 0
-        self.OutCommand, self.GraphInit, self.FailedResult = False, False, False
+        self.TimeDelay, self.Count_meas, self.Measurement_start, self.Count_bad_meas = 0, 0, 0, 0
+        self.OutCommand, self.GraphInit, self.FailedResult, self.Remeasurement = False, False, False, False
         self.BK1697B_INIT, self.FY6900_INIT, self.APPA207_INIT = None, None, None
         self.NameGraph = None
         self.ListResult, self.ListValue = [0], [0]
-        self.MinError, self.MaxError, self.NumberOfRemeasurementAttempts = 0, 0, 3
+        self.MinError, self.MaxError, self.RemeasurementNumber = 0, 0, 0
 
     def MeasurementAndReport(self, value, value_limit, wave, amplitude, amplitude_limit, frequency, percent_error,
                              WireConnection, hesh):
@@ -57,11 +57,12 @@ class DemoTestIoTMeasurement:
             self.CheckFirstResult()
 
             while self.ContinueMeasurement:
+                time.sleep(self.TimeDelay)
                 result = MOKO.Driver('APPA207', 'get', 'read', 'string')
                 MOKO.Stage(" ")
                 f_result = MFRT.ConvertStringToFloat(result)
-                if f_value * self.MaxError < f_result or f_value * self.MinError > f_result:
-                    if self.Count_meas == self.NumberOfRemeasurementAttempts - 1:
+                if (f_value * self.MaxError < f_result or f_value * self.MinError > f_result) and self.Remeasurement:
+                    if self.Count_meas >= self.RemeasurementNumber - 1:
                         choices = self.CallMessengerChoices(result=f_result, value=f_value)
                         if choices:
                             continue
@@ -69,7 +70,10 @@ class DemoTestIoTMeasurement:
                         self.CallMessengerErrorPoint(result=f_result, value=f_value)
                         continue
                 else:
-                    self.FailedResult = False
+                    if f_value * self.MaxError < f_result or f_value * self.MinError > f_result:
+                        self.Status = 'Failed'
+                    else:
+                        self.Status = 'OK'
                     self.Count_meas = 0
 
                 self.ContinueMeasurement = False
@@ -108,11 +112,12 @@ class DemoTestIoTMeasurement:
             self.CheckFirstResult()
 
             while self.ContinueMeasurement:
+                time.sleep(self.TimeDelay)
                 result = MOKO.Driver('APPA207', 'get', 'read', 'string')
                 MOKO.Stage(" ")
                 f_result = MFRT.ConvertStringToFloat(result)
                 if f_value * self.MaxError < f_result or f_value * self.MinError > f_result:
-                    if self.Count_meas == self.NumberOfRemeasurementAttempts - 1:
+                    if self.Count_meas >= self.RemeasurementNumber - 1:
                         choices = self.CallMessengerChoices(result=f_result, value=f_value)
                         if choices:
                             continue
@@ -120,7 +125,10 @@ class DemoTestIoTMeasurement:
                         self.CallMessengerErrorPoint(result=f_result, value=f_value)
                         continue
                 else:
-                    self.FailedResult = False
+                    if f_value * self.MaxError < f_result or f_value * self.MinError > f_result:
+                        self.Status = 'Failed'
+                    else:
+                        self.Status = 'OK'
                     self.Count_meas = 0
 
                 self.ContinueMeasurement = False
@@ -351,7 +359,7 @@ class DemoTestIoTMeasurement:
     def CallMessengerChoices(self, result, value) -> str:
 
         limit_type = "upper" if self.MaxError * value < result else "lower"
-        limit_value = result - self.MaxError * value if limit_type == "upper" else self.MinError * value
+        limit_value = result - (self.MaxError * value) if limit_type == "upper" else self.MinError * value - result
 
         error_message = 'Do you want to repeat measuring this point?\n'
         error_message += f'Lower limit < Result < Upper limit\n'
@@ -371,7 +379,7 @@ class DemoTestIoTMeasurement:
     def CallMessengerErrorPoint(self, result, value) -> None:
 
         limit_type = "upper" if self.MaxError * value < result else "lower"
-        limit_value = result - self.MaxError * value if limit_type == "upper" else self.MinError * value
+        limit_value = result - (self.MaxError * value) if limit_type == "upper" else self.MinError * value - result
 
         error_message = 'The measurement result did not pass the specified limit\n'
         error_message += 'The value is being remeasured\n'

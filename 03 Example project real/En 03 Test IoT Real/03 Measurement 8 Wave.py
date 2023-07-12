@@ -22,14 +22,25 @@ def VDC(value: (str, float, int),
         amplitude: (str, float, int),
         amplitude_limit: int,
         frequency: (str, float, int),
-        hesh: str):
+        hesh: str,
+        remeasurement: bool = False,
+        remeasurement_number: int = None,
+        time_delay: (float, int) = 0):
 
     if HeshStatus(hesh):
+
         Testing.CheckConnectDevices()
-        Testing.CheckWireConnection(WireConnection='VDC')
+
+        Testing.CheckWireConnection(WireConnection='IDC')
+
         Testing.OutONNCommand()
         Testing.CheckGraphInit()
         Testing.CreateGraphMask(value_limit=value_limit)
+
+        Testing.TimeDelay = time_delay
+        Testing.Remeasurement = remeasurement
+        Testing.RemeasurementNumber = remeasurement_number
+
         Testing.MeasurementAndReport(value=value, value_limit=value_limit, wave=wave, percent_error=percent_error,
                                      amplitude=amplitude, amplitude_limit=amplitude_limit, frequency=frequency,
                                      hesh=hesh, WireConnection='VDC')
@@ -48,14 +59,25 @@ def IDC(value: (str, float, int),
         amplitude: (str, float, int),
         amplitude_limit: int,
         frequency: (str, float, int),
-        hesh: str):
+        hesh: str,
+        remeasurement: bool = False,
+        remeasurement_number: int = None,
+        time_delay: (float, int) = 0):
 
     if HeshStatus(hesh):
+
         Testing.CheckConnectDevices()
+
         Testing.CheckWireConnection(WireConnection='IDC')
+
         Testing.OutONNCommand()
         Testing.CheckGraphInit()
         Testing.CreateGraphMask(value_limit=value_limit)
+
+        Testing.TimeDelay = time_delay
+        Testing.Remeasurement = remeasurement
+        Testing.RemeasurementNumber = remeasurement_number
+
         Testing.MeasurementAndReport(value=value, value_limit=value_limit, wave=wave, percent_error=percent_error,
                                      amplitude=amplitude, amplitude_limit=amplitude_limit, frequency=frequency,
                                      hesh=hesh, WireConnection='IDC')
@@ -67,248 +89,264 @@ def IDC(value: (str, float, int),
             hesh_passed()
 
 #region Voltage measurement with generator signal sin$VDC_SIN
-#description: value \nmeasurement, V;value limit, V;percentage of \nallowed error, %;wave amplitude;amplitude, V;amplitude\nlimit, V;frequency, Hz;
+#description: value \nmeasurement, V;value limit, V;percentage of \nallowed error, %;wave amplitude;amplitude, V;amplitude\nlimit, V;frequency, Hz;delay time \nbefore \nmeasurement, s;remeasure,\nTrue or False;number of \nremeasurements;
 MOKO.Program('tree', 'set', 'select = Voltage measurement with generator signal sin$VDC_SIN')
+
 MOKO.Stage('Set NameGraph => VDC_SIN_GRAPH')
 Testing.NameGraph = 'VDC_SIN_GRAPH'
 MOKO.Stage(" ")
 
-VDC(value=1,   value_limit=40, percent_error=70, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 1$VDC_SIN')  #hesh Meas 1$VDC_SIN:   1  ;40  ;70  ;sin ;1  ;10  ;10k  ;
-VDC(value=2,   value_limit=40, percent_error=30, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 2$VDC_SIN')  #hesh Meas 2$VDC_SIN:   2  ;40  ;30  ;sin ;1  ;10  ;10k  ;
-VDC(value=3,   value_limit=40, percent_error=20, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 3$VDC_SIN')  #hesh Meas 3$VDC_SIN:   3  ;40  ;20  ;sin ;1  ;10  ;10k  ;
-VDC(value=4,   value_limit=40, percent_error=20, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 4$VDC_SIN')  #hesh Meas 4$VDC_SIN:   4  ;40  ;20  ;sin ;1  ;10  ;10k  ;
-VDC(value=5,   value_limit=40, percent_error=20, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 5$VDC_SIN')  #hesh Meas 5$VDC_SIN:   5  ;40  ;20  ;sin ;1  ;10  ;10k  ;
-VDC(value=6,   value_limit=40, percent_error=20, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 6$VDC_SIN')  #hesh Meas 6$VDC_SIN:   6  ;40  ;20  ;sin ;1  ;10  ;10k  ;
-VDC(value=8,   value_limit=40, percent_error=20, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 7$VDC_SIN')  #hesh Meas 7$VDC_SIN:   8  ;40  ;20  ;sin ;1  ;10  ;10k  ;
-VDC(value=10,  value_limit=40, percent_error=20, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 8$VDC_SIN')  #hesh Meas 8$VDC_SIN:   10 ;40  ;20  ;sin ;1  ;10  ;10k  ;
-VDC(value=12,  value_limit=40, percent_error=20, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 9$VDC_SIN')  #hesh Meas 9$VDC_SIN:   12 ;40  ;20  ;sin ;1  ;10  ;10k  ;
-VDC(value=14,  value_limit=40, percent_error=20, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 10$VDC_SIN') #hesh Meas 10$VDC_SIN:  14 ;40  ;20  ;sin ;1  ;10  ;10k  ;
-VDC(value=16,  value_limit=40, percent_error=20, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 11$VDC_SIN') #hesh Meas 11$VDC_SIN:  16 ;40  ;20  ;sin ;1  ;10  ;10k  ;
-VDC(value=18,  value_limit=40, percent_error=20, wave='sin',  amplitude=2, amplitude_limit=10, frequency='10k', hesh='Meas 12$VDC_SIN') #hesh Meas 12$VDC_SIN:  18 ;40  ;20  ;sin ;2  ;10  ;10k  ;
-VDC(value=20,  value_limit=40, percent_error=20, wave='sin',  amplitude=2, amplitude_limit=10, frequency='10k', hesh='Meas 13$VDC_SIN') #hesh Meas 13$VDC_SIN:  20 ;40  ;20  ;sin ;2  ;10  ;10k  ;
-VDC(value=22,  value_limit=40, percent_error=20, wave='sin',  amplitude=2, amplitude_limit=10, frequency='10k', hesh='Meas 14$VDC_SIN') #hesh Meas 14$VDC_SIN:  22 ;40  ;20  ;sin ;2  ;10  ;10k  ;
-VDC(value=25,  value_limit=40, percent_error=20, wave='sin',  amplitude=3, amplitude_limit=10, frequency='10k', hesh='Meas 15$VDC_SIN') #hesh Meas 15$VDC_SIN:  25 ;40  ;20  ;sin ;3  ;10  ;10k  ;
-VDC(value=28,  value_limit=40, percent_error=20, wave='sin',  amplitude=3, amplitude_limit=10, frequency='10k', hesh='Meas 16$VDC_SIN') #hesh Meas 16$VDC_SIN:  28 ;40  ;20  ;sin ;3  ;10  ;10k  ;
-VDC(value=31,  value_limit=40, percent_error=20, wave='sin',  amplitude=4, amplitude_limit=10, frequency='10k', hesh='Meas 17$VDC_SIN') #hesh Meas 17$VDC_SIN:  31 ;40  ;20  ;sin ;4  ;10  ;10k  ;
-VDC(value=34,  value_limit=40, percent_error=20, wave='sin',  amplitude=5, amplitude_limit=10, frequency='10k', hesh='Meas 18$VDC_SIN') #hesh Meas 18$VDC_SIN:  34 ;40  ;20  ;sin ;5  ;10  ;10k  ;
-VDC(value=37,  value_limit=40, percent_error=20, wave='sin',  amplitude=5, amplitude_limit=10, frequency='10k', hesh='Meas 19$VDC_SIN') #hesh Meas 19$VDC_SIN:  37 ;40  ;20  ;sin ;5  ;10  ;10k  ;
-VDC(value=40,  value_limit=40, percent_error=20, wave='sin',  amplitude=5, amplitude_limit=10, frequency='10k', hesh='Meas 20$VDC_SIN') #hesh Meas 20$VDC_SIN:  40 ;40  ;20  ;sin ;5  ;10  ;10k  ;
+VDC(value=1,   value_limit=40, percent_error=70, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 1$VDC_SIN')  #hesh Meas 1$VDC_SIN:   1  ;40  ;70  ;sin ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=2,   value_limit=40, percent_error=30, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 2$VDC_SIN')  #hesh Meas 2$VDC_SIN:   2  ;40  ;30  ;sin ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=3,   value_limit=40, percent_error=20, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 3$VDC_SIN')  #hesh Meas 3$VDC_SIN:   3  ;40  ;20  ;sin ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=4,   value_limit=40, percent_error=20, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 4$VDC_SIN')  #hesh Meas 4$VDC_SIN:   4  ;40  ;20  ;sin ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=5,   value_limit=40, percent_error=20, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 5$VDC_SIN')  #hesh Meas 5$VDC_SIN:   5  ;40  ;20  ;sin ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=6,   value_limit=40, percent_error=20, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 6$VDC_SIN')  #hesh Meas 6$VDC_SIN:   6  ;40  ;20  ;sin ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=8,   value_limit=40, percent_error=20, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 7$VDC_SIN')  #hesh Meas 7$VDC_SIN:   8  ;40  ;20  ;sin ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=10,  value_limit=40, percent_error=20, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 8$VDC_SIN')  #hesh Meas 8$VDC_SIN:   10 ;40  ;20  ;sin ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=12,  value_limit=40, percent_error=20, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 9$VDC_SIN')  #hesh Meas 9$VDC_SIN:   12 ;40  ;20  ;sin ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=14,  value_limit=40, percent_error=20, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 10$VDC_SIN') #hesh Meas 10$VDC_SIN:  14 ;40  ;20  ;sin ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=16,  value_limit=40, percent_error=20, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 11$VDC_SIN') #hesh Meas 11$VDC_SIN:  16 ;40  ;20  ;sin ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=18,  value_limit=40, percent_error=20, wave='sin',  amplitude=2, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 12$VDC_SIN') #hesh Meas 12$VDC_SIN:  18 ;40  ;20  ;sin ;2  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=20,  value_limit=40, percent_error=20, wave='sin',  amplitude=2, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 13$VDC_SIN') #hesh Meas 13$VDC_SIN:  20 ;40  ;20  ;sin ;2  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=22,  value_limit=40, percent_error=20, wave='sin',  amplitude=2, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 14$VDC_SIN') #hesh Meas 14$VDC_SIN:  22 ;40  ;20  ;sin ;2  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=25,  value_limit=40, percent_error=20, wave='sin',  amplitude=3, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 15$VDC_SIN') #hesh Meas 15$VDC_SIN:  25 ;40  ;20  ;sin ;3  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=28,  value_limit=40, percent_error=20, wave='sin',  amplitude=3, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 16$VDC_SIN') #hesh Meas 16$VDC_SIN:  28 ;40  ;20  ;sin ;3  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=31,  value_limit=40, percent_error=20, wave='sin',  amplitude=4, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 17$VDC_SIN') #hesh Meas 17$VDC_SIN:  31 ;40  ;20  ;sin ;4  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=34,  value_limit=40, percent_error=20, wave='sin',  amplitude=5, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 18$VDC_SIN') #hesh Meas 18$VDC_SIN:  34 ;40  ;20  ;sin ;5  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=37,  value_limit=40, percent_error=20, wave='sin',  amplitude=5, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 19$VDC_SIN') #hesh Meas 19$VDC_SIN:  37 ;40  ;20  ;sin ;5  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=40,  value_limit=40, percent_error=20, wave='sin',  amplitude=5, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 20$VDC_SIN') #hesh Meas 20$VDC_SIN:  40 ;40  ;20  ;sin ;5  ;10  ;10k  ;0.300  ;True  ;3
+
 Testing.GetScreenshot()
 Testing.OutOFFCommand()
 #endregion Voltage measurement with generator signal sin$VDC_SIN
 
 
 #region Voltage measurement with generator signal square$VDC_SQUARE
-#description: value \nmeasurement, V;value limit, V;percentage of \nallowed error, %;wave amplitude;amplitude, V;amplitude\nlimit, V;frequency, Hz;
+#description: value \nmeasurement, V;value limit, V;percentage of \nallowed error, %;wave amplitude;amplitude, V;amplitude\nlimit, V;frequency, Hz;delay time \nbefore \nmeasurement, s;remeasure,\nTrue or False;number of \nremeasurements;
 MOKO.Program('tree', 'set', 'select = Voltage measurement with generator signal square$VDC_SQUARE')
+
 MOKO.Stage('Set NameGraph => VDC_SQUARE_GRAPH')
 Testing.NameGraph = 'VDC_SQUARE_GRAPH'
 
-VDC(value=1,   value_limit=40, percent_error=70, wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 1$VDC_SQUARE')  #hesh Meas 1$VDC_SQUARE:   1  ;40  ;70  ;square ;1  ;10  ;10k  ;
-VDC(value=2,   value_limit=40, percent_error=30, wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 2$VDC_SQUARE')  #hesh Meas 2$VDC_SQUARE:   2  ;40  ;30  ;square ;1  ;10  ;10k  ;
-VDC(value=3,   value_limit=40, percent_error=20, wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 3$VDC_SQUARE')  #hesh Meas 3$VDC_SQUARE:   3  ;40  ;20  ;square ;1  ;10  ;10k  ;
-VDC(value=4,   value_limit=40, percent_error=20, wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 4$VDC_SQUARE')  #hesh Meas 4$VDC_SQUARE:   4  ;40  ;20  ;square ;1  ;10  ;10k  ;
-VDC(value=5,   value_limit=40, percent_error=20, wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 5$VDC_SQUARE')  #hesh Meas 5$VDC_SQUARE:   5  ;40  ;20  ;square ;1  ;10  ;10k  ;
-VDC(value=6,   value_limit=40, percent_error=20, wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 6$VDC_SQUARE')  #hesh Meas 6$VDC_SQUARE:   6  ;40  ;20  ;square ;1  ;10  ;10k  ;
-VDC(value=8,   value_limit=40, percent_error=20, wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 7$VDC_SQUARE')  #hesh Meas 7$VDC_SQUARE:   8  ;40  ;20  ;square ;1  ;10  ;10k  ;
-VDC(value=10,  value_limit=40, percent_error=20, wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 8$VDC_SQUARE')  #hesh Meas 8$VDC_SQUARE:   10 ;40  ;20  ;square ;1  ;10  ;10k  ;
-VDC(value=12,  value_limit=40, percent_error=20, wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 9$VDC_SQUARE')  #hesh Meas 9$VDC_SQUARE:   12 ;40  ;20  ;square ;1  ;10  ;10k  ;
-VDC(value=14,  value_limit=40, percent_error=20, wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 10$VDC_SQUARE') #hesh Meas 10$VDC_SQUARE:  14 ;40  ;20  ;square ;1  ;10  ;10k  ;
-VDC(value=16,  value_limit=40, percent_error=20, wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 11$VDC_SQUARE') #hesh Meas 11$VDC_SQUARE:  16 ;40  ;20  ;square ;1  ;10  ;10k  ;
-VDC(value=18,  value_limit=40, percent_error=20, wave='square',  amplitude=2, amplitude_limit=10, frequency='10k', hesh='Meas 12$VDC_SQUARE') #hesh Meas 12$VDC_SQUARE:  18 ;40  ;20  ;square ;2  ;10  ;10k  ;
-VDC(value=20,  value_limit=40, percent_error=20, wave='square',  amplitude=2, amplitude_limit=10, frequency='10k', hesh='Meas 13$VDC_SQUARE') #hesh Meas 13$VDC_SQUARE:  20 ;40  ;20  ;square ;2  ;10  ;10k  ;
-VDC(value=22,  value_limit=40, percent_error=20, wave='square',  amplitude=2, amplitude_limit=10, frequency='10k', hesh='Meas 14$VDC_SQUARE') #hesh Meas 14$VDC_SQUARE:  22 ;40  ;20  ;square ;2  ;10  ;10k  ;
-VDC(value=25,  value_limit=40, percent_error=20, wave='square',  amplitude=3, amplitude_limit=10, frequency='10k', hesh='Meas 15$VDC_SQUARE') #hesh Meas 15$VDC_SQUARE:  25 ;40  ;20  ;square ;3  ;10  ;10k  ;
-VDC(value=28,  value_limit=40, percent_error=20, wave='square',  amplitude=3, amplitude_limit=10, frequency='10k', hesh='Meas 16$VDC_SQUARE') #hesh Meas 16$VDC_SQUARE:  28 ;40  ;20  ;square ;3  ;10  ;10k  ;
-VDC(value=31,  value_limit=40, percent_error=20, wave='square',  amplitude=4, amplitude_limit=10, frequency='10k', hesh='Meas 17$VDC_SQUARE') #hesh Meas 17$VDC_SQUARE:  31 ;40  ;20  ;square ;4  ;10  ;10k  ;
-VDC(value=34,  value_limit=40, percent_error=20, wave='square',  amplitude=5, amplitude_limit=10, frequency='10k', hesh='Meas 18$VDC_SQUARE') #hesh Meas 18$VDC_SQUARE:  34 ;40  ;20  ;square ;5  ;10  ;10k  ;
-VDC(value=37,  value_limit=40, percent_error=20, wave='square',  amplitude=5, amplitude_limit=10, frequency='10k', hesh='Meas 19$VDC_SQUARE') #hesh Meas 19$VDC_SQUARE:  37 ;40  ;20  ;square ;5  ;10  ;10k  ;
-VDC(value=40,  value_limit=40, percent_error=20, wave='square',  amplitude=5, amplitude_limit=10, frequency='10k', hesh='Meas 20$VDC_SQUARE') #hesh Meas 20$VDC_SQUARE:  40 ;40  ;20  ;square ;5  ;10  ;10k  ;
+VDC(value=1,   value_limit=40, percent_error=70, wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 1$VDC_SQUARE')  #hesh Meas 1$VDC_SQUARE:   1  ;40  ;70  ;square ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=2,   value_limit=40, percent_error=30, wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 2$VDC_SQUARE')  #hesh Meas 2$VDC_SQUARE:   2  ;40  ;30  ;square ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=3,   value_limit=40, percent_error=20, wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 3$VDC_SQUARE')  #hesh Meas 3$VDC_SQUARE:   3  ;40  ;20  ;square ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=4,   value_limit=40, percent_error=20, wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 4$VDC_SQUARE')  #hesh Meas 4$VDC_SQUARE:   4  ;40  ;20  ;square ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=5,   value_limit=40, percent_error=20, wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 5$VDC_SQUARE')  #hesh Meas 5$VDC_SQUARE:   5  ;40  ;20  ;square ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=6,   value_limit=40, percent_error=20, wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 6$VDC_SQUARE')  #hesh Meas 6$VDC_SQUARE:   6  ;40  ;20  ;square ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=8,   value_limit=40, percent_error=20, wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 7$VDC_SQUARE')  #hesh Meas 7$VDC_SQUARE:   8  ;40  ;20  ;square ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=10,  value_limit=40, percent_error=20, wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 8$VDC_SQUARE')  #hesh Meas 8$VDC_SQUARE:   10 ;40  ;20  ;square ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=12,  value_limit=40, percent_error=20, wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 9$VDC_SQUARE')  #hesh Meas 9$VDC_SQUARE:   12 ;40  ;20  ;square ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=14,  value_limit=40, percent_error=20, wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 10$VDC_SQUARE') #hesh Meas 10$VDC_SQUARE:  14 ;40  ;20  ;square ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=16,  value_limit=40, percent_error=20, wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 11$VDC_SQUARE') #hesh Meas 11$VDC_SQUARE:  16 ;40  ;20  ;square ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=18,  value_limit=40, percent_error=20, wave='square',  amplitude=2, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 12$VDC_SQUARE') #hesh Meas 12$VDC_SQUARE:  18 ;40  ;20  ;square ;2  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=20,  value_limit=40, percent_error=20, wave='square',  amplitude=2, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 13$VDC_SQUARE') #hesh Meas 13$VDC_SQUARE:  20 ;40  ;20  ;square ;2  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=22,  value_limit=40, percent_error=20, wave='square',  amplitude=2, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 14$VDC_SQUARE') #hesh Meas 14$VDC_SQUARE:  22 ;40  ;20  ;square ;2  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=25,  value_limit=40, percent_error=20, wave='square',  amplitude=3, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 15$VDC_SQUARE') #hesh Meas 15$VDC_SQUARE:  25 ;40  ;20  ;square ;3  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=28,  value_limit=40, percent_error=20, wave='square',  amplitude=3, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 16$VDC_SQUARE') #hesh Meas 16$VDC_SQUARE:  28 ;40  ;20  ;square ;3  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=31,  value_limit=40, percent_error=20, wave='square',  amplitude=4, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 17$VDC_SQUARE') #hesh Meas 17$VDC_SQUARE:  31 ;40  ;20  ;square ;4  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=34,  value_limit=40, percent_error=20, wave='square',  amplitude=5, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 18$VDC_SQUARE') #hesh Meas 18$VDC_SQUARE:  34 ;40  ;20  ;square ;5  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=37,  value_limit=40, percent_error=20, wave='square',  amplitude=5, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 19$VDC_SQUARE') #hesh Meas 19$VDC_SQUARE:  37 ;40  ;20  ;square ;5  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=40,  value_limit=40, percent_error=20, wave='square',  amplitude=5, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 20$VDC_SQUARE') #hesh Meas 20$VDC_SQUARE:  40 ;40  ;20  ;square ;5  ;10  ;10k  ;0.300  ;True  ;3
+
 Testing.GetScreenshot()
 Testing.OutOFFCommand()
 #endregion Voltage measurement with generator signal square$VDC_SQUARE
 
 
 #region Voltage measurement with generator signal rectangle$VDC_RECTANGLE
-#description: value \nmeasurement, V;value limit, V;percentage of \nallowed error, %;wave amplitude;amplitude, V;amplitude\nlimit, V;frequency, Hz;
+#description: value \nmeasurement, V;value limit, V;percentage of \nallowed error, %;wave amplitude;amplitude, V;amplitude\nlimit, V;frequency, Hz;delay time \nbefore \nmeasurement, s;remeasure,\nTrue or False;number of \nremeasurements;
 MOKO.Program('tree', 'set', 'select = Voltage measurement with generator signal rectangle$VDC_RECTANGLE')
+
 MOKO.Stage('Set NameGraph => VDC_RECTANGLE_GRAPH')
 Testing.NameGraph = 'VDC_RECTANGLE_GRAPH'
 
-VDC(value=1,   value_limit=40, percent_error=70, wave='rectangle',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 1$VDC_RECTANGLE')  #hesh Meas 1$VDC_RECTANGLE:   1  ;40  ;70  ;rectangle ;1  ;10  ;10k  ;
-VDC(value=2,   value_limit=40, percent_error=30, wave='rectangle',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 2$VDC_RECTANGLE')  #hesh Meas 2$VDC_RECTANGLE:   2  ;40  ;30  ;rectangle ;1  ;10  ;10k  ;
-VDC(value=3,   value_limit=40, percent_error=20, wave='rectangle',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 3$VDC_RECTANGLE')  #hesh Meas 3$VDC_RECTANGLE:   3  ;40  ;20  ;rectangle ;1  ;10  ;10k  ;
-VDC(value=4,   value_limit=40, percent_error=20, wave='rectangle',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 4$VDC_RECTANGLE')  #hesh Meas 4$VDC_RECTANGLE:   4  ;40  ;20  ;rectangle ;1  ;10  ;10k  ;
-VDC(value=5,   value_limit=40, percent_error=20, wave='rectangle',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 5$VDC_RECTANGLE')  #hesh Meas 5$VDC_RECTANGLE:   5  ;40  ;20  ;rectangle ;1  ;10  ;10k  ;
-VDC(value=6,   value_limit=40, percent_error=20, wave='rectangle',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 6$VDC_RECTANGLE')  #hesh Meas 6$VDC_RECTANGLE:   6  ;40  ;20  ;rectangle ;1  ;10  ;10k  ;
-VDC(value=8,   value_limit=40, percent_error=20, wave='rectangle',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 7$VDC_RECTANGLE')  #hesh Meas 7$VDC_RECTANGLE:   8  ;40  ;20  ;rectangle ;1  ;10  ;10k  ;
-VDC(value=10,  value_limit=40, percent_error=20, wave='rectangle',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 8$VDC_RECTANGLE')  #hesh Meas 8$VDC_RECTANGLE:   10 ;40  ;20  ;rectangle ;1  ;10  ;10k  ;
-VDC(value=12,  value_limit=40, percent_error=20, wave='rectangle',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 9$VDC_RECTANGLE')  #hesh Meas 9$VDC_RECTANGLE:   12 ;40  ;20  ;rectangle ;1  ;10  ;10k  ;
-VDC(value=14,  value_limit=40, percent_error=20, wave='rectangle',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 10$VDC_RECTANGLE') #hesh Meas 10$VDC_RECTANGLE:  14 ;40  ;20  ;rectangle ;1  ;10  ;10k  ;
-VDC(value=16,  value_limit=40, percent_error=20, wave='rectangle',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 11$VDC_RECTANGLE') #hesh Meas 11$VDC_RECTANGLE:  16 ;40  ;20  ;rectangle ;1  ;10  ;10k  ;
-VDC(value=18,  value_limit=40, percent_error=20, wave='rectangle',  amplitude=2, amplitude_limit=10, frequency='10k', hesh='Meas 12$VDC_RECTANGLE') #hesh Meas 12$VDC_RECTANGLE:  18 ;40  ;20  ;rectangle ;2  ;10  ;10k  ;
-VDC(value=20,  value_limit=40, percent_error=20, wave='rectangle',  amplitude=2, amplitude_limit=10, frequency='10k', hesh='Meas 13$VDC_RECTANGLE') #hesh Meas 13$VDC_RECTANGLE:  20 ;40  ;20  ;rectangle ;2  ;10  ;10k  ;
-VDC(value=22,  value_limit=40, percent_error=20, wave='rectangle',  amplitude=2, amplitude_limit=10, frequency='10k', hesh='Meas 14$VDC_RECTANGLE') #hesh Meas 14$VDC_RECTANGLE:  22 ;40  ;20  ;rectangle ;2  ;10  ;10k  ;
-VDC(value=25,  value_limit=40, percent_error=20, wave='rectangle',  amplitude=3, amplitude_limit=10, frequency='10k', hesh='Meas 15$VDC_RECTANGLE') #hesh Meas 15$VDC_RECTANGLE:  25 ;40  ;20  ;rectangle ;3  ;10  ;10k  ;
-VDC(value=28,  value_limit=40, percent_error=20, wave='rectangle',  amplitude=3, amplitude_limit=10, frequency='10k', hesh='Meas 16$VDC_RECTANGLE') #hesh Meas 16$VDC_RECTANGLE:  28 ;40  ;20  ;rectangle ;3  ;10  ;10k  ;
-VDC(value=31,  value_limit=40, percent_error=20, wave='rectangle',  amplitude=4, amplitude_limit=10, frequency='10k', hesh='Meas 17$VDC_RECTANGLE') #hesh Meas 17$VDC_RECTANGLE:  31 ;40  ;20  ;rectangle ;4  ;10  ;10k  ;
-VDC(value=34,  value_limit=40, percent_error=20, wave='rectangle',  amplitude=5, amplitude_limit=10, frequency='10k', hesh='Meas 18$VDC_RECTANGLE') #hesh Meas 18$VDC_RECTANGLE:  34 ;40  ;20  ;rectangle ;5  ;10  ;10k  ;
-VDC(value=37,  value_limit=40, percent_error=20, wave='rectangle',  amplitude=5, amplitude_limit=10, frequency='10k', hesh='Meas 19$VDC_RECTANGLE') #hesh Meas 19$VDC_RECTANGLE:  37 ;40  ;20  ;rectangle ;5  ;10  ;10k  ;
-VDC(value=40,  value_limit=40, percent_error=20, wave='rectangle',  amplitude=5, amplitude_limit=10, frequency='10k', hesh='Meas 20$VDC_RECTANGLE') #hesh Meas 20$VDC_RECTANGLE:  40 ;40  ;20  ;rectangle ;5  ;10  ;10k  ;
+VDC(value=1,   value_limit=40, percent_error=70, wave='rectangle',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 1$VDC_RECTANGLE')  #hesh Meas 1$VDC_RECTANGLE:   1  ;40  ;70  ;rectangle ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=2,   value_limit=40, percent_error=30, wave='rectangle',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 2$VDC_RECTANGLE')  #hesh Meas 2$VDC_RECTANGLE:   2  ;40  ;30  ;rectangle ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=3,   value_limit=40, percent_error=20, wave='rectangle',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 3$VDC_RECTANGLE')  #hesh Meas 3$VDC_RECTANGLE:   3  ;40  ;20  ;rectangle ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=4,   value_limit=40, percent_error=20, wave='rectangle',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 4$VDC_RECTANGLE')  #hesh Meas 4$VDC_RECTANGLE:   4  ;40  ;20  ;rectangle ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=5,   value_limit=40, percent_error=20, wave='rectangle',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 5$VDC_RECTANGLE')  #hesh Meas 5$VDC_RECTANGLE:   5  ;40  ;20  ;rectangle ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=6,   value_limit=40, percent_error=20, wave='rectangle',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 6$VDC_RECTANGLE')  #hesh Meas 6$VDC_RECTANGLE:   6  ;40  ;20  ;rectangle ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=8,   value_limit=40, percent_error=20, wave='rectangle',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 7$VDC_RECTANGLE')  #hesh Meas 7$VDC_RECTANGLE:   8  ;40  ;20  ;rectangle ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=10,  value_limit=40, percent_error=20, wave='rectangle',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 8$VDC_RECTANGLE')  #hesh Meas 8$VDC_RECTANGLE:   10 ;40  ;20  ;rectangle ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=12,  value_limit=40, percent_error=20, wave='rectangle',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 9$VDC_RECTANGLE')  #hesh Meas 9$VDC_RECTANGLE:   12 ;40  ;20  ;rectangle ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=14,  value_limit=40, percent_error=20, wave='rectangle',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 10$VDC_RECTANGLE') #hesh Meas 10$VDC_RECTANGLE:  14 ;40  ;20  ;rectangle ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=16,  value_limit=40, percent_error=20, wave='rectangle',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 11$VDC_RECTANGLE') #hesh Meas 11$VDC_RECTANGLE:  16 ;40  ;20  ;rectangle ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=18,  value_limit=40, percent_error=20, wave='rectangle',  amplitude=2, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 12$VDC_RECTANGLE') #hesh Meas 12$VDC_RECTANGLE:  18 ;40  ;20  ;rectangle ;2  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=20,  value_limit=40, percent_error=20, wave='rectangle',  amplitude=2, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 13$VDC_RECTANGLE') #hesh Meas 13$VDC_RECTANGLE:  20 ;40  ;20  ;rectangle ;2  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=22,  value_limit=40, percent_error=20, wave='rectangle',  amplitude=2, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 14$VDC_RECTANGLE') #hesh Meas 14$VDC_RECTANGLE:  22 ;40  ;20  ;rectangle ;2  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=25,  value_limit=40, percent_error=20, wave='rectangle',  amplitude=3, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 15$VDC_RECTANGLE') #hesh Meas 15$VDC_RECTANGLE:  25 ;40  ;20  ;rectangle ;3  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=28,  value_limit=40, percent_error=20, wave='rectangle',  amplitude=3, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 16$VDC_RECTANGLE') #hesh Meas 16$VDC_RECTANGLE:  28 ;40  ;20  ;rectangle ;3  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=31,  value_limit=40, percent_error=20, wave='rectangle',  amplitude=4, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 17$VDC_RECTANGLE') #hesh Meas 17$VDC_RECTANGLE:  31 ;40  ;20  ;rectangle ;4  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=34,  value_limit=40, percent_error=20, wave='rectangle',  amplitude=5, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 18$VDC_RECTANGLE') #hesh Meas 18$VDC_RECTANGLE:  34 ;40  ;20  ;rectangle ;5  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=37,  value_limit=40, percent_error=20, wave='rectangle',  amplitude=5, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 19$VDC_RECTANGLE') #hesh Meas 19$VDC_RECTANGLE:  37 ;40  ;20  ;rectangle ;5  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=40,  value_limit=40, percent_error=20, wave='rectangle',  amplitude=5, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 20$VDC_RECTANGLE') #hesh Meas 20$VDC_RECTANGLE:  40 ;40  ;20  ;rectangle ;5  ;10  ;10k  ;0.300  ;True  ;3
+
 Testing.GetScreenshot()
 Testing.OutOFFCommand()
 #endregion Voltage measurement with generator signal rectangle$VDC_RECTANGLE
 
 
 #region Voltage measurement with generator signal trapezoid$VDC_TRAPEZOID
-#description: value \nmeasurement, V;value limit, V;percentage of \nallowed error, %;wave amplitude;amplitude, V;amplitude\nlimit, V;frequency, Hz;
+#description: value \nmeasurement, V;value limit, V;percentage of \nallowed error, %;wave amplitude;amplitude, V;amplitude\nlimit, V;frequency, Hz;delay time \nbefore \nmeasurement, s;remeasure,\nTrue or False;number of \nremeasurements;
 MOKO.Program('tree', 'set', 'select = Voltage measurement with generator signal trapezoid$VDC_TRAPEZOID')
+
 MOKO.Stage('Set NameGraph => VDC_TRAPEZOID_GRAPH')
 Testing.NameGraph = 'VDC_TRAPEZOID_GRAPH'
 
-VDC(value=1,   value_limit=40, percent_error=70, wave='trapezoid',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 1$VDC_TRAPEZOID')  #hesh Meas 1$VDC_TRAPEZOID:   1  ;40  ;70  ;trapezoid ;1  ;10  ;10k  ;
-VDC(value=2,   value_limit=40, percent_error=30, wave='trapezoid',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 2$VDC_TRAPEZOID')  #hesh Meas 2$VDC_TRAPEZOID:   2  ;40  ;30  ;trapezoid ;1  ;10  ;10k  ;
-VDC(value=3,   value_limit=40, percent_error=20, wave='trapezoid',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 3$VDC_TRAPEZOID')  #hesh Meas 3$VDC_TRAPEZOID:   3  ;40  ;20  ;trapezoid ;1  ;10  ;10k  ;
-VDC(value=4,   value_limit=40, percent_error=20, wave='trapezoid',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 4$VDC_TRAPEZOID')  #hesh Meas 4$VDC_TRAPEZOID:   4  ;40  ;20  ;trapezoid ;1  ;10  ;10k  ;
-VDC(value=5,   value_limit=40, percent_error=20, wave='trapezoid',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 5$VDC_TRAPEZOID')  #hesh Meas 5$VDC_TRAPEZOID:   5  ;40  ;20  ;trapezoid ;1  ;10  ;10k  ;
-VDC(value=6,   value_limit=40, percent_error=20, wave='trapezoid',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 6$VDC_TRAPEZOID')  #hesh Meas 6$VDC_TRAPEZOID:   6  ;40  ;20  ;trapezoid ;1  ;10  ;10k  ;
-VDC(value=8,   value_limit=40, percent_error=20, wave='trapezoid',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 7$VDC_TRAPEZOID')  #hesh Meas 7$VDC_TRAPEZOID:   8  ;40  ;20  ;trapezoid ;1  ;10  ;10k  ;
-VDC(value=10,  value_limit=40, percent_error=20, wave='trapezoid',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 8$VDC_TRAPEZOID')  #hesh Meas 8$VDC_TRAPEZOID:   10 ;40  ;20  ;trapezoid ;1  ;10  ;10k  ;
-VDC(value=12,  value_limit=40, percent_error=20, wave='trapezoid',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 9$VDC_TRAPEZOID')  #hesh Meas 9$VDC_TRAPEZOID:   12 ;40  ;20  ;trapezoid ;1  ;10  ;10k  ;
-VDC(value=14,  value_limit=40, percent_error=20, wave='trapezoid',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 10$VDC_TRAPEZOID') #hesh Meas 10$VDC_TRAPEZOID:  14 ;40  ;20  ;trapezoid ;1  ;10  ;10k  ;
-VDC(value=16,  value_limit=40, percent_error=20, wave='trapezoid',  amplitude=1, amplitude_limit=10, frequency='10k', hesh='Meas 11$VDC_TRAPEZOID') #hesh Meas 11$VDC_TRAPEZOID:  16 ;40  ;20  ;trapezoid ;1  ;10  ;10k  ;
-VDC(value=18,  value_limit=40, percent_error=20, wave='trapezoid',  amplitude=2, amplitude_limit=10, frequency='10k', hesh='Meas 12$VDC_TRAPEZOID') #hesh Meas 12$VDC_TRAPEZOID:  18 ;40  ;20  ;trapezoid ;2  ;10  ;10k  ;
-VDC(value=20,  value_limit=40, percent_error=20, wave='trapezoid',  amplitude=2, amplitude_limit=10, frequency='10k', hesh='Meas 13$VDC_TRAPEZOID') #hesh Meas 13$VDC_TRAPEZOID:  20 ;40  ;20  ;trapezoid ;2  ;10  ;10k  ;
-VDC(value=22,  value_limit=40, percent_error=20, wave='trapezoid',  amplitude=2, amplitude_limit=10, frequency='10k', hesh='Meas 14$VDC_TRAPEZOID') #hesh Meas 14$VDC_TRAPEZOID:  22 ;40  ;20  ;trapezoid ;2  ;10  ;10k  ;
-VDC(value=25,  value_limit=40, percent_error=20, wave='trapezoid',  amplitude=3, amplitude_limit=10, frequency='10k', hesh='Meas 15$VDC_TRAPEZOID') #hesh Meas 15$VDC_TRAPEZOID:  25 ;40  ;20  ;trapezoid ;3  ;10  ;10k  ;
-VDC(value=28,  value_limit=40, percent_error=20, wave='trapezoid',  amplitude=3, amplitude_limit=10, frequency='10k', hesh='Meas 16$VDC_TRAPEZOID') #hesh Meas 16$VDC_TRAPEZOID:  28 ;40  ;20  ;trapezoid ;3  ;10  ;10k  ;
-VDC(value=31,  value_limit=40, percent_error=20, wave='trapezoid',  amplitude=4, amplitude_limit=10, frequency='10k', hesh='Meas 17$VDC_TRAPEZOID') #hesh Meas 17$VDC_TRAPEZOID:  31 ;40  ;20  ;trapezoid ;4  ;10  ;10k  ;
-VDC(value=34,  value_limit=40, percent_error=20, wave='trapezoid',  amplitude=5, amplitude_limit=10, frequency='10k', hesh='Meas 18$VDC_TRAPEZOID') #hesh Meas 18$VDC_TRAPEZOID:  34 ;40  ;20  ;trapezoid ;5  ;10  ;10k  ;
-VDC(value=37,  value_limit=40, percent_error=20, wave='trapezoid',  amplitude=5, amplitude_limit=10, frequency='10k', hesh='Meas 19$VDC_TRAPEZOID') #hesh Meas 19$VDC_TRAPEZOID:  37 ;40  ;20  ;trapezoid ;5  ;10  ;10k  ;
-VDC(value=40,  value_limit=40, percent_error=20, wave='trapezoid',  amplitude=5, amplitude_limit=10, frequency='10k', hesh='Meas 20$VDC_TRAPEZOID') #hesh Meas 20$VDC_TRAPEZOID:  40 ;40  ;20  ;trapezoid ;5  ;10  ;10k  ;
+VDC(value=1,   value_limit=40, percent_error=70, wave='trapezoid',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 1$VDC_TRAPEZOID')  #hesh Meas 1$VDC_TRAPEZOID:   1  ;40  ;70  ;trapezoid ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=2,   value_limit=40, percent_error=30, wave='trapezoid',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 2$VDC_TRAPEZOID')  #hesh Meas 2$VDC_TRAPEZOID:   2  ;40  ;30  ;trapezoid ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=3,   value_limit=40, percent_error=20, wave='trapezoid',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 3$VDC_TRAPEZOID')  #hesh Meas 3$VDC_TRAPEZOID:   3  ;40  ;20  ;trapezoid ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=4,   value_limit=40, percent_error=20, wave='trapezoid',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 4$VDC_TRAPEZOID')  #hesh Meas 4$VDC_TRAPEZOID:   4  ;40  ;20  ;trapezoid ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=5,   value_limit=40, percent_error=20, wave='trapezoid',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 5$VDC_TRAPEZOID')  #hesh Meas 5$VDC_TRAPEZOID:   5  ;40  ;20  ;trapezoid ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=6,   value_limit=40, percent_error=20, wave='trapezoid',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 6$VDC_TRAPEZOID')  #hesh Meas 6$VDC_TRAPEZOID:   6  ;40  ;20  ;trapezoid ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=8,   value_limit=40, percent_error=20, wave='trapezoid',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 7$VDC_TRAPEZOID')  #hesh Meas 7$VDC_TRAPEZOID:   8  ;40  ;20  ;trapezoid ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=10,  value_limit=40, percent_error=20, wave='trapezoid',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 8$VDC_TRAPEZOID')  #hesh Meas 8$VDC_TRAPEZOID:   10 ;40  ;20  ;trapezoid ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=12,  value_limit=40, percent_error=20, wave='trapezoid',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 9$VDC_TRAPEZOID')  #hesh Meas 9$VDC_TRAPEZOID:   12 ;40  ;20  ;trapezoid ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=14,  value_limit=40, percent_error=20, wave='trapezoid',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 10$VDC_TRAPEZOID') #hesh Meas 10$VDC_TRAPEZOID:  14 ;40  ;20  ;trapezoid ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=16,  value_limit=40, percent_error=20, wave='trapezoid',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 11$VDC_TRAPEZOID') #hesh Meas 11$VDC_TRAPEZOID:  16 ;40  ;20  ;trapezoid ;1  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=18,  value_limit=40, percent_error=20, wave='trapezoid',  amplitude=2, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 12$VDC_TRAPEZOID') #hesh Meas 12$VDC_TRAPEZOID:  18 ;40  ;20  ;trapezoid ;2  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=20,  value_limit=40, percent_error=20, wave='trapezoid',  amplitude=2, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 13$VDC_TRAPEZOID') #hesh Meas 13$VDC_TRAPEZOID:  20 ;40  ;20  ;trapezoid ;2  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=22,  value_limit=40, percent_error=20, wave='trapezoid',  amplitude=2, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 14$VDC_TRAPEZOID') #hesh Meas 14$VDC_TRAPEZOID:  22 ;40  ;20  ;trapezoid ;2  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=25,  value_limit=40, percent_error=20, wave='trapezoid',  amplitude=3, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 15$VDC_TRAPEZOID') #hesh Meas 15$VDC_TRAPEZOID:  25 ;40  ;20  ;trapezoid ;3  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=28,  value_limit=40, percent_error=20, wave='trapezoid',  amplitude=3, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 16$VDC_TRAPEZOID') #hesh Meas 16$VDC_TRAPEZOID:  28 ;40  ;20  ;trapezoid ;3  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=31,  value_limit=40, percent_error=20, wave='trapezoid',  amplitude=4, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 17$VDC_TRAPEZOID') #hesh Meas 17$VDC_TRAPEZOID:  31 ;40  ;20  ;trapezoid ;4  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=34,  value_limit=40, percent_error=20, wave='trapezoid',  amplitude=5, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 18$VDC_TRAPEZOID') #hesh Meas 18$VDC_TRAPEZOID:  34 ;40  ;20  ;trapezoid ;5  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=37,  value_limit=40, percent_error=20, wave='trapezoid',  amplitude=5, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 19$VDC_TRAPEZOID') #hesh Meas 19$VDC_TRAPEZOID:  37 ;40  ;20  ;trapezoid ;5  ;10  ;10k  ;0.300  ;True  ;3
+VDC(value=40,  value_limit=40, percent_error=20, wave='trapezoid',  amplitude=5, amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 20$VDC_TRAPEZOID') #hesh Meas 20$VDC_TRAPEZOID:  40 ;40  ;20  ;trapezoid ;5  ;10  ;10k  ;0.300  ;True  ;3
+
 Testing.GetScreenshot()
 Testing.OutOFFCommand()
 #endregion Voltage measurement with generator signal trapezoid$VDC_TRAPEZOID
 
 
 #region Current measurement with generator signal CMOS$IDC_CMOS
-#description: value \nmeasurement, A;value limit, A;percentage of \nallowed error, %;wave amplitude;amplitude, A;amplitude\nlimit, A;frequency, Hz;
+#description: value \nmeasurement, A;value limit, A;percentage of \nallowed error, %;wave amplitude;amplitude, A;amplitude\nlimit, A;frequency, Hz;delay time \nbefore \nmeasurement, s;remeasure,\nTrue or False;number of \nremeasurements;
 MOKO.Program('tree', 'set', 'select = Current measurement with generator signal CMOS$IDC_CMOS')
+
 MOKO.Stage('Set NameGraph => IDC_CMOS_GRAPH')
 Testing.NameGraph = 'IDC_CMOS_GRAPH'
 
-IDC(value=0.01, value_limit=5, percent_error=200, wave='CMOS', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 1$IDC_CMOS')   #hesh Meas 1$IDC_CMOS:  0.01 ;5  ;200 ;CMOS ;1  ;10  ;10k  ;
-IDC(value=0.03, value_limit=5, percent_error=100, wave='CMOS', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 2$IDC_CMOS')   #hesh Meas 2$IDC_CMOS:  0.03 ;5  ;100 ;CMOS ;1  ;10  ;10k  ;
-IDC(value=0.05, value_limit=5, percent_error=50,  wave='CMOS', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 3$IDC_CMOS')   #hesh Meas 3$IDC_CMOS:  0.05 ;5  ;50  ;CMOS ;1  ;10  ;10k  ;
-IDC(value=0.1,  value_limit=5, percent_error=25,  wave='CMOS', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 4$IDC_CMOS')   #hesh Meas 4$IDC_CMOS:  0.1  ;5  ;25  ;CMOS ;1  ;10  ;10k  ;
-IDC(value=0.15, value_limit=5, percent_error=20,  wave='CMOS', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 5$IDC_CMOS')   #hesh Meas 5$IDC_CMOS:  0.15 ;5  ;20  ;CMOS ;1  ;10  ;10k  ;
-IDC(value=0.2,  value_limit=5, percent_error=20,  wave='CMOS', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 6$IDC_CMOS')   #hesh Meas 6$IDC_CMOS:  0.2  ;5  ;20  ;CMOS ;1  ;10  ;10k  ;
-IDC(value=0.25, value_limit=5, percent_error=20,  wave='CMOS', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 7$IDC_CMOS')   #hesh Meas 7$IDC_CMOS:  0.25 ;5  ;20  ;CMOS ;1  ;10  ;10k  ;
-IDC(value=0.3,  value_limit=5, percent_error=20,  wave='CMOS', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 8$IDC_CMOS')   #hesh Meas 8$IDC_CMOS:  0.3  ;5  ;20  ;CMOS ;1  ;10  ;10k  ;
-IDC(value=0.4,  value_limit=5, percent_error=20,  wave='CMOS', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 9$IDC_CMOS')   #hesh Meas 9$IDC_CMOS:  0.4  ;5  ;20  ;CMOS ;1  ;10  ;10k  ;
-IDC(value=0.5,  value_limit=5, percent_error=20,  wave='CMOS', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 10$IDC_CMOS')  #hesh Meas 10$IDC_CMOS: 0.5  ;5  ;20  ;CMOS ;1  ;10  ;10k  ;
-IDC(value=0.6,  value_limit=5, percent_error=20,  wave='CMOS', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 11$IDC_CMOS')  #hesh Meas 11$IDC_CMOS: 0.6  ;5  ;20  ;CMOS ;1  ;10  ;10k  ;
-IDC(value=0.8,  value_limit=5, percent_error=20,  wave='CMOS', amplitude=2,  amplitude_limit=10, frequency='10k', hesh='Meas 12$IDC_CMOS')  #hesh Meas 12$IDC_CMOS: 0.8  ;5  ;20  ;CMOS ;2  ;10  ;10k  ;
-IDC(value=1,    value_limit=5, percent_error=20,  wave='CMOS', amplitude=2,  amplitude_limit=10, frequency='10k', hesh='Meas 13$IDC_CMOS')  #hesh Meas 13$IDC_CMOS: 1    ;5  ;20  ;CMOS ;2  ;10  ;10k  ;
-IDC(value=1.2,  value_limit=5, percent_error=20,  wave='CMOS', amplitude=2,  amplitude_limit=10, frequency='10k', hesh='Meas 14$IDC_CMOS')  #hesh Meas 14$IDC_CMOS: 1.2  ;5  ;20  ;CMOS ;2  ;10  ;10k  ;
-IDC(value=1.5,  value_limit=5, percent_error=20,  wave='CMOS', amplitude=3,  amplitude_limit=10, frequency='10k', hesh='Meas 15$IDC_CMOS')  #hesh Meas 15$IDC_CMOS: 1.5  ;5  ;20  ;CMOS ;3  ;10  ;10k  ;
-IDC(value=2,    value_limit=5, percent_error=20,  wave='CMOS', amplitude=3,  amplitude_limit=10, frequency='10k', hesh='Meas 16$IDC_CMOS')  #hesh Meas 16$IDC_CMOS: 2    ;5  ;20  ;CMOS ;3  ;10  ;10k  ;
-IDC(value=2.5,  value_limit=5, percent_error=20,  wave='CMOS', amplitude=4,  amplitude_limit=10, frequency='10k', hesh='Meas 17$IDC_CMOS')  #hesh Meas 17$IDC_CMOS: 2.5  ;5  ;20  ;CMOS ;4  ;10  ;10k  ;
-IDC(value=3,    value_limit=5, percent_error=20,  wave='CMOS', amplitude=5,  amplitude_limit=10, frequency='10k', hesh='Meas 18$IDC_CMOS')  #hesh Meas 18$IDC_CMOS: 3    ;5  ;20  ;CMOS ;5  ;10  ;10k  ;
-IDC(value=4,    value_limit=5, percent_error=20,  wave='CMOS', amplitude=5,  amplitude_limit=10, frequency='10k', hesh='Meas 19$IDC_CMOS')  #hesh Meas 19$IDC_CMOS: 4    ;5  ;20  ;CMOS ;5  ;10  ;10k  ;
-IDC(value=5,    value_limit=5, percent_error=20,  wave='CMOS', amplitude=5,  amplitude_limit=10, frequency='10k', hesh='Meas 20$IDC_CMOS')  #hesh Meas 20$IDC_CMOS: 5    ;5  ;20  ;CMOS ;5  ;10  ;10k  ;
+IDC(value=0.01, value_limit=5, percent_error=200, wave='CMOS', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 1$IDC_CMOS')   #hesh Meas 1$IDC_CMOS:  0.01 ;5  ;200 ;CMOS ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.03, value_limit=5, percent_error=100, wave='CMOS', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 2$IDC_CMOS')   #hesh Meas 2$IDC_CMOS:  0.03 ;5  ;100 ;CMOS ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.05, value_limit=5, percent_error=50,  wave='CMOS', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 3$IDC_CMOS')   #hesh Meas 3$IDC_CMOS:  0.05 ;5  ;50  ;CMOS ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.1,  value_limit=5, percent_error=25,  wave='CMOS', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 4$IDC_CMOS')   #hesh Meas 4$IDC_CMOS:  0.1  ;5  ;25  ;CMOS ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.15, value_limit=5, percent_error=20,  wave='CMOS', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 5$IDC_CMOS')   #hesh Meas 5$IDC_CMOS:  0.15 ;5  ;20  ;CMOS ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.2,  value_limit=5, percent_error=20,  wave='CMOS', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 6$IDC_CMOS')   #hesh Meas 6$IDC_CMOS:  0.2  ;5  ;20  ;CMOS ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.25, value_limit=5, percent_error=20,  wave='CMOS', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 7$IDC_CMOS')   #hesh Meas 7$IDC_CMOS:  0.25 ;5  ;20  ;CMOS ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.3,  value_limit=5, percent_error=20,  wave='CMOS', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 8$IDC_CMOS')   #hesh Meas 8$IDC_CMOS:  0.3  ;5  ;20  ;CMOS ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.4,  value_limit=5, percent_error=20,  wave='CMOS', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 9$IDC_CMOS')   #hesh Meas 9$IDC_CMOS:  0.4  ;5  ;20  ;CMOS ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.5,  value_limit=5, percent_error=20,  wave='CMOS', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 10$IDC_CMOS')  #hesh Meas 10$IDC_CMOS: 0.5  ;5  ;20  ;CMOS ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.6,  value_limit=5, percent_error=20,  wave='CMOS', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 11$IDC_CMOS')  #hesh Meas 11$IDC_CMOS: 0.6  ;5  ;20  ;CMOS ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.8,  value_limit=5, percent_error=20,  wave='CMOS', amplitude=2,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 12$IDC_CMOS')  #hesh Meas 12$IDC_CMOS: 0.8  ;5  ;20  ;CMOS ;2  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=1,    value_limit=5, percent_error=20,  wave='CMOS', amplitude=2,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 13$IDC_CMOS')  #hesh Meas 13$IDC_CMOS: 1    ;5  ;20  ;CMOS ;2  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=1.2,  value_limit=5, percent_error=20,  wave='CMOS', amplitude=2,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 14$IDC_CMOS')  #hesh Meas 14$IDC_CMOS: 1.2  ;5  ;20  ;CMOS ;2  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=1.5,  value_limit=5, percent_error=20,  wave='CMOS', amplitude=3,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 15$IDC_CMOS')  #hesh Meas 15$IDC_CMOS: 1.5  ;5  ;20  ;CMOS ;3  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=2,    value_limit=5, percent_error=20,  wave='CMOS', amplitude=3,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 16$IDC_CMOS')  #hesh Meas 16$IDC_CMOS: 2    ;5  ;20  ;CMOS ;3  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=2.5,  value_limit=5, percent_error=20,  wave='CMOS', amplitude=4,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 17$IDC_CMOS')  #hesh Meas 17$IDC_CMOS: 2.5  ;5  ;20  ;CMOS ;4  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=3,    value_limit=5, percent_error=20,  wave='CMOS', amplitude=5,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 18$IDC_CMOS')  #hesh Meas 18$IDC_CMOS: 3    ;5  ;20  ;CMOS ;5  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=4,    value_limit=5, percent_error=20,  wave='CMOS', amplitude=5,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 19$IDC_CMOS')  #hesh Meas 19$IDC_CMOS: 4    ;5  ;20  ;CMOS ;5  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=5,    value_limit=5, percent_error=20,  wave='CMOS', amplitude=5,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 20$IDC_CMOS')  #hesh Meas 20$IDC_CMOS: 5    ;5  ;20  ;CMOS ;5  ;10  ;10k  ;0.300  ;True  ;3
+
 Testing.GetScreenshot()
 Testing.OutOFFCommand()
 #endregion Current measurement with generator signal CMOS$IDC_CMOS
 
 
 #region Current measurement with generator signal pulse$IDC_PULSE
-#description: value \nmeasurement, A;value limit, A;percentage of \nallowed error, %;wave amplitude;amplitude, A;amplitude\nlimit, A;frequency, Hz;
+#description: value \nmeasurement, A;value limit, A;percentage of \nallowed error, %;wave amplitude;amplitude, A;amplitude\nlimit, A;frequency, Hz;delay time \nbefore \nmeasurement, s;remeasure,\nTrue or False;number of \nremeasurements;
 MOKO.Program('tree', 'set', 'select = Current measurement with generator signal pulse$IDC_PULSE')
+
 MOKO.Stage('Set NameGraph => IDC_PULSE_GRAPH')
 Testing.NameGraph = 'IDC_PULSE_GRAPH'
 
-IDC(value=0.01, value_limit=5, percent_error=200, wave='pulse', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 1$IDC_PULSE')   #hesh Meas 1$IDC_PULSE:  0.01 ;5  ;200 ;pulse ;1  ;10  ;10k  ;
-IDC(value=0.03, value_limit=5, percent_error=100, wave='pulse', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 2$IDC_PULSE')   #hesh Meas 2$IDC_PULSE:  0.03 ;5  ;100 ;pulse ;1  ;10  ;10k  ;
-IDC(value=0.05, value_limit=5, percent_error=50,  wave='pulse', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 3$IDC_PULSE')   #hesh Meas 3$IDC_PULSE:  0.05 ;5  ;50  ;pulse ;1  ;10  ;10k  ;
-IDC(value=0.1,  value_limit=5, percent_error=25,  wave='pulse', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 4$IDC_PULSE')   #hesh Meas 4$IDC_PULSE:  0.1  ;5  ;25  ;pulse ;1  ;10  ;10k  ;
-IDC(value=0.15, value_limit=5, percent_error=20,  wave='pulse', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 5$IDC_PULSE')   #hesh Meas 5$IDC_PULSE:  0.15 ;5  ;20  ;pulse ;1  ;10  ;10k  ;
-IDC(value=0.2,  value_limit=5, percent_error=20,  wave='pulse', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 6$IDC_PULSE')   #hesh Meas 6$IDC_PULSE:  0.2  ;5  ;20  ;pulse ;1  ;10  ;10k  ;
-IDC(value=0.25, value_limit=5, percent_error=20,  wave='pulse', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 7$IDC_PULSE')   #hesh Meas 7$IDC_PULSE:  0.25 ;5  ;20  ;pulse ;1  ;10  ;10k  ;
-IDC(value=0.3,  value_limit=5, percent_error=20,  wave='pulse', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 8$IDC_PULSE')   #hesh Meas 8$IDC_PULSE:  0.3  ;5  ;20  ;pulse ;1  ;10  ;10k  ;
-IDC(value=0.4,  value_limit=5, percent_error=20,  wave='pulse', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 9$IDC_PULSE')   #hesh Meas 9$IDC_PULSE:  0.4  ;5  ;20  ;pulse ;1  ;10  ;10k  ;
-IDC(value=0.5,  value_limit=5, percent_error=20,  wave='pulse', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 10$IDC_PULSE')  #hesh Meas 10$IDC_PULSE: 0.5  ;5  ;20  ;pulse ;1  ;10  ;10k  ;
-IDC(value=0.6,  value_limit=5, percent_error=20,  wave='pulse', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 11$IDC_PULSE')  #hesh Meas 11$IDC_PULSE: 0.6  ;5  ;20  ;pulse ;1  ;10  ;10k  ;
-IDC(value=0.8,  value_limit=5, percent_error=20,  wave='pulse', amplitude=2,  amplitude_limit=10, frequency='10k', hesh='Meas 12$IDC_PULSE')  #hesh Meas 12$IDC_PULSE: 0.8  ;5  ;20  ;pulse ;2  ;10  ;10k  ;
-IDC(value=1,    value_limit=5, percent_error=20,  wave='pulse', amplitude=2,  amplitude_limit=10, frequency='10k', hesh='Meas 13$IDC_PULSE')  #hesh Meas 13$IDC_PULSE: 1    ;5  ;20  ;pulse ;2  ;10  ;10k  ;
-IDC(value=1.2,  value_limit=5, percent_error=20,  wave='pulse', amplitude=2,  amplitude_limit=10, frequency='10k', hesh='Meas 14$IDC_PULSE')  #hesh Meas 14$IDC_PULSE: 1.2  ;5  ;20  ;pulse ;2  ;10  ;10k  ;
-IDC(value=1.5,  value_limit=5, percent_error=20,  wave='pulse', amplitude=3,  amplitude_limit=10, frequency='10k', hesh='Meas 15$IDC_PULSE')  #hesh Meas 15$IDC_PULSE: 1.5  ;5  ;20  ;pulse ;3  ;10  ;10k  ;
-IDC(value=2,    value_limit=5, percent_error=20,  wave='pulse', amplitude=3,  amplitude_limit=10, frequency='10k', hesh='Meas 16$IDC_PULSE')  #hesh Meas 16$IDC_PULSE: 2    ;5  ;20  ;pulse ;3  ;10  ;10k  ;
-IDC(value=2.5,  value_limit=5, percent_error=20,  wave='pulse', amplitude=4,  amplitude_limit=10, frequency='10k', hesh='Meas 17$IDC_PULSE')  #hesh Meas 17$IDC_PULSE: 2.5  ;5  ;20  ;pulse ;4  ;10  ;10k  ;
-IDC(value=3,    value_limit=5, percent_error=20,  wave='pulse', amplitude=5,  amplitude_limit=10, frequency='10k', hesh='Meas 18$IDC_PULSE')  #hesh Meas 18$IDC_PULSE: 3    ;5  ;20  ;pulse ;5  ;10  ;10k  ;
-IDC(value=4,    value_limit=5, percent_error=20,  wave='pulse', amplitude=5,  amplitude_limit=10, frequency='10k', hesh='Meas 19$IDC_PULSE')  #hesh Meas 19$IDC_PULSE: 4    ;5  ;20  ;pulse ;5  ;10  ;10k  ;
-IDC(value=5,    value_limit=5, percent_error=20,  wave='pulse', amplitude=5,  amplitude_limit=10, frequency='10k', hesh='Meas 20$IDC_PULSE')  #hesh Meas 20$IDC_PULSE: 5    ;5  ;20  ;pulse ;5  ;10  ;10k  ;
+IDC(value=0.01, value_limit=5, percent_error=200, wave='pulse', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 1$IDC_PULSE')   #hesh Meas 1$IDC_PULSE:  0.01 ;5  ;200 ;pulse ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.03, value_limit=5, percent_error=100, wave='pulse', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 2$IDC_PULSE')   #hesh Meas 2$IDC_PULSE:  0.03 ;5  ;100 ;pulse ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.05, value_limit=5, percent_error=50,  wave='pulse', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 3$IDC_PULSE')   #hesh Meas 3$IDC_PULSE:  0.05 ;5  ;50  ;pulse ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.1,  value_limit=5, percent_error=25,  wave='pulse', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 4$IDC_PULSE')   #hesh Meas 4$IDC_PULSE:  0.1  ;5  ;25  ;pulse ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.15, value_limit=5, percent_error=20,  wave='pulse', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 5$IDC_PULSE')   #hesh Meas 5$IDC_PULSE:  0.15 ;5  ;20  ;pulse ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.2,  value_limit=5, percent_error=20,  wave='pulse', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 6$IDC_PULSE')   #hesh Meas 6$IDC_PULSE:  0.2  ;5  ;20  ;pulse ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.25, value_limit=5, percent_error=20,  wave='pulse', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 7$IDC_PULSE')   #hesh Meas 7$IDC_PULSE:  0.25 ;5  ;20  ;pulse ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.3,  value_limit=5, percent_error=20,  wave='pulse', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 8$IDC_PULSE')   #hesh Meas 8$IDC_PULSE:  0.3  ;5  ;20  ;pulse ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.4,  value_limit=5, percent_error=20,  wave='pulse', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 9$IDC_PULSE')   #hesh Meas 9$IDC_PULSE:  0.4  ;5  ;20  ;pulse ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.5,  value_limit=5, percent_error=20,  wave='pulse', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 10$IDC_PULSE')  #hesh Meas 10$IDC_PULSE: 0.5  ;5  ;20  ;pulse ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.6,  value_limit=5, percent_error=20,  wave='pulse', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 11$IDC_PULSE')  #hesh Meas 11$IDC_PULSE: 0.6  ;5  ;20  ;pulse ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.8,  value_limit=5, percent_error=20,  wave='pulse', amplitude=2,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 12$IDC_PULSE')  #hesh Meas 12$IDC_PULSE: 0.8  ;5  ;20  ;pulse ;2  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=1,    value_limit=5, percent_error=20,  wave='pulse', amplitude=2,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 13$IDC_PULSE')  #hesh Meas 13$IDC_PULSE: 1    ;5  ;20  ;pulse ;2  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=1.2,  value_limit=5, percent_error=20,  wave='pulse', amplitude=2,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 14$IDC_PULSE')  #hesh Meas 14$IDC_PULSE: 1.2  ;5  ;20  ;pulse ;2  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=1.5,  value_limit=5, percent_error=20,  wave='pulse', amplitude=3,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 15$IDC_PULSE')  #hesh Meas 15$IDC_PULSE: 1.5  ;5  ;20  ;pulse ;3  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=2,    value_limit=5, percent_error=20,  wave='pulse', amplitude=3,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 16$IDC_PULSE')  #hesh Meas 16$IDC_PULSE: 2    ;5  ;20  ;pulse ;3  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=2.5,  value_limit=5, percent_error=20,  wave='pulse', amplitude=4,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 17$IDC_PULSE')  #hesh Meas 17$IDC_PULSE: 2.5  ;5  ;20  ;pulse ;4  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=3,    value_limit=5, percent_error=20,  wave='pulse', amplitude=5,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 18$IDC_PULSE')  #hesh Meas 18$IDC_PULSE: 3    ;5  ;20  ;pulse ;5  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=4,    value_limit=5, percent_error=20,  wave='pulse', amplitude=5,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 19$IDC_PULSE')  #hesh Meas 19$IDC_PULSE: 4    ;5  ;20  ;pulse ;5  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=5,    value_limit=5, percent_error=20,  wave='pulse', amplitude=5,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 20$IDC_PULSE')  #hesh Meas 20$IDC_PULSE: 5    ;5  ;20  ;pulse ;5  ;10  ;10k  ;0.300  ;True  ;3
+
 Testing.GetScreenshot()
 Testing.OutOFFCommand()
 #endregion Current measurement with generator signal pulse$IDC_PULSE
 
 
 #region Current measurement with generator signal ramp$IDC_RAMP
-#description: value \nmeasurement, A;value limit, A;percentage of \nallowed error, %;wave amplitude;amplitude, A;amplitude\nlimit, A;frequency, Hz;
+#description: value \nmeasurement, A;value limit, A;percentage of \nallowed error, %;wave amplitude;amplitude, A;amplitude\nlimit, A;frequency, Hz;delay time \nbefore \nmeasurement, s;remeasure,\nTrue or False;number of \nremeasurements;
 MOKO.Program('tree', 'set', 'select = Current measurement with generator signal ramp$IDC_RAMP')
+
 MOKO.Stage('Set NameGraph => IDC_RAMP_GRAPH')
 Testing.NameGraph = 'IDC_RAMP_GRAPH'
 
-IDC(value=0.01, value_limit=5, percent_error=200, wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 1$IDC_RAMP')   #hesh Meas 1$IDC_RAMP:  0.01 ;5  ;200 ;ramp ;1  ;10  ;10k  ;
-IDC(value=0.03, value_limit=5, percent_error=100, wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 2$IDC_RAMP')   #hesh Meas 2$IDC_RAMP:  0.03 ;5  ;100 ;ramp ;1  ;10  ;10k  ;
-IDC(value=0.05, value_limit=5, percent_error=50,  wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 3$IDC_RAMP')   #hesh Meas 3$IDC_RAMP:  0.05 ;5  ;50  ;ramp ;1  ;10  ;10k  ;
-IDC(value=0.1,  value_limit=5, percent_error=25,  wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 4$IDC_RAMP')   #hesh Meas 4$IDC_RAMP:  0.1  ;5  ;25  ;ramp ;1  ;10  ;10k  ;
-IDC(value=0.15, value_limit=5, percent_error=20,  wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 5$IDC_RAMP')   #hesh Meas 5$IDC_RAMP:  0.15 ;5  ;20  ;ramp ;1  ;10  ;10k  ;
-IDC(value=0.2,  value_limit=5, percent_error=20,  wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 6$IDC_RAMP')   #hesh Meas 6$IDC_RAMP:  0.2  ;5  ;20  ;ramp ;1  ;10  ;10k  ;
-IDC(value=0.25, value_limit=5, percent_error=20,  wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 7$IDC_RAMP')   #hesh Meas 7$IDC_RAMP:  0.25 ;5  ;20  ;ramp ;1  ;10  ;10k  ;
-IDC(value=0.3,  value_limit=5, percent_error=20,  wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 8$IDC_RAMP')   #hesh Meas 8$IDC_RAMP:  0.3  ;5  ;20  ;ramp ;1  ;10  ;10k  ;
-IDC(value=0.4,  value_limit=5, percent_error=20,  wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 9$IDC_RAMP')   #hesh Meas 9$IDC_RAMP:  0.4  ;5  ;20  ;ramp ;1  ;10  ;10k  ;
-IDC(value=0.5,  value_limit=5, percent_error=20,  wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 10$IDC_RAMP')  #hesh Meas 10$IDC_RAMP: 0.5  ;5  ;20  ;ramp ;1  ;10  ;10k  ;
-IDC(value=0.6,  value_limit=5, percent_error=20,  wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 11$IDC_RAMP')  #hesh Meas 11$IDC_RAMP: 0.6  ;5  ;20  ;ramp ;1  ;10  ;10k  ;
-IDC(value=0.8,  value_limit=5, percent_error=20,  wave='ramp', amplitude=2,  amplitude_limit=10, frequency='10k', hesh='Meas 12$IDC_RAMP')  #hesh Meas 12$IDC_RAMP: 0.8  ;5  ;20  ;ramp ;2  ;10  ;10k  ;
-IDC(value=1,    value_limit=5, percent_error=20,  wave='ramp', amplitude=2,  amplitude_limit=10, frequency='10k', hesh='Meas 13$IDC_RAMP')  #hesh Meas 13$IDC_RAMP: 1    ;5  ;20  ;ramp ;2  ;10  ;10k  ;
-IDC(value=1.2,  value_limit=5, percent_error=20,  wave='ramp', amplitude=2,  amplitude_limit=10, frequency='10k', hesh='Meas 14$IDC_RAMP')  #hesh Meas 14$IDC_RAMP: 1.2  ;5  ;20  ;ramp ;2  ;10  ;10k  ;
-IDC(value=1.5,  value_limit=5, percent_error=20,  wave='ramp', amplitude=3,  amplitude_limit=10, frequency='10k', hesh='Meas 15$IDC_RAMP')  #hesh Meas 15$IDC_RAMP: 1.5  ;5  ;20  ;ramp ;3  ;10  ;10k  ;
-IDC(value=2,    value_limit=5, percent_error=20,  wave='ramp', amplitude=3,  amplitude_limit=10, frequency='10k', hesh='Meas 16$IDC_RAMP')  #hesh Meas 16$IDC_RAMP: 2    ;5  ;20  ;ramp ;3  ;10  ;10k  ;
-IDC(value=2.5,  value_limit=5, percent_error=20,  wave='ramp', amplitude=4,  amplitude_limit=10, frequency='10k', hesh='Meas 17$IDC_RAMP')  #hesh Meas 17$IDC_RAMP: 2.5  ;5  ;20  ;ramp ;4  ;10  ;10k  ;
-IDC(value=3,    value_limit=5, percent_error=20,  wave='ramp', amplitude=5,  amplitude_limit=10, frequency='10k', hesh='Meas 18$IDC_RAMP')  #hesh Meas 18$IDC_RAMP: 3    ;5  ;20  ;ramp ;5  ;10  ;10k  ;
-IDC(value=4,    value_limit=5, percent_error=20,  wave='ramp', amplitude=5,  amplitude_limit=10, frequency='10k', hesh='Meas 19$IDC_RAMP')  #hesh Meas 19$IDC_RAMP: 4    ;5  ;20  ;ramp ;5  ;10  ;10k  ;
-IDC(value=5,    value_limit=5, percent_error=20,  wave='ramp', amplitude=5,  amplitude_limit=10, frequency='10k', hesh='Meas 20$IDC_RAMP')  #hesh Meas 20$IDC_RAMP: 5    ;5  ;20  ;ramp ;5  ;10  ;10k  ;
+IDC(value=0.01, value_limit=5, percent_error=200, wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 1$IDC_RAMP')   #hesh Meas 1$IDC_RAMP:  0.01 ;5  ;200 ;ramp ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.03, value_limit=5, percent_error=100, wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 2$IDC_RAMP')   #hesh Meas 2$IDC_RAMP:  0.03 ;5  ;100 ;ramp ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.05, value_limit=5, percent_error=50,  wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 3$IDC_RAMP')   #hesh Meas 3$IDC_RAMP:  0.05 ;5  ;50  ;ramp ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.1,  value_limit=5, percent_error=25,  wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 4$IDC_RAMP')   #hesh Meas 4$IDC_RAMP:  0.1  ;5  ;25  ;ramp ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.15, value_limit=5, percent_error=20,  wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 5$IDC_RAMP')   #hesh Meas 5$IDC_RAMP:  0.15 ;5  ;20  ;ramp ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.2,  value_limit=5, percent_error=20,  wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 6$IDC_RAMP')   #hesh Meas 6$IDC_RAMP:  0.2  ;5  ;20  ;ramp ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.25, value_limit=5, percent_error=20,  wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 7$IDC_RAMP')   #hesh Meas 7$IDC_RAMP:  0.25 ;5  ;20  ;ramp ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.3,  value_limit=5, percent_error=20,  wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 8$IDC_RAMP')   #hesh Meas 8$IDC_RAMP:  0.3  ;5  ;20  ;ramp ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.4,  value_limit=5, percent_error=20,  wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 9$IDC_RAMP')   #hesh Meas 9$IDC_RAMP:  0.4  ;5  ;20  ;ramp ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.5,  value_limit=5, percent_error=20,  wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 10$IDC_RAMP')  #hesh Meas 10$IDC_RAMP: 0.5  ;5  ;20  ;ramp ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.6,  value_limit=5, percent_error=20,  wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 11$IDC_RAMP')  #hesh Meas 11$IDC_RAMP: 0.6  ;5  ;20  ;ramp ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.8,  value_limit=5, percent_error=20,  wave='ramp', amplitude=2,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 12$IDC_RAMP')  #hesh Meas 12$IDC_RAMP: 0.8  ;5  ;20  ;ramp ;2  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=1,    value_limit=5, percent_error=20,  wave='ramp', amplitude=2,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 13$IDC_RAMP')  #hesh Meas 13$IDC_RAMP: 1    ;5  ;20  ;ramp ;2  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=1.2,  value_limit=5, percent_error=20,  wave='ramp', amplitude=2,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 14$IDC_RAMP')  #hesh Meas 14$IDC_RAMP: 1.2  ;5  ;20  ;ramp ;2  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=1.5,  value_limit=5, percent_error=20,  wave='ramp', amplitude=3,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 15$IDC_RAMP')  #hesh Meas 15$IDC_RAMP: 1.5  ;5  ;20  ;ramp ;3  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=2,    value_limit=5, percent_error=20,  wave='ramp', amplitude=3,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 16$IDC_RAMP')  #hesh Meas 16$IDC_RAMP: 2    ;5  ;20  ;ramp ;3  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=2.5,  value_limit=5, percent_error=20,  wave='ramp', amplitude=4,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 17$IDC_RAMP')  #hesh Meas 17$IDC_RAMP: 2.5  ;5  ;20  ;ramp ;4  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=3,    value_limit=5, percent_error=20,  wave='ramp', amplitude=5,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 18$IDC_RAMP')  #hesh Meas 18$IDC_RAMP: 3    ;5  ;20  ;ramp ;5  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=4,    value_limit=5, percent_error=20,  wave='ramp', amplitude=5,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 19$IDC_RAMP')  #hesh Meas 19$IDC_RAMP: 4    ;5  ;20  ;ramp ;5  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=5,    value_limit=5, percent_error=20,  wave='ramp', amplitude=5,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 20$IDC_RAMP')  #hesh Meas 20$IDC_RAMP: 5    ;5  ;20  ;ramp ;5  ;10  ;10k  ;0.300  ;True  ;3
+
 Testing.GetScreenshot()
 Testing.OutOFFCommand()
 #endregion Current measurement with generator signal ramp$IDC_RAMP
 
 #region Current measurement with generator signal negative ramp$IDC_NEGRAMP
-#description: value \nmeasurement, A;value limit, A;percentage of \nallowed error, %;wave amplitude;amplitude, A;amplitude\nlimit, A;frequency, Hz;
+#description: value \nmeasurement, A;value limit, A;percentage of \nallowed error, %;wave amplitude;amplitude, A;amplitude\nlimit, A;frequency, Hz;delay time \nbefore \nmeasurement, s;remeasure,\nTrue or False;number of \nremeasurements;
 MOKO.Program('tree', 'set', 'select = Current measurement with generator signal negative ramp$IDC_NEGRAMP')
+
 MOKO.Stage('Set NameGraph => IDC_NEGRAMP_GRAPH')
 Testing.NameGraph = 'IDC_NEGRAMP_GRAPH'
 
-IDC(value=0.01, value_limit=5, percent_error=200, wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 1$IDC_NEGRAMP')   #hesh Meas 1$IDC_NEGRAMP:  0.01 ;5  ;200 ;negramp ;1  ;10  ;10k  ;
-IDC(value=0.03, value_limit=5, percent_error=100, wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 2$IDC_NEGRAMP')   #hesh Meas 2$IDC_NEGRAMP:  0.03 ;5  ;100 ;negramp ;1  ;10  ;10k  ;
-IDC(value=0.05, value_limit=5, percent_error=50,  wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 3$IDC_NEGRAMP')   #hesh Meas 3$IDC_NEGRAMP:  0.05 ;5  ;50  ;negramp ;1  ;10  ;10k  ;
-IDC(value=0.1,  value_limit=5, percent_error=25,  wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 4$IDC_NEGRAMP')   #hesh Meas 4$IDC_NEGRAMP:  0.1  ;5  ;25  ;negramp ;1  ;10  ;10k  ;
-IDC(value=0.15, value_limit=5, percent_error=20,  wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 5$IDC_NEGRAMP')   #hesh Meas 5$IDC_NEGRAMP:  0.15 ;5  ;20  ;negramp ;1  ;10  ;10k  ;
-IDC(value=0.2,  value_limit=5, percent_error=20,  wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 6$IDC_NEGRAMP')   #hesh Meas 6$IDC_NEGRAMP:  0.2  ;5  ;20  ;negramp ;1  ;10  ;10k  ;
-IDC(value=0.25, value_limit=5, percent_error=20,  wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 7$IDC_NEGRAMP')   #hesh Meas 7$IDC_NEGRAMP:  0.25 ;5  ;20  ;negramp ;1  ;10  ;10k  ;
-IDC(value=0.3,  value_limit=5, percent_error=20,  wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 8$IDC_NEGRAMP')   #hesh Meas 8$IDC_NEGRAMP:  0.3  ;5  ;20  ;negramp ;1  ;10  ;10k  ;
-IDC(value=0.4,  value_limit=5, percent_error=20,  wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 9$IDC_NEGRAMP')   #hesh Meas 9$IDC_NEGRAMP:  0.4  ;5  ;20  ;negramp ;1  ;10  ;10k  ;
-IDC(value=0.5,  value_limit=5, percent_error=20,  wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 10$IDC_NEGRAMP')  #hesh Meas 10$IDC_NEGRAMP: 0.5  ;5  ;20  ;negramp ;1  ;10  ;10k  ;
-IDC(value=0.6,  value_limit=5, percent_error=20,  wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', hesh='Meas 11$IDC_NEGRAMP')  #hesh Meas 11$IDC_NEGRAMP: 0.6  ;5  ;20  ;negramp ;1  ;10  ;10k  ;
-IDC(value=0.8,  value_limit=5, percent_error=20,  wave='negramp', amplitude=2,  amplitude_limit=10, frequency='10k', hesh='Meas 12$IDC_NEGRAMP')  #hesh Meas 12$IDC_NEGRAMP: 0.8  ;5  ;20  ;negramp ;2  ;10  ;10k  ;
-IDC(value=1,    value_limit=5, percent_error=20,  wave='negramp', amplitude=2,  amplitude_limit=10, frequency='10k', hesh='Meas 13$IDC_NEGRAMP')  #hesh Meas 13$IDC_NEGRAMP: 1    ;5  ;20  ;negramp ;2  ;10  ;10k  ;
-IDC(value=1.2,  value_limit=5, percent_error=20,  wave='negramp', amplitude=2,  amplitude_limit=10, frequency='10k', hesh='Meas 14$IDC_NEGRAMP')  #hesh Meas 14$IDC_NEGRAMP: 1.2  ;5  ;20  ;negramp ;2  ;10  ;10k  ;
-IDC(value=1.5,  value_limit=5, percent_error=20,  wave='negramp', amplitude=3,  amplitude_limit=10, frequency='10k', hesh='Meas 15$IDC_NEGRAMP')  #hesh Meas 15$IDC_NEGRAMP: 1.5  ;5  ;20  ;negramp ;3  ;10  ;10k  ;
-IDC(value=2,    value_limit=5, percent_error=20,  wave='negramp', amplitude=3,  amplitude_limit=10, frequency='10k', hesh='Meas 16$IDC_NEGRAMP')  #hesh Meas 16$IDC_NEGRAMP: 2    ;5  ;20  ;negramp ;3  ;10  ;10k  ;
-IDC(value=2.5,  value_limit=5, percent_error=20,  wave='negramp', amplitude=4,  amplitude_limit=10, frequency='10k', hesh='Meas 17$IDC_NEGRAMP')  #hesh Meas 17$IDC_NEGRAMP: 2.5  ;5  ;20  ;negramp ;4  ;10  ;10k  ;
-IDC(value=3,    value_limit=5, percent_error=20,  wave='negramp', amplitude=5,  amplitude_limit=10, frequency='10k', hesh='Meas 18$IDC_NEGRAMP')  #hesh Meas 18$IDC_NEGRAMP: 3    ;5  ;20  ;negramp ;5  ;10  ;10k  ;
-IDC(value=4,    value_limit=5, percent_error=20,  wave='negramp', amplitude=5,  amplitude_limit=10, frequency='10k', hesh='Meas 19$IDC_NEGRAMP')  #hesh Meas 19$IDC_NEGRAMP: 4    ;5  ;20  ;negramp ;5  ;10  ;10k  ;
-IDC(value=5,    value_limit=5, percent_error=20,  wave='negramp', amplitude=5,  amplitude_limit=10, frequency='10k', hesh='Meas 20$IDC_NEGRAMP')  #hesh Meas 20$IDC_NEGRAMP: 5    ;5  ;20  ;negramp ;5  ;10  ;10k  ;
+IDC(value=0.01, value_limit=5, percent_error=200, wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 1$IDC_NEGRAMP')   #hesh Meas 1$IDC_NEGRAMP:  0.01 ;5  ;200 ;negramp ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.03, value_limit=5, percent_error=100, wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 2$IDC_NEGRAMP')   #hesh Meas 2$IDC_NEGRAMP:  0.03 ;5  ;100 ;negramp ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.05, value_limit=5, percent_error=50,  wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 3$IDC_NEGRAMP')   #hesh Meas 3$IDC_NEGRAMP:  0.05 ;5  ;50  ;negramp ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.1,  value_limit=5, percent_error=25,  wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 4$IDC_NEGRAMP')   #hesh Meas 4$IDC_NEGRAMP:  0.1  ;5  ;25  ;negramp ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.15, value_limit=5, percent_error=20,  wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 5$IDC_NEGRAMP')   #hesh Meas 5$IDC_NEGRAMP:  0.15 ;5  ;20  ;negramp ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.2,  value_limit=5, percent_error=20,  wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 6$IDC_NEGRAMP')   #hesh Meas 6$IDC_NEGRAMP:  0.2  ;5  ;20  ;negramp ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.25, value_limit=5, percent_error=20,  wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 7$IDC_NEGRAMP')   #hesh Meas 7$IDC_NEGRAMP:  0.25 ;5  ;20  ;negramp ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.3,  value_limit=5, percent_error=20,  wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 8$IDC_NEGRAMP')   #hesh Meas 8$IDC_NEGRAMP:  0.3  ;5  ;20  ;negramp ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.4,  value_limit=5, percent_error=20,  wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 9$IDC_NEGRAMP')   #hesh Meas 9$IDC_NEGRAMP:  0.4  ;5  ;20  ;negramp ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.5,  value_limit=5, percent_error=20,  wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 10$IDC_NEGRAMP')  #hesh Meas 10$IDC_NEGRAMP: 0.5  ;5  ;20  ;negramp ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.6,  value_limit=5, percent_error=20,  wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 11$IDC_NEGRAMP')  #hesh Meas 11$IDC_NEGRAMP: 0.6  ;5  ;20  ;negramp ;1  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=0.8,  value_limit=5, percent_error=20,  wave='negramp', amplitude=2,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 12$IDC_NEGRAMP')  #hesh Meas 12$IDC_NEGRAMP: 0.8  ;5  ;20  ;negramp ;2  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=1,    value_limit=5, percent_error=20,  wave='negramp', amplitude=2,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 13$IDC_NEGRAMP')  #hesh Meas 13$IDC_NEGRAMP: 1    ;5  ;20  ;negramp ;2  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=1.2,  value_limit=5, percent_error=20,  wave='negramp', amplitude=2,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 14$IDC_NEGRAMP')  #hesh Meas 14$IDC_NEGRAMP: 1.2  ;5  ;20  ;negramp ;2  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=1.5,  value_limit=5, percent_error=20,  wave='negramp', amplitude=3,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 15$IDC_NEGRAMP')  #hesh Meas 15$IDC_NEGRAMP: 1.5  ;5  ;20  ;negramp ;3  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=2,    value_limit=5, percent_error=20,  wave='negramp', amplitude=3,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 16$IDC_NEGRAMP')  #hesh Meas 16$IDC_NEGRAMP: 2    ;5  ;20  ;negramp ;3  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=2.5,  value_limit=5, percent_error=20,  wave='negramp', amplitude=4,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 17$IDC_NEGRAMP')  #hesh Meas 17$IDC_NEGRAMP: 2.5  ;5  ;20  ;negramp ;4  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=3,    value_limit=5, percent_error=20,  wave='negramp', amplitude=5,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 18$IDC_NEGRAMP')  #hesh Meas 18$IDC_NEGRAMP: 3    ;5  ;20  ;negramp ;5  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=4,    value_limit=5, percent_error=20,  wave='negramp', amplitude=5,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 19$IDC_NEGRAMP')  #hesh Meas 19$IDC_NEGRAMP: 4    ;5  ;20  ;negramp ;5  ;10  ;10k  ;0.300  ;True  ;3
+IDC(value=5,    value_limit=5, percent_error=20,  wave='negramp', amplitude=5,  amplitude_limit=10, frequency='10k', time_delay=0.3, remeasurement=True, remeasurement_number=3, hesh='Meas 20$IDC_NEGRAMP')  #hesh Meas 20$IDC_NEGRAMP: 5    ;5  ;20  ;negramp ;5  ;10  ;10k  ;0.300  ;True  ;3
+
 Testing.GetScreenshot()
 Testing.OutOFFCommand()
 #endregion Current measurement with generator signal negative ramp$IDC_NEGRAMP

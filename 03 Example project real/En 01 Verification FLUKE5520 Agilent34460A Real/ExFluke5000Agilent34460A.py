@@ -7,14 +7,17 @@ import MFRT
 class ExFluke5000Agilent34460A:
     def __init__(self) -> None:
         self.FirstScriptStart = True
-        self.NumberOfRemeasurementAttempts = 3
+        self.RemeasurementNumber = 0
+        self.TimeDelay = 0
         self.WireConnection = str
+        self.Remeasurement = False
         self.Driver_start = False
         self.Count_meas = 0
         self.ListConstResult = list()
         self.Status = None
         self.ContinueMeasurement = True
         self.LowerLimitResult, self.UpperLimitResult = None, None
+        self.AgilentDMM_INIT, self.Fluke5000_INIT = str(), str()
 
     def MeasurementAndReport(self, range, verified, error, WireConnection, frequency=None, filter=None) -> None:
         """
@@ -23,6 +26,8 @@ class ExFluke5000Agilent34460A:
         f_verified = MFRT.ConvertStringToFloat(verified)
         f_error = MFRT.ConvertStringToFloat(error)
         f_result, accuracy = 0, 0
+        if not self.TimeDelay:
+            self.TimeDelay = 0
 
 #######################################################################################################################
 #######################################################  VDC  #########################################################
@@ -40,13 +45,13 @@ class ExFluke5000Agilent34460A:
             MOKO.Driver('Fluke5000', 'set', f'VDC = {verified}')
 
             while self.ContinueMeasurement:
-                time.sleep(0.3)
+                time.sleep(self.TimeDelay)
                 result = MOKO.Driver('AgilentDMM', 'get', 'read')
                 MOKO.Stage(" ")
                 f_result = MFRT.ConvertStringToFloat(result)
                 accuracy = abs(f_verified - f_result)
-                if accuracy > f_error:
-                    if self.Count_meas == self.NumberOfRemeasurementAttempts - 1:
+                if accuracy > f_error and self.Remeasurement:
+                    if self.Count_meas >= self.RemeasurementNumber - 1:
                         choices = self.CallMessengerChoices(
                             verified=f_verified, error=f_error, result=f_result, reference_number=verified)
                         if choices:
@@ -56,7 +61,10 @@ class ExFluke5000Agilent34460A:
                             verified=f_verified, error=f_error, result=f_result, reference_number=verified)
                         continue
                 else:
-                    self.Status = 'OK'
+                    if accuracy > f_error:
+                        self.Status = 'Failed'
+                    else:
+                        self.Status = 'OK'
                     self.Count_meas = 0
 
                 self.ContinueMeasurement = False
@@ -90,13 +98,13 @@ class ExFluke5000Agilent34460A:
             MOKO.Driver('Fluke5000', 'set', f'VAC = {verified} {frequency}')
 
             while self.ContinueMeasurement:
-                time.sleep(0.3)
+                time.sleep(self.TimeDelay)
                 result = MOKO.Driver('AgilentDMM', 'get', 'read')
                 MOKO.Stage(" ")
                 f_result = MFRT.ConvertStringToFloat(result)
                 accuracy = abs(f_verified - f_result)
-                if accuracy > f_error:
-                    if self.Count_meas == self.NumberOfRemeasurementAttempts - 1:
+                if accuracy > f_error and self.Remeasurement:
+                    if self.Count_meas >= self.RemeasurementNumber - 1:
                         choices = self.CallMessengerChoices(
                             verified=f_verified, error=f_error, result=f_result, reference_number=verified)
                         if choices:
@@ -106,7 +114,10 @@ class ExFluke5000Agilent34460A:
                             verified=f_verified, error=f_error, result=f_result, reference_number=verified)
                         continue
                 else:
-                    self.Status = 'OK'
+                    if accuracy > f_error:
+                        self.Status = 'Failed'
+                    else:
+                        self.Status = 'OK'
                     self.Count_meas = 0
 
                 self.ContinueMeasurement = False
@@ -139,13 +150,13 @@ class ExFluke5000Agilent34460A:
             MOKO.Driver('Fluke5000', 'set', f'R2 = {verified}')
 
             while self.ContinueMeasurement:
-                time.sleep(0.3)
+                time.sleep(self.TimeDelay)
                 result = MOKO.Driver('AgilentDMM', 'get', 'read')
                 MOKO.Stage(" ")
                 f_result = MFRT.ConvertStringToFloat(result)
                 accuracy = abs(f_verified - f_result)
-                if accuracy > f_error:
-                    if self.Count_meas == self.NumberOfRemeasurementAttempts - 1:
+                if accuracy > f_error and self.Remeasurement:
+                    if self.Count_meas >= self.RemeasurementNumber - 1:
                         choices = self.CallMessengerChoices(
                             verified=f_verified, error=f_error, result=f_result, reference_number=verified)
                         if choices:
@@ -155,7 +166,10 @@ class ExFluke5000Agilent34460A:
                             verified=f_verified, error=f_error, result=f_result, reference_number=verified)
                         continue
                 else:
-                    self.Status = 'OK'
+                    if accuracy > f_error:
+                        self.Status = 'Failed'
+                    else:
+                        self.Status = 'OK'
                     self.Count_meas = 0
 
                 self.ContinueMeasurement = False
@@ -187,13 +201,13 @@ class ExFluke5000Agilent34460A:
             MOKO.Driver('Fluke5000', 'set', f'R4 = {verified}')
 
             while self.ContinueMeasurement:
-                time.sleep(0.3)
+                time.sleep(self.TimeDelay)
                 result = MOKO.Driver('AgilentDMM', 'get', 'read')
                 MOKO.Stage(" ")
                 f_result = MFRT.ConvertStringToFloat(result)
                 accuracy = abs(f_verified - f_result)
-                if accuracy > f_error:
-                    if self.Count_meas == self.NumberOfRemeasurementAttempts - 1:
+                if accuracy > f_error and self.Remeasurement:
+                    if self.Count_meas >= self.RemeasurementNumber - 1:
                         choices = self.CallMessengerChoices(
                             verified=f_verified, error=f_error, result=f_result, reference_number=verified)
                         if choices:
@@ -203,7 +217,10 @@ class ExFluke5000Agilent34460A:
                             verified=f_verified, error=f_error, result=f_result, reference_number=verified)
                         continue
                 else:
-                    self.Status = 'OK'
+                    if accuracy > f_error:
+                        self.Status = 'Failed'
+                    else:
+                        self.Status = 'OK'
                     self.Count_meas = 0
 
                 self.ContinueMeasurement = False
@@ -234,15 +251,14 @@ class ExFluke5000Agilent34460A:
             MOKO.Driver('AgilentDMM', 'set', f'range = {range}')
             MOKO.Driver('Fluke5000', 'set', f'IDC = {verified}')
 
-
             while self.ContinueMeasurement:
-                time.sleep(0.3)
+                time.sleep(self.TimeDelay)
                 result = MOKO.Driver('AgilentDMM', 'get', 'read')
                 MOKO.Stage(" ")
                 f_result = MFRT.ConvertStringToFloat(result)
                 accuracy = abs(f_verified - f_result)
-                if accuracy > f_error:
-                    if self.Count_meas == self.NumberOfRemeasurementAttempts - 1:
+                if accuracy > f_error and self.Remeasurement:
+                    if self.Count_meas >= self.RemeasurementNumber - 1:
                         choices = self.CallMessengerChoices(
                             verified=f_verified, error=f_error, result=f_result, reference_number=verified)
                         if choices:
@@ -252,7 +268,10 @@ class ExFluke5000Agilent34460A:
                             verified=f_verified, error=f_error, result=f_result, reference_number=verified)
                         continue
                 else:
-                    self.Status = 'OK'
+                    if accuracy > f_error:
+                        self.Status = 'Failed'
+                    else:
+                        self.Status = 'OK'
                     self.Count_meas = 0
 
                 self.ContinueMeasurement = False
@@ -286,13 +305,13 @@ class ExFluke5000Agilent34460A:
             MOKO.Driver('Fluke5000', 'set', f'IAC = {verified} {frequency}')
 
             while self.ContinueMeasurement:
-                time.sleep(0.3)
+                time.sleep(self.TimeDelay)
                 result = MOKO.Driver('AgilentDMM', 'get', 'read')
                 MOKO.Stage(" ")
                 f_result = MFRT.ConvertStringToFloat(result)
                 accuracy = abs(f_verified - f_result)
-                if accuracy > f_error:
-                    if self.Count_meas == self.NumberOfRemeasurementAttempts - 1:
+                if accuracy > f_error and self.Remeasurement:
+                    if self.Count_meas >= self.RemeasurementNumber - 1:
                         choices = self.CallMessengerChoices(
                             verified=f_verified, error=f_error, result=f_result, reference_number=verified)
                         if choices:
@@ -302,7 +321,10 @@ class ExFluke5000Agilent34460A:
                             verified=f_verified, error=f_error, result=f_result, reference_number=verified)
                         continue
                 else:
-                    self.Status = 'OK'
+                    if accuracy > f_error:
+                        self.Status = 'Failed'
+                    else:
+                        self.Status = 'OK'
                     self.Count_meas = 0
 
                 self.ContinueMeasurement = False
@@ -394,10 +416,13 @@ class ExFluke5000Agilent34460A:
             MOKO.Stage('***************** Connect Devices *******************')
             MOKO.Stage('*****************************************************')
 
+            while self.AgilentDMM_INIT != 'connected':
+                self.AgilentDMM_INIT = MOKO.Driver('AgilentDMM', 'init', '')
             MOKO.Driver('AgilentDMM', 'set', 'Timeout = 10000')
 
+            while self.Fluke5000_INIT != 'connected':
+                self.Fluke5000_INIT = MOKO.Driver('Fluke5000', 'init', '')
             MOKO.Driver('Fluke5000', 'set', 'Timeout = 10000')
-
             MOKO.Driver('Fluke5000', 'set', 'Reset')
 
             self.FirstScriptStart = False
