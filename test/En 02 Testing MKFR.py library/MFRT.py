@@ -16,7 +16,7 @@ def ConvertFloatToString(value: (float, str, int), reference_number: str = None,
     """
         This function calls the transfer function from the normal system to the CI system
 
-        :param value: float variable: translated number
+        :param value: float, string and int variable: translated number
         :param reference_number: string variable: a string number that will be the template to be converted
         :param resolution: integer variable: the number of zeros in the fractional part. Defaults to None
         :param delimiter: string variable: separator between number and fractional part. Defaults to None

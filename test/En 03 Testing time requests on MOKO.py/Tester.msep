@@ -1,0 +1,13 @@
+{
+"project_name":"Tester",
+"project_autosave":"true",
+"project_scripts":[
+{"script":"01 Example Start (Начало примера).py","necessary":"false"}
+],
+"project_libraries":[
+{"script":"MOKO.py"}
+],
+"project_templates":[
+{"script":"FLUKE5520_Agilent34460A.docx"}
+]
+}

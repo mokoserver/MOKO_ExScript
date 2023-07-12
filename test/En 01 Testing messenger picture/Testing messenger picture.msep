@@ -1,0 +1,15 @@
+{
+"project_name":"Testing messenger picture",
+"project_autosave":"true",
+"project_scripts":[
+{"script":"1 Greeting.py","necessary":"true"},
+{"script":"2 Testing messenger picture insert @.py","necessary":"false"},
+{"script":"3 Farewell.py","necessary":"true"}
+],
+"project_libraries":[
+
+],
+"project_templates":[
+{"script":"Report.docx"}
+]
+}

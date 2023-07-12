@@ -262,7 +262,7 @@ class DemoTestIoTMeasurement:
         MOKO.Stage(" ")
         name_graph_plus = f'{self.NameGraph}_value_plus'
         name_graph_minus = f'{self.NameGraph}_value_minus'
-        ArrOy_plus = [float(f'{x * self.MaxError:.10f}') for x in self.ListValue]
+        ArrOy_plus = [float(f'{x * self.MaxError:.14f}') for x in self.ListValue]
         ArrOy_minus = [float(f'{x * self.MinError:10f}') for x in self.ListValue]
         numLine_plus = name_graph_plus
         numLine_minus = name_graph_minus

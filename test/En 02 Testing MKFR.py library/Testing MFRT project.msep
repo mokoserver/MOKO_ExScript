@@ -1,0 +1,16 @@
+{
+"project_name":"Testing MFRT project",
+"project_autosave":"true",
+"project_scripts":[
+{"script":"1 Greeting.py","necessary":"true"},
+{"script":"2 Testing MFRT convert string to float.py","necessary":"false"},
+{"script":"3 Testing MKFR - on reference number.py","necessary":"false"},
+{"script":"5 Farewell.py","necessary":"true"}
+],
+"project_libraries":[
+
+],
+"project_templates":[
+{"script":"Report.docx"}
+]
+}
