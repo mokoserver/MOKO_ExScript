@@ -6,19 +6,25 @@ import MFRT
 
 class ExFluke5000Agilent34401A:
     def __init__(self) -> None:
-        self.FirstScriptStart = True
-        self.RemeasurementNumber = 0
-        self.TimeDelay = 0
+        self.FirstScriptStart, self.ContinueMeasurement = True, True
+        self.RemeasurementNumber, self.TimeDelay, self.Count_meas = 0, 0, 0
         self.WireConnection = str()
-        self.Remeasurement = False
-        self.Driver_start = False
+        self.Remeasurement, self.Driver_start = False, False
         self.R4FirstResult = True
-        self.Count_meas = 0
         self.ListConstResult = list()
-        self.Status = None
-        self.ContinueMeasurement = True
-        self.LowerLimitResult, self.UpperLimitResult = None, None
-        self.AgilentDMM_INIT, self.Fluke5000_INIT = str(), str()
+        self.LowerLimitResult, self.UpperLimitResult, self.Status = None, None, None
+        self.Fluke5520_INIT = MOKO.Report("STATUS_CONNECTED_FLUKE5520", "get", "string", "", 'string')
+        self.Agilent34401A_INIT = MOKO.Report("STATUS_CONNECTED_AGILENT34401A", "get", "string", "", 'string')
+        type_setting_fluke5520 = MOKO.Report("TYPE_SETTING_FLUKE5520", "get", "string", "", 'string')
+        if len(type_setting_fluke5520) == 0 or type_setting_fluke5520.lower() == 'automatic':
+            self.AutomaticFluke5520 = True
+        else:
+            self.AutomaticFluke5520 = False
+        type_setting_Agilent34401A = MOKO.Report("TYPE_SETTING_AGILENT34401A", "get", "string", "", 'string')
+        if len(type_setting_Agilent34401A) == 0 or type_setting_Agilent34401A.lower() == 'automatic':
+            self.AutomaticAgilent34401A = True
+        else:
+            self.AutomaticAgilent34401A = False
 
     def MeasurementAndReport(self, range, verified, error, WireConnection, frequency=None) -> None:
         """
@@ -42,13 +48,29 @@ class ExFluke5000Agilent34401A:
 
             MOKO.Stage(f'VDC Measure -> range = {range}, verified = {verified}, error = {error}')
 
-            MOKO.Driver('AgilentDMM', 'set', f'range = {range}')
-            MOKO.Driver('Fluke5000', 'set', f'VDC = {verified}')
+            if self.AutomaticAgilent34401A:
+                MOKO.Driver('AgilentDMM', 'set', f'range = {range}')
+            else:
+                MOKO.Messenger("set", "Make settings on Agilent34401A#@attention",
+                               f"Make settings:\nSet range = {range}\nPress OK")
+
+            if self.AutomaticFluke5520:
+                MOKO.Driver('Fluke5000', 'set', f'VDC = {verified}')
+            else:
+                MOKO.Messenger("set", "Make settings on Fluke5520#@attention",
+                               f"Make settings:\nSet VDC = {verified}\nPress OK")
+
             while self.ContinueMeasurement:
                 time.sleep(self.TimeDelay)
-                result = MOKO.Driver('AgilentDMM', 'get', 'read')
+                if self.AutomaticAgilent34401A:
+                    result = MOKO.Driver('AgilentDMM', 'get', 'read')
+                else:
+                    result = MOKO.Messenger("get", "Input result#@notes",
+                                            "Enter the measured result from the instrument\nPress OK", "string")
                 MOKO.Stage(" ")
                 f_result = MFRT.ConvertStringToFloat(result)
+                if isinstance(f_result, str):
+                    continue
                 accuracy = abs(f_verified - f_result)
                 if accuracy > f_error and self.Remeasurement:
                     if self.Count_meas >= self.RemeasurementNumber - 1:
@@ -93,14 +115,26 @@ class ExFluke5000Agilent34401A:
             MOKO.Stage(f'VAC Measure -> range = {range}, verified = {verified}, '
                        f'frequency = {frequency}, error = {error}')
 
-            MOKO.Driver('AgilentDMM', 'set', f'range = {range}')
-            MOKO.Driver('Fluke5000', 'set', f'VAC = {verified} {frequency}')
+            if self.AutomaticAgilent34401A:
+                MOKO.Driver('AgilentDMM', 'set', f'range = {range}')
+            else:
+                MOKO.Messenger("set", "Make settings on Agilent34401A#@attention",
+                               f"Make settings:\nSet range = {range}\nPress OK")
+            
+            if self.AutomaticFluke5520:
+                MOKO.Driver('Fluke5000', 'set', f'VAC = {verified} {frequency}')
+            else:
+                MOKO.Messenger("set", "Make settings on Fluke5520#@attention",
+                               f"Make settings:\nSet VAC = {verified} {frequency}\nPress OK")
 
             while self.ContinueMeasurement:
                 time.sleep(self.TimeDelay)
-                result = MOKO.Driver('AgilentDMM', 'get', 'read')
+                result = MOKO.Messenger("get", "Input result#@notes",
+                                        "Enter the measured result from the instrument\nPress OK", "string")
                 MOKO.Stage(" ")
                 f_result = MFRT.ConvertStringToFloat(result)
+                if isinstance(f_result, str):
+                    continue
                 accuracy = abs(f_verified - f_result)
                 if accuracy > f_error and self.Remeasurement:
                     if self.Count_meas >= self.RemeasurementNumber - 1:
@@ -145,14 +179,26 @@ class ExFluke5000Agilent34401A:
 
             MOKO.Stage(f'R2 Measure -> range = {range}, verified = {verified}, error = {error}')
 
-            MOKO.Driver('AgilentDMM', 'set', f'range = {range}')
-            MOKO.Driver('Fluke5000', 'set', f'R = {verified}')
+            if self.AutomaticAgilent34401A:
+                MOKO.Driver('AgilentDMM', 'set', f'range = {range}')
+            else:
+                MOKO.Messenger("set", "Make settings on Agilent34401A#@attention",
+                               f"Make settings:\nSet range = {range}\nPress OK")
+
+            if self.AutomaticFluke5520:
+                MOKO.Driver('Fluke5000', 'set', f'R = {verified}')
+            else:
+                MOKO.Messenger("set", "Make settings on Fluke5520#@attention",
+                               f"Make settings:\nSet R = {verified}\nPress OK")
 
             while self.ContinueMeasurement:
                 time.sleep(self.TimeDelay)
-                result = MOKO.Driver('AgilentDMM', 'get', 'read')
+                result = MOKO.Messenger("get", "Input result#@notes",
+                                        "Enter the measured result from the instrument\nPress OK", "string")
                 MOKO.Stage(" ")
                 f_result = MFRT.ConvertStringToFloat(result)
+                if isinstance(f_result, str):
+                    continue
                 accuracy = abs(f_verified - f_result)
                 if accuracy > f_error and self.Remeasurement:
                     if self.Count_meas >= self.RemeasurementNumber - 1:
@@ -197,21 +243,36 @@ class ExFluke5000Agilent34401A:
             MOKO.Stage(f'R4 Measure -> range = {range}, verified = {verified}, error = {error}')
 
             if self.R4FirstResult:
-                MOKO.Driver('Fluke5000', 'set', 'R = 0')
+                if self.AutomaticFluke5520:
+                    MOKO.Driver('Fluke5000', 'set', 'R = 0')
+                else:
+                    MOKO.Messenger("set", "Make settings on Fluke5520#@attention", "Make settings:\nSet R = 0\nPress OK")
                 MOKO.Messenger('set', 'Make settings#@attention',
                                'Set the resolution to 4th decimal places;\n'
                                'Zero the multimeter if necessary;\n'
                                'Click OK')
                 self.R4FirstResult = False
+                
+            if self.AutomaticAgilent34401A:
+                MOKO.Driver('AgilentDMM', 'set', f'range = {range}')
+            else:
+                MOKO.Messenger("set", "Make settings on Agilent34401A#@attention",
+                               f"Make settings:\nSet range = {range}\nPress OK")
 
-            MOKO.Driver('AgilentDMM', 'set', f'range = {range}')
-            MOKO.Driver('Fluke5000', 'set', f'R = {verified}')
+            if self.AutomaticFluke5520:
+                MOKO.Driver('Fluke5000', 'set', f'R = {verified}')
+            else:
+                MOKO.Messenger("set", "Make settings on Fluke5520#@attention",
+                               f"Make settings:\nSet R = {verified}\nPress OK")
 
             while self.ContinueMeasurement:
                 time.sleep(self.TimeDelay)
-                result = MOKO.Driver('AgilentDMM', 'get', 'read')
+                result = MOKO.Messenger("get", "Input result#@notes",
+                                        "Enter the measured result from the instrument\nPress OK", "string")
                 MOKO.Stage(" ")
                 f_result = MFRT.ConvertStringToFloat(result)
+                if isinstance(f_result, str):
+                    continue
                 accuracy = abs(f_verified - f_result)
                 if accuracy > f_error and self.Remeasurement:
                     if self.Count_meas >= self.RemeasurementNumber - 1:
@@ -255,14 +316,26 @@ class ExFluke5000Agilent34401A:
 
             MOKO.Stage(f'IDC Measure -> range = {range}, verified = {verified}, error = {error}')
 
-            MOKO.Driver('AgilentDMM', 'set', f'range = {range}')
-            MOKO.Driver('Fluke5000', 'set', f'IDC = {verified}')
+            if self.AutomaticAgilent34401A:
+                MOKO.Driver('AgilentDMM', 'set', f'range = {range}')
+            else:
+                MOKO.Messenger("set", "Make settings on Agilent34401A#@attention",
+                               f"Make settings:\nSet range = {range}\nPress OK")
+            
+            if self.AutomaticFluke5520:
+                MOKO.Driver('Fluke5000', 'set', f'IDC = {verified}')
+            else:
+                MOKO.Messenger("set", "Make settings on Fluke5520#@attention",
+                               f"Make settings:\nSet IDC = {verified}\nPress OK")
 
             while self.ContinueMeasurement:
                 time.sleep(self.TimeDelay)
-                result = MOKO.Driver('AgilentDMM', 'get', 'read')
+                result = MOKO.Messenger("get", "Input result#@notes",
+                                        "Enter the measured result from the instrument\nPress OK", "string")
                 MOKO.Stage(" ")
                 f_result = MFRT.ConvertStringToFloat(result)
+                if isinstance(f_result, str):
+                    continue
                 accuracy = abs(f_verified - f_result)
                 if accuracy > f_error and self.Remeasurement:
                     if self.Count_meas >= self.RemeasurementNumber - 1:
@@ -307,14 +380,26 @@ class ExFluke5000Agilent34401A:
             MOKO.Stage(f'IAC Measure -> range = {range}, verified = {verified}, frequency = {frequency}, '
                        f'error = {error}')
 
-            MOKO.Driver('AgilentDMM', 'set', f'range = {range}')
-            MOKO.Driver('Fluke5000', 'set', f'IAC = {verified} {frequency}')
+            if self.AutomaticAgilent34401A:
+                MOKO.Driver('AgilentDMM', 'set', f'range = {range}')
+            else:
+                MOKO.Messenger("set", "Make settings on Agilent34401A#@attention",
+                               f"Make settings:\nSet range = {range}\nPress OK")
+            
+            if self.AutomaticFluke5520:
+                MOKO.Driver('Fluke5000', 'set', f'IAC = {verified} {frequency}')
+            else:
+                MOKO.Messenger("set", "Make settings on Fluke5520#@attention",
+                               f"Make settings:\nSet IAC = {verified} {frequency}\nPress OK")
 
             while self.ContinueMeasurement:
                 time.sleep(self.TimeDelay)
-                result = MOKO.Driver('AgilentDMM', 'get', 'read')
+                result = MOKO.Messenger("get", "Input result#@notes",
+                                        "Enter the measured result from the instrument\nPress OK", "string")
                 MOKO.Stage(" ")
                 f_result = MFRT.ConvertStringToFloat(result)
+                if isinstance(f_result, str):
+                    continue
                 accuracy = abs(f_verified - f_result)
                 if accuracy > f_error and self.Remeasurement:
                     if self.Count_meas >= self.RemeasurementNumber - 1:
@@ -353,34 +438,66 @@ class ExFluke5000Agilent34401A:
 
     def MeasurementStartCommand(self, WireConnection: str) -> None:
         if not self.Driver_start:
-
-            MOKO.Driver('AgilentDMM', 'set', f'func = {WireConnection}')
+            
+            if self.AutomaticAgilent34401A:
+                MOKO.Driver('AgilentDMM', 'set', f'func = {WireConnection}')
+            else:
+                MOKO.Messenger('set', 'Make settings on Agilent34401A#@attention',
+                               f'Make settings:\nSet func = {WireConnection}\nPress OK')
 
             if WireConnection not in ['IAC', 'VAC']:
-                MOKO.Driver('AgilentDMM', 'set', 'NPLC = 100')
+                if self.AutomaticAgilent34401A:
+                    MOKO.Driver('AgilentDMM', 'set', 'NPLC = 100')
+                else:
+                    MOKO.Messenger('set', 'Make settings on Agilent34401A#@attention',
+                                   f'Make settings:\nSet NPLC = 100\nPress OK')
 
             if WireConnection in ['IDC', 'IAC', 'VAC']:
-                body_message = 'Set the filter to 3 Hz;\n' if WireConnection != 'IDC' else '' + 'Press OK'
+                body_message = 'Set the filter to 3 Hz;\n' if WireConnection != 'IDC' else ''
                 MOKO.Messenger('set', 'Make settings#@attention',
-                               'Set Resolution = 6.5;\n' + body_message)
+                               'Set Resolution = 6.5;\n' + body_message + 'Press OK')
 
             if WireConnection in ['IDC', 'IAC']:
-                MOKO.Driver('Fluke5000', 'set', 'OUT = AUX')
+                if self.AutomaticFluke5520:
+                    MOKO.Driver('Fluke5000', 'set', 'OUT = AUX')
+                else:
+                    MOKO.Messenger('set', 'Make settings on Fluke5520#@attention',
+                                   f'Make settings:\nSet OUT = AUX\nPress OK')
             elif WireConnection != 'R2':
-                MOKO.Driver('Fluke5000', 'set', 'OUT = NORMAL')
+                if self.AutomaticFluke5520:
+                    MOKO.Driver('Fluke5000', 'set', 'OUT = NORMAL')
+                else:
+                    MOKO.Messenger('set', 'Make settings on Fluke5520#@attention',
+                                   f'Make settings:\nSet OUT = NORMAL\nPress OK')
 
             if WireConnection == 'R4':
-                MOKO.Driver('Fluke5000', 'set', 'Conn = 4w')
+                if self.AutomaticFluke5520:
+                    MOKO.Driver('Fluke5000', 'set', 'Conn = 4w')
+                else:
+                    MOKO.Messenger('set', 'Make settings on Fluke5520#@attention',
+                                   f'Make settings:\nSet Conn = 4w\nPress OK')
             elif WireConnection == 'R2':
-                MOKO.Driver('Fluke5000', 'set', 'Conn = NO')
+                if self.AutomaticFluke5520:
+                    MOKO.Driver('Fluke5000', 'set', 'Conn = NO')
+                else:
+                    MOKO.Messenger('set', 'Make settings on Fluke5520#@attention',
+                                   f'Make settings:\nSet Conn = NO\nPress OK')
 
-            MOKO.Driver('Fluke5000', 'set', 'SwitchOFF = DISABLE')
+            if self.AutomaticFluke5520:
+                MOKO.Driver('Fluke5000', 'set', 'SwitchOFF = DISABLE')
+            else:
+                MOKO.Messenger('set', 'Make settings on Fluke5520#@attention',
+                               f'Make settings:\nSet SwitchOFF = DISABLE\nPress OK')
             MOKO.Stage(" ")
             self.Driver_start = True
 
     def MeasurementStopCommand(self) -> None:
-        MOKO.Driver('Fluke5000', 'set', 'SwitchOFF = ENABLE')
-        MOKO.Driver('Fluke5000', 'set', 'Stop')
+        if self.AutomaticFluke5520:
+            MOKO.Driver('Fluke5000', 'set', 'SwitchOFF = ENABLE')
+            MOKO.Driver('Fluke5000', 'set', 'Stop')
+        else:
+            MOKO.Messenger('set', 'Make settings on Fluke5520#@attention',
+                           f'Make settings:\nSet SwitchOFF = ENABLE\nSet Stop\nPress OK')
         self.Driver_start = False
 
     def CheckWireConnection(self, WireConnection: str) -> None:
@@ -429,16 +546,33 @@ class ExFluke5000Agilent34401A:
             MOKO.Stage('*****************************************************')
             MOKO.Stage('***************** Connect Devices *******************')
             MOKO.Stage('*****************************************************')
+            
+            if self.AutomaticAgilent34401A:
 
-            while self.AgilentDMM_INIT != 'connected':
-                self.AgilentDMM_INIT = MOKO.Driver('AgilentDMM', 'init', '')
-            MOKO.Driver('AgilentDMM', 'set', 'Timeout = 10000')
-            MOKO.Driver('AgilentDMM', 'set', 'Reset')
+                self.Agilent34401A_INIT = MOKO.Driver('AgilentDMM', 'init', '')
+                MOKO.Driver('AgilentDMM', 'set', 'Timeout = 10000')
+                MOKO.Driver('AgilentDMM', 'set', 'Reset')
+            else:
+                if self.Agilent34401A_INIT != 'connected':
+                    MOKO.Messenger("set", "Make settings on Agilent34401A#@attention", "Make settings:\n"
+                                                                                       "Turn on the device\n"
+                                                                                       "Set Timeout = 10000\n"
+                                                                                       "Set Reset\n"
+                                                                                       "Press OK")
 
-            while self.Fluke5000_INIT != 'connected':
-                self.Fluke5000_INIT = MOKO.Driver('Fluke5000', 'init', '')
-            MOKO.Driver('Fluke5000', 'set', 'Timeout = 10000')
-            MOKO.Driver('Fluke5000', 'set', 'Reset')
+            if self.AutomaticFluke5520:
+                
+                self.Fluke5520_INIT = MOKO.Driver('Fluke5000', 'init', '')
+                MOKO.Driver('Fluke5000', 'set', 'Timeout = 10000')
+                MOKO.Driver('Fluke5000', 'set', 'Reset')
+
+            else:
+                if self.Fluke5520_INIT != 'connected':
+                    MOKO.Messenger("set", "Make settings on Fluke5520#@attention", "Make settings:\n"
+                                                                                   "Turn on the device\n"
+                                                                                   "Set Timeout = 10000\n"
+                                                                                   "Set Reset\n"
+                                                                                   "Press OK")
 
             self.FirstScriptStart = False
 
