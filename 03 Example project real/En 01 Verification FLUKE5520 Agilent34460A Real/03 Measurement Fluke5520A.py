@@ -3,7 +3,7 @@ import MOKO
 import MOSC
 
 MOKO.Stage("*********************************************************")
-MOKO.Stage("****************** Measurement script *******************")
+MOKO.Stage("************ Measurement Fluke5520 script ***************")
 MOKO.Stage("*********************************************************")
 MOKO.Stage(" ")
 

@@ -201,7 +201,7 @@ class ExFluke5000Agilent34401A:
             MOKO.Stage(f'R4 Measure -> range = {range}, verified = {verified}, error = {error}')
 
             MOKO.Stage(f'Driver: AgilentDMM >> mode: set >> command: range = {range}', 'driver')
-            MOKO.Stage(f'Driver: Fluke5000 >> mode: set >> command: R4 = {verified}', 'driver')
+            MOKO.Stage(f'Driver: Fluke5000 >> mode: set >> command: R = {verified}', 'driver')
 
             while self.ContinueMeasurement:
                 time.sleep(self.TimeDelay)

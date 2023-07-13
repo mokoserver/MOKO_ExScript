@@ -33,53 +33,53 @@ class ExFluke5000Agilent34460A:
 #######################################################  VDC  #########################################################
 #######################################################################################################################
 
-        if WireConnection == 'VDC':
+            if WireConnection == 'VDC':
 
 #######################################################################################################################
 #####################################################  VDC MEAS  ######################################################
 #######################################################################################################################
 
-            MOKO.Stage(f'VDC Measure -> range = {range}, verified = {verified}, error = {error}')
+                MOKO.Stage(f'VDC Measure -> range = {range}, verified = {verified}, error = {error}')
 
-            MOKO.Stage(f'Driver: AgilentDMM >> mode: set >> command: range = {range}', 'driver')
-            MOKO.Stage(f'Driver: Fluke5000 >> mode: set >> command: VDC = {verified}', 'driver')
+                MOKO.Stage(f'Driver: AgilentDMM >> mode: set >> command: range = {range}', 'driver')
+                MOKO.Stage(f'Driver: Fluke5000 >> mode: set >> command: VDC = {verified}', 'driver')
 
-            while self.ContinueMeasurement:
-                time.sleep(self.TimeDelay)
-                MOKO.Stage(f'DriverSet AgilentDMM >> mode: get >> command: result = read', 'driver')
-                result = f_verified
-                MOKO.Stage(" ")
-                f_result = MFRT.ConvertStringToFloat(result)
-                accuracy = abs(f_verified - f_result)
-                if accuracy > f_error and self.Remeasurement:
-                    if self.Count_meas >= self.RemeasurementNumber - 1:
-                        choices = self.CallMessengerChoices(
-                            verified=f_verified, error=f_error, result=f_result, reference_number=verified)
-                        if choices:
+                while self.ContinueMeasurement:
+                    time.sleep(self.TimeDelay)
+                    MOKO.Stage(f'DriverSet AgilentDMM >> mode: get >> command: result = read', 'driver')
+                    result = f_verified
+                    MOKO.Stage(" ")
+                    f_result = MFRT.ConvertStringToFloat(result)
+                    accuracy = abs(f_verified - f_result)
+                    if accuracy > f_error and self.Remeasurement:
+                        if self.Count_meas >= self.RemeasurementNumber - 1:
+                            choices = self.CallMessengerChoices(
+                                verified=f_verified, error=f_error, result=f_result, reference_number=verified)
+                            if choices:
+                                continue
+                        else:
+                            self.CallMessengerErrorPoint(
+                                verified=f_verified, error=f_error, result=f_result, reference_number=verified)
                             continue
                     else:
-                        self.CallMessengerErrorPoint(
-                            verified=f_verified, error=f_error, result=f_result, reference_number=verified)
-                        continue
-                else:
-                    if accuracy > f_error:
-                        self.Status = 'Failed'
-                    else:
-                        self.Status = 'OK'
-                    self.Count_meas = 0
+                        if accuracy > f_error:
+                            self.Status = 'Failed'
+                        else:
+                            self.Status = 'OK'
+                        self.Count_meas = 0
 
-                self.ContinueMeasurement = False
+                    self.ContinueMeasurement = False
 
 #######################################################################################################################
 ####################################################  VDC REPORT  #####################################################
 #######################################################################################################################
 
-            MOKO.Report("VDC", "set", "table", f"{range};"
-                                               f"{verified};"
-                                               f"{MFRT.ConvertFloatToString(f_result, verified)};"
-                                               f"{MFRT.ConvertFloatToString(accuracy, verified)};"
-                                               f"{MFRT.ConvertFloatToString(error)};"
-                                               f"{self.Status}")
+                MOKO.Report("VDC", "set", "table", f"{range};"
+                                                   f"{verified};"
+                                                   f"{MFRT.ConvertFloatToString(f_result, verified)};"
+                                                   f"{MFRT.ConvertFloatToString(accuracy, verified)};"
+                                                   f"{MFRT.ConvertFloatToString(error)};"
+                                                   f"{self.Status}")
 
 #######################################################################################################################
 #######################################################  VAC  #########################################################

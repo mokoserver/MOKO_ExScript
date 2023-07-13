@@ -2,7 +2,7 @@ import MOKO
 import MOSC
 
 MOKO.Stage("*********************************************************")
-MOKO.Stage("*************** Registration unit script ****************")
+MOKO.Stage("********* Registration verification unit script *********")
 MOKO.Stage("*********************************************************")
 
 #region Registration unit$Reg
