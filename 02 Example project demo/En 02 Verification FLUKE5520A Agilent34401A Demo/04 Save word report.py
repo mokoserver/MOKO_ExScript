@@ -2,7 +2,7 @@ import MOKO
 import MOSC
 
 MOKO.Stage("*********************************************************")
-MOKO.Stage("***************** Word report script *******************")
+MOKO.Stage("*************** Save word report script *****************")
 MOKO.Stage("*********************************************************")
 
 #region Save word report$Word

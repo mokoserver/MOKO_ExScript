@@ -3,7 +3,7 @@ import MOKO
 import MOSC
 
 MOKO.Stage("*********************************************************")
-MOKO.Stage("****************** Measurement script *******************")
+MOKO.Stage("************ Measurement Fluke5520 script ***************")
 MOKO.Stage("*********************************************************")
 MOKO.Stage(" ")
 
@@ -20,17 +20,18 @@ def VDC(range: (str, float, int), verified: (str, float, int), error: (str, floa
         remeasurement: bool = False, remeasurement_number: int = None, time_delay: (float, int) = 0):
 
     if MOSC.HeshStatus(hesh):
-        Poverka.CheckConnectDevices()
 
+        Poverka.CheckConnectDevices()
+        
         Poverka.CheckWireConnection(WireConnection='VDC')
         Poverka.MeasurementStartCommand(WireConnection='VDC')
-
+        
         Poverka.TimeDelay = time_delay
         Poverka.Remeasurement = remeasurement
         Poverka.RemeasurementNumber = remeasurement_number
-
+        
         Poverka.MeasurementAndReport(range=range, verified=verified, error=error, WireConnection="VDC")
-
+        
         if Poverka.Status == 'Failed':
             MOSC.hesh_failed()
         else:
@@ -41,16 +42,16 @@ def VAC(range: (str, float, int), verified: (str, float, int), frequency: (str, 
         hesh: str, remeasurement: bool = False, remeasurement_number: int = None, time_delay: (float, int) = 0):
 
     if MOSC.HeshStatus(hesh):
-
+        
         Poverka.CheckConnectDevices()
-
+        
         Poverka.CheckWireConnection(WireConnection='VAC')
         Poverka.MeasurementStartCommand(WireConnection='VAC')
-
+        
         Poverka.TimeDelay = time_delay
         Poverka.Remeasurement = remeasurement
         Poverka.RemeasurementNumber = remeasurement_number
-
+        
         Poverka.MeasurementAndReport(range=range, verified=verified, error=error, frequency=frequency,
                                      WireConnection="VAC")
 
@@ -64,15 +65,15 @@ def R2(range: (str, float, int), verified: (str, float, int), error: (str, float
        remeasurement: bool = False, remeasurement_number: int = None, time_delay: (float, int) = 0):
 
     if MOSC.HeshStatus(hesh):
-
+        
         Poverka.CheckConnectDevices()
         Poverka.CheckWireConnection(WireConnection='R2')
         Poverka.MeasurementStartCommand(WireConnection='R2')
-
+        
         Poverka.TimeDelay = time_delay
         Poverka.Remeasurement = remeasurement
         Poverka.RemeasurementNumber = remeasurement_number
-
+        
         Poverka.MeasurementAndReport(range=range, verified=verified, error=error, WireConnection="R2")
 
         if Poverka.Status == 'Failed':
@@ -83,16 +84,17 @@ def R2(range: (str, float, int), verified: (str, float, int), error: (str, float
 
 def R4(range: (str, float, int), verified: (str, float, int), error: (str, float, int), hesh: str,
        remeasurement: bool = False, remeasurement_number: int = None, time_delay: (float, int) = 0):
-    if MOSC.HeshStatus(hesh):
 
+    if MOSC.HeshStatus(hesh):
+        
         Poverka.CheckConnectDevices()
         Poverka.CheckWireConnection(WireConnection='R4')
         Poverka.MeasurementStartCommand(WireConnection='R4')
-
+        
         Poverka.TimeDelay = time_delay
         Poverka.Remeasurement = remeasurement
         Poverka.RemeasurementNumber = remeasurement_number
-
+        
         Poverka.MeasurementAndReport(range=range, verified=verified, error=error, WireConnection="R4")
 
         if Poverka.Status == 'Failed':
@@ -104,15 +106,16 @@ def R4(range: (str, float, int), verified: (str, float, int), error: (str, float
 def IDC(range: (str, float, int), verified: (str, float, int), error: (str, float, int), hesh: str,
         remeasurement: bool = False, remeasurement_number: int = None, time_delay: (float, int) = 0):
     if MOSC.HeshStatus(hesh):
-        Poverka.CheckConnectDevices()
 
+        Poverka.CheckConnectDevices()
+        
         Poverka.CheckWireConnection(WireConnection='IDC')
         Poverka.MeasurementStartCommand(WireConnection='IDC')
-
+        
         Poverka.TimeDelay = time_delay
         Poverka.Remeasurement = remeasurement
         Poverka.RemeasurementNumber = remeasurement_number
-
+        
         Poverka.MeasurementAndReport(range=range, verified=verified, error=error, WireConnection="IDC")
 
         if Poverka.Status == 'Failed':
@@ -123,16 +126,18 @@ def IDC(range: (str, float, int), verified: (str, float, int), error: (str, floa
 
 def IAC(range: (str, float, int), verified: (str, float, int), frequency: (str, float, int), error: (str, float, int),
         hesh: str, remeasurement: bool = False, remeasurement_number: int = None, time_delay: (float, int) = 0):
-    if MOSC.HeshStatus(hesh):
-        Poverka.CheckConnectDevices()
 
+    if MOSC.HeshStatus(hesh):
+
+        Poverka.CheckConnectDevices()
+        
         Poverka.CheckWireConnection(WireConnection='IAC')
         Poverka.MeasurementStartCommand(WireConnection='IAC')
 
         Poverka.TimeDelay = time_delay
         Poverka.Remeasurement = remeasurement
         Poverka.RemeasurementNumber = remeasurement_number
-
+        
         Poverka.MeasurementAndReport(range=range, verified=verified, error=error, frequency=frequency,
                                      WireConnection="IAC")
 

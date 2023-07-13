@@ -38,9 +38,21 @@ Pressure; 100kPa; ;\r
 Universal voltmeter calibrator H4-12 Serial ¹005211; U=(0,001V-1000V), Error±(0,000315 – 0,0011)%  2-nd category\nU~=(0.75mV-1000V), 10Hz-50kHz, Error±(0,003 – 0,23)%, 2-nd category\nI=(70nA-30A), Error±(0,00275 – 0,05)%, 1 category\nI~=(70nA-20A), 0,1Hz-10kHz, Error±(0,0165 – 0,55)%, 2-nd category;\r
 "},
 {"name":"TYPE_SETTING_AGILENT34401A","kind":"string","info":"Device setting type","script":"02 Initialization devices",
-"data":"Simulation"},
+"data":"Automatic"},
 {"name":"TYPE_SETTING_FLUKE5520A","kind":"string","info":"Device setting type","script":"02 Initialization devices",
-"data":"Simulation"},
+"data":"Automatic"},
+{"name":"VDC","kind":"table","info":"Range#100;Point#100;Result#100;Accuracy#100;Permissible error#100;Conclusion#100;","script":"03 Measurement Fluke5520A",
+"data":"100m;100,0000m;100,0000m;0,0000m;8,5u;OK;\r
+100m;-100,0000m;-100,0000m;0,0000m;8,5u;OK;\r
+1;1,000000;1,000000;0,000000;47u;OK;\r
+1;-1,000000;-1,000000;0,000000;47u;OK;\r
+10;10,00000;10,00000;0,00000;400u;OK;\r
+10;-10,00000;-10,00000;0,00000;400u;OK;\r
+100;100,0000;100,0000;0,0000;5,1m;OK;\r
+100;-100,0000;-100,0000;0,0000;5,1m;OK;\r
+1000;1000,000;1000,000;0,000;55m;OK;\r
+1000;-1000,000;-1000,000;0,000;55m;OK;\r
+"},
 {"name":"VAC","kind":"table","info":"Range#100;Point#100;Frequency#100;Result#100;Accuracy#100;Permissible error#100;Conclusion#100;","script":"03 Measurement Fluke5520A",
 "data":"100m;10,0000m;1k;10,0000m;0,0000m;46u;OK;\r
 100m;100,0000m;1k;100,0000m;0,0000m;100u;OK;\r
@@ -55,18 +67,6 @@ Universal voltmeter calibrator H4-12 Serial ¹005211; U=(0,001V-1000V), Error±(0,
 750;750,000;1k;750,000;0,000;675m;OK;\r
 750;750,000;5k;750,000;0,000;1275m;OK;\r
 "},
-{"name":"VDC","kind":"table","info":"Range#100;Point#100;Result#100;Accuracy#100;Permissible error#100;Conclusion#100;","script":"03 Measurement Fluke5520A",
-"data":"100m;100,0000m;100,0000m;0,0000m;8,5u;OK;\r
-100m;-100,0000m;-100,0000m;0,0000m;8,5u;OK;\r
-1;1,000000;1,000000;0,000000;47u;OK;\r
-1;-1,000000;-1,000000;0,000000;47u;OK;\r
-10;10,00000;10,00000;0,00000;400u;OK;\r
-10;-10,00000;-10,00000;0,00000;400u;OK;\r
-100;100,0000;100,0000;0,0000;5,1m;OK;\r
-100;-100,0000;-100,0000;0,0000;5,1m;OK;\r
-1000;1000,000;1000,000;0,000;55m;OK;\r
-1000;-1000,000;-1000,000;0,000;55m;OK;\r
-"},
 {"name":"RES","kind":"table","info":"Range#100;Point#100;Result#100;Accuracy#100;Permissible error#100;Conclusion#100;","script":"03 Measurement Fluke5520A",
 "data":"100;100,000;100,000;0,000;14m;OK;\r
 1k;1,00000k;1,00000k;0,00000k;110m;OK;\r
@@ -76,15 +76,15 @@ Universal voltmeter calibrator H4-12 Serial ¹005211; U=(0,001V-1000V), Error±(0,
 10M;10,0000M;10,0000M;0,0000M;4,1k;OK;\r
 100M;100,000M;100,000M;0,000M;810k;OK;\r
 "},
-{"name":"IAC","kind":"table","info":"Range#100;Point#100;Frequency#100;Result#100;Accuracy#100;Permissible error#100;Conclusion#100;","script":"03 Measurement Fluke5520A",
-"data":"1;1,00000;1k;1,00000;0,00000;1,4m;OK;\r
-3;0,30000;1k;0,30000;0,00000;4,8m;OK;\r
-"},
 {"name":"IDC","kind":"table","info":"Range#100;Point#100;Result#100;Accuracy#100;Permissible error#100;Conclusion#100;","script":"03 Measurement Fluke5520A",
 "data":"10m;10,00000m;10,00000m;0,00000m;7u;OK;\r
 100m;100,0000m;100,0000m;0,0000m;55u;OK;\r
 1;1,00000;1,00000;0,00000;1,1m;OK;\r
 3;2,00000;2,00000;0,00000;3,0m;OK;\r
+"},
+{"name":"IAC","kind":"table","info":"Range#100;Point#100;Frequency#100;Result#100;Accuracy#100;Permissible error#100;Conclusion#100;","script":"03 Measurement Fluke5520A",
+"data":"1;1,00000;1k;1,00000;0,00000;1,4m;OK;\r
+3;0,30000;1k;0,30000;0,00000;4,8m;OK;\r
 "}
 
 ],
@@ -95,7 +95,7 @@ Universal voltmeter calibrator H4-12 Serial ¹005211; U=(0,001V-1000V), Error±(0,
 {"line":"2","name":"Equipment registration$Reg","type":"region","project":"Verification FLUKE5520A Agilent34401A","script":"01 Registration verification unit","region":"","status":"passed","pcode":"5","pcount":"2"},
 {"line":"3","name":"02 Initialization devices","type":"script","project":"Verification FLUKE5520A Agilent34401A","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
 {"line":"4","name":"Initialization AGILENT34401$Init","type":"region","project":"Verification FLUKE5520A Agilent34401A","script":"02 Initialization devices","region":"","status":"passed","pcode":"5","pcount":"2"},
-{"line":"5","name":"Initialization FLUKE5520$Init","type":"region","project":"Verification FLUKE5520A Agilent34401A","script":"02 Initialization devices","region":"","status":"empty","pcode":"0","pcount":"2"},
+{"line":"5","name":"Initialization FLUKE5520A$Init","type":"region","project":"Verification FLUKE5520A Agilent34401A","script":"02 Initialization devices","region":"","status":"passed","pcode":"5","pcount":"2"},
 {"line":"6","name":"03 Measurement Fluke5520A","type":"script","project":"Verification FLUKE5520A Agilent34401A","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
 {"line":"7","name":"Determining the absolute error of AC voltage measurement$VAC","type":"region","project":"Verification FLUKE5520A Agilent34401A","script":"03 Measurement Fluke5520A","region":"","status":"empty","pcode":"0","pcount":"8"},
 {"line":"8","name":"Meas 1$VAC","type":"hesh","project":"Verification FLUKE5520A Agilent34401A","script":"03 Measurement Fluke5520A","region":"Determining the absolute error of AC voltage measurement$VAC","status":"passed","pcode":"5","pcount":"8"},

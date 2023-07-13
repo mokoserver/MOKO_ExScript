@@ -5,9 +5,9 @@ MOKO.Stage("*********************************************************")
 MOKO.Stage("********* Registration verification unit script *********")
 MOKO.Stage("*********************************************************")
 
-#region Registration unit$Reg
+#region Equipment registration$Reg
 MOSC.HeshStatus("$Reg")
-MOKO.Program('tree', 'set', 'select = Registration unit$Reg')
+MOKO.Program('tree', 'set', 'select = Equipment registration$Reg')
 
 MOKO.Utility("IZRCSM", "set", "Registration")
 
@@ -58,7 +58,7 @@ MOKO.Report("VerificationConditions", "set", "table", f"Pressure; 100kPa; {Press
 
 text_report_fluke = "U=(34mV-1000V), Error±(0,0012-0,005)%, 2nd category\\nI=(24uA-10A), Error±(0,011-0,1)%, " \
     "1 category\\nU~(25mV-1000V), 10Hz-500kHz, Error±(0,017-1)% 2nd category\\nI~=(2uA-10A), 20Hz-20kHz, " \
-    "Error±(0,046-3,02)%, 2nd category\\nR=(0,50[Ohm]-50[Ohm]), (110M[Ohm]-1100M[Ohm]), Error ±(0,33-2)%, 3nd category"
+    "Error±(0,046-3,02)%, 2nd category\\nR=(0,50[[Ohm]]-50[Ohm]), (110M[Ohm]-1100M[Ohm]), Error ±(0,33-2)%, 3nd category"
 text_report_voltmeter = "U=(0,001V-1000V), Error±(0,000315 – 0,0011)%  2-nd category\\nU~=(0.75mV-1000V), " \
                         "10Hz-50kHz, Error±(0,003 – 0,23)%, 2-nd category\\nI=(70nA-30A), Error±(0,00275 – 0,05)%, " \
                         "1 category\\nI~=(70nA-20A), 0,1Hz-10kHz, Error±(0,0165 – 0,55)%, 2-nd category"
@@ -72,7 +72,6 @@ MOKO.Report("VerificationTools", "set", "table", f"Universal voltmeter calibrato
             f"{text_report_voltmeter}")
 
 MOSC.hesh_passed()
-#endregion Registration unit$Reg
+#endregion Equipment registration$Reg
 
 MOKO.EndScript()
-

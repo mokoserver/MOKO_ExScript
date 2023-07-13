@@ -11,7 +11,6 @@ class ExFluke5000Agilent34401A:
         self.WireConnection = str()
         self.Remeasurement, self.Driver_start = False, False
         self.R4FirstResult = True
-        self.ListConstResult = list()
         self.LowerLimitResult, self.UpperLimitResult, self.Status = None, None, None
         self.AutomaticFluke5520, self.AutomaticAgilent34401A, self.Simulation = False, False, False
         self.AGILENT34401A_INIT, self.FLUKE5520A_INIT = str(), str()
