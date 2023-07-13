@@ -38,7 +38,7 @@ MOKO.Stage("*********************************************************")
 MOKO.Stage(" ")
 
 MOKO.Stage("name -> FY6900; mode -> set; command -> Init", 'driver')
-MOKO.Report("DevicesUsed", "set", "table", f"FY6900_INIT; connected")
+MOKO.Report("DevicesUsed", "set", "table", "FY6900; connected")
 MOKO.Stage(" ")
 
 MOKO.Stage("*********************************************************")

@@ -657,6 +657,8 @@ class ExFluke5000Agilent34401A:
                 if not choices or AGILENT34401A_INIT == 'connected':
                     MOKO.Stage('Driver: AgilentDMM >> mode: set >> command: Timeout = 10000', 'driver')
                     MOKO.Stage('Driver: AgilentDMM >> mode: set >> command: Reset', 'driver')
+                else:
+                    self.AutomaticAgilent34401A = False
 
             else:
                 self.AutomaticAgilent34401A = False
@@ -688,6 +690,8 @@ class ExFluke5000Agilent34401A:
                 if not choices or FLUKE5520A_INIT == 'connected':
                     MOKO.Stage('Driver: Fluke5000 >> mode: set >> command: Timeout = 10000', 'driver')
                     MOKO.Stage('Driver: Fluke5000 >> mode: set >> command: Reset', 'driver')
+                else:
+                    self.AutomaticFluke5520 = False
             else:
                 self.AutomaticFluke5520 = False
                 MOKO.Messenger("set", "Make settings on Fluke5520A#@fluke5520a", "Make settings:\n"

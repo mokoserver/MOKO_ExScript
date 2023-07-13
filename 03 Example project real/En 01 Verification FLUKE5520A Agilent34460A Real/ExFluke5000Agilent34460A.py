@@ -685,6 +685,8 @@ class ExFluke5000Agilent34460A:
 
                 if not choices or self.AGILENT34460A_INIT == 'connected':
                     MOKO.Driver('AgilentDMM', 'set', 'Timeout = 10000')
+                else:
+                    self.AutomaticAgilent34460A = False
 
             elif type_setting_agilent == 'Manual':
                 self.AutomaticAgilent34460A = False
@@ -725,6 +727,8 @@ class ExFluke5000Agilent34460A:
                 if not choices or self.FLUKE5520A_INIT == 'connected':
                     MOKO.Driver('Fluke5000', 'set', 'Timeout = 10000')
                     MOKO.Driver('Fluke5000', 'set', 'Reset')
+                else:
+                    self.AutomaticFluke5520 = False
             elif type_setting_fluke == 'Manual':
 
                 self.AutomaticFluke5520 = False
