@@ -7,7 +7,7 @@ MOKO.Stage("*********************************************************")
 MOKO.Stage(" ")
 
 MOKO.Stage("*********************************************************")
-MOKO.Messenger("set", 'Connect device#FLUKE5520A_AGILENT34401A.jpg',
+MOKO.Messenger("set", 'Connect device#FLUKE5520A_AGILENT34401A.png',
                'Сonnect the device under test via the interface\n'
                'Reference equipment: FLUKE5520.\n'
                'Verified equipment: AGILENT34401.\n'

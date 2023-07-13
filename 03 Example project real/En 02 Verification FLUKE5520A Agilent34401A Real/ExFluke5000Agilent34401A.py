@@ -654,36 +654,36 @@ class ExFluke5000Agilent34401A:
         if self.WireConnection not in ['VDC', 'VAC', 'R2']:
             if WireConnection == 'VDC':
                 MOKO.Messenger('set',
-                               'Connecting wires#FLUKE5520A_AGILENT34401A_V_R2.jpg',
+                               'Connecting wires#FLUKE5520A_AGILENT34401A_V_R2.png',
                                'Connect a multimeter to the calibrator to check VDC voltage.\n'
                                'Calibrator output NORMAL')
             elif WireConnection == 'VAC':
                 MOKO.Messenger('set',
-                               'Connecting wires#FLUKE5520A_AGILENT34401A_V_R2.jpg',
+                               'Connecting wires#FLUKE5520A_AGILENT34401A_V_R2.png',
                                'Connect a multimeter to the calibrator to check VAC voltage.\n'
                                'Calibrator output NORMAL')
             elif WireConnection == 'R2':
                 MOKO.Messenger('set',
-                               'Connecting wires#FLUKE5520A_AGILENT34401A_V_R2.jpg',
+                               'Connecting wires#FLUKE5520A_AGILENT34401A_V_R2.png',
                                'Connect a multimeter to the calibrator to check R2 resistance.\n'
                                'Calibrator output NORMAL')
         if self.WireConnection not in ['IDC', 'IAC']:
             if WireConnection == 'IDC':
                 MOKO.Messenger("set",
-                               'Connecting wires#FLUKE5520A_AGILENT34401A_I.jpg',
+                               'Connecting wires#FLUKE5520A_AGILENT34401A_I.png',
                                'Connect a multimeter to the calibrator to test.\n'
                                'DC current IDC up to 3 A.\n'
                                'Calibrator output AUX up to 2 A.')
             elif WireConnection == 'IAC':
                 MOKO.Messenger("set",
-                               'Connecting wires#FLUKE5520A_AGILENT34401A_I.jpg',
+                               'Connecting wires#FLUKE5520A_AGILENT34401A_I.png',
                                'Connect a multimeter to the calibrator to test.\n'
                                'AC current IAC up to 3 A.\n'
                                'Calibrator output AUX up to 2 A.')
 
         if self.WireConnection not in ['R4']:
             if WireConnection == 'R4':     MOKO.Messenger('set',
-                                                          'Connecting wires#FLUKE5520A_AGILENT34401A_R4.jpg',
+                                                          'Connecting wires#FLUKE5520A_AGILENT34401A_R4.png',
                                                           'Connect a multimeter to the calibrator to check.\n'
                                                           'RES resistance in 4-wire circuit.')
 
