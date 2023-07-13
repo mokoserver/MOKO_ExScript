@@ -659,6 +659,10 @@ class ExFluke5000Agilent34401A:
                     MOKO.Stage('Driver: AgilentDMM >> mode: set >> command: Reset', 'driver')
                 else:
                     self.AutomaticAgilent34401A = False
+                    MOKO.Messenger("set", "Make settings Agilent34401A#@agilent34401a", "Make settings:\n"
+                                                                                        "Turn on the device\n"
+                                                                                        "Set Timeout = 10000\n"
+                                                                                        "Press OK")
 
             else:
                 self.AutomaticAgilent34401A = False
@@ -692,6 +696,11 @@ class ExFluke5000Agilent34401A:
                     MOKO.Stage('Driver: Fluke5000 >> mode: set >> command: Reset', 'driver')
                 else:
                     self.AutomaticFluke5520 = False
+                    MOKO.Messenger("set", "Make settings on Fluke5520A#@fluke5520a", "Make settings:\n"
+                                                                                     "Turn on the device\n"
+                                                                                     "Set Timeout = 10000\n"
+                                                                                     "Set Reset\n"
+                                                                                     "Press OK")
             else:
                 self.AutomaticFluke5520 = False
                 MOKO.Messenger("set", "Make settings on Fluke5520A#@fluke5520a", "Make settings:\n"

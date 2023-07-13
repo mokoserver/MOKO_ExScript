@@ -45,6 +45,12 @@ if TYPE_SETTING_AGILENT34401A == 'Automatic':
         MOKO.Driver('AgilentDMM', 'set', 'Reset')
         MOSC.hesh_passed()
     else:
+        TYPE_SETTING_AGILENT34401A = 'Manual'
+        MOKO.Messenger("set", "Make settings Agilent34401A#@agilent34401a", "Make settings:\n"
+                                                                            "Turn on the device\n"
+                                                                            "Set Timeout = 10000\n"
+                                                                            "Set Reset\n"
+                                                                            "Press OK")
         MOSC.hesh_failed()
 
 elif TYPE_SETTING_AGILENT34401A == 'Manual':
@@ -98,6 +104,12 @@ if TYPE_SETTING_FLUKE5520A == 'Automatic':
         MOKO.Driver('Fluke5000', 'set', 'Reset')
         MOSC.hesh_passed()
     else:
+        TYPE_SETTING_FLUKE5520A = 'Manual'
+        MOKO.Messenger("set", "Make settings on Fluke5520A#@fluke5520a", "Make settings:\n"
+                                                                         "Turn on the device\n"
+                                                                         "Set Timeout = 10000\n"
+                                                                         "Set Reset\n"
+                                                                         "Press OK")
         MOSC.hesh_failed()
 elif TYPE_SETTING_FLUKE5520A == 'Manual':
     MOKO.Messenger("set", "Make settings on Fluke5520A#@fluke5520a", "Make settings:\n"

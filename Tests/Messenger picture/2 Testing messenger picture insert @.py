@@ -83,6 +83,26 @@ MOKO.Stage('mode -> set, head -> Warning#@warning')
 MOKO.Messenger('set', 'Warning#@warning',
                'To insert an image, after the head name, write #@warning', delaytime='5')
 
+MOKO.Stage('mode -> set, head -> Agilent34401a#agilent34401a')
+MOKO.Messenger('set', 'Agilent34401a#agilent34401a',
+               'To insert an image, after the head name, write #@agilent34401a', delaytime='5')
+
+MOKO.Stage('mode -> set, head -> Fluke5520A#@fluke5520a')
+MOKO.Messenger('set', 'Fluke5520A#@fluke5520a',
+               'To insert an image, after the head name, write #@fluke5520a', delaytime='5')
+
+MOKO.Stage('mode -> set, head -> Fluke5522A#@fluke5522a')
+MOKO.Messenger('set', 'Fluke5522A#@fluke5522a',
+               'To insert an image, after the head name, write #@fluke5522a', delaytime='5')
+
+MOKO.Stage('mode -> set, head -> Keysught34460A#@keysught34460a')
+MOKO.Messenger('set', 'Keysught34460A#@keysught34460a',
+               'To insert an image, after the head name, write #@keysught34460a', delaytime='5')
+
+MOKO.Stage('mode -> set, head -> Keysught34465#@keysught34465a')
+MOKO.Messenger('set', 'Keysught34465#@keysught34465a',
+               'To insert an image, after the head name, write #@keysught34465a', delaytime='5')
+
 MOKO.Program('tree', 'set', 'select = ' + 'Messenger Testing')
 MOKO.Program('tree', 'set', 'chosen = passed')
 
