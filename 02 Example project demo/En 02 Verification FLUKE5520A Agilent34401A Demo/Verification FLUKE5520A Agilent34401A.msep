@@ -4,7 +4,7 @@
 "project_scripts":[
 {"script":"01 Registration verification unit.py","necessary":"true"},
 {"script":"02 Initialization devices.py","necessary":"true"},
-{"script":"03 Measurement Fluke5520A.py","necessary":"false"},
+{"script":"03 Verification Ag34401A by Fl5520A Demo.py","necessary":"false"},
 {"script":"04 Save word report.py","necessary":"true"}
 ],
 "project_libraries":[

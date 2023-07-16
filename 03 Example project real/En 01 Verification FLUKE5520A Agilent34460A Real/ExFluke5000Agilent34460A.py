@@ -2,6 +2,7 @@ import time
 
 import MOKO
 import MFRT
+import MOSC
 
 
 class ExFluke5000Agilent34460A:
@@ -12,7 +13,6 @@ class ExFluke5000Agilent34460A:
         self.Remeasurement, self.Driver_start = False, False
         self.LowerLimitResult, self.UpperLimitResult, self.Status = None, None, None
         self.AutomaticFluke5520, self.AutomaticAgilent34460A, self.Simulation = False, False, False
-        self.AGILENT34460A_INIT, self.FLUKE5520A_INIT = str(), str()
         self.__init_connected_and_type_connected()
 
     def MeasurementAndReport(self, range, verified, error, WireConnection, frequency=None, filter=None) -> None:
@@ -21,9 +21,6 @@ class ExFluke5000Agilent34460A:
         """
         f_verified = MFRT.ConvertStringToFloat(verified)
         f_error = MFRT.ConvertStringToFloat(error)
-        f_result, accuracy = 0, 0
-        if not self.TimeDelay:
-            self.TimeDelay = 0
 
 #######################################################################################################################
 #######################################################  VDC  #########################################################
@@ -57,43 +54,7 @@ class ExFluke5000Agilent34460A:
                                f"Make settings:\nSet VDC = {verified}\nPress OK")
 #######################################################################################################################
 
-            while self.ContinueMeasurement:
-
-                time.sleep(self.TimeDelay)
-############################################   Agilent34460A READ RESULT    ###########################################
-                if self.Simulation:
-                    MOKO.Stage(f'DriverSet AgilentDMM >> mode: get >> command: result = read', 'driver')
-                    result = f_verified
-                elif self.AutomaticAgilent34460A:
-                    result = MOKO.Driver('AgilentDMM', 'get', 'read')
-                else:
-                    result = MOKO.Messenger("get", "Input result#@notes",
-                                            "Enter the measured result from the instrument\nPress OK", "string")
-                MOKO.Stage(" ")
-#######################################################################################################################
-
-                f_result = MFRT.ConvertStringToFloat(result)
-                if isinstance(f_result, str):
-                    continue
-                accuracy = abs(f_verified - f_result)
-                if accuracy > f_error and self.Remeasurement:
-                    if self.Count_meas >= self.RemeasurementNumber - 1:
-                        choices = self.CallMessengerChoices(
-                            verified=f_verified, error=f_error, result=f_result, reference_number=verified)
-                        if choices:
-                            continue
-                    else:
-                        self.CallMessengerErrorPoint(
-                            verified=f_verified, error=f_error, result=f_result, reference_number=verified)
-                        continue
-                else:
-                    if accuracy > f_error:
-                        self.Status = 'Failed'
-                    else:
-                        self.Status = 'OK'
-                    self.Count_meas = 0
-
-                self.ContinueMeasurement = False
+            f_result, accuracy = self.GetResultMeasurement(verified=f_verified, error=f_error)
 
 #######################################################################################################################
 ####################################################  VDC REPORT  #####################################################
@@ -107,13 +68,13 @@ class ExFluke5000Agilent34460A:
                                                f"{self.Status}")
 
 #######################################################################################################################
-#######################################################  VAC  #########################################################
+#####################################################  VAC  ###########################################################
 #######################################################################################################################
 
         elif WireConnection == 'VAC':
 
 #######################################################################################################################
-####################################################  VAC MEAS  #######################################################
+##################################################  VAC MEAS  #########################################################
 #######################################################################################################################
 
             MOKO.Stage(f'VAC Measure -> range = {range}, verified = {verified}, filter = {filter}, '
@@ -143,43 +104,7 @@ class ExFluke5000Agilent34460A:
                                f"Make settings:\nSet VAC = {verified} {frequency}\nPress OK")
 #######################################################################################################################
 
-            while self.ContinueMeasurement:
-
-                time.sleep(self.TimeDelay)
-############################################   Agilent34460A READ RESULT    ###########################################
-                if self.Simulation:
-                    MOKO.Stage(f'DriverSet AgilentDMM >> mode: get >> command: result = read', 'driver')
-                    result = f_verified
-                elif self.AutomaticAgilent34460A:
-                    result = MOKO.Driver('AgilentDMM', 'get', 'read')
-                else:
-                    result = MOKO.Messenger("get", "Input result#@notes",
-                                            "Enter the measured result from the instrument\nPress OK", "string")
-                MOKO.Stage(" ")
-#######################################################################################################################
-
-                f_result = MFRT.ConvertStringToFloat(result)
-                if isinstance(f_result, str):
-                    continue
-                accuracy = abs(f_verified - f_result)
-                if accuracy > f_error and self.Remeasurement:
-                    if self.Count_meas >= self.RemeasurementNumber - 1:
-                        choices = self.CallMessengerChoices(
-                            verified=f_verified, error=f_error, result=f_result, reference_number=verified)
-                        if choices:
-                            continue
-                    else:
-                        self.CallMessengerErrorPoint(
-                            verified=f_verified, error=f_error, result=f_result, reference_number=verified)
-                        continue
-                else:
-                    if accuracy > f_error:
-                        self.Status = 'Failed'
-                    else:
-                        self.Status = 'OK'
-                    self.Count_meas = 0
-
-                self.ContinueMeasurement = False
+            f_result, accuracy = self.GetResultMeasurement(verified=f_verified, error=f_error)
 
 #######################################################################################################################
 ###################################################  VAC REPORT  ######################################################
@@ -225,43 +150,7 @@ class ExFluke5000Agilent34460A:
                                f"Make settings:\nSet R2 = {verified}\nPress OK")
 #######################################################################################################################
 
-            while self.ContinueMeasurement:
-
-                time.sleep(self.TimeDelay)
-############################################   Agilent34460A READ RESULT    ###########################################
-                if self.Simulation:
-                    MOKO.Stage(f'DriverSet AgilentDMM >> mode: get >> command: result = read', 'driver')
-                    result = f_verified
-                elif self.AutomaticAgilent34460A:
-                    result = MOKO.Driver('AgilentDMM', 'get', 'read')
-                else:
-                    result = MOKO.Messenger("get", "Input result#@notes",
-                                            "Enter the measured result from the instrument\nPress OK", "string")
-                MOKO.Stage(" ")
-#######################################################################################################################
-
-                f_result = MFRT.ConvertStringToFloat(result)
-                if isinstance(f_result, str):
-                    continue
-                accuracy = abs(f_verified - f_result)
-                if accuracy > f_error and self.Remeasurement:
-                    if self.Count_meas >= self.RemeasurementNumber - 1:
-                        choices = self.CallMessengerChoices(
-                            verified=f_verified, error=f_error, result=f_result, reference_number=verified)
-                        if choices:
-                            continue
-                    else:
-                        self.CallMessengerErrorPoint(
-                            verified=f_verified, error=f_error, result=f_result, reference_number=verified)
-                        continue
-                else:
-                    if accuracy > f_error:
-                        self.Status = 'Failed'
-                    else:
-                        self.Status = 'OK'
-                    self.Count_meas = 0
-
-                self.ContinueMeasurement = False
+            f_result, accuracy = self.GetResultMeasurement(verified=f_verified, error=f_error)
 
 #######################################################################################################################
 ###################################################  R2 REPORT  #######################################################
@@ -307,43 +196,7 @@ class ExFluke5000Agilent34460A:
                                f"Make settings:\nSet R4 = {verified}\nPress OK")
 #######################################################################################################################
 
-            while self.ContinueMeasurement:
-
-                time.sleep(self.TimeDelay)
-############################################   Agilent34460A READ RESULT    ###########################################
-                if self.Simulation:
-                    MOKO.Stage(f'DriverSet AgilentDMM >> mode: get >> command: result = read', 'driver')
-                    result = f_verified
-                elif self.AutomaticAgilent34460A:
-                    result = MOKO.Driver('AgilentDMM', 'get', 'read')
-                else:
-                    result = MOKO.Messenger("get", "Input result#@notes",
-                                            "Enter the measured result from the instrument\nPress OK", "string")
-                MOKO.Stage(" ")
-#######################################################################################################################
-
-                f_result = MFRT.ConvertStringToFloat(result)
-                if isinstance(f_result, str):
-                    continue
-                accuracy = abs(f_verified - f_result)
-                if accuracy > f_error and self.Remeasurement:
-                    if self.Count_meas >= self.RemeasurementNumber - 1:
-                        choices = self.CallMessengerChoices(
-                            verified=f_verified, error=f_error, result=f_result, reference_number=verified)
-                        if choices:
-                            continue
-                    else:
-                        self.CallMessengerErrorPoint(
-                            verified=f_verified, error=f_error, result=f_result, reference_number=verified)
-                        continue
-                else:
-                    if accuracy > f_error:
-                        self.Status = 'Failed'
-                    else:
-                        self.Status = 'OK'
-                    self.Count_meas = 0
-
-                self.ContinueMeasurement = False
+            f_result, accuracy = self.GetResultMeasurement(verified=f_verified, error=f_error)
 
 #######################################################################################################################
 ##############################################  R4 REPORT  ############################################################
@@ -389,43 +242,7 @@ class ExFluke5000Agilent34460A:
                                f"Make settings:\nSet IDC = {verified}\nPress OK")
 #######################################################################################################################
 
-            while self.ContinueMeasurement:
-
-                time.sleep(self.TimeDelay)
-############################################   Agilent34460A READ RESULT    ###########################################
-                if self.Simulation:
-                    MOKO.Stage(f'DriverSet AgilentDMM >> mode: get >> command: result = read', 'driver')
-                    result = f_verified
-                elif self.AutomaticAgilent34460A:
-                    result = MOKO.Driver('AgilentDMM', 'get', 'read')
-                else:
-                    result = MOKO.Messenger("get", "Input result#@notes",
-                                            "Enter the measured result from the instrument\nPress OK", "string")
-                MOKO.Stage(" ")
-#######################################################################################################################
-
-                f_result = MFRT.ConvertStringToFloat(result)
-                if isinstance(f_result, str):
-                    continue
-                accuracy = abs(f_verified - f_result)
-                if accuracy > f_error and self.Remeasurement:
-                    if self.Count_meas >= self.RemeasurementNumber - 1:
-                        choices = self.CallMessengerChoices(
-                            verified=f_verified, error=f_error, result=f_result, reference_number=verified)
-                        if choices:
-                            continue
-                    else:
-                        self.CallMessengerErrorPoint(
-                            verified=f_verified, error=f_error, result=f_result, reference_number=verified)
-                        continue
-                else:
-                    if accuracy > f_error:
-                        self.Status = 'Failed'
-                    else:
-                        self.Status = 'OK'
-                    self.Count_meas = 0
-
-                self.ContinueMeasurement = False
+            f_result, accuracy = self.GetResultMeasurement(verified=f_verified, error=f_error)
 
 #######################################################################################################################
 ####################################################  IDC REPORT  #####################################################
@@ -439,20 +256,20 @@ class ExFluke5000Agilent34460A:
                                                f"{self.Status}")
 
 #######################################################################################################################
-#######################################################  IAC  #########################################################
+####################################################  IAC  ############################################################
 #######################################################################################################################
 
         elif WireConnection == 'IAC':
 
 #######################################################################################################################
-#####################################################  IAC MEAS  ######################################################
+##################################################  IAC MEAS  #########################################################
 #######################################################################################################################
 
             MOKO.Stage(f'IAC Measure -> range = {range}, verified = {verified}, filter = {filter}, '
                        f'frequency = {frequency}, error = {error}')
 
-            ############################################   Agilent34460A SET RANGE   ##############################################
-            ############################################   Agilent34460A SET ACBand   #############################################
+############################################   Agilent34460A SET RANGE   ##############################################
+############################################   Agilent34460A SET ACBand   #############################################
             if self.Simulation:
                 MOKO.Stage(f'DriverSet AgilentDMM >> mode: set >> command: range = {range}', 'driver')
                 MOKO.Stage(f'DriverSet AgilentDMM >> mode: set >> command: ACBand = {filter}', 'driver')
@@ -475,43 +292,7 @@ class ExFluke5000Agilent34460A:
                                f"Make settings:\nSet IAC = {verified} {frequency}\nPress OK")
 #######################################################################################################################
 
-            while self.ContinueMeasurement:
-
-                time.sleep(self.TimeDelay)
-############################################   Agilent34460A READ RESULT    ###########################################
-                if self.Simulation:
-                    MOKO.Stage(f'DriverSet AgilentDMM >> mode: get >> command: result = read', 'driver')
-                    result = f_verified
-                elif self.AutomaticAgilent34460A:
-                    result = MOKO.Driver('AgilentDMM', 'get', 'read')
-                else:
-                    result = MOKO.Messenger("get", "Input result#@notes",
-                                            "Enter the measured result from the instrument\nPress OK", "string")
-                MOKO.Stage(" ")
-#######################################################################################################################
-
-                f_result = MFRT.ConvertStringToFloat(result)
-                if isinstance(f_result, str):
-                    continue
-                accuracy = abs(f_verified - f_result)
-                if accuracy > f_error and self.Remeasurement:
-                    if self.Count_meas >= self.RemeasurementNumber - 1:
-                        choices = self.CallMessengerChoices(
-                            verified=f_verified, error=f_error, result=f_result, reference_number=verified)
-                        if choices:
-                            continue
-                    else:
-                        self.CallMessengerErrorPoint(
-                            verified=f_verified, error=f_error, result=f_result, reference_number=verified)
-                        continue
-                else:
-                    if accuracy > f_error:
-                        self.Status = 'Failed'
-                    else:
-                        self.Status = 'OK'
-                    self.Count_meas = 0
-
-                self.ContinueMeasurement = False
+            f_result, accuracy = self.GetResultMeasurement(verified=f_verified, error=f_error)
 
 #######################################################################################################################
 ###################################################  IAC REPORT  ######################################################
@@ -525,6 +306,56 @@ class ExFluke5000Agilent34460A:
                                                f"{error};"
                                                f"{self.Status}")
 
+#######################################################################################################################
+#######################################################################################################################
+########################################  Function get result measuare   ##############################################
+#######################################################################################################################
+#######################################################################################################################
+
+    def GetResultMeasurement(self, verified, error) -> (float, float):
+        f_result, accuracy = 0, 0
+        while self.ContinueMeasurement:
+
+            time.sleep(self.TimeDelay)
+############################################   Agilent34460A READ RESULT    ###########################################
+            if self.Simulation:
+                MOKO.Stage(f'DriverSet AgilentDMM >> mode: get >> command: result = read', 'driver')
+                result = verified
+            elif self.AutomaticAgilent34460A:
+                result = MOKO.Driver('AgilentDMM', 'get', 'read')
+            else:
+                result = MOKO.Messenger("get", "Input result#@notes",
+                                        "Enter the measured result from the instrument\nPress OK", "string")
+            MOKO.Stage(" ")
+#######################################################################################################################
+
+            f_result = MFRT.ConvertStringToFloat(result)
+            if isinstance(f_result, str):
+                continue
+            accuracy = abs(verified - f_result)
+            if accuracy > error and self.Remeasurement:
+                if self.Count_meas >= self.RemeasurementNumber - 1:
+                    choices = self.CallMessengerChoices(
+                        verified=verified, error=error, result=f_result, reference_number=verified)
+                    if choices:
+                        continue
+                else:
+                    self.CallMessengerErrorPoint(
+                        verified=verified, error=error, result=f_result, reference_number=verified)
+                    continue
+            else:
+                if accuracy > error:
+                    self.Status = 'Failed'
+                else:
+                    self.Status = 'OK'
+                self.Count_meas = 0
+
+            self.ContinueMeasurement = False
+        return f_result, accuracy
+
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
 #######################################################################################################################
 #######################################################################################################################
 #######################################################################################################################
@@ -599,6 +430,10 @@ class ExFluke5000Agilent34460A:
             MOKO.Stage(" ")
             self.Driver_start = True
 
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+
     def MeasurementStopCommand(self) -> None:
 
 ########################################   Fluke5520 SET SwitchOFF = ENABLE   #########################################
@@ -615,6 +450,13 @@ class ExFluke5000Agilent34460A:
 #######################################################################################################################
 
         self.Driver_start = False
+
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
 
     def CheckWireConnection(self, WireConnection: str) -> None:
         self.ContinueMeasurement = True
@@ -657,104 +499,163 @@ class ExFluke5000Agilent34460A:
         self.WireConnection = WireConnection
         MOKO.Stage(' ')
 
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+
     def CheckConnectDevices(self) -> None:
         if self.FirstScriptStart:
             MOKO.Stage('*****************************************************')
             MOKO.Stage('***************** Connect Devices *******************')
             MOKO.Stage('*****************************************************')
 
+            self.InitializationAGILENT34460A(init=False)
+            self.InitializationFluke5520A(init=False)
+
+            self.FirstScriptStart = False
+
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+
+    def InitializationAGILENT34460A(self, init=True) -> None:
+
+        if not self.Simulation:
             type_setting_agilent = MOKO.Messenger("get", "Choose a way to connect AGILENT34460A#@agilent34460a",
                                                   "Please select an Agilent34460A instrument setup type\n"
                                                   "Attention. By selecting simulation mode, "
                                                   "you run all measurements in simulation mode!!!",
                                                   "choice=Automatic;Manual;Simulation")
+        else:
+            type_setting_agilent = 'Simulation'
 
-            MOKO.Stage(" ")
+        MOKO.Stage(" ")
 
-###############################################   AGILENT34460A Init   ################################################
-###########################################   AGILENT34460A SET Timeout  ##############################################
-            if type_setting_agilent == 'Automatic':
+        MOKO.Report("TYPE_SETTING_AGILENT34460A", "info", "string", "Device setting type")
+
+############################################   AGILENT34460A Init   ###################################################
+#########################################   AGILENT34460A SET Timeout  ################################################
+##########################################   AGILENT34460A SET Reset  #################################################
+
+        if type_setting_agilent == 'Automatic':
+
+            choices = None
+
+            agilent3401a_status = MOKO.Driver('AgilentDMM', 'init', '')
+
+            if agilent3401a_status != 'connected':
+                choices = MOKO.Messenger("get", "AGILENT34460A initialization not successful#@agilent34460a",
+                                         "Failed to initialize AGILENT34460A. Do you want to continue measuring in "
+                                         "Manual mode?", "boolean")
+
+            if not choices or agilent3401a_status == 'connected':
                 self.AutomaticAgilent34460A = True
-                choices = None
-                self.AGILENT34460A_INIT = MOKO.Driver('AgilentDMM', 'init', '')
-
-                if self.AGILENT34460A_INIT != 'connected':
-                    choices = MOKO.Messenger("get", "AGILENT34460A initialization not successful#@agilent34460a",
-                                             "Failed to initialize AGILENT34460A. Do you want to continue measuring in "
-                                             "Manual mode?", "boolean")
-
-                if not choices or self.AGILENT34460A_INIT == 'connected':
-                    MOKO.Driver('AgilentDMM', 'set', 'Timeout = 10000')
-                else:
-                    self.AutomaticAgilent34460A = False
-                    MOKO.Messenger("set", "Make settings Agilent34460A#@agilent34460a", "Make settings:\n"
-                                                                                        "Turn on the device\n"
-                                                                                        "Set Timeout = 10000\n"
-                                                                                        "Press OK")
-
-            elif type_setting_agilent == 'Manual':
-                self.AutomaticAgilent34460A = False
-                MOKO.Messenger("set", "Make settings Agilent34460A#@agilent34460a", "Make settings:\n"
-                                                                                    "Turn on the device\n"
-                                                                                    "Set Timeout = 10000\n"
-                                                                                    "Press OK")
+                MOKO.Report("TYPE_SETTING_AGILENT34460A", "set", 'string', 'Automatic')
+                MOKO.Driver('AgilentDMM', 'set', 'Timeout = 10000')
+                MOKO.Driver('AgilentDMM', 'set', 'Reset')
             else:
-                self.Simulation = True
-                MOKO.Stage('Driver: AgilentDMM >> mode: init >> command: ', 'driver')
-                MOKO.Stage('Driver: AgilentDMM >> mode: set >> command: Timeout = 10000', 'driver')
+                type_setting_agilent = 'Manual'
+
+        if type_setting_agilent == 'Manual':
+            MOKO.Report("TYPE_SETTING_AGILENT34460A", "set", 'string', 'Manual')
+            self.AutomaticAgilent34460A = False
+            MOKO.Messenger("set", "Make settings Agilent34460A#@agilent34460a", "Make settings:\n"
+                                                                                "Turn on the device\n"
+                                                                                "Set Timeout = 10000\n"
+                                                                                "Set Reset\n"
+                                                                                "Press OK")
+        elif type_setting_agilent == 'Simulation':
+            MOKO.Report("TYPE_SETTING_AGILENT34460A", "set", 'string', 'Simulation')
+            self.Simulation = True
+            MOKO.Stage('Driver: AgilentDMM >> mode: init >> command: ', 'driver')
+            MOKO.Stage('Driver: AgilentDMM >> mode: set >> command: Timeout = 10000', 'driver')
+            MOKO.Stage('Driver: AgilentDMM >> mode: set >> command: Reset', 'driver')
+
 #######################################################################################################################
 
-            if not self.Simulation:
-                type_setting_fluke = MOKO.Messenger("get", "Choose a way to connect FLUKE5520A#@fluke5520a",
-                                                    "Please select an FLUKE5520 instrument setup type\n"
-                                                    "Attention. By selecting simulation mode, "
-                                                    "you run all measurements in simulation mode!!!",
-                                                    "choice=Automatic;Manual;Simulation")
+        if init:
+            if self.AutomaticAgilent34460A or self.Simulation:
+                MOSC.hesh_passed()
             else:
-                type_setting_fluke = 'Simulation'
-            MOKO.Stage(" ")
+                MOSC.hesh_failed()
+
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+
+    def InitializationFluke5520A(self, init=True) -> None:
+        if not self.Simulation:
+            type_setting_fluke = MOKO.Messenger("get", "Choose a way to connect FLUKE5520A#@fluke5520a",
+                                                "Please select an FLUKE5520 instrument setup type\n"
+                                                "Attention. By selecting simulation mode, "
+                                                "you run all measurements in simulation mode!!!",
+                                                "choice=Automatic;Manual;Simulation")
+        else:
+            type_setting_fluke = 'Simulation'
+
+        MOKO.Stage(" ")
+
+        MOKO.Report("TYPE_SETTING_FLUKE5520A", "info", "string", "Device setting type")
 
 ###################################################   Fluke5520 Init   ################################################
 ###############################################   Fluke5520 SET Timeout  ##############################################
 ################################################   Fluke5520 SET Reset  ###############################################
-            if type_setting_fluke == 'Automatic':
 
+        if type_setting_fluke == 'Automatic':
+
+            choices = None
+
+            fluke_5520a_status = MOKO.Driver('Fluke5000', 'init', '')
+
+            if fluke_5520a_status != 'connected':
+                choices = MOKO.Messenger("get", "Fluke5520A initialization not successful#@fluke5520a",
+                                         "Failed to initialize Fluke5520A. Do you want to continue measuring in "
+                                         "Manual mode?", "boolean")
+            if not choices or fluke_5520a_status == 'connected':
+                
                 self.AutomaticFluke5520 = True
-                choices = None
-
-                self.FLUKE5520A_INIT = MOKO.Driver('Fluke5000', 'init', '')
-
-                if self.FLUKE5520A_INIT != 'connected':
-                    choices = MOKO.Messenger("get", "Fluke5520A initialization not successful#@fluke5520a",
-                                             "Failed to initialize Fluke5520A. Do you want to continue measuring in "
-                                             "Manual mode?", "boolean")
-                if not choices or self.FLUKE5520A_INIT == 'connected':
-                    MOKO.Driver('Fluke5000', 'set', 'Timeout = 10000')
-                    MOKO.Driver('Fluke5000', 'set', 'Reset')
-                else:
-                    self.AutomaticFluke5520 = False
-                    MOKO.Messenger("set", "Make settings on Fluke5520A#@fluke5520a", "Make settings:\n"
-                                                                                     "Turn on the device\n"
-                                                                                     "Set Timeout = 10000\n"
-                                                                                     "Set Reset\n"
-                                                                                     "Press OK")
-
-            elif type_setting_fluke == 'Manual':
-
-                self.AutomaticFluke5520 = False
-                MOKO.Messenger("set", "Make settings on Fluke5520A#@fluke5520a", "Make settings:\n"
-                                                                                 "Turn on the device\n"
-                                                                                 "Set Timeout = 10000\n"
-                                                                                 "Set Reset\n"
-                                                                                 "Press OK")
+                
+                MOKO.Report("TYPE_SETTING_FLUKE5520A", "set", "string", "Automatic")
+                MOKO.Driver('Fluke5000', 'set', 'Timeout = 10000')
+                MOKO.Driver('Fluke5000', 'set', 'Reset')
             else:
-                self.Simulation = True
-                MOKO.Stage('Driver: Fluke5000 >> mode: init >> command: ', 'driver')
-                MOKO.Stage('Driver: Fluke5000 >> mode: set >> command: Timeout = 10000', 'driver')
-                MOKO.Stage('Driver: Fluke5000 >> mode: set >> command: Reset', 'driver')
+                type_setting_fluke = 'Manual'
+
+        if type_setting_fluke == 'Manual':
+            MOKO.Report("TYPE_SETTING_FLUKE5520A", "set", "string", "Manual")
+            self.AutomaticFluke5520 = False
+            MOKO.Messenger("set", "Make settings on Fluke5520A#@fluke5520a", "Make settings:\n"
+                                                                             "Turn on the device\n"
+                                                                             "Set Timeout = 10000\n"
+                                                                             "Set Reset\n"
+                                                                             "Press OK")
+        elif type_setting_fluke == 'Simulation':
+            MOKO.Report("TYPE_SETTING_FLUKE5520A", "set", "string", "Simulation")
+            self.Simulation = True
+            MOKO.Stage('Driver: Fluke5000 >> mode: init >> command: ', 'driver')
+            MOKO.Stage('Driver: Fluke5000 >> mode: set >> command: Timeout = 10000', 'driver')
+            MOKO.Stage('Driver: Fluke5000 >> mode: set >> command: Reset', 'driver')
+
+#######################################################################################################################
+        if init:
+            if self.AutomaticFluke5520 or self.Simulation:
+                MOSC.hesh_passed()
+            else:
+                MOSC.hesh_failed()
+
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
 #######################################################################################################################
 
-            self.FirstScriptStart = False
+    def SettingMeasurementLimits(self, verified, error) -> None:
+        self.LowerLimitResult = verified - error
+        self.UpperLimitResult = verified + error
 
 #######################################################################################################################
 #######################################################################################################################
@@ -781,6 +682,10 @@ class ExFluke5000Agilent34460A:
         self.Count_meas = 0
         return choices
 
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+
     def CallMessengerErrorPoint(self, verified, error, result, reference_number) -> None:
         self.SettingMeasurementLimits(verified=verified, error=error)
 
@@ -799,10 +704,8 @@ class ExFluke5000Agilent34460A:
         MOKO.Messenger('set', 'Measurement failed#@failed', error_message, delaytime='5')
         self.Count_meas += 1
 
-    def SettingMeasurementLimits(self, verified, error) -> None:
-        self.LowerLimitResult = verified - error
-        self.UpperLimitResult = verified + error
-
+#######################################################################################################################
+#######################################################################################################################
 #######################################################################################################################
 #######################################################################################################################
 #######################################################################################################################
@@ -850,30 +753,40 @@ class ExFluke5000Agilent34460A:
 #######################################################################################################################
 #######################################################################################################################
 #######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
 
-    def __init_connected_and_type_connected(self):
-        type_setting_Fluke5520A = MOKO.Report("TYPE_SETTING_FLUKE5520A", "get", "string", "", 'string')
-        type_setting_Agilent34460A = MOKO.Report("TYPE_SETTING_AGILENT34460A", "get", "string", "", 'string')
+    def __init_connected_and_type_connected(self) -> None:
+        type_setting_fluke5520a = MOKO.Report("TYPE_SETTING_FLUKE5520A", "get", "string", "", 'string')
+        type_setting_agilent34460a = MOKO.Report("TYPE_SETTING_AGILENT34460A", "get", "string", "", 'string')
 
-        if len(type_setting_Agilent34460A) == 0 or len(type_setting_Fluke5520A) == 0:
+        if len(type_setting_agilent34460a) == 0 or len(type_setting_fluke5520a) == 0:
             self.FirstScriptStart = True
             self.Simulation = False
             return
         else:
             self.FirstScriptStart = False
 
-        if type_setting_Fluke5520A.lower() == 'simulation' or type_setting_Agilent34460A.lower() == 'simulation':
+        if type_setting_fluke5520a.lower() == 'simulation' or type_setting_agilent34460a.lower() == 'simulation':
             self.Simulation = True
             return
         else:
             self.Simulation = False
 
-        if type_setting_Fluke5520A.lower() == 'automatic':
+        if type_setting_fluke5520a.lower() == 'automatic':
             self.AutomaticFluke5520 = True
         else:
             self.AutomaticFluke5520 = False
 
-        if type_setting_Agilent34460A.lower() == 'automatic':
+        if type_setting_agilent34460a.lower() == 'automatic':
             self.AutomaticAgilent34460A = True
         else:
             self.AutomaticAgilent34460A = False
+
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+
+
+Poverka = ExFluke5000Agilent34460A()

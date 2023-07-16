@@ -1,5 +1,5 @@
 import MOKO
-import MOSC
+from ExFluke5000Agilent34401A_Demo import Poverka
 
 MOKO.Stage("*********************************************************")
 MOKO.Stage("************ Initialization devices script **************")
@@ -18,98 +18,14 @@ MOKO.Stage(" ")
 #region Initialization AGILENT34401$Init
 MOKO.Program('tree', 'set', 'select = Initialization AGILENT34401$Init')
 
-TYPE_SETTING_AGILENT34401A = MOKO.Messenger("get", "Choose a way to connect AGILENT34401A#@agilent34401a",
-                                                   "Please select an Agilent34401A instrument setup type",
-                                                   "choice=Automatic;Manual")
-
-MOKO.Report("TYPE_SETTING_AGILENT34401A", "info", "string", "Device setting type")
-MOKO.Report("TYPE_SETTING_AGILENT34401A", "set", 'string', TYPE_SETTING_AGILENT34401A)
-MOKO.Stage(" ")
-
-AGILENT34401A_INIT = str()
-choices, simulation = None, False
-
-###############################################   AGILENT34401A Init   ################################################
-###########################################   AGILENT34401A SET Timeout  ##############################################
-############################################   AGILENT34401A SET Reset  ##############################################
-if TYPE_SETTING_AGILENT34401A == 'Automatic':
-    MOKO.Stage('Driver: AgilentDMM >> mode: init >> command: ', 'driver')
-    AGILENT34401A_INIT = 'connected'
-    if AGILENT34401A_INIT != 'connected':
-        choices = MOKO.Messenger("get", "AGILENT34401A initialization not successful#@agilent34401a",
-                                 "Failed to initialize AGILENT34401A. Do you want to continue measuring in "
-                                 "Manual mode?", "boolean")
-    if not choices or AGILENT34401A_INIT == 'connected':
-        MOKO.Stage('Driver: AgilentDMM >> mode: set >> command: Timeout = 10000', 'driver')
-        MOKO.Stage('Driver: AgilentDMM >> mode: set >> command: Reset', 'driver')
-        MOSC.hesh_passed()
-    else:
-        MOKO.Report("TYPE_SETTING_AGILENT34401A", "set", 'string', 'Manual')
-        MOKO.Messenger("set", "Make settings Agilent34401A#@agilent34401a", "Make settings:\n"
-                                                                            "Turn on the device\n"
-                                                                            "Set Timeout = 10000\n"
-                                                                            "Set Reset\n"
-                                                                            "Press OK")
-        MOSC.hesh_failed()
-
-else:
-    MOKO.Messenger("set", "Make settings Agilent34401A#@agilent34401a", "Make settings:\n"
-                                                                        "Turn on the device\n"
-                                                                        "Set Timeout = 10000\n"
-                                                                        "Set Reset\n"
-                                                                        "Press OK")
-    MOSC.hesh_failed()
-
-#######################################################################################################################
+Poverka.InitializationAGILENT34401A()
 
 #endregion Initialization AGILENT34401$Init
 
 #region Initialization FLUKE5520A$Init
 MOKO.Program('tree', 'set', 'select = Initialization FLUKE5520A$Init')
 
-TYPE_SETTING_FLUKE5520A = MOKO.Messenger("get", "Choose a way to connect FLUKE5520A#@fluke5520a",
-                                                "Please select an FLUKE5520 instrument setup type",
-                                                "choice=Automatic;Manual")
-
-
-MOKO.Report("TYPE_SETTING_FLUKE5520A", "info", "string", "Device setting type")
-MOKO.Report("TYPE_SETTING_FLUKE5520A", "set", 'string', TYPE_SETTING_FLUKE5520A)
-MOKO.Stage(" ")
-
-Fluke5520_INIT = str()
-choices = None
-
-###################################################   Fluke5520 Init   ################################################
-###############################################   Fluke5520 SET Timeout  ##############################################
-################################################   Fluke5520 SET Reset  ###############################################
-if TYPE_SETTING_FLUKE5520A == 'Automatic':
-    MOKO.Stage('Driver: Fluke5000 >> mode: init >> command: ', 'driver')
-    FLUKE5520A_INIT = 'connected'
-    if FLUKE5520A_INIT != 'connected':
-        choices = MOKO.Messenger("get", "Fluke5520A initialization not successful#@fluke5520a",
-                                 "Failed to initialize Fluke5520A. Do you want to continue measuring in "
-                                 "Manual mode?", "boolean")
-    if not choices or FLUKE5520A_INIT == 'connected':
-        MOKO.Stage('Driver: Fluke5000 >> mode: set >> command: Timeout = 10000', 'driver')
-        MOKO.Stage('Driver: Fluke5000 >> mode: set >> command: Reset', 'driver')
-        MOSC.hesh_passed()
-    else:
-        MOKO.Report("TYPE_SETTING_FLUKE5520A", "set", 'string', 'Manual')
-        MOKO.Messenger("set", "Make settings on Fluke5520A#@fluke5520a", "Make settings:\n"
-                                                                         "Turn on the device\n"
-                                                                         "Set Timeout = 10000\n"
-                                                                         "Set Reset\n"
-                                                                         "Press OK")
-        MOSC.hesh_failed()
-else:
-    MOKO.Messenger("set", "Make settings on Fluke5520A#@fluke5520a", "Make settings:\n"
-                                                                     "Turn on the device\n"
-                                                                     "Set Timeout = 10000\n"
-                                                                     "Set Reset\n"
-                                                                     "Press OK")
-    MOSC.hesh_failed()
-
-#######################################################################################################################
+Poverka.InitializationFluke5520A()
 
 #endregion Initialization FLUKE5520A$Init
 
