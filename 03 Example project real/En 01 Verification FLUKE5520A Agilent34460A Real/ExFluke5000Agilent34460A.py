@@ -325,7 +325,7 @@ class ExFluke5000Agilent34460A:
                 result = MOKO.Driver('AgilentDMM', 'get', 'read')
             else:
                 result = MOKO.Messenger("get", "Input result#@notes",
-                                        "Enter the measured result from the instrument\nPress OK", "string")
+                                        "Enter the measured result from Agilent34460A\nPress OK", "string")
             MOKO.Stage(" ")
 #######################################################################################################################
 
