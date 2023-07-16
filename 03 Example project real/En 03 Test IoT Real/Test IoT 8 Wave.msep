@@ -3,7 +3,7 @@
 "project_autosave":"true",
 "project_scripts":[
 {"script":"01 Registration unit.py","necessary":"true"},
-{"script":"02 Init devices.py","necessary":"true"},
+{"script":"02 Init devices 8 Wave.py","necessary":"true"},
 {"script":"03 Measurement 8 Wave.py","necessary":"false"},
 {"script":"04 Word report.py","necessary":"true"}
 ],
