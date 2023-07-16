@@ -366,9 +366,14 @@ class ExFluke5000Agilent34401A:
 #######################################################################################################################
 
             if WireConnection in ['IDC', 'IAC', 'VAC']:
-                body_message = 'Set the filter to 3 Hz;\n' if WireConnection != 'IDC' else ''
-                MOKO.Messenger('set', 'Make settings#@attention',
-                               'Set Resolution = 6.5;\n' + body_message + 'Press OK')
+                if self.AutomaticAgilent34401A:
+                    if WireConnection != "IDC":
+                        MOKO.Stage('Driver: AgilentDMM >> mode: set >> command: BAND = MIN ', 'driver')
+                    MOKO.Stage('Driver: AgilentDMM >> mode: set >> command: NPLC = MAX ', 'driver')
+                else:
+                    body_message = 'Set the filter to 3 Hz;\n' if WireConnection != 'IDC' else ''
+                    MOKO.Messenger('set', 'Make settings#@attention',
+                                   'Set Resolution = 6.5;\n' + body_message + 'Press OK')
 
 ############################################   Fluke5520 SET OUT = AUX   ##############################################
             if WireConnection in ['IDC', 'IAC']:

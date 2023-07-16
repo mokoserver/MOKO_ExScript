@@ -85,7 +85,7 @@ def Stage(stage_string: str, type: str = 'info') -> None:
         This function writes a string in Stage.
 
         :param str stage_string: a string, writing in Stage.
-        :param str type: string type in Stage (**Info**, **Error**, **Plugin**, **Driver**, **Report**, **attention**). По умолчанию **Info**.
+        :param str type: string type in Stage (**Info**, **Error**, **Plugin**, **Driver**, **Report**, **Warning**). По умолчанию **Info**.
         :return: None
 
         **Examples:**
