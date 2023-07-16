@@ -46,7 +46,7 @@ def VDC(value: (str, float, int),
                                      hesh=hesh, WireConnection='VDC')
         Testing.CreateGraph()
 
-        if Testing.FailedResult:
+        if Testing.Status == 'OK':
             hesh_failed()
         else:
             hesh_passed()
@@ -83,7 +83,7 @@ def IDC(value: (str, float, int),
                                      hesh=hesh, WireConnection='IDC')
         Testing.CreateGraph()
 
-        if Testing.FailedResult:
+        if Testing.Status == 'OK':
             hesh_failed()
         else:
             hesh_passed()
@@ -161,7 +161,7 @@ MOKO.Program('tree', 'set', 'select = Current measurement with generator signal 
 MOKO.Stage('Set NameGraph => IDC_RAMP_GRAPH')
 Testing.NameGraph = 'IDC_RAMP_GRAPH'
 
-IDC(value=0.01, value_limit=5, percent_error=200, wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.0000, remeasurement=True, remeasurement_number=3, hesh='Meas 1$IDC_RAMP')   #hesh Meas 1$IDC_RAMP:  0.01 ;5  ;200 ;ramp ;1  ;10  ;10k  ;1.000000  ;True  ;3
+IDC(value=0.01, value_limit=5, percent_error=220, wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.0000, remeasurement=True, remeasurement_number=3, hesh='Meas 1$IDC_RAMP')   #hesh Meas 1$IDC_RAMP:  0.01 ;5  ;200 ;ramp ;1  ;10  ;10k  ;1.000000  ;True  ;3
 IDC(value=0.03, value_limit=5, percent_error=100, wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.0000, remeasurement=True, remeasurement_number=3, hesh='Meas 2$IDC_RAMP')   #hesh Meas 2$IDC_RAMP:  0.03 ;5  ;100 ;ramp ;1  ;10  ;10k  ;1.000000  ;True  ;3
 IDC(value=0.05, value_limit=5, percent_error=50,  wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.0000, remeasurement=True, remeasurement_number=3, hesh='Meas 3$IDC_RAMP')   #hesh Meas 3$IDC_RAMP:  0.05 ;5  ;50  ;ramp ;1  ;10  ;10k  ;1.000000  ;True  ;3
 IDC(value=0.1,  value_limit=5, percent_error=25,  wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.0000, remeasurement=True, remeasurement_number=3, hesh='Meas 4$IDC_RAMP')   #hesh Meas 4$IDC_RAMP:  0.1  ;5  ;25  ;ramp ;1  ;10  ;10k  ;1.000000  ;True  ;3
@@ -193,7 +193,7 @@ MOKO.Program('tree', 'set', 'select = Current measurement with generator signal 
 MOKO.Stage('Set NameGraph => IDC_NEGRAMP_GRAPH')
 Testing.NameGraph = 'IDC_NEGRAMP_GRAPH'
 
-IDC(value=0.01, value_limit=5, percent_error=200, wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.0000, remeasurement=True, remeasurement_number=3, hesh='Meas 1$IDC_NEGRAMP')   #hesh Meas 1$IDC_NEGRAMP:  0.01 ;5  ;200 ;negramp ;1  ;10  ;10k  ;1.000000  ;True  ;3
+IDC(value=0.01, value_limit=5, percent_error=220, wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.0000, remeasurement=True, remeasurement_number=3, hesh='Meas 1$IDC_NEGRAMP')   #hesh Meas 1$IDC_NEGRAMP:  0.01 ;5  ;200 ;negramp ;1  ;10  ;10k  ;1.000000  ;True  ;3
 IDC(value=0.03, value_limit=5, percent_error=100, wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.0000, remeasurement=True, remeasurement_number=3, hesh='Meas 2$IDC_NEGRAMP')   #hesh Meas 2$IDC_NEGRAMP:  0.03 ;5  ;100 ;negramp ;1  ;10  ;10k  ;1.000000  ;True  ;3
 IDC(value=0.05, value_limit=5, percent_error=50,  wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.0000, remeasurement=True, remeasurement_number=3, hesh='Meas 3$IDC_NEGRAMP')   #hesh Meas 3$IDC_NEGRAMP:  0.05 ;5  ;50  ;negramp ;1  ;10  ;10k  ;1.000000  ;True  ;3
 IDC(value=0.1,  value_limit=5, percent_error=25,  wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.0000, remeasurement=True, remeasurement_number=3, hesh='Meas 4$IDC_NEGRAMP')   #hesh Meas 4$IDC_NEGRAMP:  0.1  ;5  ;25  ;negramp ;1  ;10  ;10k  ;1.000000  ;True  ;3

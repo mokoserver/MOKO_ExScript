@@ -11,7 +11,7 @@ class DemoTestIoTMeasurement:
 
     def __init__(self):
         self.FirstScriptStart, self.FirstResult, self.ContinueMeasurement = True, True, True
-        self.WireConnection, self.NameGraph = str(), str()  # [VDC] [IDC]
+        self.WireConnection, self.NameGraph, self.Status = str(), str(), str()
         self.TimeDelay, self.Count_meas, self.RemeasurementNumber = 0, 0, 0
         self.OutCommand, self.GraphInit, self.FailedResult, self.Remeasurement = False, False, False, False
         self.AutomaticBK1697B, self.AutomaticFY6900, self.AutomaticAPPA207, self.Simulation = False, False, False, False
@@ -592,7 +592,7 @@ class DemoTestIoTMeasurement:
 
         error_message = 'Do you want to repeat measuring this point?\n'
         error_message += f'Lower limit < Result < Upper limit\n'
-        error_message += f'{MFRT.ConvertFloatToString(self.MinError * value, resolution=3)} < '
+        error_message += f'{MFRT.ConvertFloatToString(self.MinError * value, resolution=3) if self.MinError * value > 0 else MFRT.ConvertFloatToString(0, resolution=3)} < '
         error_message += f'{MFRT.ConvertFloatToString(result, resolution=3)} < '
         error_message += f'{MFRT.ConvertFloatToString(self.MaxError * value, resolution=3)}\n'
         error_message += f'The measurement does not meet the {limit_type} limit ' \
@@ -617,7 +617,7 @@ class DemoTestIoTMeasurement:
         error_message = 'The measurement result did not pass the specified limit\n'
         error_message += 'The value is being remeasured\n'
         error_message += f'Lower limit <  Result < Upper limit\n'
-        error_message += f'{MFRT.ConvertFloatToString(self.MinError * value, resolution=3)} < '
+        error_message += f'{MFRT.ConvertFloatToString(self.MinError * value, resolution=3) if self.MinError * value > 0 else MFRT.ConvertFloatToString(0, resolution=3)} < '
         error_message += f'{MFRT.ConvertFloatToString(result, resolution=3)} < '
         error_message += f'{MFRT.ConvertFloatToString(self.MaxError * value, resolution=3)}\n'
         error_message += f'The measurement does not meet the {limit_type} limit ' \
