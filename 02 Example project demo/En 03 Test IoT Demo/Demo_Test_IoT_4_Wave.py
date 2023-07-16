@@ -3,6 +3,7 @@ import time
 import MGPH
 import MOKO
 import MFRT
+import MOSC
 import MTLG
 
 
@@ -10,13 +11,19 @@ class DemoTestIoTMeasurement:
 
     def __init__(self):
         self.FirstScriptStart, self.FirstResult, self.ContinueMeasurement = True, True, True
-        self.WireConnection = None  # [VDC] [IDC]
-        self.TimeDelay, self.Count_meas, self.Measurement_start, self.Count_bad_meas = 0, 0, 0, 0
+        self.WireConnection, self.NameGraph = str(), str()  # [VDC] [IDC]
+        self.TimeDelay, self.Count_meas, self.RemeasurementNumber = 0, 0, 0
         self.OutCommand, self.GraphInit, self.FailedResult, self.Remeasurement = False, False, False, False
-        self.BK1697B_INIT, self.FY6900_INIT, self.APPA207_INIT = None, None, None
-        self.NameGraph = None
+        self.AutomaticBK1697B, self.AutomaticFY6900, self.AutomaticAPPA207 = False, False, False
         self.ListResult, self.ListValue = [0], [0]
-        self.MinError, self.MaxError, self.RemeasurementNumber = 0, 0, 0
+        self.MinError, self.MaxError = 0, 0
+        self.__init_connected_and_type_connected()
+
+########################################################################################################################
+########################################################################################################################
+########################################## Module measurement and report ###############################################
+########################################################################################################################
+########################################################################################################################
 
     def MeasurementAndReport(self, value, value_limit, wave, amplitude, amplitude_limit, frequency, percent_error,
                              WireConnection, hesh):
@@ -31,7 +38,6 @@ class DemoTestIoTMeasurement:
         self.ContinueMeasurement = True
 
         f_value = MFRT.ConvertStringToFloat(value)
-        result, f_result = 0, 0
 
         self.ListValue.append(f_value)
 
@@ -49,33 +55,24 @@ class DemoTestIoTMeasurement:
 ###################################################  VDC MEAS  ########################################################
 #######################################################################################################################
 
-            MOKO.Stage(f"name -> BK1697B; mode -> set; command -> VDC = {value}", 'driver')
-            MOKO.Stage(f"name -> FY6900; mode -> set; command -> WAVE = {wave}", 'driver')
-            MOKO.Stage(f"name -> FY6900; mode -> set; command -> amplitude = {amplitude}", 'driver')
-            MOKO.Stage(f"name -> FY6900; mode -> set; command -> frequency = {frequency}", 'driver')
+            if self.AutomaticBK1697B:
+                MOKO.Stage(f"name -> BK1697B; mode -> set; command -> VDC = {value}", 'driver')
+            else:
+                MOKO.Messenger("set", "Make settings BK1697B#TestIoT.png", "Make settings:\n"
+                                                                           f"Set VDC = {value}\n"
+                                                                           "Press OK")
+            if self.AutomaticFY6900:
+                MOKO.Stage(f"name -> FY6900; mode -> set; command -> WAVE = {wave}", 'driver')
+                MOKO.Stage(f"name -> FY6900; mode -> set; command -> amplitude = {amplitude}", 'driver')
+                MOKO.Stage(f"name -> FY6900; mode -> set; command -> frequency = {frequency}", 'driver')
+            else:
+                MOKO.Messenger("set", "Make settings FY1697B#TestIoT.png", "Make settings:\n"
+                                                                           f"Set WAVE = {wave}\n"
+                                                                           f"Set amplitude = {amplitude}\n"
+                                                                           f"Set frequency = {frequency}\n"
+                                                                           "Press OK")
 
-            while self.ContinueMeasurement:
-                MOKO.Stage("name: APPA207 >> mode: get >> command: read >> valuetype: string", "Driver")
-                result = f_value
-                MOKO.Stage(" ")
-                f_result = MFRT.ConvertStringToFloat(result)
-                if f_value * self.MaxError < f_result or f_value * self.MinError > f_result and self.Remeasurement:
-                    if self.Count_meas >= self.RemeasurementNumber - 1:
-                        choices = self.CallMessengerChoices(result=f_result, value=f_value)
-                        if choices:
-                            continue
-                    else:
-                        self.CallMessengerErrorPoint(result=f_result, value=f_value)
-                        continue
-                else:
-                    if f_value * self.MaxError < f_result or f_value * self.MinError > f_result:
-                        self.Status = 'Failed'
-                    else:
-                        self.Status = 'OK'
-                    self.Count_meas = 0
-
-                self.ContinueMeasurement = False
-            self.ListResult.append(f_result)
+            result = self.GetResultMeasurent(value=f_value)
 
 #######################################################################################################################
 ##################################################  VDC REPORT  #######################################################
@@ -90,7 +87,6 @@ class DemoTestIoTMeasurement:
                                                     f"{amplitude_limit};"
                                                     f"{frequency};"
                                                     f"{result};")
-
             MOKO.Stage(" ")
 
 #######################################################################################################################
@@ -103,33 +99,24 @@ class DemoTestIoTMeasurement:
 #################################################  IDC MEAS  ##########################################################`
 #######################################################################################################################
 
-            MOKO.Stage(f"name -> BK1697B; mode -> set; command -> VDC = {value}", 'driver')
-            MOKO.Stage(f"name -> FY6900; mode -> set; command -> WAVE = {wave}", 'driver')
-            MOKO.Stage(f"name -> FY6900; mode -> set; command -> amplitude = {amplitude}", 'driver')
-            MOKO.Stage(f"name -> FY6900; mode -> set; command -> frequency = {frequency}", 'driver')
+            if self.AutomaticBK1697B:
+                MOKO.Stage(f"name -> BK1697B; mode -> set; command -> IDC = {value}", 'driver')
+            else:
+                MOKO.Messenger("set", "Make settings BK1697B#TestIoT.png", "Make settings:\n"
+                                                                           f"Set IDC = {value}\n"
+                                                                           "Press OK")
+            if self.AutomaticFY6900:
+                MOKO.Stage(f"name -> FY6900; mode -> set; command -> WAVE = {wave}", 'driver')
+                MOKO.Stage(f"name -> FY6900; mode -> set; command -> amplitude = {amplitude}", 'driver')
+                MOKO.Stage(f"name -> FY6900; mode -> set; command -> frequency = {frequency}", 'driver')
+            else:
+                MOKO.Messenger("set", "Make settings FY6900#TestIoT.png", "Make settings:\n"
+                                                                           f"Set WAVE = {wave}\n"
+                                                                           f"Set amplitude = {amplitude}\n"
+                                                                           f"Set frequency = {frequency}\n"
+                                                                           "Press OK")
 
-            while self.ContinueMeasurement:
-                MOKO.Stage("name: APPA207 >> mode: get >> command: read >> valuetype: string", "Driver")
-                result = f_value
-                MOKO.Stage(" ")
-                f_result = MFRT.ConvertStringToFloat(result)
-                if f_value * self.MaxError < f_result or f_value * self.MinError > f_result:
-                    if self.Count_meas >= self.RemeasurementNumber - 1:
-                        choices = self.CallMessengerChoices(result=f_result, value=f_value)
-                        if choices:
-                            continue
-                    else:
-                        self.CallMessengerErrorPoint(result=f_result, value=f_value)
-                        continue
-                else:
-                    if f_value * self.MaxError < f_result or f_value * self.MinError > f_result:
-                        self.Status = 'Failed'
-                    else:
-                        self.Status = 'OK'
-                    self.Count_meas = 0
-
-                self.ContinueMeasurement = False
-            self.ListResult.append(f_result)
+            result = self.GetResultMeasurent(value=f_value)
 
 #######################################################################################################################
 ####################################################  IDC REPORT  #####################################################
@@ -148,7 +135,46 @@ class DemoTestIoTMeasurement:
             MOKO.Stage(" ")
 
 ########################################################################################################################
+########################################################################################################################
+########################################  Module return result measurement  ############################################
+########################################################################################################################
+########################################################################################################################
+    def GetResultMeasurent(self, value):
+        f_result, result = 0, 0
+        while self.ContinueMeasurement:
+            time.sleep(self.TimeDelay)
+            if self.AutomaticAPPA207:
+                MOKO.Stage(f"name -> APPA207; mode -> get; command -> read", 'driver')
+                result = value
+            else:
+                result = MOKO.Messenger("get", "Input result#@notes",
+                                        "Enter the measured result from APPA207\nPress OK", "string")
+            MOKO.Stage(" ")
+            f_result = MFRT.ConvertStringToFloat(result)
+            if isinstance(f_result, str):
+                continue
+            if value * self.MaxError < f_result or value * self.MinError > f_result:
+                if self.Count_meas >= self.RemeasurementNumber - 1:
+                    choices = self.CallMessengerChoices(result=f_result, value=value)
+                    if choices:
+                        continue
+                else:
+                    self.CallMessengerErrorPoint(result=f_result, value=value)
+                    continue
+            else:
+                if value * self.MaxError < f_result or value * self.MinError > f_result:
+                    self.Status = 'Failed'
+                else:
+                    self.Status = 'OK'
+                self.Count_meas = 0
+            self.ContinueMeasurement = False
+        self.ListResult.append(f_result)
+        return result
+
+########################################################################################################################
+########################################################################################################################
 ##################################### Module check wire connection devices #############################################
+########################################################################################################################
 ########################################################################################################################
 
     def CheckWireConnection(self, WireConnection: str):
@@ -176,36 +202,168 @@ class DemoTestIoTMeasurement:
         MOKO.Stage(' ')
 
 ########################################################################################################################
+########################################################################################################################
 ############################################# Module connected devices #################################################
+########################################################################################################################
 ########################################################################################################################
 
     def CheckConnectDevices(self):
-        while self.BK1697B_INIT != 'connected':
-            MOKO.Stage("*********************************************************")
-            MOKO.Stage("**************** Init devices BK1697B *******************")
-            MOKO.Stage("*********************************************************")
-            MOKO.Stage("name -> BK1697B; mode -> set; command -> Init", 'driver')
-            self.BK1697B_INIT = 'connected'
-            MOKO.Stage(" ")
-
-        while self.FY6900_INIT != 'connected':
-            MOKO.Stage("*********************************************************")
-            MOKO.Stage("***************** Init devices FY6900 *******************")
-            MOKO.Stage("*********************************************************")
-            MOKO.Stage("name -> FY6900; mode -> set; command -> Init", 'driver')
-            self.FY6900_INIT = 'connected'
-            MOKO.Stage(" ")
-
-        while self.APPA207_INIT != 'connected':
-            MOKO.Stage("*********************************************************")
-            MOKO.Stage("**************** Init devices APPA207 *******************")
-            MOKO.Stage("*********************************************************")
-            MOKO.Stage("name -> APPA207; mode -> set; command -> Init", 'driver')
-            self.APPA207_INIT = 'connected'
-            MOKO.Stage(" ")
+        if self.FirstScriptStart:
+            self.InitializationBK1697B(init=False)
+            self.InitializationFY6900(init=False)
+            self.InitializationAPPA207(init=False)
+            self.FirstScriptStart = False
 
 ########################################################################################################################
+########################################################################################################################
+########################################################################################################################
+
+    def InitializationBK1697B(self, init=True):
+
+        MOKO.Stage("*********************************************************")
+        MOKO.Stage("***************** Init device BK1697B *******************")
+        MOKO.Stage("*********************************************************")
+        MOKO.Stage(" ")
+
+        type_setting_BK1697B = MOKO.Messenger("get", "Choose a way to connect BK1697B#TestIoT.png",
+                                                     "Please select an BK1697B instrument setup type",
+                                                     "choice=Automatic;Manual")
+
+        MOKO.Report("TYPE_SETTING_BK1697B", "info", "string", "Device setting type")
+        MOKO.Stage(" ")
+
+        if type_setting_BK1697B == 'Automatic':
+            choices = None
+            MOKO.Stage('Driver: BK1697B >> mode: init >> command: ', 'driver')
+            BK1697B_INIT = 'connected'
+            if BK1697B_INIT != 'connected':
+                choices = MOKO.Messenger("get", "BK1697B initialization not successful#@attention",
+                                         "Failed to initialize BK1697B. Do you want to continue measuring in "
+                                         "Manual mode?", "boolean")
+            if not choices:
+                MOKO.Report("TYPE_SETTING_BK1697B", "set", "string", "Automatic")
+                self.AutomaticBK1697B = True
+            else:
+                type_setting_BK1697B = 'Manual'
+
+        if type_setting_BK1697B == 'Manual':
+            self.AutomaticBK1697B = False
+            MOKO.Report("TYPE_SETTING_BK1697B", "set", 'string', 'Manual')
+            MOKO.Messenger("set", "Make settings BK1697B#TestIoT.png", "Make settings:\n"
+                                                                       "Turn on the device\n"
+                                                                       "Press OK")
+
+########################################################################################################################
+        
+        if init:
+            if self.AutomaticBK1697B:
+                MOKO.Report('DevicesUsed', 'set', 'table', 'BK1697B;Connected;')
+                MOSC.hesh_passed()
+            else:
+                MOKO.Report('DevicesUsed', 'set', 'table', 'BK1697B;Disconnected;')
+                MOSC.hesh_failed()
+
+########################################################################################################################
+########################################################################################################################
+########################################################################################################################
+    def InitializationFY6900(self, init=True):
+
+        MOKO.Stage("*********************************************************")
+        MOKO.Stage("***************** Init device FY6900 ********************")
+        MOKO.Stage("*********************************************************")
+        MOKO.Stage(" ")
+
+        type_setting_FY6900 = MOKO.Messenger("get", "Choose a way to connect FY6900#TestIoT.png",
+                                                    "Please select an FY6900 instrument setup type",
+                                                    "choice=Automatic;Manual")
+
+        MOKO.Report("TYPE_SETTING_FY6900", "info", "string", "Device setting type")
+        MOKO.Stage(" ")
+
+        if type_setting_FY6900 == 'Automatic':
+            choices = None
+            MOKO.Stage('Driver: FY6900 >> mode: init >> command: ', 'driver')
+            FY6900_INIT = 'connected'
+            if FY6900_INIT != 'connected':
+                choices = MOKO.Messenger("get", "FY6900 initialization not successful#@attention",
+                                         "Failed to initialize FY6900. Do you want to continue measuring in "
+                                         "Manual mode?", "boolean")
+            if not choices:
+                MOKO.Report("TYPE_SETTING_FY6900", "set", "string", "Automatic")
+                self.AutomaticFY6900 = True
+            else:
+                type_setting_FY6900 = 'Manual'
+
+        if type_setting_FY6900 == 'Manual':
+            MOKO.Report("TYPE_SETTING_FY6900", "set", "string", "Manual")
+            MOKO.Messenger("set", "Make settings FY6900#TestIoT.png", "Make settings:\n"
+                                                                      "Turn on the device\n"
+                                                                      "Press OK")
+
+########################################################################################################################
+
+        if init:
+            if self.AutomaticFY6900:
+                MOKO.Report('DevicesUsed', 'set', 'table', 'FY6900;Connected;')
+                MOSC.hesh_passed()
+            else:
+                MOKO.Report('DevicesUsed', 'set', 'table', 'FY6900;Disconnected;')
+                MOSC.hesh_failed()
+
+########################################################################################################################
+########################################################################################################################
+########################################################################################################################
+
+    def InitializationAPPA207(self, init=True):
+
+        MOKO.Stage("*********************************************************")
+        MOKO.Stage("**************** Init device APPA207 ********************")
+        MOKO.Stage("*********************************************************")
+        MOKO.Stage(" ")
+
+        type_setting_APPA207 = MOKO.Messenger("get", "Choose a way to connect APPA207#TestIoT.png",
+                                                     "Please select an APPA207 instrument setup type",
+                                                     "choice=Automatic;Manual")
+
+        MOKO.Report("TYPE_SETTING_APPA207", "info", "string", "Device setting type")
+        MOKO.Stage(" ")
+
+        if type_setting_APPA207 == 'Automatic':
+
+            choices = None
+            MOKO.Stage('Driver: APPA207 >> mode: init >> command: ', 'driver')
+            APPA207_INIT = 'connected'
+            if APPA207_INIT != 'connected':
+                choices = MOKO.Messenger("get", "APPA207 initialization not successful#@attention",
+                                         "Failed to initialize APPA207. Do you want to continue measuring in "
+                                         "Manual mode?", "boolean")
+            if not choices:
+                MOKO.Report("TYPE_SETTING_APPA207", "set", "string", "Automatic")
+                self.AutomaticAPPA207 = True
+            else:
+                type_setting_APPA207 = 'Manual'
+
+        if type_setting_APPA207 == 'Manual':
+            self.AutomaticAPPA207 = False
+            MOKO.Report("TYPE_SETTING_APPA207", "set", "string", "Manual")
+            MOKO.Messenger("set", "Make settings APPA207#TestIoT.png", "Make settings:\n"
+                                                                       "Turn on the device\n"
+                                                                       "Press OK")
+
+########################################################################################################################
+        
+        if init:
+            if self.AutomaticAPPA207:
+                MOKO.Report('DevicesUsed', 'set', 'table', 'APPA207;Connected;')
+                MOSC.hesh_passed()
+            else:
+                MOKO.Report('DevicesUsed', 'set', 'table', 'APPA207;Disconnected;')
+                MOSC.hesh_failed()
+
+########################################################################################################################
+########################################################################################################################
 ########################################### Module for working with Graph ##############################################
+########################################################################################################################
 ########################################################################################################################
 
     def CheckGraphInit(self):
@@ -223,6 +381,10 @@ class DemoTestIoTMeasurement:
             time.sleep(5)
             MOKO.Stage(" ")
 
+########################################################################################################################
+########################################################################################################################
+########################################################################################################################
+
     def CreateGraph(self):
         """
             Function initialization functions create a Graph
@@ -231,6 +393,10 @@ class DemoTestIoTMeasurement:
         self.CreateGraphValue()
         self.CreateGraphResult()
         self.FirstResult = False
+
+########################################################################################################################
+########################################################################################################################
+########################################################################################################################
 
     def CreateGraphMask(self, value_limit):
         """
@@ -251,6 +417,10 @@ class DemoTestIoTMeasurement:
             MGPH.AddGraphSett(Value_OyOx, Name_Oy, Name_Ox, Autoscale)
             MOKO.Stage(" ")
 
+########################################################################################################################
+########################################################################################################################
+########################################################################################################################
+
     def CreateGraphValue(self):
         """
             Function to create a Graph by value
@@ -263,7 +433,7 @@ class DemoTestIoTMeasurement:
         name_graph_plus = f'{self.NameGraph}_value_plus'
         name_graph_minus = f'{self.NameGraph}_value_minus'
         ArrOy_plus = [float(f'{x * self.MaxError:.14f}') for x in self.ListValue]
-        ArrOy_minus = [float(f'{x * self.MinError:10f}') for x in self.ListValue]
+        ArrOy_minus = [float(f'{x * self.MinError:14f}') for x in self.ListValue]
         numLine_plus = name_graph_plus
         numLine_minus = name_graph_minus
         ArrOx = [x for x in range(len(self.ListValue))]
@@ -277,6 +447,10 @@ class DemoTestIoTMeasurement:
             MGPH.ChangeLine(numLine_plus, name_graph_plus, ArrOy_plus, ArrOx, LineWidth, Color, Visible)
             MGPH.ChangeLine(numLine_minus, name_graph_minus, ArrOy_minus, ArrOx, LineWidth, Color, Visible)
         MOKO.Stage(" ")
+
+########################################################################################################################
+########################################################################################################################
+#######################################################################################################################
 
     def CreateGraphResult(self):
         """
@@ -299,6 +473,10 @@ class DemoTestIoTMeasurement:
         else:
             MGPH.ChangeLine(numLine, name, ArrOy, ArrOx, LineWidth, Color, Visible)
 
+########################################################################################################################
+########################################################################################################################
+########################################################################################################################
+
     def GetScreenshot(self):
         """
             Function create screenshot Graph, save screenshot in Word and clear Graph
@@ -318,7 +496,9 @@ class DemoTestIoTMeasurement:
         MOKO.Stage(" ")
 
 ########################################################################################################################
+########################################################################################################################
 ################################### Module driver BK1697B set output ON or OFF #########################################
+########################################################################################################################
 ########################################################################################################################
 
     def OutONNCommand(self):
@@ -328,8 +508,17 @@ class DemoTestIoTMeasurement:
         """
         if not self.OutCommand:
             self.OutCommand = True
-            MOKO.Stage("name -> BK1697B; mode -> set; command -> OUTPUT = ON", 'driver')
+            if self.AutomaticBK1697B:
+                MOKO.Stage('name -> BK1697B; mode -> set; command -> OUTPUT = ON', 'set')
+            else:
+                MOKO.Messenger("set", "Make settings BK1697B#TestIoT.png", "Make settings:\n"
+                                                                           "Set OUTPUT = ON\n"
+                                                                           "Press OK")
             MOKO.Stage(" ")
+
+########################################################################################################################
+########################################################################################################################
+########################################################################################################################
 
     def OutOFFCommand(self):
         """
@@ -338,10 +527,17 @@ class DemoTestIoTMeasurement:
         """
         self.OutCommand = False
         self.FirstResult = True
-        MOKO.Stage("name -> BK1697B; mode -> set; command -> OUTPUT = OFF", 'driver')
+        if self.AutomaticBK1697B:
+            MOKO.Stage('name -> BK1697B; mode -> set; command -> OUTPUT = OFF', 'set')
+        else:
+            MOKO.Messenger("set", "Make settings BK1697B#TestIoT.png", "Make settings:\n"
+                                                                       "Set OUTPUT = OFF\n"
+                                                                       "Press OK")
 
 ########################################################################################################################
+########################################################################################################################
 ###################################### Module repeat or error report ###################################################
+########################################################################################################################
 ########################################################################################################################
 
     def CallMessengerChoices(self, result, value) -> str:
@@ -364,6 +560,10 @@ class DemoTestIoTMeasurement:
         self.Count_meas = 0
         return choices
 
+########################################################################################################################
+########################################################################################################################
+########################################################################################################################
+
     def CallMessengerErrorPoint(self, result, value) -> None:
 
         limit_type = "upper" if self.MaxError * value < result else "lower"
@@ -382,7 +582,9 @@ class DemoTestIoTMeasurement:
         self.Count_meas += 1
 
 ########################################################################################################################
+########################################################################################################################
 ######################################## Module load tables in MOKO.Reports ############################################
+########################################################################################################################
 ########################################################################################################################
 
     @staticmethod
@@ -427,6 +629,39 @@ class DemoTestIoTMeasurement:
                                                     "Frequency#100;"
                                                     "Result#100;")
         MOKO.Stage(" ")
+
+########################################################################################################################
+########################################################################################################################
+########################################################################################################################
+########################################################################################################################
+########################################################################################################################
+########################################################################################################################
+
+    def __init_connected_and_type_connected(self):
+        type_setting_BK1697B = MOKO.Report("TYPE_SETTING_BK1697B", "get", "string", "", 'string')
+        type_setting_FY6900 = MOKO.Report("TYPE_SETTING_FY6900", "get", "string", "", 'string')
+        type_setting_APPA207 = MOKO.Report("TYPE_SETTING_APPA207", "get", "string", "", 'string')
+
+        if len(type_setting_BK1697B) == 0 or len(type_setting_FY6900) == 0 or len(type_setting_APPA207) == 0:
+            self.FirstScriptStart = True
+            return
+        else:
+            self.FirstScriptStart = False
+
+        if type_setting_BK1697B == 'Automatic':
+            self.AutomaticBK1697B = True
+        else:
+            self.AutomaticBK1697B = False
+
+        if type_setting_FY6900 == 'Automatic':
+            self.AutomaticFY6900 = True
+        else:
+            self.AutomaticFY6900 = False
+
+        if type_setting_APPA207 == 'Automatic':
+            self.AutomaticAPPA207 = True
+        else:
+            self.AutomaticAPPA207 = False
 
 
 Testing = DemoTestIoTMeasurement()

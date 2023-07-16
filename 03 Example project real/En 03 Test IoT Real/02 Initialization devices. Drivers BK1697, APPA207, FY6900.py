@@ -1,6 +1,6 @@
 import MOKO
 import MTLG
-from Demo_Test_IoT_8_Wave import Testing
+from Demo_Test_IoT_4_Wave import Testing
 
 MTLG.TelegramProgram('alpha', 'Initialization devices', 'set', 'init', 'string')
 

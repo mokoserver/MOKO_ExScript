@@ -2,10 +2,10 @@
 "project_name":"Test IoT 4 Wave",
 "project_autosave":"true",
 "project_scripts":[
-{"script":"01 Registration unit.py","necessary":"true"},
-{"script":"02 Init devices.py","necessary":"true"},
-{"script":"03 Measurement 4 Wave.py","necessary":"false"},
-{"script":"04 Word report.py","necessary":"true"}
+{"script":"01 Registration verification unit.py","necessary":"true"},
+{"script":"02 Initialization devices. Drivers BK1697, APPA207, FY6900.py","necessary":"true"},
+{"script":"03 Real Test IoT 4 Wave.py","necessary":"false"},
+{"script":"04 Save word report.py","necessary":"true"}
 ],
 "project_libraries":[
 {"script":"MFRT.py"},

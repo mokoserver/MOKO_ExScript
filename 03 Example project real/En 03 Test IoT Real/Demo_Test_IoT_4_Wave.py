@@ -255,12 +255,13 @@ class DemoTestIoTMeasurement:
             choices = None
             BK1697B_INIT = MOKO.Driver('BK1697B', 'init', '')
             if BK1697B_INIT != 'connected':
-                self.AutomaticBK1697B = True
-                MOKO.Report("TYPE_SETTING_BK1697B", "set", 'string', 'Automatic')
                 choices = MOKO.Messenger("get", "BK1697B initialization not successful#@attention",
                                          "Failed to initialize BK1697B. Do you want to continue measuring in "
                                          "Manual mode?", "boolean")
-            if choices:
+            if not choices:
+                self.AutomaticBK1697B = True
+                MOKO.Report("TYPE_SETTING_BK1697B", "set", 'string', 'Automatic')
+            else:
                 type_setting_BK1697B = 'Manual'
 
         if type_setting_BK1697B == 'Manual':
@@ -316,7 +317,10 @@ class DemoTestIoTMeasurement:
                 choices = MOKO.Messenger("get", "FY6900 initialization not successful#@attention",
                                          "Failed to initialize FY6900. Do you want to continue measuring in "
                                          "Manual mode?", "boolean")
-            if choices:
+            if not choices:
+                self.AutomaticFY6900 = True
+                MOKO.Report("TYPE_SETTING_FY6900", "set", 'string', 'Automatic')
+            else:
                 type_setting_FY6900 = 'Manual'
 
         if type_setting_FY6900 == 'Manual':
@@ -373,7 +377,10 @@ class DemoTestIoTMeasurement:
                 choices = MOKO.Messenger("get", "APPA207 initialization not successful#@attention",
                                          "Failed to initialize APPA207. Do you want to continue measuring in "
                                          "Manual mode?", "boolean")
-            if choices:
+            if not choices:
+                self.AutomaticAPPA207 = True
+                MOKO.Report("TYPE_SETTING_APPA207", "set", 'string', 'Automatic')
+            else:
                 type_setting_APPA207 = 'Manual'
 
         if type_setting_APPA207 == 'Manual':
