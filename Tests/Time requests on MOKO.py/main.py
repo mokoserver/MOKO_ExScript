@@ -1,3 +1,0 @@
-import MOKO
-
-MOKO.Report()

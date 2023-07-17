@@ -124,8 +124,13 @@ class MFRTLibrary:
                 return self.__CheckZerosAfterPointInString()
             return self.__value
         else:
-            self.__get_prefix = True
-            self.__prefix = self.GetPrefixInValue()
+            if not self.__prefix:
+                self.__get_prefix = True
+                self.__prefix = self.GetPrefixInValue()
+            else:
+                self.__check = True
+                if not self.__check_prefix_in_value():
+                    return self.__value
             self.__check_prefix_in_value()
             return self.__TranslateVariableReferenceNumberAndPrefix()
 
