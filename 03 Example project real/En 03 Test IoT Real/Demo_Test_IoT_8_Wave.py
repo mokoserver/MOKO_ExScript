@@ -160,7 +160,7 @@ class DemoTestIoTMeasurement:
                 MOKO.Stage(f"name -> APPA207; mode -> get; command -> read", 'driver')
                 result = value
             elif self.AutomaticAPPA207:
-                result = MOKO.Driver('APPA207', 'get', 'read', 'string')
+                result = MOKO.Driver('APPA207', 'get', 'read')
             else:
                 result = MOKO.Messenger("get", "Input result#@notes",
                                         "Enter the measured result from APPA207\nPress OK", "string")
@@ -552,7 +552,7 @@ class DemoTestIoTMeasurement:
             if self.Simulation:
                 MOKO.Stage('name -> BK1697B; mode -> set; command -> OUTPUT = ON', 'set')
             elif self.AutomaticBK1697B:
-                MOKO.Driver('BK1697B', 'set', 'OUTPUT = ON', 'string')
+                MOKO.Driver('BK1697B', 'set', 'OUTPUT = ON')
             else:
                 MOKO.Messenger("set", "Make settings BK1697B#TestIoT.png", "Make settings:\n"
                                                                            "Set OUTPUT = ON\n"
