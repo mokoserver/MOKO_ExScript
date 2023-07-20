@@ -26,6 +26,9 @@ requests = requests.Session()
 
 _UrlStageWrite: str = 'http://localhost:55001/MOKOSE/stage/stagewrite'
 
+_UrlAutoitWrite: str = 'http://localhost:55001/MOKOSE/system/autoitwrite'
+_UrlAutoitRead: str = 'http://localhost:55001/MOKOSE/system/autoitread'
+
 _UrlDriverWrite: str = 'http://localhost:55001/MOKOSE/system/driverwrite'
 _UrlDriverRead: str = 'http://localhost:55001/MOKOSE/system/driverread'
 
@@ -63,6 +66,60 @@ _UrlProjectStateRead: str = 'http://localhost:55001/MOKOSE/status/projectstate'
     ##          ##      ##        ##    ##########      ##       ###
 
 ###################################################################################################################
+
+###################################################################################################################
+
+             ##                ##          ##         ###################
+           ##  ##              ##          ##                 ##
+          ##    ##             ##          ##                 ##
+         ##      ##            ##          ##                 ##
+        ############           ##          ##                 ##
+       ##          ##          ##          ##                 ##
+      ##            ##         ##          ##                 ##
+     ##              ##        ##############                 ##
+
+###################################################################################################################
+
+
+def Autoit(title: str, classname: str, method: str, attributes: str = 'void') -> ...:
+    """
+        This function causes a pop-up message to appear on the screen with an optional data entry field.
+
+        :param str title: title application, choise on autoit
+        :param str classname: name class autoit
+        :param str method: name method command
+        :param str attributes: attributes commands in autoit application
+        :return: None if information incorrected, else string information, writing in application, choise on autoit
+
+        **Examples:**
+
+        **1.**
+        We need to show an user message. Let's write the next command:
+
+        >>> Autoit('Notepad.txt', 'Edit1', 'ControlGetText', '')
+
+        The next string appears in terminal in case of successfull execution:
+
+        ``b'{"title":"Notepad.txt","classname":"Edit1","method":"ControlGetText","attributes":""}'``
+
+        Else if the command isn't executed you will see the next string in a terminal:
+
+        ``b'<!DOCTYPE html><html><head><title>Bad Request</title></head><body><h2>Access Error: 400 -- Bad Request</h2><pre>Bad Request</pre></body></html>'``
+
+
+    """
+    check_project_state()
+    if is_mode_incorrect(method, ["controlgettext", ]): return None
+
+    URLWrite: str = _UrlAutoitWrite
+    URLRead: str = _UrlAutoitRead
+
+    command_to_send: str = '{"title":"'+ str(title)+'", "classname":"'+str(classname) +'","method":"'+str(method) + '","attributes":"'+str(attributes)+'"}'
+
+    send_request(URLWrite, command_to_send)
+
+    msgdata: str = check_status("autoit", method, URLRead)
+    return msgdata
 
 
 ###################################################################################################################
@@ -722,7 +779,6 @@ def check_status(system: str, mode: str, URLRead: str) -> str:
     status: str = "none"
     while ((status.lower() != 'ready') and (badresponse < 10)):
         response = requests.get(URLRead)
-        # check_project_state()
         if (response.status_code != 200):
             Stage("ERROR IN PYTHON LIBRARY! BAD RESPONSE CODE! " + str(response.status_code), 'error')
             print("ERROR IN PYTHON LIBRARY! BAD RESPONSE CODE! " + str(response.status_code) + '\n' +
@@ -733,7 +789,7 @@ def check_status(system: str, mode: str, URLRead: str) -> str:
             status: str = y.get(f'{system}status')
             if (mode.lower() == 'get' or 'check'):
                 data: str = y.get(f'{system}data')
-        if system in ['messenger', 'driver']:
+        if system in ['messenger', 'driver', 'plugin', 'utility']:
             time.sleep(0.05)
 
     if is_bad_response(badresponse): return ""

@@ -89,7 +89,7 @@ def IDC(
                                      hesh=hesh, WireConnection='IDC')
         Testing.CreateGraph()
 
-        if Testing.Status == 'OK':
+        if Testing.Status == 'Failed':
             hesh_failed()
         else:
             hesh_passed()
