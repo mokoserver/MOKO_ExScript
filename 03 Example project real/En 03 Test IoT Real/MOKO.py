@@ -733,7 +733,8 @@ def check_status(system: str, mode: str, URLRead: str) -> str:
             status: str = y.get(f'{system}status')
             if (mode.lower() == 'get' or 'check'):
                 data: str = y.get(f'{system}data')
-        time.sleep(0.05)
+        if system in ['messenger', 'driver']:
+            time.sleep(0.05)
 
     if is_bad_response(badresponse): return ""
     return data
