@@ -25,8 +25,20 @@ class DemoTestIoTMeasurement:
 ########################################################################################################################
 ########################################################################################################################
 
-    def MeasurementAndReport(self, value, value_limit, wave, amplitude, amplitude_limit, frequency, percent_error,
-                             WireConnection, hesh):
+    def MeasurementAndReport(
+            self,
+            value: (str, float, int),
+            value_limit: (str, float, int),
+            percent_error: (float, int),
+            wave: str,
+            amplitude: (str, float, int),
+            amplitude_limit: int,
+            frequency: (str, float, int),
+            hesh: str,
+            WireConnection :str,
+
+    ) -> None:
+
         """
             Calculation and reporting function
         """
@@ -151,7 +163,12 @@ class DemoTestIoTMeasurement:
 ########################################  Module return result measurement  ############################################
 ########################################################################################################################
 ########################################################################################################################
-    def GetResultMeasurent(self, value):
+    def GetResultMeasurent(
+            self,
+            value: (float, int),
+
+    ) -> float:
+
         f_result, result = 0, 0
         while self.ContinueMeasurement:
             time.sleep(self.TimeDelay)
@@ -191,7 +208,8 @@ class DemoTestIoTMeasurement:
 ########################################################################################################################
 ########################################################################################################################
 
-    def CheckWireConnection(self, WireConnection: str):
+    def CheckWireConnection(self, WireConnection: str) -> None:
+
         """
             Function check type wire connection
             :param WireConnection: type wire connection
@@ -221,7 +239,8 @@ class DemoTestIoTMeasurement:
 ########################################################################################################################
 ########################################################################################################################
 
-    def CheckConnectDevices(self):
+    def CheckConnectDevices(self) -> None:
+
         if self.FirstScriptStart:
             self.InitializationBK1697B(init=False)
             self.InitializationFY6900(init=False)
@@ -232,7 +251,7 @@ class DemoTestIoTMeasurement:
 ########################################################################################################################
 ########################################################################################################################
 
-    def InitializationBK1697B(self, init=True):
+    def InitializationBK1697B(self, init: bool = True) -> None:
 
         MOKO.Stage("*********************************************************")
         MOKO.Stage("***************** Init device BK1697B *******************")
@@ -289,7 +308,7 @@ class DemoTestIoTMeasurement:
 ########################################################################################################################
 ########################################################################################################################
 ########################################################################################################################
-    def InitializationFY6900(self, init=True):
+    def InitializationFY6900(self, init: bool = True) -> None:
 
         MOKO.Stage("*********************************************************")
         MOKO.Stage("***************** Init device FY6900 ********************")
@@ -348,7 +367,7 @@ class DemoTestIoTMeasurement:
 ########################################################################################################################
 ########################################################################################################################
 
-    def InitializationAPPA207(self, init=True):
+    def InitializationAPPA207(self, init: bool = True) -> None:
 
         MOKO.Stage("*********************************************************")
         MOKO.Stage("**************** Init device APPA207 ********************")
@@ -410,7 +429,7 @@ class DemoTestIoTMeasurement:
 ########################################################################################################################
 ########################################################################################################################
 
-    def CheckGraphInit(self):
+    def CheckGraphInit(self) -> None:
         """
             Function check initialization Graph
             :return: None
@@ -429,7 +448,7 @@ class DemoTestIoTMeasurement:
 ########################################################################################################################
 ########################################################################################################################
 
-    def CreateGraph(self):
+    def CreateGraph(self) -> None:
         """
             Function initialization functions create a Graph
             :return: None
@@ -442,7 +461,7 @@ class DemoTestIoTMeasurement:
 ########################################################################################################################
 ########################################################################################################################
 
-    def CreateGraphMask(self, value_limit):
+    def CreateGraphMask(self, value_limit: int) -> None:
         """
             Create mask Graph
             :param value_limit: coordinate value Ox
@@ -465,7 +484,7 @@ class DemoTestIoTMeasurement:
 ########################################################################################################################
 ########################################################################################################################
 
-    def CreateGraphValue(self):
+    def CreateGraphValue(self) -> None:
         """
             Function to create a Graph by value
             :return: None
@@ -496,7 +515,7 @@ class DemoTestIoTMeasurement:
 ########################################################################################################################
 #######################################################################################################################
 
-    def CreateGraphResult(self):
+    def CreateGraphResult(self) -> None:
         """
             Function to create a Graph by result
             :return: None
@@ -521,7 +540,7 @@ class DemoTestIoTMeasurement:
 ########################################################################################################################
 ########################################################################################################################
 
-    def GetScreenshot(self):
+    def GetScreenshot(self) -> None:
         """
             Function create screenshot Graph, save screenshot in Word and clear Graph
             :return: None
@@ -545,7 +564,7 @@ class DemoTestIoTMeasurement:
 ########################################################################################################################
 ########################################################################################################################
 
-    def OutONNCommand(self):
+    def OutONNCommand(self) -> None:
         """
             BK1697B output check function ON
             :return: None
@@ -588,7 +607,7 @@ class DemoTestIoTMeasurement:
 ########################################################################################################################
 ########################################################################################################################
 
-    def CallMessengerChoices(self, result, value) -> str:
+    def CallMessengerChoices(self, result: (float, int), value: (float, int)) -> str:
 
         limit_type = "upper" if self.MaxError * value < result else "lower"
         limit_value = result - (self.MaxError * value) if limit_type == "upper" else self.MinError * value - result
@@ -612,7 +631,7 @@ class DemoTestIoTMeasurement:
 ########################################################################################################################
 ########################################################################################################################
 
-    def CallMessengerErrorPoint(self, result, value) -> None:
+    def CallMessengerErrorPoint(self, result: (float, int), value: (float, int)) -> None:
 
         limit_type = "upper" if self.MaxError * value < result else "lower"
         limit_value = result - (self.MaxError * value) if limit_type == "upper" else self.MinError * value - result
@@ -635,7 +654,7 @@ class DemoTestIoTMeasurement:
 ########################################################################################################################
 
     @staticmethod
-    def LoadTablesHeadInfo():
+    def LoadTablesHeadInfo() -> None:
         MOKO.Report('VDC_SIN', 'info', 'table', "Value#100;"
                                                 "ValueLimit#100;"
                                                 "PercentError#100;"
@@ -684,7 +703,7 @@ class DemoTestIoTMeasurement:
 ########################################################################################################################
 ########################################################################################################################
 
-    def __init_connected_and_type_connected(self):
+    def __init_connected_and_type_connected(self) -> None:
         type_setting_BK1697B = MOKO.Report("TYPE_SETTING_BK1697B", "get", "string", "", 'string')
         type_setting_FY6900 = MOKO.Report("TYPE_SETTING_FY6900", "get", "string", "", 'string')
         type_setting_APPA207 = MOKO.Report("TYPE_SETTING_APPA207", "get", "string", "", 'string')
