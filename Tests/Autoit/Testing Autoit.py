@@ -8,6 +8,7 @@ MOKO.Messenger('set', 'Info#@info', 'Open text document Autoit.txt located in '
 for _ in range(60):
     TextNotepad = MOKO.Autoit('*Autoit.txt', 'Edit1', 'ControlGetText', '')
     MOKO.Stage(f'Your text in Notepad: {TextNotepad}')
+    MOKO.Report('TextNotepad','set','table',f'{TextNotepad}')
     time.sleep(1)
 
 MOKO.EndScript()
