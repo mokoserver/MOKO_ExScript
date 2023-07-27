@@ -193,9 +193,9 @@ class DemoTestIoTMeasurement:
         if self.WireConnection != "IDC":
             if WireConnection == 'IDC':
                 MTLG.TelegramMessenger('beta', 'set', 'Testing IDC', 'Connect a BK1697 to the APPA207 to check '
-                                                                     'IDC currency.\nCalibrator output OUT', 'string')
+                                                                     'IDC currenty.\nCalibrator output OUT', 'string')
                 MOKO.Messenger('set', 'Testing IDC#TestIoT_IDC.png',
-                               'Connect a BK1697 to the APPA207 to check IDC currency.\n'
+                               'Connect a BK1697 to the APPA207 to check IDC currenty.\n'
                                'Calibrator output OUT')
 
         self.WireConnection = WireConnection
