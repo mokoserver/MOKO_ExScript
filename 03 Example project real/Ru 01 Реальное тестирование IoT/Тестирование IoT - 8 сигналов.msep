@@ -1,0 +1,20 @@
+{
+"project_name":"Тестирование IoT - 8 сигналов",
+"project_autosave":"true",
+"project_scripts":[
+{"script":"01 Проверки регистрации.py","necessary":"true"},
+{"script":"02 Инициализация устройств. Драйвера BK1697, APPA207, FY6900.py","necessary":"true"},
+{"script":"03 Тестирование IoT - 8 сигналов.py","necessary":"false"},
+{"script":"04 Сохранение word отчета.py","necessary":"true"}
+],
+"project_libraries":[
+{"script":"MFRT.py"},
+{"script":"MOKO.py"},
+{"script":"MOSC.py"},
+{"script":"MTLG.py"},
+{"script":"MGPH.py"}
+],
+"project_templates":[
+{"script":"Отчет реального тестирования IoT - 8 сигналов.docx"}
+]
+}
