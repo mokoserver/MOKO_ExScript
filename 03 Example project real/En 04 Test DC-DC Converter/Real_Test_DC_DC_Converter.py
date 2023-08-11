@@ -41,7 +41,7 @@ class DemoTestIoTMeasurement:
             Calculation and reporting function
         """
         name_table = hesh.split('$')[1]
-        number_measurement = hesh.split('$')[0]
+        number_measurement = hesh.split('$')[0][5:]
 
         self.Error = float((100 + allowable_stabilization_factor) / 100)
         
@@ -163,7 +163,7 @@ class DemoTestIoTMeasurement:
             if isinstance(f_result, str):
                 continue
                 
-            stabilization_factor = round((value - f_result) / value, 3) if value != 0 else 0
+            stabilization_factor = round((value - f_result) / value, 3) if value != 0 and f_result != 0 else 0
             self.ListStabilization.append(stabilization_factor + 1)
             
             if stabilization_factor > allowable_stabilization_factor:
@@ -494,7 +494,7 @@ class DemoTestIoTMeasurement:
         MOKO.Report(self.NameGraph, 'set', 'picture', screen)
         self.NameGraph = None
         MGPH.ClearGraph()
-        self.ListStabilization, self.ListResult = [0], [0]
+        self.ListStabilization, self.ListResult, self.ListOperatingRange = list(), list(), list()
         MOKO.Stage(" ")
 
 ########################################################################################################################
