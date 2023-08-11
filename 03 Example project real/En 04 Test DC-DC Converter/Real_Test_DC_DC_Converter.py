@@ -370,7 +370,7 @@ class DemoTestIoTMeasurement:
             Function initialization functions create a Graph
             :return: None
         """
-        self.CreateGraphOperationRange(WireConnection=WireConnection)
+        self.CreateGraphOperationRange()
         self.CreateGraphStabilization(WireConnection=WireConnection)
         self.CreateGraphResult()
         self.FirstResult = False
@@ -402,7 +402,7 @@ class DemoTestIoTMeasurement:
 ########################################################################################################################
 ########################################################################################################################
 
-    def CreateGraphOperationRange(self, WireConnection: str) -> None:
+    def CreateGraphOperationRange(self) -> None:
         """
             Function to create a Graph by operation range
             :return: None
