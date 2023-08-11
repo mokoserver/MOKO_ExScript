@@ -25,7 +25,7 @@ def VDC(
         frequency: (str, float, int),
         hesh: str,
         remeasurement: bool = False,
-        remeasurement_number: int = None,
+        remeasurement_number: int = 0,
         time_delay: (float, int) = 0.0
 
 ) -> None:
@@ -65,7 +65,7 @@ def IDC(
         frequency: (str, float, int),
         hesh: str,
         remeasurement: bool = False,
-        remeasurement_number: int = None,
+        remeasurement_number: int = 0,
         time_delay: (float, int) = 0.0
 
 ) -> None:

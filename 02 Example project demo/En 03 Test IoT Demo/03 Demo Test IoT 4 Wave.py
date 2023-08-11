@@ -24,8 +24,10 @@ def VDC(value: (str, float, int),
         frequency: (str, float, int),
         hesh: str,
         remeasurement: bool = False,
-        remeasurement_number: int = None,
-        time_delay: (float, int) = 0):
+        remeasurement_number: int = 0,
+        time_delay: (float, int) = 0
+
+) -> None:
 
     if HeshStatus(hesh):
 
@@ -61,8 +63,10 @@ def IDC(value: (str, float, int),
         frequency: (str, float, int),
         hesh: str,
         remeasurement: bool = False,
-        remeasurement_number: int = None,
-        time_delay: (float, int) = 0):
+        remeasurement_number: int = 0,
+        time_delay: (float, int) = 0
+
+) -> None:
 
     if HeshStatus(hesh):
 

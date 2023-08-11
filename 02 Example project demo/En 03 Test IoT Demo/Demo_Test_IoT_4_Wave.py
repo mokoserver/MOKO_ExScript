@@ -25,8 +25,19 @@ class DemoTestIoTMeasurement:
 ########################################################################################################################
 ########################################################################################################################
 
-    def MeasurementAndReport(self, value, value_limit, wave, amplitude, amplitude_limit, frequency, percent_error,
-                             WireConnection, hesh):
+    def MeasurementAndReport(
+            self,
+            value: (str, float, int),
+            value_limit: (str, float, int),
+            percent_error: (float, int),
+            wave: str,
+            amplitude: (str, float, int),
+            amplitude_limit: int,
+            frequency: (str, float, int),
+            hesh: str,
+            WireConnection: str,
+
+    ) -> None:
         """
             Calculation and reporting function
         """
@@ -140,7 +151,9 @@ class DemoTestIoTMeasurement:
 ########################################################################################################################
 ########################################################################################################################
     def GetResultMeasurent(self, value):
+
         f_result, result = 0, 0
+
         while self.ContinueMeasurement:
             time.sleep(self.TimeDelay)
             if self.AutomaticAPPA207:
