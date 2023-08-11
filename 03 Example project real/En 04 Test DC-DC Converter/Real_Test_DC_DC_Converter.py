@@ -16,6 +16,7 @@ class DemoTestIoTMeasurement:
         self.OutCommand, self.GraphInit, self.FailedResult, self.Remeasurement = False, False, False, False
         self.AutomaticBK1697B, self.AutomaticAPPA207, self.Simulation = False, False, False
         self.ListResult, self.ListStabilization, self.ListOperatingRange = list(), list(), list()
+        self.ChangeOperatingRange = False
         self.Error = 0
         self.__init_connected_and_type_connected()
 
@@ -45,7 +46,12 @@ class DemoTestIoTMeasurement:
         self.Error = float((100 + allowable_stabilization_factor) / 100)
         
         self.ContinueMeasurement = True
-        self.ListOperatingRange.append(0 if not is_operating_range else 40)
+        # if self.ChangeOperatingRange != is_operating_range:
+        #     if is_operating_range == True:
+        #         self.ListOperatingRange.append(0)
+        #     else:
+        #         self.ListOperatingRange.append(4000)
+        self.ListOperatingRange.append(0 if not is_operating_range else 4000)
 
         f_value = MFRT.ConvertStringToFloat(value)
 
@@ -157,7 +163,7 @@ class DemoTestIoTMeasurement:
             if isinstance(f_result, str):
                 continue
                 
-            stabilization_factor = round((value - f_result) / value, 3)
+            stabilization_factor = round((value - f_result) / value, 3) if value != 0 else 0
             self.ListStabilization.append(stabilization_factor + 1)
             
             if stabilization_factor > allowable_stabilization_factor:
@@ -364,6 +370,7 @@ class DemoTestIoTMeasurement:
             Function initialization functions create a Graph
             :return: None
         """
+        self.CreateGraphOperationRange(WireConnection=WireConnection)
         self.CreateGraphStabilization(WireConnection=WireConnection)
         self.CreateGraphResult()
         self.FirstResult = False
@@ -404,10 +411,10 @@ class DemoTestIoTMeasurement:
         MOKO.Stage("************ Create Graph a operation range *************")
         MOKO.Stage("*********************************************************")
         MOKO.Stage(" ")
-        name_graph_plus = f'Operation range {WireConnection}'
+        name_graph_plus = f'Operation range {self.NameGraph}'
         ArrOy_plus = self.ListOperatingRange
         numLine_plus = name_graph_plus
-        ArrOx = [x for x in self.ListOperatingRange]
+        ArrOx = [x for x in range(len(self.ListOperatingRange))]
         LineWidth = "3"
         Color = "1A76D9"
         Visible = "Yes"
@@ -430,7 +437,7 @@ class DemoTestIoTMeasurement:
         MOKO.Stage("******** Create Graph a stabilization coefficient *******")
         MOKO.Stage("*********************************************************")
         MOKO.Stage(" ")
-        name_graph_plus = f'Stabilization {WireConnection}'
+        name_graph_plus = f'Stabilization {self.NameGraph}'
         ArrOy_plus = [x * 20 if WireConnection == "VDC" else x * 1.5 for x in self.ListStabilization]
         numLine_plus = name_graph_plus
         ArrOx = [x for x in range(len(self.ListStabilization))]
@@ -592,17 +599,16 @@ class DemoTestIoTMeasurement:
 
     def __init_connected_and_type_connected(self) -> None:
         type_setting_BK1697B = MOKO.Report("TYPE_SETTING_BK1697B", "get", "string", "", 'string')
-        type_setting_FY6900 = MOKO.Report("TYPE_SETTING_FY6900", "get", "string", "", 'string')
         type_setting_APPA207 = MOKO.Report("TYPE_SETTING_APPA207", "get", "string", "", 'string')
 
-        if len(type_setting_BK1697B) == 0 or len(type_setting_FY6900) == 0 or len(type_setting_APPA207) == 0:
+        if len(type_setting_BK1697B) == 0 or len(type_setting_APPA207) == 0:
             self.FirstScriptStart = True
             self.Simulation = False
             return
         else:
             self.FirstScriptStart = False
 
-        if 'Simulation' in [type_setting_BK1697B, type_setting_FY6900, type_setting_APPA207]:
+        if 'Simulation' in [type_setting_BK1697B, type_setting_APPA207]:
             self.Simulation = True
             return
         else:

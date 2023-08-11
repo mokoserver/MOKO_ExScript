@@ -34,11 +34,9 @@ Humidity; 60%; 50,0;\r
 Pressure; 100kPa; 99,0;\r
 "},
 {"name":"TYPE_SETTING_BK1697B","kind":"string","info":"Device setting type","script":"02 Initialization devices. Drivers BK1697, APPA207",
-"data":"Simulation"},
-{"name":"TYPE_SETTING_FY6900","kind":"string","info":"","script":"02 Initialization devices. Drivers BK1697, APPA207",
-"data":""},
+"data":"Automatic"},
 {"name":"TYPE_SETTING_APPA207","kind":"string","info":"Device setting type","script":"02 Initialization devices. Drivers BK1697, APPA207",
-"data":"Simulation"},
+"data":"Automatic"},
 {"name":"DevicesUsed","kind":"table","info":"Devices#300; status#300;","script":"02 Initialization devices. Drivers BK1697, APPA207",
 "data":"BK1697B;Connected;\r
 APPA207;Connected;\r

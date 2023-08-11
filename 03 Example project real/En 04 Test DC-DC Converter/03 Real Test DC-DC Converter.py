@@ -42,7 +42,8 @@ def VDC(
         Testing.MeasurementAndReport(value=value, range_value=range_value, is_operating_range=is_operating_range,
                                      allowable_stabilization_factor=allowable_stabilization_factor, hesh=hesh,
                                      WireConnection='VDC')
-        Testing.CreateGraph()
+
+        Testing.CreateGraph(WireConnection='VDC')
 
         if Testing.status == 'Failed':
             hesh_failed()
@@ -77,7 +78,8 @@ def IDC(
         Testing.MeasurementAndReport(value=value, range_value=range_value, is_operating_range=is_operating_range,
                                      allowable_stabilization_factor=allowable_stabilization_factor, hesh=hesh, 
                                      WireConnection='IDC')
-        Testing.CreateGraph()
+
+        Testing.CreateGraph(WireConnection='IDC')
 
         if Testing.status == 'Failed':
             hesh_failed()
@@ -92,7 +94,7 @@ MOKO.Stage('Set NameGraph => VDC_GRAPH')
 Testing.NameGraph = 'VDC_GRAPH'
 MOKO.Stage(" ")
 
-VDC(value=0,   range_value=40, allowable_stabilization_factor=0,   is_operating_range=False, time_delay=3, hesh='Meas 1$VDC')   #hesh Meas 1$VDC:   0  ;40  ;0    ;3.000; False
+VDC(value=1,   range_value=40, allowable_stabilization_factor=0,   is_operating_range=False, time_delay=3, hesh='Meas 1$VDC')   #hesh Meas 1$VDC:   0  ;40  ;0    ;3.000; False
 VDC(value=1,   range_value=40, allowable_stabilization_factor=0.1, is_operating_range=False, time_delay=3, hesh='Meas 2$VDC')   #hesh Meas 2$VDC:   1  ;40  ;0.1  ;3.000; False
 VDC(value=2,   range_value=40, allowable_stabilization_factor=0.1, is_operating_range=False, time_delay=3, hesh='Meas 3$VDC')   #hesh Meas 3$VDC:   2  ;40  ;0.1  ;3.000; False
 VDC(value=3,   range_value=40, allowable_stabilization_factor=0.1, is_operating_range=False, time_delay=3, hesh='Meas 4$VDC')   #hesh Meas 4$VDC:   3  ;40  ;0.1  ;3.000; False
@@ -140,7 +142,7 @@ MOKO.Program('tree', 'set', 'select = Current measurement$IDC')
 MOKO.Stage('Set NameGraph => IDC_GRAPH')
 Testing.NameGraph = 'IDC_GRAPH'
 
-IDC(value=0,    range_value=5, allowable_stabilization_factor=0,   is_operating_range=False, time_delay=3,   hesh='Meas 1$IDC')   #hesh Meas 1$IDC:  0,   ;5  ;0    ;3.000; False
+IDC(value=0.01, range_value=5, allowable_stabilization_factor=0,   is_operating_range=False, time_delay=3,   hesh='Meas 1$IDC')   #hesh Meas 1$IDC:  0,   ;5  ;0    ;3.000; False
 IDC(value=0.1,  range_value=5, allowable_stabilization_factor=0.1, is_operating_range=False, time_delay=3,   hesh='Meas 2$IDC')   #hesh Meas 2$IDC:  0.1  ;5  ;0.1  ;3.000; False
 IDC(value=0.2,  range_value=5, allowable_stabilization_factor=0.1, is_operating_range=False, time_delay=3,   hesh='Meas 3$IDC')   #hesh Meas 3$IDC:  0.2  ;5  ;0.1  ;3.000; False
 IDC(value=0.3,  range_value=5, allowable_stabilization_factor=0.1, is_operating_range=False, time_delay=3,   hesh='Meas 4$IDC')   #hesh Meas 4$IDC:  0.3  ;5  ;0.1  ;3.000; False
