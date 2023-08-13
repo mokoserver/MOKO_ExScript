@@ -36,8 +36,6 @@ def VDC(
         Testing.CreateGraphMask(range_value=range_value)
 
         Testing.TimeDelay = time_delay
-        Testing.Remeasurement = False
-        Testing.RemeasurementNumber = 0
 
         Testing.MeasurementAndReport(value=value, range_value=range_value, is_operating_range=is_operating_range,
                                      allowable_stabilization_factor=allowable_stabilization_factor, hesh=hesh,
@@ -72,8 +70,6 @@ def IDC(
         Testing.CreateGraphMask(range_value=range_value)
 
         Testing.TimeDelay = time_delay
-        Testing.Remeasurement = False
-        Testing.RemeasurementNumber = 0
 
         Testing.MeasurementAndReport(value=value, range_value=range_value, is_operating_range=is_operating_range,
                                      allowable_stabilization_factor=allowable_stabilization_factor, hesh=hesh, 

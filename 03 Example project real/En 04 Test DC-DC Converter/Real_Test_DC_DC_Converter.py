@@ -12,8 +12,8 @@ class DemoTestIoTMeasurement:
     def __init__(self):
         self.FirstScriptStart, self.FirstResult, self.ContinueMeasurement = True, True, True
         self.WireConnection, self.NameGraph, self.status = str(), str(), str()
-        self.TimeDelay, self.RemeasurementNumber = 0, 0
-        self.OutCommand, self.GraphInit, self.FailedResult, self.Remeasurement = False, False, False, False
+        self.TimeDelay = 0
+        self.OutCommand, self.GraphInit, self.FailedResult = False, False, False
         self.AutomaticBK1697B, self.AutomaticAPPA207, self.Simulation = False, False, False
         self.ListResult, self.ListStabilization, self.ListOperatingRange = list(), list(), list()
         self.ChangeOperatingRange = False
@@ -46,12 +46,8 @@ class DemoTestIoTMeasurement:
         self.Error = float((100 + allowable_stabilization_factor) / 100)
         
         self.ContinueMeasurement = True
-        # if self.ChangeOperatingRange != is_operating_range:
-        #     if is_operating_range == True:
-        #         self.ListOperatingRange.append(0)
-        #     else:
-        #         self.ListOperatingRange.append(4000)
-        self.ListOperatingRange.append(0 if not is_operating_range else 4000)
+
+        self.AddOperationValueGraph(is_operating_range=is_operating_range, WireConnection=WireConnection)
 
         f_value = MFRT.ConvertStringToFloat(value)
 
@@ -412,9 +408,9 @@ class DemoTestIoTMeasurement:
         MOKO.Stage("*********************************************************")
         MOKO.Stage(" ")
         name_graph_plus = f'Operation range {self.NameGraph}'
-        ArrOy_plus = self.ListOperatingRange
+        ArrOy_plus = [self.ListOperatingRange[x][0] for x in range(len(self.ListOperatingRange))]
         numLine_plus = name_graph_plus
-        ArrOx = [x for x in range(len(self.ListOperatingRange))]
+        ArrOx = [self.ListOperatingRange[x][1] for x in range(len(self.ListOperatingRange))]
         LineWidth = "3"
         Color = "1A76D9"
         Visible = "Yes"
@@ -438,7 +434,7 @@ class DemoTestIoTMeasurement:
         MOKO.Stage("*********************************************************")
         MOKO.Stage(" ")
         name_graph_plus = f'Stabilization {self.NameGraph}'
-        ArrOy_plus = [x * 20 if WireConnection == "VDC" else x * 1.5 for x in self.ListStabilization]
+        ArrOy_plus = [x * 20 if WireConnection == "VDC" else x * 2.5 for x in self.ListStabilization]
         numLine_plus = name_graph_plus
         ArrOx = [x for x in range(len(self.ListStabilization))]
         LineWidth = "3"
@@ -531,6 +527,7 @@ class DemoTestIoTMeasurement:
         """
         self.OutCommand = False
         self.FirstResult = True
+        self.ChangeOperatingRange = False
         if self.Simulation:
             MOKO.Stage('name -> BK1697B; mode -> set; command -> OUTPUT = OFF', 'set')
         elif self.AutomaticBK1697B:
@@ -549,46 +546,47 @@ class DemoTestIoTMeasurement:
 
     @staticmethod
     def LoadTablesHeadInfo() -> None:
-        MOKO.Report('VDC', 'info', 'table', "Value#100;"
-                                                "ValueLimit#100;"
-                                                "PercentError#100;"
-                                                "PermissibleVariation#150;"
-                                                "Wave#100;"
-                                                "Amplitude#100;"
-                                                "AmplitudeLimit#100;"
-                                                "Frequency#100;"
-                                                "Result#100;")
 
-        MOKO.Report('VDC_SQUARE', 'info', 'table', "Value#100;"
-                                                   "ValueLimit#100;"
-                                                   "PercentError#100;"
-                                                   "PermissibleVariation#150;"
-                                                   "Wave#100;"
-                                                   "Amplitude#100;"
-                                                   "AmplitudeLimit#100;"
-                                                   "Frequency#100;"
-                                                   "Result#100;")
+        MOKO.Report(name='VDC', mode='info', kind='table', data="NumberMeasurement#150;"
+                                                                "InputValue#75;"
+                                                                "OutputValue#75;"
+                                                                "AllowableStabilizationFactor#170;"
+                                                                "IsOperatingRange#120;"
+                                                                "StabilizationFactor#110;"
+                                                                "Status#75;")
 
-        MOKO.Report('IDC_RAMP', 'info', 'table', "Value#100;"
-                                                 "ValueLimit#100;"
-                                                 "PercentError#100;"
-                                                 "PermissibleVariation#150;"
-                                                 "Wave#100;"
-                                                 "Amplitude#100;"
-                                                 "AmplitudeLimit#100;"
-                                                 "Frequency#100;"
-                                                 "Result#100;")
-
-        MOKO.Report('IDC', 'info', 'table', "Value#100;"
-                                                    "ValueLimit#100;"
-                                                    "PercentError#100;"
-                                                    "PermissibleVariation#150;"
-                                                    "Wave#100;"
-                                                    "Amplitude#100;"
-                                                    "AmplitudeLimit#100;"
-                                                    "Frequency#100;"
-                                                    "Result#100;")
+        MOKO.Report(name='IDC', mode='info', kind='table', data="NumberMeasurement#150;"
+                                                                "InputValue#75;"
+                                                                "OutputValue#75;"
+                                                                "AllowableStabilizationFactor#170;"
+                                                                "IsOperatingRange#120;"
+                                                                "StabilizationFactor#110;"
+                                                                "Status#75;")
         MOKO.Stage(" ")
+
+########################################################################################################################
+########################################################################################################################
+########################################################################################################################
+########################################################################################################################
+########################################################################################################################
+########################################################################################################################
+
+    def AddOperationValueGraph(self, is_operating_range: bool, WireConnection: str) -> None:
+
+        max_value_graph_operating = 40 if WireConnection == 'VDC' else 5
+
+        if self.ChangeOperatingRange != is_operating_range:
+            self.ChangeOperatingRange = is_operating_range
+            if is_operating_range is True:
+                self.ListOperatingRange.append((0, len(self.ListResult)))
+                self.ListOperatingRange.append((max_value_graph_operating, len(self.ListResult)))
+            else:
+                self.ListOperatingRange.append((max_value_graph_operating, len(self.ListResult)))
+                self.ListOperatingRange.append((0, len(self.ListResult)))
+        else:
+            self.ListOperatingRange.append(
+                (0 if not self.ChangeOperatingRange else max_value_graph_operating, len(self.ListResult)))
+
 
 ########################################################################################################################
 ########################################################################################################################
