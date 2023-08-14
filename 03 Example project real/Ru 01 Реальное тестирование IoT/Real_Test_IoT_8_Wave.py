@@ -27,13 +27,13 @@ class DemoTestIoTMeasurement:
 
     def MeasurementAndReport(
             self,
-            value: (str, float, int),
-            value_limit: (str, float, int),
-            percent_error: (float, int),
+            value: (str | float | int),
+            value_limit: (str | float | int),
+            percent_error: (float | int),
             wave: str,
-            amplitude: (str, float, int),
+            amplitude: (str | float | int),
             amplitude_limit: int,
-            frequency: (str, float, int),
+            frequency: (str | float | int),
             hesh: str,
             WireConnection: str,
 
@@ -162,7 +162,7 @@ class DemoTestIoTMeasurement:
 ########################################################################################################################
     def GetResultMeasurent(
             self,
-            value: (float, int),
+            value: (float | int),
 
     ) -> float:
 
@@ -604,7 +604,7 @@ class DemoTestIoTMeasurement:
 ########################################################################################################################
 ########################################################################################################################
 
-    def CallMessengerChoices(self, result: (float, int), value: (float, int)) -> str:
+    def CallMessengerChoices(self, result: (float | int), value: (float | int)) -> str:
 
         limit_type = "верхнему" if self.MaxError * value < result else "нижнему"
         limit_value = result - (self.MaxError * value) if limit_type == "верхнему" else self.MinError * value - result
@@ -628,7 +628,7 @@ class DemoTestIoTMeasurement:
 ########################################################################################################################
 ########################################################################################################################
 
-    def CallMessengerErrorPoint(self, result: (float, int), value: (float, int)) -> None:
+    def CallMessengerErrorPoint(self, result: (float | int), value: (float | int)) -> None:
 
         limit_type = "верхнему" if self.MaxError * value < result else "нижнему"
         limit_value = result - (self.MaxError * value) if limit_type == "верхнему" else self.MinError * value - result

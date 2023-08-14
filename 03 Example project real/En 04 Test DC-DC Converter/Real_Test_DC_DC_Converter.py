@@ -28,9 +28,9 @@ class DemoTestIoTMeasurement:
 
     def MeasurementAndReport(
             self,
-            value: (str, float, int),
-            range_value: (str, float, int),
-            allowable_stabilization_factor: (float, int),
+            value: (str | float | int),
+            range_value: (str | float | int),
+            allowable_stabilization_factor: (float | int),
             is_operating_range: bool,
             hesh: str,
             WireConnection :str,
@@ -137,8 +137,8 @@ class DemoTestIoTMeasurement:
 ########################################################################################################################
     def GetResultMeasurent(
             self,
-            value: (float, int),
-            allowable_stabilization_factor: (float, int),
+            value: (float | int),
+            allowable_stabilization_factor: (float | int),
 
     ) -> tuple:
 

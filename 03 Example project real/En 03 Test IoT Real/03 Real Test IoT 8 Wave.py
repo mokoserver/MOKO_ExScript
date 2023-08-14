@@ -16,17 +16,17 @@ Testing.OutOFFCommand()
 
 
 def VDC(
-        value: (str, float, int),
-        value_limit: (str, float, int),
-        percent_error: (float, int),
+        value: (str | float | int),
+        value_limit: (str | float | int),
+        percent_error: (float | int),
         wave: str,
-        amplitude: (str, float, int),
+        amplitude: (str | float | int),
         amplitude_limit: int,
-        frequency: (str, float, int),
+        frequency: (str | float | int),
         hesh: str,
         remeasurement: bool = False,
         remeasurement_number: int = 0,
-        time_delay: (float, int) = 0.0
+        time_delay: (float | int) = 0.0
 
 ) -> None:
 
@@ -56,17 +56,17 @@ def VDC(
 
 
 def IDC(
-        value: (str, float, int),
-        value_limit: (str, float, int),
-        percent_error: (float, int),
+        value: (str | float | int),
+        value_limit: (str | float | int),
+        percent_error: (float | int),
         wave: str,
-        amplitude: (str, float, int),
+        amplitude: (str | float | int),
         amplitude_limit: int,
-        frequency: (str, float, int),
+        frequency: (str | float | int),
         hesh: str,
         remeasurement: bool = False,
         remeasurement_number: int = 0,
-        time_delay: (float, int) = 0.0
+        time_delay: (float | int) = 0.0
 
 ) -> None:
 

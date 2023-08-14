@@ -11,7 +11,7 @@ def ConvertStringToFloat(value: str):
     return mfrt.GetPrefixInValue()
 
 
-def ConvertFloatToString(value: (float, str, int), reference_number: str = None, resolution: int = None,
+def ConvertFloatToString(value: (float | str | int), reference_number: str = None, resolution: int = None,
                          delimiter: str = None, prefix: str = None):
     """
         This function calls the transfer function from the normal system to the CI system
@@ -32,7 +32,7 @@ def ConvertFloatToString(value: (float, str, int), reference_number: str = None,
 
 
 class MFRTLibrary:
-    def __init__(self, value: (float, str, int), reference_number: str = None, resolution: int = None,
+    def __init__(self, value: (float | str | int), reference_number: str = None, resolution: int = None,
                  delimiter: str = None, prefix: str = None):
 
         self.__value = value
@@ -97,7 +97,7 @@ class MFRTLibrary:
         """
         if not self.__reference_number and not self.__resolution and not self.__delimiter and not self.__prefix:
             return str(self.__value)
-        if isinstance(self.__value, (float, int)):
+        if isinstance(self.__value, (float | int)):
             if isinstance(self.__value, int):
                 self.__value = f'{float(self.__value):.14f}'.split('.')[0]
             else:

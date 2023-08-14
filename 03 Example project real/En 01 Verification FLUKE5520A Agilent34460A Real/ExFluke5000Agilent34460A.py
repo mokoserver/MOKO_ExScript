@@ -54,7 +54,7 @@ class ExFluke5000Agilent34460A:
                                f"Make settings:\nSet VDC = {verified}\nPress OK")
 #######################################################################################################################
 
-            f_result, accuracy = self.GetResultMeasurement(verified=f_verified, error=f_error)
+            f_result, accuracy = self.GetResultMeasurement(f_verified=f_verified, error=f_error, verified=verified)
 
 #######################################################################################################################
 ####################################################  VDC REPORT  #####################################################
@@ -104,7 +104,7 @@ class ExFluke5000Agilent34460A:
                                f"Make settings:\nSet VAC = {verified} {frequency}\nPress OK")
 #######################################################################################################################
 
-            f_result, accuracy = self.GetResultMeasurement(verified=f_verified, error=f_error)
+            f_result, accuracy = self.GetResultMeasurement(f_verified=f_verified, error=f_error, verified=verified)
 
 #######################################################################################################################
 ###################################################  VAC REPORT  ######################################################
@@ -150,7 +150,7 @@ class ExFluke5000Agilent34460A:
                                f"Make settings:\nSet R2 = {verified}\nPress OK")
 #######################################################################################################################
 
-            f_result, accuracy = self.GetResultMeasurement(verified=f_verified, error=f_error)
+            f_result, accuracy = self.GetResultMeasurement(f_verified=f_verified, error=f_error, verified=verified)
 
 #######################################################################################################################
 ###################################################  R2 REPORT  #######################################################
@@ -196,7 +196,7 @@ class ExFluke5000Agilent34460A:
                                f"Make settings:\nSet R4 = {verified}\nPress OK")
 #######################################################################################################################
 
-            f_result, accuracy = self.GetResultMeasurement(verified=f_verified, error=f_error)
+            f_result, accuracy = self.GetResultMeasurement(f_verified=f_verified, error=f_error, verified=verified)
 
 #######################################################################################################################
 ##############################################  R4 REPORT  ############################################################
@@ -242,7 +242,7 @@ class ExFluke5000Agilent34460A:
                                f"Make settings:\nSet IDC = {verified}\nPress OK")
 #######################################################################################################################
 
-            f_result, accuracy = self.GetResultMeasurement(verified=f_verified, error=f_error)
+            f_result, accuracy = self.GetResultMeasurement(f_verified=f_verified, error=f_error, verified=verified)
 
 #######################################################################################################################
 ####################################################  IDC REPORT  #####################################################
@@ -292,7 +292,7 @@ class ExFluke5000Agilent34460A:
                                f"Make settings:\nSet IAC = {verified} {frequency}\nPress OK")
 #######################################################################################################################
 
-            f_result, accuracy = self.GetResultMeasurement(verified=f_verified, error=f_error)
+            f_result, accuracy = self.GetResultMeasurement(f_verified=f_verified, error=f_error, verified=verified)
 
 #######################################################################################################################
 ###################################################  IAC REPORT  ######################################################

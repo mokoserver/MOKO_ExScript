@@ -16,12 +16,12 @@ Testing.OutOFFCommand()
 
 
 def VDC(
-        value: (str, float, int),
-        range_value: (str, float, int),
-        allowable_stabilization_factor: (float, int),
+        value: (str | float | int),
+        range_value: (str | float | int),
+        allowable_stabilization_factor: (float | int),
         is_operating_range: bool,
         hesh: str,
-        time_delay: (float, int) = 0.0
+        time_delay: (float | int) = 0.0
 
 ) -> None:
 
@@ -50,9 +50,9 @@ def VDC(
 
 
 def IDC(
-        value: (str, float, int),
-        range_value: (str, float, int),
-        allowable_stabilization_factor: (float, int),
+        value: (str | float | int),
+        range_value: (str | float | int),
+        allowable_stabilization_factor: (float | int),
         is_operating_range: bool,
         hesh: str,
         time_delay: (int, float) = 0.0
