@@ -341,7 +341,7 @@ class ExFluke5000Agilent34401A:
     def Agilent34401A_SET_RES_MIN(self) -> None:
         if self.Simulation:
             MOKO.Stage('Driver: AgilentDMM >> mode: set >> command: RES = MIN ', 'driver')
-        if self.AutomaticAgilent34401A:
+        elif self.AutomaticAgilent34401A:
             MOKO.Driver('AgilentDMM', 'set', 'RES = MIN')
         else:
             MOKO.Messenger('set', 'Make settings#@attention',
