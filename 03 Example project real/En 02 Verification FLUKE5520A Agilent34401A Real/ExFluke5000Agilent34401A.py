@@ -378,7 +378,7 @@ class ExFluke5000Agilent34401A:
 ##########################################  Agilent34401A SET TIMEOUT  ################################################
 #######################################################################################################################
 
-    def Agilent34401A_SET_TIMEOUT(self):
+    def Agilent34401A_SET_TIMEOUT(self) -> None:
         if self.Simulation:
             MOKO.Stage('Driver: AgilentDMM >> mode: set >> command: Timeout = 10000', 'driver')
         elif self.AutomaticAgilent34401A:
@@ -391,7 +391,7 @@ class ExFluke5000Agilent34401A:
 ############################################  Agilent34401A SET RESET  ################################################
 #######################################################################################################################
 
-    def Agilent34401A_SET_RESET(self):
+    def Agilent34401A_SET_RESET(self) -> None:
         if self.Simulation:
             MOKO.Stage('Driver: AgilentDMM >> mode: set >> command: Reset', 'driver')
         elif self.AutomaticAgilent34401A:
@@ -540,7 +540,7 @@ class ExFluke5000Agilent34401A:
 #############################################  Fluke5520A SET TIMEOUT  ################################################
 #######################################################################################################################
 
-    def Fluke5520A_SET_TIMEOUT(self):
+    def Fluke5520A_SET_TIMEOUT(self) -> None:
         if self.Simulation:
             MOKO.Stage('Driver: Fluke5000 >> mode: set >> command: Timeout = 10000', 'driver')
         elif self.AutomaticFluke5520A:
@@ -553,7 +553,7 @@ class ExFluke5000Agilent34401A:
 ###############################################  Fluke5520A SET RESET  ################################################
 #######################################################################################################################
 
-    def Fluke5520A_SET_RESET(self):
+    def Fluke5520A_SET_RESET(self) -> None:
         if self.Simulation:
             MOKO.Stage('Driver: Fluke5000 >> mode: set >> command: Reset', 'driver')
         elif self.AutomaticFluke5520A:
