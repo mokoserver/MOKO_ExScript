@@ -13,7 +13,7 @@ class ExFluke5000Agilent34401A:
         self.Remeasurement, self.Driver_start = False, False
         self.R4FirstResult = True
         self.LowerLimitResult, self.UpperLimitResult, self.Status = None, None, None
-        self.AutomaticFluke5520, self.AutomaticAgilent34401A, self.Simulation = False, False, False
+        self.AutomaticFluke5520A, self.AutomaticAgilent34401A, self.Simulation = False, False, False
         self.__init_connected_and_type_connected()
         
         
@@ -273,7 +273,6 @@ class ExFluke5000Agilent34401A:
 #######################################################################################################################
 #######################################################################################################################
 #######################################################################################################################
-#######################################################################################################################
 
     def MeasurementStartCommand(self, WireConnection: str) -> None:
 
@@ -285,33 +284,121 @@ class ExFluke5000Agilent34401A:
             match WireConnection:
                 case "VDC":
                     self.Agilent34401A_SET_NPLC_100()
-                    self.Fluke5520_SET_OUT_NORMAL()
+                    self.Fluke5520A_SET_OUT_NORMAL()
 
                 case "VAC":
                     self.Agilent34401A_SET_BAND_MIN()
-                    self.Fluke5520_SET_OUT_NORMAL()
+                    self.Fluke5520A_SET_OUT_NORMAL()
 
                 case "R2":
                     self.Agilent34401A_SET_NPLC_100()
-                    self.Fluke5520_SET_CONN_NO()
+                    self.Fluke5520A_SET_CONN_NO()
 
                 case "R4":
                     self.Agilent34401A_SET_NPLC_100()
-                    self.Fluke5520_SET_OUT_NORMAL()
-                    self.Fluke5520_SET_CONN_4W()
+                    self.Fluke5520A_SET_OUT_NORMAL()
+                    self.Fluke5520A_SET_CONN_4W()
 
                 case "IDC":
                     self.Agilent34401A_SET_NPLC_100()
-                    self.Fluke5520_SET_OUT_AUX()
+                    self.Fluke5520A_SET_OUT_AUX()
 
                 case "IAC":
                     self.Agilent34401A_SET_BAND_MIN()
-                    self.Fluke5520_SET_OUT_AUX()
+                    self.Fluke5520A_SET_OUT_AUX()
 
-            self.Fluke5520_SET_SwitchOFF_DIS()
+            self.Fluke5520A_SET_SwitchOFF_DIS()
 
             MOKO.Stage(" ")
             self.Driver_start = True
+
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+
+    def MeasurementStopCommand(self) -> None:
+
+        self.Fluke5520A_SET_SwitchOFF_Enable()
+        self.Fluke5520A_SET_STOP()
+
+        self.Driver_start = False
+        self.ContinueMeasurement = True
+
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+
+#######################################################################################################################
+#######################################  Agilent34401A CHOICE CONNECTED  ##############################################
+#######################################################################################################################
+    def Agilent34401_Choice_Connected(self) -> str:
+        if not self.Simulation:
+            type_connected = MOKO.Messenger("get", "Choose a way to connect AGILENT34401A#@agilent34401a",
+                                                         "Please select an Agilent34401A instrument setup type\n"
+                                                               "Attention. By selecting simulation mode, "
+                                                               "you run all measurements in simulation mode!!!",
+                                                               "choice=Automatic;Manual;Simulation")
+        else:
+            type_connected = "Simulation"
+            
+        MOKO.Stage(" ")
+        return type_connected
+        
+        
+#######################################################################################################################
+#########################################  Agilent34401A Init devices  ################################################
+#######################################################################################################################
+
+    def Agilent34401A_Init_Device(self) -> str:
+        if self.Simulation:
+            MOKO.Stage('Driver: AgilentDMM >> mode: init >> command: ', 'driver')
+            return "connected"
+        elif self.AutomaticAgilent34401A:
+            return MOKO.Driver('AgilentDMM', 'init', '')
+        else:
+            MOKO.Messenger("set", "Make settings Agilent34401A#@agilent34401a",
+                           "Make settings:\nTurn on the device\nPress OK")
+            
+            return "connected"
+
+#######################################################################################################################
+###################################  Agilent34401A NOT SUCCESSFUL INIT devices  #######################################
+#######################################################################################################################
+    def Agilent34401_NOT_SUCCESSFUL_INIT(self) -> bool:
+        return MOKO.Messenger("get", "AGILENT34401A initialization not successful#@agilent34401a",
+                              "Failed to initialize AGILENT34401A. Do you want to continue measuring in "
+                              "Manual mode?", "boolean")
+
+
+#######################################################################################################################
+##########################################  Agilent34401A SET TIMEOUT  ################################################
+#######################################################################################################################
+
+    def Agilent34401A_SET_TIMEOUT(self):
+        if self.Simulation:
+            MOKO.Stage('Driver: AgilentDMM >> mode: set >> command: Timeout = 10000', 'driver')
+        elif self.AutomaticAgilent34401A:
+            MOKO.Driver('AgilentDMM', 'set', 'Timeout = 10000')
+        else:
+            MOKO.Messenger("set", "Make settings Agilent34401A#@agilent34401a",
+                           "Make settings:\nSet Reset\nPress OK")
+
+#######################################################################################################################
+############################################  Agilent34401A SET RESET  ################################################
+#######################################################################################################################
+
+    def Agilent34401A_SET_RESET(self):
+        if self.Simulation:
+            MOKO.Stage('Driver: AgilentDMM >> mode: set >> command: Reset', 'driver')
+        elif self.AutomaticAgilent34401A:
+            MOKO.Driver('AgilentDMM', 'set', 'Reset')
+        else:
+            MOKO.Messenger("set", "Make settings Agilent34401A#@agilent34401a",
+                           "Make settings:\nSet Timeout = 10000\nPress OK")
 
 #######################################################################################################################
 #############################################  Agilent34401A SET FUNC  ################################################
@@ -325,6 +412,8 @@ class ExFluke5000Agilent34401A:
             else:
                 MOKO.Messenger('set', 'Make settings on Agilent34401A#@agilent34401a',
                                f'Make settings:\nSet func = {WireConnection}\nPress OK')
+            
+            
 
 #######################################################################################################################
 #############################################  Agilent34401A SET NPLC  ################################################
@@ -406,13 +495,81 @@ class ExFluke5000Agilent34401A:
         return result
 
 #######################################################################################################################
+#########################################  Fluke5520A CHOICE CONNECTED  ###############################################
+#######################################################################################################################
+
+    def Fluke5520A_Choice_Connected(self) -> str:
+        if not self.Simulation:
+            type_connected = MOKO.Messenger("get", "Choose a way to connect Fluke5520A#@fluke5520a",
+                                            "Please select an Fluke5520A instrument setup type\n"
+                                            "Attention. By selecting simulation mode, "
+                                            "you run all measurements in simulation mode!!!",
+                                            "choice=Automatic;Manual;Simulation")
+        else:
+            type_connected = "Simulation"
+
+        MOKO.Stage(" ")
+        return type_connected
+
+#######################################################################################################################
+############################################  Fluke5520A Init devices  ################################################
+#######################################################################################################################
+
+    def Fluke5520A_Init_Device(self) -> str:
+        if self.Simulation:
+            MOKO.Stage('Driver: Fluke5000 >> mode: init >> command: ', 'driver')
+            return "connected"
+        elif self.AutomaticFluke5520A:
+            return MOKO.Driver('Fluke5000', 'init', '')
+        else:
+            MOKO.Messenger("set", "Make settings on Fluke5520A#@fluke5520a",
+                           "Make settings:\nTurn on the device\nPress OK")
+
+            return "connected"
+
+#######################################################################################################################
+######################################  Fluke5520A NOT SUCCESSFUL INIT devices  #######################################
+#######################################################################################################################
+    
+    def Fluke5520A_NOT_SUCCESSFUL_INIT(self) -> bool:
+        return MOKO.Messenger("get", "Fluke5520A initialization not successful#@fluke5520a",
+                              "Failed to initialize Fluke5520A. Do you want to continue measuring in "
+                              "Manual mode?", "boolean")
+
+#######################################################################################################################
+#############################################  Fluke5520A SET TIMEOUT  ################################################
+#######################################################################################################################
+
+    def Fluke5520A_SET_TIMEOUT(self):
+        if self.Simulation:
+            MOKO.Stage('Driver: Fluke5000 >> mode: set >> command: Timeout = 10000', 'driver')
+        elif self.AutomaticFluke5520A:
+            MOKO.Driver('Fluke5000', 'set', 'Timeout = 10000')
+        else:
+            MOKO.Messenger("set", "Make settings on Fluke5520A#@fluke5520a",
+                           "Make settings:\nSet Reset\nPress OK")
+
+#######################################################################################################################
+###############################################  Fluke5520A SET RESET  ################################################
+#######################################################################################################################
+
+    def Fluke5520A_SET_RESET(self):
+        if self.Simulation:
+            MOKO.Stage('Driver: Fluke5000 >> mode: set >> command: Reset', 'driver')
+        elif self.AutomaticFluke5520A:
+            MOKO.Driver('Fluke5000', 'set', 'Reset')
+        else:
+            MOKO.Messenger("set", "Make settings on Fluke5520A#@fluke5520a",
+                           "Make settings:\nSet Timeout = 10000\nPress OK")
+
+#######################################################################################################################
 ############################################   Fluke5520 SET OUT = AUX   ##############################################
 #######################################################################################################################
 
-    def Fluke5520_SET_OUT_AUX(self) -> None:
+    def Fluke5520A_SET_OUT_AUX(self) -> None:
             if self.Simulation:
                 MOKO.Stage('Driver: Fluke5000 >> mode: set >> command: OUT = AUX', 'driver')
-            elif self.AutomaticFluke5520:
+            elif self.AutomaticFluke5520A:
                 MOKO.Driver('Fluke5000', 'set', 'OUT = AUX')
             else:
                 MOKO.Messenger('set', 'Make settings on Fluke5520A#@fluke5520a',
@@ -422,10 +579,10 @@ class ExFluke5000Agilent34401A:
 ############################################   Fluke5520 SET OUT = NORMAL   ###########################################
 #######################################################################################################################
 
-    def Fluke5520_SET_OUT_NORMAL(self) -> None:
+    def Fluke5520A_SET_OUT_NORMAL(self) -> None:
             if self.Simulation:
                 MOKO.Stage('Driver: Fluke5000 >> mode: set >> command: OUT = NORMAL', 'driver')
-            elif self.AutomaticFluke5520:
+            elif self.AutomaticFluke5520A:
                 MOKO.Driver('Fluke5000', 'set', 'OUT = NORMAL')
             else:
                 MOKO.Messenger('set', 'Make settings on Fluke5520A#@fluke5520a',
@@ -435,10 +592,10 @@ class ExFluke5000Agilent34401A:
 ############################################   Fluke5520 SET Conn = 4w  ###############################################
 #######################################################################################################################
 
-    def Fluke5520_SET_CONN_4W(self) -> None:
+    def Fluke5520A_SET_CONN_4W(self) -> None:
             if self.Simulation:
                 MOKO.Stage('Driver: Fluke5000 >> mode: set >> command: Conn = 4w', 'driver')
-            elif self.AutomaticFluke5520:
+            elif self.AutomaticFluke5520A:
                 MOKO.Driver('Fluke5000', 'set', 'Conn = 4w')
             else:
                 MOKO.Messenger('set', 'Make settings on Fluke5520A#@fluke5520a',
@@ -448,10 +605,10 @@ class ExFluke5000Agilent34401A:
 ############################################   Fluke5520 SET Conn = NO  ###############################################
 #######################################################################################################################
 
-    def Fluke5520_SET_CONN_NO(self) -> None:
+    def Fluke5520A_SET_CONN_NO(self) -> None:
             if self.Simulation:
                 MOKO.Stage('Driver: Fluke5000 >> mode: set >> command: Conn = NO', 'driver')
-            elif self.AutomaticFluke5520:
+            elif self.AutomaticFluke5520A:
                 MOKO.Driver('Fluke5000', 'set', 'Conn = NO')
             else:
                 MOKO.Messenger('set', 'Make settings on Fluke5520A#@fluke5520a',
@@ -463,7 +620,7 @@ class ExFluke5000Agilent34401A:
     def Fluke5520A_SET_VDC(self, verified: (str | float | int)) -> None:
         if self.Simulation:
             MOKO.Stage(f'Driver: Fluke5000 >> mode: set >> command: VDC = {verified}', 'driver')
-        elif self.AutomaticFluke5520:
+        elif self.AutomaticFluke5520A:
             MOKO.Driver('Fluke5000', 'set', f'VDC = {verified}')
         else:
             MOKO.Messenger("set", "Make settings on Fluke5520A#@fluke5520a",
@@ -476,7 +633,7 @@ class ExFluke5000Agilent34401A:
     def Fluke5520A_SET_VAC(self, verified: (str | float | int), frequency: (str | float | int)) -> None:
         if self.Simulation:
             MOKO.Stage(f'DriverSet Fluke5000 >> mode: set >> command: VAC = {verified} {frequency}', 'driver')
-        elif self.AutomaticFluke5520:
+        elif self.AutomaticFluke5520A:
             MOKO.Driver('Fluke5000', 'set', f'VAC = {verified} {frequency}')
         else:
             MOKO.Messenger("set", "Make settings on Fluke5520A#@fluke5520a",
@@ -488,7 +645,7 @@ class ExFluke5000Agilent34401A:
     def Fluke5520A_SET_R(self, verified: (str | float | int)) -> None:
         if self.Simulation:
             MOKO.Stage(f'Driver: Fluke5000 >> mode: set >> command: R = {verified}', 'driver')
-        elif self.AutomaticFluke5520:
+        elif self.AutomaticFluke5520A:
             MOKO.Driver('Fluke5000', 'set', f'R = {verified}')
         else:
             MOKO.Messenger("set", "Make settings on Fluke5520A#@fluke5520a",
@@ -500,7 +657,7 @@ class ExFluke5000Agilent34401A:
     def Fluke5520A_SET_IDC(self, verified: (str | float | int)) -> None:
         if self.Simulation:
             MOKO.Stage(f'Driver: Fluke5000 >> mode: set >> command: IDC = {verified}', 'driver')
-        elif self.AutomaticFluke5520:
+        elif self.AutomaticFluke5520A:
             MOKO.Driver('Fluke5000', 'set', f'IDC = {verified}')
         else:
             MOKO.Messenger("set", "Make settings on Fluke5520A#@fluke5520a",
@@ -512,7 +669,7 @@ class ExFluke5000Agilent34401A:
     def Fluke5520A_SET_IAC(self, verified: (str | float | int), frequency: (str | float | int)) -> None:
         if self.Simulation:
             MOKO.Stage(f'DriverSet Fluke5000 >> mode: set >> command: IAC = {verified} {frequency}', 'driver')
-        elif self.AutomaticFluke5520:
+        elif self.AutomaticFluke5520A:
             MOKO.Driver('Fluke5000', 'set', f'IAC = {verified} {frequency}')
         else:
             MOKO.Messenger("set", "Make settings on Fluke5520A#@fluke5520a",
@@ -522,10 +679,10 @@ class ExFluke5000Agilent34401A:
 #######################################   Fluke5520 SET SwitchOFF = Enable   ##########################################
 #######################################################################################################################
 
-    def Fluke5520_SET_SwitchOFF_Enable(self) -> None:
+    def Fluke5520A_SET_SwitchOFF_Enable(self) -> None:
         if self.Simulation:
             MOKO.Stage('Driver: Fluke5000 >> mode: set >> command: SwitchOFF = ENABLE', 'driver')
-        elif self.AutomaticFluke5520:
+        elif self.AutomaticFluke5520A:
             MOKO.Driver('Fluke5000', 'set', 'SwitchOFF = ENABLE')
         else:
             MOKO.Messenger('set', 'Make settings on Fluke5520A#@fluke5520a',
@@ -535,10 +692,10 @@ class ExFluke5000Agilent34401A:
 ##########################################   Fluke5520 SET SwitchOFF = DIS   ##########################################
 #######################################################################################################################
 
-    def Fluke5520_SET_SwitchOFF_DIS(self) -> None:
+    def Fluke5520A_SET_SwitchOFF_DIS(self) -> None:
         if self.Simulation:
             MOKO.Stage('Driver: Fluke5000 >> mode: set >> command: SwitchOFF = DIS', 'driver')
-        elif self.AutomaticFluke5520:
+        elif self.AutomaticFluke5520A:
             MOKO.Driver('Fluke5000', 'set', 'SwitchOFF = DISABLE')
         else:
             MOKO.Messenger('set', 'Make settings on Fluke5520A#@fluke5520a',
@@ -548,27 +705,15 @@ class ExFluke5000Agilent34401A:
 ##############################################   Fluke5520 SET STOP   #################################################
 #######################################################################################################################
 
-    def Fluke5520_SET_STOP(self) -> None:
+    def Fluke5520A_SET_STOP(self) -> None:
         if self.Simulation:
             MOKO.Stage('Driver: Fluke5000 >> mode: set >> command: Stop', 'driver')
-        elif self.AutomaticFluke5520:
+        elif self.AutomaticFluke5520A:
             MOKO.Driver('Fluke5000', 'set', 'Stop')
         else:
             MOKO.Messenger('set', 'Make settings on Fluke5520A#@fluke5520a',
                            'Make settings:\nSet Stop\nPress OK')
 
-#######################################################################################################################
-#######################################################################################################################
-#######################################################################################################################
-#######################################################################################################################
-#######################################################################################################################
-
-    def MeasurementStopCommand(self) -> None:
-
-        self.Fluke5520_SET_SwitchOFF_Enable()
-        self.Fluke5520_SET_STOP()
-
-        self.Driver_start = False
 
 #######################################################################################################################
 #######################################################################################################################
@@ -578,45 +723,44 @@ class ExFluke5000Agilent34401A:
 #######################################################################################################################
 
     def CheckWireConnection(self, WireConnection: str) -> None:
-        self.ContinueMeasurement = True
-        if self.WireConnection not in ['VDC', 'VAC', 'R2']:
-            if WireConnection == 'VDC':
-                MOKO.Messenger('set',
-                               'Connecting wires#FLUKE5520A_AGILENT34401A_V_R2.png',
-                               'Connect a multimeter to the calibrator to check VDC voltage.\n'
-                               'Calibrator output NORMAL')
-            elif WireConnection == 'VAC':
-                MOKO.Messenger('set',
-                               'Connecting wires#FLUKE5520A_AGILENT34401A_V_R2.png',
-                               'Connect a multimeter to the calibrator to check VAC voltage.\n'
-                               'Calibrator output NORMAL')
-            elif WireConnection == 'R2':
-                MOKO.Messenger('set',
-                               'Connecting wires#FLUKE5520A_AGILENT34401A_V_R2.png',
-                               'Connect a multimeter to the calibrator to check R2 resistance.\n'
-                               'Calibrator output NORMAL')
-        if self.WireConnection not in ['IDC', 'IAC']:
-            if WireConnection == 'IDC':
-                MOKO.Messenger("set",
-                               'Connecting wires#FLUKE5520A_AGILENT34401A_I.png',
-                               'Connect a multimeter to the calibrator to test.\n'
-                               'DC current IDC up to 3 A.\n'
-                               'Calibrator output AUX up to 2 A.')
-            elif WireConnection == 'IAC':
-                MOKO.Messenger("set",
-                               'Connecting wires#FLUKE5520A_AGILENT34401A_I.png',
-                               'Connect a multimeter to the calibrator to test.\n'
-                               'AC current IAC up to 3 A.\n'
-                               'Calibrator output AUX up to 2 A.')
+        
+        if self.WireConnection != WireConnection:
+            match WireConnection:
+                case "VDC":
+                    MOKO.Messenger('set',
+                                   'Connecting wires#FLUKE5520A_AGILENT34401A_V_R2.png',
+                                   'Connect a multimeter to the calibrator to check VDC voltage.\n'
+                                   'Calibrator output NORMAL')
+                case "VAC":
+                    MOKO.Messenger('set',
+                                   'Connecting wires#FLUKE5520A_AGILENT34401A_V_R2.png',
+                                   'Connect a multimeter to the calibrator to check VAC voltage.\n'
+                                   'Calibrator output NORMAL')
+                case "R2":
+                    MOKO.Messenger('set',
+                                   'Connecting wires#FLUKE5520A_AGILENT34401A_V_R2.png',
+                                   'Connect a multimeter to the calibrator to check R2 resistance.\n'
+                                   'Calibrator output NORMAL')
+                case "R4":
+                    MOKO.Messenger('set',
+                                   'Connecting wires#FLUKE5520A_AGILENT34401A_R4.png',
+                                   'Connect a multimeter to the calibrator to check.\n'
+                                   'RES resistance in 4-wire circuit.')
+                case "IDC":
+                    MOKO.Messenger("set",
+                                   'Connecting wires#FLUKE5520A_AGILENT34401A_I.png',
+                                   'Connect a multimeter to the calibrator to test.\n'
+                                   'DC current IDC up to 3 A.\n'
+                                   'Calibrator output AUX up to 2 A.')
+                case "IAC":
+                    MOKO.Messenger("set",
+                                   'Connecting wires#FLUKE5520A_AGILENT34401A_I.png',
+                                   'Connect a multimeter to the calibrator to test.\n'
+                                   'AC current IAC up to 3 A.\n'
+                                   'Calibrator output AUX up to 2 A.')
 
-        if self.WireConnection not in ['R4']:
-            if WireConnection == 'R4':     MOKO.Messenger('set',
-                                                          'Connecting wires#FLUKE5520A_AGILENT34401A_R4.png',
-                                                          'Connect a multimeter to the calibrator to check.\n'
-                                                          'RES resistance in 4-wire circuit.')
-
-        self.WireConnection = WireConnection
-        MOKO.Stage(' ')
+            self.WireConnection = WireConnection
+            MOKO.Stage(' ')
 
 #######################################################################################################################
 #######################################################################################################################
@@ -642,57 +786,35 @@ class ExFluke5000Agilent34401A:
 
     def InitializationAGILENT34401A(self, init: bool = True):
 
-        if not self.Simulation:
-            type_setting_agilent = MOKO.Messenger("get", "Choose a way to connect AGILENT34401A#@agilent34401a",
-                                                  "Please select an Agilent34401A instrument setup type\n"
-                                                  "Attention. By selecting simulation mode, "
-                                                  "you run all measurements in simulation mode!!!",
-                                                  "choice=Automatic;Manual;Simulation")
-        else:
-            type_setting_agilent = 'Simulation'
-
-        MOKO.Stage(" ")
+        type_setting_agilent = self.Agilent34401_Choice_Connected()
 
         MOKO.Report("TYPE_SETTING_AGILENT34401A", "info", "string", "Device setting type")
-
-############################################   AGILENT34401A Init   ###################################################
-#########################################   AGILENT34401A SET Timeout  ################################################
-##########################################   AGILENT34401A SET Reset  #################################################
-        if type_setting_agilent == 'Automatic':
-
-            choices = None
-
-            agilent3401a_status = MOKO.Driver('AgilentDMM', 'init', '')
-
-            if agilent3401a_status != 'connected':
-                choices = MOKO.Messenger("get", "AGILENT34401A initialization not successful#@agilent34401a",
-                                         "Failed to initialize AGILENT34401A. Do you want to continue measuring in "
-                                         "Manual mode?", "boolean")
-
-            if not choices or agilent3401a_status == 'connected':
+        
+        match type_setting_agilent:
+            case 'Simulation':
+                self.Simulation = True
+                MOKO.Report("TYPE_SETTING_AGILENT34401A", "set", 'string', 'Simulation')
+            case 'Automatic':
                 self.AutomaticAgilent34401A = True
                 MOKO.Report("TYPE_SETTING_AGILENT34401A", "set", 'string', 'Automatic')
-                MOKO.Driver('AgilentDMM', 'set', 'Timeout = 10000')
-                MOKO.Driver('AgilentDMM', 'set', 'Reset')
-            else:
-                type_setting_agilent = 'Manual'
+            case "Manual":
+                self.AutomaticAgilent34401A = False
+                MOKO.Report("TYPE_SETTING_AGILENT34401A", "set", 'string', 'Manual')
+            
+        status_connected = self.Agilent34401A_Init_Device()
+        
+        if status_connected != 'connected':
+            is_manual_connected = self.Agilent34401_NOT_SUCCESSFUL_INIT()
+            if is_manual_connected:
+                MOKO.Report("TYPE_SETTING_AGILENT34401A", "set", 'string', 'Manual')
+                self.AutomaticAgilent34401A = False
+            self.Agilent34401A_Init_Device()
+        
+        self.Agilent34401A_SET_TIMEOUT()
+        self.Agilent34401A_SET_RESET()
 
-        if type_setting_agilent == 'Manual':
-            MOKO.Report("TYPE_SETTING_AGILENT34401A", "set", 'string', 'Manual')
-            self.AutomaticAgilent34401A = False
-            MOKO.Messenger("set", "Make settings Agilent34401A#@agilent34401a", "Make settings:\n"
-                                                                                "Turn on the device\n"
-                                                                                "Set Timeout = 10000\n"
-                                                                                "Set Reset\n"
-                                                                                "Press OK")
-        elif type_setting_agilent == 'Simulation':
-            MOKO.Report("TYPE_SETTING_AGILENT34401A", "set", 'string', 'Simulation')
-            self.Simulation = True
-            MOKO.Stage('Driver: AgilentDMM >> mode: init >> command: ', 'driver')
-            MOKO.Stage('Driver: AgilentDMM >> mode: set >> command: Timeout = 10000', 'driver')
-            MOKO.Stage('Driver: AgilentDMM >> mode: set >> command: Reset', 'driver')
 #######################################################################################################################
-
+        
         if init:
             if self.AutomaticAgilent34401A or self.Simulation:
                 MOSC.hesh_passed()
@@ -705,61 +827,37 @@ class ExFluke5000Agilent34401A:
 
     def InitializationFluke5520A(self, init: bool = True) -> None:
 
-        if not self.Simulation:
-            type_setting_fluke = MOKO.Messenger("get", "Choose a way to connect FLUKE5520A#@fluke5520a",
-                                                "Please select an FLUKE5520 instrument setup type\n"
-                                                "Attention. By selecting simulation mode, "
-                                                "you run all measurements in simulation mode!!!",
-                                                "choice=Automatic;Manual;Simulation")
-        else:
-            type_setting_fluke = 'Simulation'
-
-        MOKO.Stage(" ")
+        type_setting_fluke = self.Fluke5520A_Choice_Connected()
 
         MOKO.Report("TYPE_SETTING_FLUKE5520A", "info", "string", "Device setting type")
 
-###################################################   Fluke5520 Init   ################################################
-###############################################   Fluke5520 SET Timeout  ##############################################
-################################################   Fluke5520 SET Reset  ###############################################
+        match type_setting_fluke:
+            case 'Simulation':
+                self.Simulation = True
+                MOKO.Report("TYPE_SETTING_FLUKE5520A", "set", 'string', 'Simulation')
+            case 'Automatic':
+                self.AutomaticFluke5520A = True
+                MOKO.Report("TYPE_SETTING_FLUKE5520A", "set", 'string', 'Automatic')
+            case "Manual":
+                self.AutomaticFluke5520A = False
+                MOKO.Report("TYPE_SETTING_FLUKE5520A", "set", 'string', 'Manual')
 
-        if type_setting_fluke == 'Automatic':
+        status_connected = self.Fluke5520A_Init_Device()
 
-            choices = None
+        if status_connected != 'connected':
+            is_manual_connected = self.Fluke5520A_NOT_SUCCESSFUL_INIT()
+            if is_manual_connected:
+                MOKO.Report("TYPE_SETTING_FLUKE5520A", "set", 'string', 'Manual')
+                self.AutomaticFluke5520A = False
+            self.Fluke5520A_Init_Device()
 
-            fluke_5520a_status = MOKO.Driver('Fluke5000', 'init', '')
-
-            if fluke_5520a_status != 'connected':
-                choices = MOKO.Messenger("get", "Fluke5520A initialization not successful#@fluke5520a",
-                                         "Failed to initialize Fluke5520A. Do you want to continue measuring in "
-                                         "Manual mode?", "boolean")
-            if not choices or fluke_5520a_status == 'connected':
-
-                self.AutomaticFluke5520 = True
-
-                MOKO.Report("TYPE_SETTING_FLUKE5520A", "set", "string", "Automatic")
-                MOKO.Driver('Fluke5000', 'set', 'Timeout = 10000')
-                MOKO.Driver('Fluke5000', 'set', 'Reset')
-            else:
-                type_setting_fluke = 'Manual'
-
-        if type_setting_fluke == 'Manual':
-            MOKO.Report("TYPE_SETTING_FLUKE5520A", "set", "string", "Manual")
-            self.AutomaticFluke5520 = False
-            MOKO.Messenger("set", "Make settings on Fluke5520A#@fluke5520a", "Make settings:\n"
-                                                                             "Turn on the device\n"
-                                                                             "Set Timeout = 10000\n"
-                                                                             "Set Reset\n"
-                                                                             "Press OK")
-        elif type_setting_fluke == 'Simulation':
-            MOKO.Report("TYPE_SETTING_FLUKE5520A", "set", "string", "Simulation")
-            self.Simulation = True
-            MOKO.Stage('Driver: Fluke5000 >> mode: init >> command: ', 'driver')
-            MOKO.Stage('Driver: Fluke5000 >> mode: set >> command: Timeout = 10000', 'driver')
-            MOKO.Stage('Driver: Fluke5000 >> mode: set >> command: Reset', 'driver')
+        self.Fluke5520A_SET_TIMEOUT()
+        self.Fluke5520A_SET_RESET()
 
 #######################################################################################################################
+
         if init:
-            if self.AutomaticFluke5520 or self.Simulation:
+            if self.AutomaticFluke5520A or self.Simulation:
                 MOSC.hesh_passed()
             else:
                 MOSC.hesh_failed()
@@ -898,9 +996,9 @@ class ExFluke5000Agilent34401A:
             self.Simulation = False
 
         if type_setting_Fluke5520A.lower() == 'automatic':
-            self.AutomaticFluke5520 = True
+            self.AutomaticFluke5520A = True
         else:
-            self.AutomaticFluke5520 = False
+            self.AutomaticFluke5520A = False
 
         if type_setting_Agilent34401A.lower() == 'automatic':
             self.AutomaticAgilent34401A = True
