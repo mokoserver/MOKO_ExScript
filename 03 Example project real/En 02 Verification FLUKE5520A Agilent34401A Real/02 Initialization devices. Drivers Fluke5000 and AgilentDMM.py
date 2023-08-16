@@ -1,4 +1,4 @@
-import MOKO
+import MOKO, MOSC
 from ExFluke5000Agilent34401A import Poverka
 
 MOKO.Stage("*********************************************************")
@@ -28,5 +28,11 @@ MOKO.Program('tree', 'set', 'select = Initialization FLUKE5520A$Init')
 Poverka.InitializationFluke5520A()
 
 #endregion Initialization FLUKE5520A$Init
+
+if Poverka.Simulation:
+    MOKO.Program('tree', 'set', 'select = Initialization AGILENT34401$Init')
+    MOSC.hesh_passed()
+    MOKO.Program('tree', 'set', 'select = Initialization FLUKE5520A$Init')
+    MOSC.hesh_passed()
 
 MOKO.EndScript()

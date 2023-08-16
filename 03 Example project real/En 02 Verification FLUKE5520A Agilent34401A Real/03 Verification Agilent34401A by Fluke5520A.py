@@ -30,11 +30,6 @@ def VDC(range: (str | float | int), verified: (str | float | int), error: (str |
         Poverka.RemeasurementNumber = remeasurement_number
         
         Poverka.VDC_Measurement(range=range, verified=verified, error=error)
-        
-        if Poverka.Status == 'Failed':
-            MOSC.hesh_failed()
-        else:
-            MOSC.hesh_passed()
 
 
 def VAC(range: (str | float | int), verified: (str | float | int), frequency: (str | float | int), error: (str | float | int),
@@ -53,11 +48,6 @@ def VAC(range: (str | float | int), verified: (str | float | int), frequency: (s
         
         Poverka.VAC_Measurement(range=range, verified=verified, error=error, frequency=frequency)
 
-        if Poverka.Status == 'Failed':
-            MOSC.hesh_failed()
-        else:
-            MOSC.hesh_passed()
-
 
 def R2(range: (str | float | int), verified: (str | float | int), error: (str | float | int), hesh: str,
        remeasurement: bool = False, remeasurement_number: int = None, time_delay: (float | int) = 0):
@@ -74,11 +64,6 @@ def R2(range: (str | float | int), verified: (str | float | int), error: (str | 
         
         Poverka.R2_Measurement(range=range, verified=verified, error=error)
 
-        if Poverka.Status == 'Failed':
-            MOSC.hesh_failed()
-        else:
-            MOSC.hesh_passed()
-
 
 def R4(range: (str | float | int), verified: (str | float | int), error: (str | float | int), hesh: str,
        remeasurement: bool = False, remeasurement_number: int = None, time_delay: (float | int) = 0):
@@ -94,11 +79,6 @@ def R4(range: (str | float | int), verified: (str | float | int), error: (str | 
         Poverka.RemeasurementNumber = remeasurement_number
         
         Poverka.R4_Measurement(range=range, verified=verified, error=error)
-
-        if Poverka.Status == 'Failed':
-            MOSC.hesh_failed()
-        else:
-            MOSC.hesh_passed()
 
 
 def IDC(range: (str | float | int), verified: (str | float | int), error: (str | float | int), hesh: str,
@@ -117,11 +97,6 @@ def IDC(range: (str | float | int), verified: (str | float | int), error: (str |
         
         Poverka.IDC_Measurement(range=range, verified=verified, error=error)
 
-        if Poverka.Status == 'Failed':
-            MOSC.hesh_failed()
-        else:
-            MOSC.hesh_passed()
-
 
 def IAC(range: (str | float | int), verified: (str | float | int), frequency: (str | float | int), error: (str | float | int),
         hesh: str, remeasurement: bool = False, remeasurement_number: int = None, time_delay: (float | int) = 0):
@@ -138,11 +113,6 @@ def IAC(range: (str | float | int), verified: (str | float | int), frequency: (s
         Poverka.RemeasurementNumber = remeasurement_number
         
         Poverka.IAC_Measurement(range=range, verified=verified, error=error, frequency=frequency)
-
-        if Poverka.Status == 'Failed':
-            MOSC.hesh_failed()
-        else:
-            MOSC.hesh_passed()
 
 
 #region Determining the absolute error of AC voltage measurement$VAC

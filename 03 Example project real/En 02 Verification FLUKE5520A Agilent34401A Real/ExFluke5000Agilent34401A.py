@@ -233,7 +233,10 @@ class ExFluke5000Agilent34401A:
         f_result, accuracy = 0, 0
         while self.ContinueMeasurement:
 
-            time.sleep(self.TimeDelay)
+            if not self.Simulation:
+                time.sleep(self.TimeDelay)
+            else:
+                time.sleep(0.1)
             
             result = self.Agilent34401A_Read_Result(verified=f_verified)
             
@@ -253,13 +256,15 @@ class ExFluke5000Agilent34401A:
                     self.CallMessengerErrorPoint(
                         verified=f_verified, error=error, result=f_result, reference_number=verified)
                     continue
-            else:
-                if accuracy > error:
-                    self.Status = 'Failed'
-                else:
-                    self.Status = 'OK'
-                self.Count_meas = 0
 
+            if accuracy > error:
+                self.Status = 'Failed'
+                MOSC.hesh_failed()
+            else:
+                self.Status = 'OK'
+                MOSC.hesh_passed()
+
+            self.Count_meas = 0
             self.ContinueMeasurement = False
         return f_result, accuracy
 
@@ -281,24 +286,24 @@ class ExFluke5000Agilent34401A:
                 case "VDC":
                     self.Agilent34401A_SET_NPLC_100()
                     self.Fluke5520_SET_OUT_NORMAL()
-                    
+
                 case "VAC":
                     self.Agilent34401A_SET_BAND_MIN()
                     self.Fluke5520_SET_OUT_NORMAL()
-                    
+
                 case "R2":
                     self.Agilent34401A_SET_NPLC_100()
                     self.Fluke5520_SET_CONN_NO()
-                    
+
                 case "R4":
                     self.Agilent34401A_SET_NPLC_100()
                     self.Fluke5520_SET_OUT_NORMAL()
                     self.Fluke5520_SET_CONN_4W()
-                    
+
                 case "IDC":
                     self.Agilent34401A_SET_NPLC_100()
                     self.Fluke5520_SET_OUT_AUX()
-                    
+
                 case "IAC":
                     self.Agilent34401A_SET_BAND_MIN()
                     self.Fluke5520_SET_OUT_AUX()
@@ -344,7 +349,7 @@ class ExFluke5000Agilent34401A:
         elif self.AutomaticAgilent34401A:
             MOKO.Driver('AgilentDMM', 'set', 'RES = MIN')
         else:
-            MOKO.Messenger('set', 'Make settings#@attention',
+            MOKO.Messenger('set', 'Make settings on Agilent34401A#@agilent34401a',
                            'Set Resolution = MIN;\nPress OK')
 
 #######################################################################################################################
@@ -358,7 +363,7 @@ class ExFluke5000Agilent34401A:
         elif self.AutomaticAgilent34401A:
             MOKO.Driver('AgilentDMM', 'set', 'BAND = 3')
         else:
-            MOKO.Messenger('set', 'Make settings#@attention',
+            MOKO.Messenger('set', 'Make settings on Agilent34401A#@agilent34401a',
                            'Set the filter to 3 Hz;\nPress OK')
 
 #######################################################################################################################
@@ -382,9 +387,8 @@ class ExFluke5000Agilent34401A:
         elif self.AutomaticAgilent34401A:
             MOKO.Driver('AgilentDMM', 'set', 'AUTOZERO = ONCE')
         else:
-            MOKO.Messenger('set', 'Make settings#@attention',
-                           'Set the resolution to 4th decimal places;\n'
-                           'Click OK')
+            MOKO.Messenger('set', 'Make settings on Agilent34401A#@agilent34401a',
+                           'Set the resolution to 4th decimal places;\nClick OK')
 
 #######################################################################################################################
 ##########################################  Agilent34401A READ RESULT  ################################################
@@ -412,7 +416,7 @@ class ExFluke5000Agilent34401A:
                 MOKO.Driver('Fluke5000', 'set', 'OUT = AUX')
             else:
                 MOKO.Messenger('set', 'Make settings on Fluke5520A#@fluke5520a',
-                               f'Make settings:\nSet OUT = AUX\nPress OK')
+                               'Make settings:\nSet OUT = AUX\nPress OK')
 
 #######################################################################################################################
 ############################################   Fluke5520 SET OUT = NORMAL   ###########################################
@@ -425,7 +429,7 @@ class ExFluke5000Agilent34401A:
                 MOKO.Driver('Fluke5000', 'set', 'OUT = NORMAL')
             else:
                 MOKO.Messenger('set', 'Make settings on Fluke5520A#@fluke5520a',
-                               f'Make settings:\nSet OUT = NORMAL\nPress OK')
+                               'Make settings:\nSet OUT = NORMAL\nPress OK')
 
 #######################################################################################################################
 ############################################   Fluke5520 SET Conn = 4w  ###############################################
@@ -438,7 +442,7 @@ class ExFluke5000Agilent34401A:
                 MOKO.Driver('Fluke5000', 'set', 'Conn = 4w')
             else:
                 MOKO.Messenger('set', 'Make settings on Fluke5520A#@fluke5520a',
-                               f'Make settings:\nSet Conn = 4w\nPress OK')
+                            'Make settings:\nSet Conn = 4w\nPress OK')
 
 #######################################################################################################################
 ############################################   Fluke5520 SET Conn = NO  ###############################################
@@ -451,7 +455,7 @@ class ExFluke5000Agilent34401A:
                 MOKO.Driver('Fluke5000', 'set', 'Conn = NO')
             else:
                 MOKO.Messenger('set', 'Make settings on Fluke5520A#@fluke5520a',
-                               f'Make settings:\nSet Conn = NO\nPress OK')
+                               'Make settings:\nSet Conn = NO\nPress OK')
 
 #######################################################################################################################
 ###############################################   Fluke5520 SET VDC   #################################################
@@ -517,7 +521,7 @@ class ExFluke5000Agilent34401A:
 #######################################################################################################################
 #######################################   Fluke5520 SET SwitchOFF = Enable   ##########################################
 #######################################################################################################################
-            
+
     def Fluke5520_SET_SwitchOFF_Enable(self) -> None:
         if self.Simulation:
             MOKO.Stage('Driver: Fluke5000 >> mode: set >> command: SwitchOFF = ENABLE', 'driver')
@@ -525,7 +529,7 @@ class ExFluke5000Agilent34401A:
             MOKO.Driver('Fluke5000', 'set', 'SwitchOFF = ENABLE')
         else:
             MOKO.Messenger('set', 'Make settings on Fluke5520A#@fluke5520a',
-                           f'Make settings:\nSet Stop\nPress OK')
+                           'Make settings:\nSet Stop\nPress OK')
 
 #######################################################################################################################
 ##########################################   Fluke5520 SET SwitchOFF = DIS   ##########################################
@@ -538,7 +542,7 @@ class ExFluke5000Agilent34401A:
             MOKO.Driver('Fluke5000', 'set', 'SwitchOFF = DISABLE')
         else:
             MOKO.Messenger('set', 'Make settings on Fluke5520A#@fluke5520a',
-                           f'Make settings:\nSet SwitchOFF = DISABLE\nPress OK')
+                           'Make settings:\nSet SwitchOFF = DISABLE\nPress OK')
 
 #######################################################################################################################
 ##############################################   Fluke5520 SET STOP   #################################################
@@ -551,7 +555,7 @@ class ExFluke5000Agilent34401A:
             MOKO.Driver('Fluke5000', 'set', 'Stop')
         else:
             MOKO.Messenger('set', 'Make settings on Fluke5520A#@fluke5520a',
-                           f'Make settings:\nSet Stop\nPress OK')
+                           'Make settings:\nSet Stop\nPress OK')
 
 #######################################################################################################################
 #######################################################################################################################
@@ -700,6 +704,7 @@ class ExFluke5000Agilent34401A:
 #######################################################################################################################
 
     def InitializationFluke5520A(self, init: bool = True) -> None:
+
         if not self.Simulation:
             type_setting_fluke = MOKO.Messenger("get", "Choose a way to connect FLUKE5520A#@fluke5520a",
                                                 "Please select an FLUKE5520 instrument setup type\n"
@@ -776,7 +781,7 @@ class ExFluke5000Agilent34401A:
 
     def CallMessengerChoices(self, verified: (float | int), error: (float | int), result: (float | int),
                              reference_number: str) -> str:
-        
+
         self.SettingMeasurementLimits(verified=verified, error=error)
 
         limit_type = "lower" if self.LowerLimitResult > result else "upper"
@@ -803,7 +808,7 @@ class ExFluke5000Agilent34401A:
 
     def CallMessengerErrorPoint(self, verified: (float | int), error: (float | int), result: (float | int),
                                 reference_number: str) -> None:
-        
+
         self.SettingMeasurementLimits(verified=verified, error=error)
 
         limit_type = "lower" if self.LowerLimitResult > result else "upper"
@@ -875,7 +880,7 @@ class ExFluke5000Agilent34401A:
 #######################################################################################################################
 #######################################################################################################################
 
-    def __init_connected_and_type_connected(self):
+    def __init_connected_and_type_connected(self) -> None:
         type_setting_Fluke5520A = MOKO.Report("TYPE_SETTING_FLUKE5520A", "get", "string", "", 'string')
         type_setting_Agilent34401A = MOKO.Report("TYPE_SETTING_AGILENT34401A", "get", "string", "", 'string')
 
