@@ -266,6 +266,7 @@ class ExFluke5000Agilent34401A:
 
             self.Count_meas = 0
             self.ContinueMeasurement = False
+        self.ContinueMeasurement = True
         return f_result, accuracy
 
 #######################################################################################################################
