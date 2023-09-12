@@ -1,5 +1,5 @@
 {
-"project_name":"Verification Fluke5520A Agilent34401A",
+"project_name":"Verification FLUKE5520A Agilent34401A",
 "project_autosave":"true",
 "project_scripts":[
 {"script":"01 Registration verification unit.py","necessary":"true"},
