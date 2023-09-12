@@ -1,11 +1,11 @@
 import MOKO
 import MTLG
-from Demo_Test_IoT_4_Wave import Testing
+from SettingsAndMeasurement import Testing
 
 MTLG.TelegramProgram('alpha', 'Initialization devices', 'set', 'init', 'string')
 
 MOKO.Stage("*********************************************************")
-MOKO.Stage("***************** Init devices script *******************")
+MOKO.Stage("***************** Init device  script *******************")
 MOKO.Stage("*********************************************************")
 MOKO.Stage(" ")
 MOKO.Stage("*********************************************************")
@@ -22,22 +22,26 @@ MOKO.Report('DevicesUsed', 'info', 'table', 'Devices#300; Status#300;')
 #region Initialization BK1697B$Init
 MOKO.Program('tree', 'set', 'select = Initialization BK1697B$Init')
 
-Testing.InitializationBK1697B()
+Testing.BK1697B.Initialization()
 
 #endregion Initialization BK1697B$Init
 
 #region Initialization FY6900$Init
 MOKO.Program('tree', 'set', 'select = Initialization FY6900$Init')
 
-Testing.InitializationFY6900()
+Testing.FY6900.Initialization()
 
 #endregion Initialization FY6900$Init
 
 #region Initialization APPA207$Init
 MOKO.Program('tree', 'set', 'select = Initialization APPA207$Init')
 
-Testing.InitializationAPPA207()
+Testing.APPA207.Initialization()
 
 #endregion Initialization APPA207$Init
+
+Testing.check_simulation_mode()
+
+Testing.BK1697B.SET_OUTPUT_OFF()
 
 MOKO.EndScript()

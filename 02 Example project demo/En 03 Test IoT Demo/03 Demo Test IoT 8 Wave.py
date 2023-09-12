@@ -12,7 +12,7 @@ MOKO.Stage('***************** Null flags of system ******************')
 MOKO.Stage("*********************************************************")
 MOKO.Stage(" ")
 Testing.LoadTablesHeadInfo()
-Testing.OutOFFCommand()
+Testing.SET_OUTPUT_OFF()
 
 
 def VDC(value: (str, float, int),
@@ -122,7 +122,7 @@ VDC(value=37,  value_limit=40, percent_error=20, wave='sin',  amplitude=5, ampli
 VDC(value=40,  value_limit=40, percent_error=20, wave='sin',  amplitude=5, amplitude_limit=10, frequency='10k', time_delay=1.0000, remeasurement=True, remeasurement_number=3, hesh='Meas 20$VDC_SIN') #hesh Meas 20$VDC_SIN:  40 ;40  ;20  ;sin ;5  ;10  ;10k  ;1.000000  ;True  ;3
 
 Testing.GetScreenshot()
-Testing.OutOFFCommand()
+Testing.SET_OUTPUT_OFF()
 #endregion Voltage measurement with generator signal sin$VDC_SIN
 
 
@@ -155,7 +155,7 @@ VDC(value=37,  value_limit=40, percent_error=20, wave='square',  amplitude=5, am
 VDC(value=40,  value_limit=40, percent_error=20, wave='square',  amplitude=5, amplitude_limit=10, frequency='10k', time_delay=1.0000, remeasurement=True, remeasurement_number=3, hesh='Meas 20$VDC_SQUARE') #hesh Meas 20$VDC_SQUARE:  40 ;40  ;20  ;square ;5  ;10  ;10k  ;1.000000  ;True  ;3
 
 Testing.GetScreenshot()
-Testing.OutOFFCommand()
+Testing.SET_OUTPUT_OFF()
 #endregion Voltage measurement with generator signal square$VDC_SQUARE
 
 
@@ -188,7 +188,7 @@ VDC(value=37,  value_limit=40, percent_error=20, wave='rectangle',  amplitude=5,
 VDC(value=40,  value_limit=40, percent_error=20, wave='rectangle',  amplitude=5, amplitude_limit=10, frequency='10k', time_delay=1.0000, remeasurement=True, remeasurement_number=3, hesh='Meas 20$VDC_RECTANGLE') #hesh Meas 20$VDC_RECTANGLE:  40 ;40  ;20  ;rectangle ;5  ;10  ;10k  ;1.000000  ;True  ;3
 
 Testing.GetScreenshot()
-Testing.OutOFFCommand()
+Testing.SET_OUTPUT_OFF()
 #endregion Voltage measurement with generator signal rectangle$VDC_RECTANGLE
 
 
@@ -221,7 +221,7 @@ VDC(value=37,  value_limit=40, percent_error=20, wave='trapezoid',  amplitude=5,
 VDC(value=40,  value_limit=40, percent_error=20, wave='trapezoid',  amplitude=5, amplitude_limit=10, frequency='10k', time_delay=1.0000, remeasurement=True, remeasurement_number=3, hesh='Meas 20$VDC_TRAPEZOID') #hesh Meas 20$VDC_TRAPEZOID:  40 ;40  ;20  ;trapezoid ;5  ;10  ;10k  ;1.000000  ;True  ;3
 
 Testing.GetScreenshot()
-Testing.OutOFFCommand()
+Testing.SET_OUTPUT_OFF()
 #endregion Voltage measurement with generator signal trapezoid$VDC_TRAPEZOID
 
 
@@ -254,7 +254,7 @@ IDC(value=4,    value_limit=5, percent_error=20,  wave='CMOS', amplitude=5,  amp
 IDC(value=5,    value_limit=5, percent_error=20,  wave='CMOS', amplitude=5,  amplitude_limit=10, frequency='10k', time_delay=1.0000, remeasurement=True, remeasurement_number=3, hesh='Meas 20$IDC_CMOS')  #hesh Meas 20$IDC_CMOS: 5    ;5  ;20  ;CMOS ;5  ;10  ;10k  ;1.000000  ;True  ;3
 
 Testing.GetScreenshot()
-Testing.OutOFFCommand()
+Testing.SET_OUTPUT_OFF()
 #endregion Current measurement with generator signal CMOS$IDC_CMOS
 
 
@@ -287,7 +287,7 @@ IDC(value=4,    value_limit=5, percent_error=20,  wave='pulse', amplitude=5,  am
 IDC(value=5,    value_limit=5, percent_error=20,  wave='pulse', amplitude=5,  amplitude_limit=10, frequency='10k', time_delay=1.0000, remeasurement=True, remeasurement_number=3, hesh='Meas 20$IDC_PULSE')  #hesh Meas 20$IDC_PULSE: 5    ;5  ;20  ;pulse ;5  ;10  ;10k  ;1.000000  ;True  ;3
 
 Testing.GetScreenshot()
-Testing.OutOFFCommand()
+Testing.SET_OUTPUT_OFF()
 #endregion Current measurement with generator signal pulse$IDC_PULSE
 
 
@@ -320,7 +320,7 @@ IDC(value=4,    value_limit=5, percent_error=20,  wave='ramp', amplitude=5,  amp
 IDC(value=5,    value_limit=5, percent_error=20,  wave='ramp', amplitude=5,  amplitude_limit=10, frequency='10k', time_delay=1.0000, remeasurement=True, remeasurement_number=3, hesh='Meas 20$IDC_RAMP')  #hesh Meas 20$IDC_RAMP: 5    ;5  ;20  ;ramp ;5  ;10  ;10k  ;1.000000  ;True  ;3
 
 Testing.GetScreenshot()
-Testing.OutOFFCommand()
+Testing.SET_OUTPUT_OFF()
 #endregion Current measurement with generator signal ramp$IDC_RAMP
 
 #region Current measurement with generator signal negative ramp$IDC_NEGRAMP
@@ -352,7 +352,7 @@ IDC(value=4,    value_limit=5, percent_error=20,  wave='negramp', amplitude=5,  
 IDC(value=5,    value_limit=5, percent_error=20,  wave='negramp', amplitude=5,  amplitude_limit=10, frequency='10k', time_delay=1.0000, remeasurement=True, remeasurement_number=3, hesh='Meas 20$IDC_NEGRAMP')  #hesh Meas 20$IDC_NEGRAMP: 5    ;5  ;20  ;negramp ;5  ;10  ;10k  ;1.000000  ;True  ;3
 
 Testing.GetScreenshot()
-Testing.OutOFFCommand()
+Testing.SET_OUTPUT_OFF()
 #endregion Current measurement with generator signal negative ramp$IDC_NEGRAMP
 
 MOKO.Stage(" ")

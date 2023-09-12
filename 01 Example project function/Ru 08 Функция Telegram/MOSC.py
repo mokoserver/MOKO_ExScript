@@ -63,7 +63,7 @@ def stage_header(test_name: str, GOST_point: str) -> None:
     MOKO.Stage(center_50(' Measurements of ' + test_name + ' '))
     MOKO.Stage(center_50(' check point ' + GOST_point + ' '))
     MOKO.Stage(center_50('*'))
-    MOKO.Stage("")
+    MOKO.Stage(" ")
 
 def format_header(header: str) -> str:
     """
@@ -185,6 +185,12 @@ def status_tree(hesh: str) -> bool:
     return False
 
 # Обновления 23.11.2022 Johnny Respect
+
+
+def get_hashes_status(hesh: str) -> str:
+    status = MOKO.Program('tree', 'get', 'hesh ' + hesh, 'string')
+    return status
+
 
 def HeshStatus(hesh: str) -> bool:
     """

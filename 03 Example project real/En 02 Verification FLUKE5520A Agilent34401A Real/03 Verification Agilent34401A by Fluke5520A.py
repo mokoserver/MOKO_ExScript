@@ -1,4 +1,4 @@
-from ExFluke5000Agilent34401A import Poverka
+from SettingsAndMeasurement import Poverka
 import MOKO
 import MOSC
 

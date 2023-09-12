@@ -1,5 +1,5 @@
-import MOKO, MOSC
-from ExFluke5000Agilent34401A import Poverka
+import MOKO
+from SettingsAndMeasurement import Poverka
 
 MOKO.Stage("*********************************************************")
 MOKO.Stage("************ Initialization devices script **************")
@@ -7,7 +7,7 @@ MOKO.Stage("*********************************************************")
 MOKO.Stage(" ")
 
 MOKO.Stage("*********************************************************")
-MOKO.Messenger("set", 'Connect device#FLUKE5520A_AGILENT34401A.png',
+MOKO.Messenger("set", 'Connect device#@agilent34401a',
                'Сonnect the device under test via the interface\n'
                'Reference equipment: FLUKE5520.\n'
                'Verified equipment: AGILENT34401.\n'
@@ -15,24 +15,20 @@ MOKO.Messenger("set", 'Connect device#FLUKE5520A_AGILENT34401A.png',
 MOKO.Stage("*********************************************************")
 MOKO.Stage(" ")
 
-#region Initialization AGILENT34401$Init
-MOKO.Program('tree', 'set', 'select = Initialization AGILENT34401$Init')
+#region Initialization AGILENT34401A$Init
+MOKO.Program('tree', 'set', 'select = Initialization AGILENT34401A$Init')
 
-Poverka.InitializationAGILENT34401A()
+Poverka.Agilent34401A.Initialization()
 
-#endregion Initialization AGILENT34401$Init
+#endregion Initialization AGILENT34401A$Init
 
 #region Initialization FLUKE5520A$Init
 MOKO.Program('tree', 'set', 'select = Initialization FLUKE5520A$Init')
 
-Poverka.InitializationFluke5520A()
+Poverka.Fluke5520A.Initialization()
 
 #endregion Initialization FLUKE5520A$Init
 
-if Poverka.Simulation:
-    MOKO.Program('tree', 'set', 'select = Initialization AGILENT34401$Init')
-    MOSC.hesh_passed()
-    MOKO.Program('tree', 'set', 'select = Initialization FLUKE5520A$Init')
-    MOSC.hesh_passed()
+Poverka.check_simulation_mode()
 
 MOKO.EndScript()

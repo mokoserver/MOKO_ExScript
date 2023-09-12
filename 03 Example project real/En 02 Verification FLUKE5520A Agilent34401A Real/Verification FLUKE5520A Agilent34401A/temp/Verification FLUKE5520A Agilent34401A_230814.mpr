@@ -29,13 +29,13 @@
 {"name":"GosNumber","kind":"string","info":"Measurement number","script":"01 Registration verification unit",
 "data":"52147-12"},
 {"name":"VerificationConditions","kind":"table","info":"Controlled parameters#150;ND requirements#100;Measured values#100;","script":"01 Registration verification unit",
-"data":"Temperature; 20°C; 22,0;\r
+"data":"Temperature; 20ï¿½C; 22,0;\r
 Humidity; 60%; 50,0;\r
 Pressure; 100kPa; 99,0;\r
 "},
 {"name":"VerificationTools","kind":"table","info":"Name, type, serial number#350;Metrological characteristics#400;","script":"01 Registration verification unit",
-"data":"Fluke 5522A Multifunctional Calibrator Serial ¹2182904; U=(34mV-1000V), Error±(0,0012-0,005)%, 2nd category\nI=(24uA-10A), Error±(0,011-0,1)%, 1 category\nU~(25mV-1000V), 10Hz-500kHz, Error±(0,017-1)% 2nd category\nI~=(2uA-10A), 20Hz-20kHz, Error±(0,046-3,02)%, 2nd category\nR=(0,50[Ohm]-50[Ohm]), (110M[Ohm]-1100M[Ohm]), Error ±(0,33-2)%, 3nd category;\r
-Universal voltmeter calibrator H4-12 Serial ¹005211; U=(0,001V-1000V), Error±(0,000315 – 0,0011)%  2-nd category\nU~=(0.75mV-1000V), 10Hz-50kHz, Error±(0,003 – 0,23)%, 2-nd category\nI=(70nA-30A), Error±(0,00275 – 0,05)%, 1 category\nI~=(70nA-20A), 0,1Hz-10kHz, Error±(0,0165 – 0,55)%, 2-nd category;\r
+"data":"Fluke 5522A Multifunctional Calibrator Serial ï¿½2182904; U=(34mV-1000V), Errorï¿½(0,0012-0,005)%, 2nd category\nI=(24uA-10A), Errorï¿½(0,011-0,1)%, 1 category\nU~(25mV-1000V), 10Hz-500kHz, Errorï¿½(0,017-1)% 2nd category\nI~=(2uA-10A), 20Hz-20kHz, Errorï¿½(0,046-3,02)%, 2nd category\nR=(0,50[Ohm]-50[Ohm]), (110M[Ohm]-1100M[Ohm]), Error ï¿½(0,33-2)%, 3nd category;\r
+Universal voltmeter calibrator H4-12 Serial ï¿½005211; U=(0,001V-1000V), Errorï¿½(0,000315 ï¿½ 0,0011)%  2-nd category\nU~=(0.75mV-1000V), 10Hz-50kHz, Errorï¿½(0,003 ï¿½ 0,23)%, 2-nd category\nI=(70nA-30A), Errorï¿½(0,00275 ï¿½ 0,05)%, 1 category\nI~=(70nA-20A), 0,1Hz-10kHz, Errorï¿½(0,0165 ï¿½ 0,55)%, 2-nd category;\r
 "},
 {"name":"TYPE_SETTING_FLUKE5520A","kind":"string","info":"Device setting type","script":"02 Initialization devices. Drivers Fluke5000 and AgilentDMM",
 "data":"Simulation"},
@@ -94,7 +94,7 @@ Universal voltmeter calibrator H4-12 Serial ¹005211; U=(0,001V-1000V), Error±(0,
 {"line":"1","name":"01 Registration verification unit","type":"script","project":"Verification FLUKE5520A Agilent34401A","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
 {"line":"2","name":"Equipment registration$Reg","type":"region","project":"Verification FLUKE5520A Agilent34401A","script":"01 Registration verification unit","region":"","status":"passed","pcode":"5","pcount":"2"},
 {"line":"3","name":"02 Initialization devices. Drivers Fluke5000 and AgilentDMM","type":"script","project":"Verification FLUKE5520A Agilent34401A","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
-{"line":"4","name":"Initialization AGILENT34401$Init","type":"region","project":"Verification FLUKE5520A Agilent34401A","script":"02 Initialization devices. Drivers Fluke5000 and AgilentDMM","region":"","status":"passed","pcode":"5","pcount":"2"},
+{"line":"4","name":"Initialization AGILENT34401A$Init","type":"region","project":"Verification FLUKE5520A Agilent34401A","script":"02 Initialization devices. Drivers Fluke5000 and AgilentDMM","region":"","status":"passed","pcode":"5","pcount":"2"},
 {"line":"5","name":"Initialization FLUKE5520A$Init","type":"region","project":"Verification FLUKE5520A Agilent34401A","script":"02 Initialization devices. Drivers Fluke5000 and AgilentDMM","region":"","status":"passed","pcode":"5","pcount":"2"},
 {"line":"6","name":"03 Verification Agilent34401A by Fluke5520A","type":"script","project":"Verification FLUKE5520A Agilent34401A","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
 {"line":"7","name":"Determining the absolute error of AC voltage measurement$VAC","type":"region","project":"Verification FLUKE5520A Agilent34401A","script":"03 Verification Agilent34401A by Fluke5520A","region":"","status":"empty","pcode":"0","pcount":"8"},

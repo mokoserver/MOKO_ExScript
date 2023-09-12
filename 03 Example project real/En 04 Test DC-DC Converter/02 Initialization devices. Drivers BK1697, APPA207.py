@@ -5,7 +5,7 @@ from Real_Test_DC_DC_Converter import Testing
 MTLG.TelegramProgram('alpha', 'Initialization devices', 'set', 'init', 'string')
 
 MOKO.Stage("*********************************************************")
-MOKO.Stage("***************** Init devices script *******************")
+MOKO.Stage("***************** Init device  script *******************")
 MOKO.Stage("*********************************************************")
 MOKO.Stage(" ")
 MOKO.Stage("*********************************************************")

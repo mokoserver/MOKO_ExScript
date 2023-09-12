@@ -186,6 +186,12 @@ def status_tree(hesh: str) -> bool:
 
 # Обновления 23.11.2022 Johnny Respect
 
+
+def get_hashes_status(hesh: str) -> str:
+    status = MOKO.Program('tree', 'get', 'hesh ' + hesh, 'string')
+    return status
+
+
 def HeshStatus(hesh: str) -> bool:
     """
         This function selects tree hesh and checks it content

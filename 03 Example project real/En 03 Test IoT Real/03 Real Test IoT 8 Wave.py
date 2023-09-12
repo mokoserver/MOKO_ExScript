@@ -1,6 +1,6 @@
 import MOKO
 from MOSC import HeshStatus, hesh_passed, hesh_failed
-from Demo_Test_IoT_8_Wave import Testing
+from SettingsAndMeasurement import Testing
 import MTLG
 MTLG.TelegramProgram('alpha', 'Measurement script', 'set', 'init', 'string')
 MOKO.Stage("*********************************************************")
@@ -11,9 +11,7 @@ MOKO.Stage("*********************************************************")
 MOKO.Stage('**************** Null flags of system ****************')
 MOKO.Stage("*********************************************************")
 MOKO.Stage(" ")
-Testing.LoadTablesHeadInfo()
-Testing.OutOFFCommand()
-
+Testing.LoadTablesHeadInfo(number_wave=8)
 
 def VDC(
         value: (str | float | int),
@@ -36,7 +34,7 @@ def VDC(
 
         Testing.CheckWireConnection(WireConnection='VDC')
 
-        Testing.OutONNCommand()
+        Testing.BK1697B.SET_OUTPUT_ON()
         Testing.CheckGraphInit()
         Testing.CreateGraphMask(value_limit=value_limit)
 
@@ -44,9 +42,9 @@ def VDC(
         Testing.Remeasurement = remeasurement
         Testing.RemeasurementNumber = remeasurement_number
 
-        Testing.MeasurementAndReport(value=value, value_limit=value_limit, wave=wave, percent_error=percent_error,
-                                     amplitude=amplitude, amplitude_limit=amplitude_limit, frequency=frequency,
-                                     hesh=hesh, WireConnection='VDC')
+        Testing.VDC_Measurement(value=value, value_limit=value_limit, wave=wave, percent_error=percent_error,
+                                amplitude=amplitude, amplitude_limit=amplitude_limit, frequency=frequency,
+                                hesh=hesh)
         Testing.CreateGraph()
 
         if Testing.Status == 'Failed':
@@ -66,7 +64,7 @@ def IDC(
         hesh: str,
         remeasurement: bool = False,
         remeasurement_number: int = 0,
-        time_delay: (float | int) = 0.0
+        time_delay: (int, float) = 0.0
 
 ) -> None:
 
@@ -76,7 +74,7 @@ def IDC(
 
         Testing.CheckWireConnection(WireConnection='IDC')
 
-        Testing.OutONNCommand()
+        Testing.BK1697B.SET_OUTPUT_ON()
         Testing.CheckGraphInit()
         Testing.CreateGraphMask(value_limit=value_limit)
 
@@ -84,9 +82,9 @@ def IDC(
         Testing.Remeasurement = remeasurement
         Testing.RemeasurementNumber = remeasurement_number
 
-        Testing.MeasurementAndReport(value=value, value_limit=value_limit, wave=wave, percent_error=percent_error,
-                                     amplitude=amplitude, amplitude_limit=amplitude_limit, frequency=frequency,
-                                     hesh=hesh, WireConnection='IDC')
+        Testing.IDC_MEASUREMENT(value=value, value_limit=value_limit, wave=wave, percent_error=percent_error,
+                                amplitude=amplitude, amplitude_limit=amplitude_limit, frequency=frequency,
+                                hesh=hesh)
         Testing.CreateGraph()
 
         if Testing.Status == 'Failed':
@@ -124,7 +122,7 @@ VDC(value=37,  value_limit=40, percent_error=20, wave='sin',  amplitude=5, ampli
 VDC(value=40,  value_limit=40, percent_error=20, wave='sin',  amplitude=5, amplitude_limit=10, frequency='10k', time_delay=0.05, remeasurement=True, remeasurement_number=3, hesh='Meas 20$VDC_SIN') #hesh Meas 20$VDC_SIN:  40 ;40  ;20  ;sin ;5  ;10  ;10k  ;0.300  ;True  ;3
 
 Testing.GetScreenshot()
-Testing.OutOFFCommand()
+Testing.BK1697B.SET_OUTPUT_OFF()
 #endregion Voltage measurement with generator signal sin$VDC_SIN
 
 
@@ -157,7 +155,7 @@ VDC(value=37,  value_limit=40, percent_error=20, wave='square',  amplitude=5, am
 VDC(value=40,  value_limit=40, percent_error=20, wave='square',  amplitude=5, amplitude_limit=10, frequency='10k', time_delay=0.05, remeasurement=True, remeasurement_number=3, hesh='Meas 20$VDC_SQUARE') #hesh Meas 20$VDC_SQUARE:  40 ;40  ;20  ;square ;5  ;10  ;10k  ;0.300  ;True  ;3
 
 Testing.GetScreenshot()
-Testing.OutOFFCommand()
+Testing.BK1697B.SET_OUTPUT_OFF()
 #endregion Voltage measurement with generator signal square$VDC_SQUARE
 
 
@@ -190,7 +188,7 @@ VDC(value=37,  value_limit=40, percent_error=20, wave='rectangle',  amplitude=5,
 VDC(value=40,  value_limit=40, percent_error=20, wave='rectangle',  amplitude=5, amplitude_limit=10, frequency='10k', time_delay=0.05, remeasurement=True, remeasurement_number=3, hesh='Meas 20$VDC_RECTANGLE') #hesh Meas 20$VDC_RECTANGLE:  40 ;40  ;20  ;rectangle ;5  ;10  ;10k  ;0.300  ;True  ;3
 
 Testing.GetScreenshot()
-Testing.OutOFFCommand()
+Testing.BK1697B.SET_OUTPUT_OFF()
 #endregion Voltage measurement with generator signal rectangle$VDC_RECTANGLE
 
 
@@ -223,7 +221,7 @@ VDC(value=37,  value_limit=40, percent_error=20, wave='trapezoid',  amplitude=5,
 VDC(value=40,  value_limit=40, percent_error=20, wave='trapezoid',  amplitude=5, amplitude_limit=10, frequency='10k', time_delay=0.05, remeasurement=True, remeasurement_number=3, hesh='Meas 20$VDC_TRAPEZOID') #hesh Meas 20$VDC_TRAPEZOID:  40 ;40  ;20  ;trapezoid ;5  ;10  ;10k  ;0.300  ;True  ;3
 
 Testing.GetScreenshot()
-Testing.OutOFFCommand()
+Testing.BK1697B.SET_OUTPUT_OFF()
 #endregion Voltage measurement with generator signal trapezoid$VDC_TRAPEZOID
 
 
@@ -256,7 +254,7 @@ IDC(value=4,    value_limit=5, percent_error=20,  wave='CMOS', amplitude=5,  amp
 IDC(value=5,    value_limit=5, percent_error=20,  wave='CMOS', amplitude=5,  amplitude_limit=10, frequency='10k', time_delay=0.05, remeasurement=True, remeasurement_number=3, hesh='Meas 20$IDC_CMOS')  #hesh Meas 20$IDC_CMOS: 5    ;5  ;20  ;CMOS ;5  ;10  ;10k  ;0.300  ;True  ;3
 
 Testing.GetScreenshot()
-Testing.OutOFFCommand()
+Testing.BK1697B.SET_OUTPUT_OFF()
 #endregion Current measurement with generator signal CMOS$IDC_CMOS
 
 
@@ -289,7 +287,7 @@ IDC(value=4,    value_limit=5, percent_error=20,  wave='pulse', amplitude=5,  am
 IDC(value=5,    value_limit=5, percent_error=20,  wave='pulse', amplitude=5,  amplitude_limit=10, frequency='10k', time_delay=0.05, remeasurement=True, remeasurement_number=3, hesh='Meas 20$IDC_PULSE')  #hesh Meas 20$IDC_PULSE: 5    ;5  ;20  ;pulse ;5  ;10  ;10k  ;0.300  ;True  ;3
 
 Testing.GetScreenshot()
-Testing.OutOFFCommand()
+Testing.BK1697B.SET_OUTPUT_OFF()
 #endregion Current measurement with generator signal pulse$IDC_PULSE
 
 
@@ -322,7 +320,7 @@ IDC(value=4,    value_limit=5, percent_error=20,  wave='ramp', amplitude=5,  amp
 IDC(value=5,    value_limit=5, percent_error=20,  wave='ramp', amplitude=5,  amplitude_limit=10, frequency='10k', time_delay=0.05, remeasurement=True, remeasurement_number=3, hesh='Meas 20$IDC_RAMP')  #hesh Meas 20$IDC_RAMP: 5    ;5  ;20  ;ramp ;5  ;10  ;10k  ;0.300  ;True  ;3
 
 Testing.GetScreenshot()
-Testing.OutOFFCommand()
+Testing.BK1697B.SET_OUTPUT_OFF()
 #endregion Current measurement with generator signal ramp$IDC_RAMP
 
 #region Current measurement with generator signal negative ramp$IDC_NEGRAMP
@@ -354,7 +352,7 @@ IDC(value=4,    value_limit=5, percent_error=20,  wave='negramp', amplitude=5,  
 IDC(value=5,    value_limit=5, percent_error=20,  wave='negramp', amplitude=5,  amplitude_limit=10, frequency='10k', time_delay=0.05, remeasurement=True, remeasurement_number=3, hesh='Meas 20$IDC_NEGRAMP')  #hesh Meas 20$IDC_NEGRAMP: 5    ;5  ;20  ;negramp ;5  ;10  ;10k  ;0.300  ;True  ;3
 
 Testing.GetScreenshot()
-Testing.OutOFFCommand()
+Testing.BK1697B.SET_OUTPUT_OFF()
 #endregion Current measurement with generator signal negative ramp$IDC_NEGRAMP
 
 MOKO.Stage(" ")

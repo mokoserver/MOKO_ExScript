@@ -9,7 +9,7 @@ MOKO.Stage("****************************************************************")
 MOKO.Stage(" ")
 
 Testing.LoadTablesHeadInfo()
-Testing.OutOFFCommand()
+Testing.SET_OUTPUT_OFF()
 
 
 def VDC(
@@ -121,7 +121,7 @@ VDC(value=37,  value_limit=40, percent_error=20, wave='sin',  amplitude=5, ampli
 VDC(value=40,  value_limit=40, percent_error=20, wave='sin',  amplitude=5, amplitude_limit=10, frequency='10к', time_delay=0.05, remeasurement=True, remeasurement_number=3, hesh='Измерение 20$VDC_SIN') #hesh Измерение 20$VDC_SIN:  40 ;40  ;20  ;sin ;5  ;10  ;10к  ;0.050  ;Да  ;3
 
 Testing.GetScreenshot()
-Testing.OutOFFCommand()
+Testing.SET_OUTPUT_OFF()
 #endregion Измерение напряжения с сигналом генератора sin$VDC_SIN
 
 
@@ -154,7 +154,7 @@ VDC(value=37,  value_limit=40, percent_error=20,  wave='square',  amplitude=5, a
 VDC(value=40,  value_limit=40, percent_error=20,  wave='square',  amplitude=5, amplitude_limit=10, frequency='10к', time_delay=0.05, remeasurement=True, remeasurement_number=3, hesh='Измерение 20$VDC_SQUARE') #hesh Измерение 20$VDC_SQUARE:  40 ;40  ;20  ;square ;5  ;10  ;10к  ;0.050  ;Да  ;3
 
 Testing.GetScreenshot()
-Testing.OutOFFCommand()
+Testing.SET_OUTPUT_OFF()
 #endregion Измерение напряжения с сигналом генератора square$VDC_SQUARE
 
 #region Измерение тока с сигналом генератора ramp$IDC_RAMP
@@ -186,7 +186,7 @@ IDC(value=4,    value_limit=5, percent_error=20,  wave='ramp', amplitude=5,  amp
 IDC(value=5,    value_limit=5, percent_error=20,  wave='ramp', amplitude=5,  amplitude_limit=10, frequency='10к', time_delay=0.05, remeasurement=True, remeasurement_number=3, hesh='Измерение 20$IDC_RAMP')  #hesh Измерение 20$IDC_RAMP: 5    ;5  ;20  ;ramp ;5  ;10  ;10к  ;0.050  ;Да  ;3
 
 Testing.GetScreenshot()
-Testing.OutOFFCommand()
+Testing.SET_OUTPUT_OFF()
 #endregion Измерение тока с сигналом генератора ramp$IDC_RAMP
 
 #region Измерение тока с сигналом генератора negative ramp$IDC_NEGRAMP
@@ -218,7 +218,7 @@ IDC(value=4,    value_limit=5, percent_error=20,  wave='negramp', amplitude=5,  
 IDC(value=5,    value_limit=5, percent_error=20,  wave='negramp', amplitude=5,  amplitude_limit=10, frequency='10к', time_delay=0.05, remeasurement=True, remeasurement_number=3, hesh='Измерение 20$IDC_NEGRAMP')  #hesh Измерение 20$IDC_NEGRAMP: 5    ;5  ;20  ;negramp ;5  ;10  ;10к  ;0.050  ;Да  ;3
 
 Testing.GetScreenshot()
-Testing.OutOFFCommand()
+Testing.SET_OUTPUT_OFF()
 #region Измерение тока с сигналом генератора negative ramp$IDC_NEGRAMP
 
 MOKO.Stage(" ")

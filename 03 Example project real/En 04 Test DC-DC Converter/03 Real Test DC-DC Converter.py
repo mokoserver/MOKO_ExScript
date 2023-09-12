@@ -12,7 +12,7 @@ MOKO.Stage('**************** Null flags of system ****************')
 MOKO.Stage("*********************************************************")
 MOKO.Stage(" ")
 Testing.LoadTablesHeadInfo()
-Testing.OutOFFCommand()
+Testing.SET_OUTPUT_OFF()
 
 
 def VDC(
@@ -128,7 +128,7 @@ VDC(value=34,  range_value=40, allowable_stabilization_factor=0.1, is_operating_
 VDC(value=35,  range_value=40, allowable_stabilization_factor=0.1, is_operating_range=False, time_delay=3, hesh='Meas 36$VDC')  #hesh Meas 36$VDC:  35 ;40  ;0.1  ;False;3.000
 
 Testing.GetScreenshot()
-Testing.OutOFFCommand()
+Testing.SET_OUTPUT_OFF()
 #endregion Voltage measurement$VDC
 
 #region Current measurement$IDC
@@ -171,7 +171,7 @@ IDC(value=2.9,  range_value=5, allowable_stabilization_factor=0.1, is_operating_
 IDC(value=3.0,  range_value=5, allowable_stabilization_factor=0.1, is_operating_range=False, time_delay=3,   hesh='Meas 31$IDC')  #hesh Meas 31$IDC: 3.0  ;5  ;0.1  ;False;3.000
 
 Testing.GetScreenshot()
-Testing.OutOFFCommand()
+Testing.SET_OUTPUT_OFF()
 #endregion Current measurement$IDC
 
 MOKO.Stage(" ")
