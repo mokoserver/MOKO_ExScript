@@ -81,7 +81,7 @@ class FY6900:
 ###############################################  FY6900 SET WAVE  #####################################################
 #######################################################################################################################
 
-    def SET_WAVE(self, wave):
+    def SET_WAVE(self, wave: str) -> None:
         if self.IsAutomatic:
             MOKO.Stage(f"name -> FY6900; mode -> set; command -> WAVE = {wave}", 'driver')
         else:
@@ -93,7 +93,7 @@ class FY6900:
 #############################################  FY6900 SET AMPLITUDE  ##################################################
 #######################################################################################################################
 
-    def SET_AMPLITUDE(self, amplitude):
+    def SET_AMPLITUDE(self, amplitude: str) -> None:
         if self.IsAutomatic:
             MOKO.Stage(f"name -> FY6900; mode -> set; command -> amplitude = {amplitude}", 'driver')
         else:
@@ -105,7 +105,7 @@ class FY6900:
 #############################################  FY6900 SET FREQUENCY  ##################################################
 #######################################################################################################################
 
-    def SET_FREQUENCY(self, frequency):
+    def SET_FREQUENCY(self, frequency: (int | float | str)) -> None:
         if self.IsAutomatic:
             MOKO.Stage(f"name -> FY6900; mode -> set; command -> frequency = {frequency}", 'driver')
         else:

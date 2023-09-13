@@ -1,7 +1,6 @@
 import time
 
 import MGPH
-import MOSC
 import MOKO
 import MFRT
 import MTLG
@@ -165,10 +164,12 @@ class DemoTestIoTMeasurement:
                     self.CallMessengerErrorPoint(result=f_result, value=value)
                     continue
             else:
-                if value * self.MaxError < f_result or value * self.MinError > f_result:
-                    self.Status = 'Failed'
-                else:
-                    self.Status = 'OK'
+                self.FailedResult = False
+            if self.FailedResult:
+                self.Status = 'Failed'
+                self.FailedResult = False
+            else:
+                self.Status = 'OK'
                 self.Count_meas = 0
             self.ContinueMeasurement = False
         self.ListResult.append(f_result)
@@ -441,7 +442,7 @@ class DemoTestIoTMeasurement:
 ########################################################################################################################
 ########################################################################################################################
 
-    def __init_measurement(self, hesh: str, percent_error: (int | float)):
+    def __init_measurement(self, hesh: str, percent_error: (int | float)) -> str:
         name_table = hesh.split('$')[1]
 
         self.MaxError = float((100 + percent_error) / 100)

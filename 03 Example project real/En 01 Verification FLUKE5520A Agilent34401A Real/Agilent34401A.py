@@ -38,7 +38,7 @@ class Agilent34401A:
 #########################################  Agilent34401A Initialization  ##############################################
 #######################################################################################################################
 
-    def Initialization(self, init: bool = True):
+    def Initialization(self, init: bool = True) -> None:
 
         type_setting_agilent = self.Choice_Connected()
 

@@ -556,8 +556,7 @@ class SettingsAndMeasurement:
 #######################################################################################################################
 #######################################################################################################################
 
-
-    def check_simulation_mode(self):
+    def check_simulation_mode(self) -> None:
         hesh_list = ['Initialization AGILENT34401A$Init', 'Initialization FLUKE5520A$Init']
         if self.Agilent34401A.IsSimulation or self.Fluke5520A.IsSimulation:
 

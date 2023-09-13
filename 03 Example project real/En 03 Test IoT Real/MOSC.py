@@ -356,6 +356,6 @@ def ScriptExecutionTime (StartTime: datetime) -> None:
     RepStopTime: str = StopTime[str(StopTime).find(" "):str(StopTime).find(".")]
 
     MOKO.Report("ScriptExecutionTime", "set", "table", str(ScriptName) + ";" +
-                                                       RepStartTime + ";" +
-                                                       RepStopTime + ";" +
-                                                       RepTimeOfCompletion)
+                RepStartTime + ";" +
+                RepStopTime + ";" +
+                RepTimeOfCompletion)

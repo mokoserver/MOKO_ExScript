@@ -242,10 +242,7 @@ class SettingsAndMeasurement:
         f_result, accuracy = 0, 0
         while self.ContinueMeasurement:
 
-            if not self.Agilent34401A.IsSimulation:
-                time.sleep(self.TimeDelay)
-            else:
-                time.sleep(0.1)
+            time.sleep(0.1)
             
             result = self.Agilent34401A.Read_Result(verified=f_verified)
             
@@ -556,8 +553,7 @@ class SettingsAndMeasurement:
 #######################################################################################################################
 #######################################################################################################################
 
-
-    def check_simulation_mode(self):
+    def check_simulation_mode(self) -> None:
         hesh_list = ['Initialization AGILENT34401A$Init', 'Initialization FLUKE5520A$Init']
         if self.Agilent34401A.IsSimulation or self.Fluke5520A.IsSimulation:
 

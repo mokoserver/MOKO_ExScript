@@ -15,8 +15,16 @@ MOKO.Stage(" ")
 Poverka.LoadTablesHeadInfo()
 
 
-def VDC(range: (str | float | int), verified: (str | float | int), error: (str | float | int), hesh: str,
-        remeasurement: bool = False, remeasurement_number: int = None, time_delay: (float | int) = 0):
+def VDC(
+        range: (str | float | int),
+        verified: (str | float | int),
+        error: (str | float | int),
+        hesh: str,
+        remeasurement: bool = False,
+        remeasurement_number: int = None,
+        time_delay: (float | int) = 0
+
+) -> None:
 
     if MOSC.HeshStatus(hesh):
 
@@ -32,8 +40,16 @@ def VDC(range: (str | float | int), verified: (str | float | int), error: (str |
         Poverka.VDC_Measurement(range=range, verified=verified, error=error)
 
 
-def VAC(range: (str | float | int), verified: (str | float | int), frequency: (str | float | int), error: (str | float | int),
-        hesh: str, remeasurement: bool = False, remeasurement_number: int = None, time_delay: (float | int) = 0):
+def VAC(
+        range: (str | float | int),
+        verified: (str | float | int),
+        frequency: (str | float | int),
+        error: (str | float | int),
+        hesh: str, remeasurement: bool = False,
+        remeasurement_number: int = None,
+        time_delay: (float | int) = 0
+
+) -> None:
 
     if MOSC.HeshStatus(hesh):
         
@@ -49,8 +65,16 @@ def VAC(range: (str | float | int), verified: (str | float | int), frequency: (s
         Poverka.VAC_Measurement(range=range, verified=verified, error=error, frequency=frequency)
 
 
-def R2(range: (str | float | int), verified: (str | float | int), error: (str | float | int), hesh: str,
-       remeasurement: bool = False, remeasurement_number: int = None, time_delay: (float | int) = 0):
+def R2(
+        range: (str | float | int),
+        verified: (str | float | int),
+        error: (str | float | int),
+        hesh: str,
+        remeasurement: bool = False,
+        remeasurement_number: int = None,
+        time_delay: (float | int) = 0
+
+) -> None:
 
     if MOSC.HeshStatus(hesh):
         
@@ -65,8 +89,16 @@ def R2(range: (str | float | int), verified: (str | float | int), error: (str | 
         Poverka.R2_Measurement(range=range, verified=verified, error=error)
 
 
-def R4(range: (str | float | int), verified: (str | float | int), error: (str | float | int), hesh: str,
-       remeasurement: bool = False, remeasurement_number: int = None, time_delay: (float | int) = 0):
+def R4(
+        range: (str | float | int),
+        verified: (str | float | int),
+        error: (str | float | int),
+        hesh: str,
+        remeasurement: bool = False,
+        remeasurement_number: int = None,
+        time_delay: (float | int) = 0
+
+) -> None:
 
     if MOSC.HeshStatus(hesh):
         
@@ -81,8 +113,16 @@ def R4(range: (str | float | int), verified: (str | float | int), error: (str | 
         Poverka.R4_Measurement(range=range, verified=verified, error=error)
 
 
-def IDC(range: (str | float | int), verified: (str | float | int), error: (str | float | int), hesh: str,
-        remeasurement: bool = False, remeasurement_number: int = None, time_delay: (float | int) = 0):
+def IDC(
+        range: (str | float | int),
+        verified: (str | float | int),
+        error: (str | float | int),
+        hesh: str,
+        remeasurement: bool = False,
+        remeasurement_number: int = None,
+        time_delay: (float | int) = 0
+
+) -> None:
 
     if MOSC.HeshStatus(hesh):
 
@@ -98,8 +138,16 @@ def IDC(range: (str | float | int), verified: (str | float | int), error: (str |
         Poverka.IDC_Measurement(range=range, verified=verified, error=error)
 
 
-def IAC(range: (str | float | int), verified: (str | float | int), frequency: (str | float | int), error: (str | float | int),
-        hesh: str, remeasurement: bool = False, remeasurement_number: int = None, time_delay: (float | int) = 0):
+def IAC(
+        range: (str | float | int),
+        verified: (str | float | int),
+        frequency: (str | float | int),
+        error: (str | float | int),
+        hesh: str, remeasurement: bool = False,
+        remeasurement_number: int = None,
+        time_delay: (float | int) = 0
+
+) -> None:
 
     if MOSC.HeshStatus(hesh):
 

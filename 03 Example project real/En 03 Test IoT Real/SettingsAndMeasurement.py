@@ -5,6 +5,7 @@ import MOSC
 import MOKO
 import MFRT
 import MTLG
+
 from APPA207 import APPA207
 from BK1697B import BK1697B
 from FY6900 import FY6900
@@ -165,10 +166,12 @@ class DemoTestIoTMeasurement:
                     self.CallMessengerErrorPoint(result=f_result, value=value)
                     continue
             else:
-                if value * self.MaxError < f_result or value * self.MinError > f_result:
-                    self.Status = 'Failed'
-                else:
-                    self.Status = 'OK'
+                self.FailedResult = False
+            if self.FailedResult:
+                self.Status = 'Failed'
+                self.FailedResult = False
+            else:
+                self.Status = 'OK'
                 self.Count_meas = 0
             self.ContinueMeasurement = False
         self.ListResult.append(f_result)
@@ -441,7 +444,7 @@ class DemoTestIoTMeasurement:
 ########################################################################################################################
 ########################################################################################################################
 
-    def __init_measurement(self, hesh: str, percent_error: (int | float)):
+    def __init_measurement(self, hesh: str, percent_error: (int | float)) -> str:
         name_table = hesh.split('$')[1]
 
         self.MaxError = float((100 + percent_error) / 100)
@@ -504,7 +507,7 @@ class DemoTestIoTMeasurement:
 ########################################################################################################################
 ########################################################################################################################
 
-    def check_simulation_mode(self):
+    def check_simulation_mode(self) -> None:
         hesh_list = ['Initialization BK1697B$Init', 'Initialization FY6900$Init', 'Initialization APPA207$Init']
         if self.APPA207.IsSimulation or self.BK1697B.IsSimulation or self.FY6900.IsSimulation:
 

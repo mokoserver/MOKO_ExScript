@@ -177,10 +177,8 @@ class Fluke5520A:
 ###############################################   Fluke5520 SET IDC   #################################################
 #######################################################################################################################
     def SET_IDC(self, verified: (str | float | int)) -> None:
-        if self.IsSimulation:
+        if self.IsAutomatic:
             MOKO.Stage(f'Driver: Fluke5000 >> mode: set >> command: IDC = {verified}', 'driver')
-        elif self.IsAutomatic:
-            MOKO.Driver('Fluke5000', 'set', f'IDC = {verified}')
         else:
             MOKO.Messenger("set", "Make settings on Fluke5520A#@fluke5520a",
                            f"Make settings:\nSet IDC = {verified}\nPress OK")
