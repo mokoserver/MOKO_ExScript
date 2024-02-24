@@ -16,7 +16,7 @@ def ConvertStringToFloat(value: str):
     return library_object.get_prefix_in_value()
 
 
-def ConvertFloatToString(value: (float, str, int), reference_number: str = None, resolution: int = None,
+def ConvertFloatToString(value: (float, str, int), reference_number: str = None, resolution: int = 0,
                          delimiter: str = None, prefix: str = None, round_type: str = "NORMAL", round_number: int = 0,
                          type_value_result: str = "String"):
     """
@@ -69,7 +69,7 @@ class MFRTLibrary:
 
         self.__value = value
         self.__reference_number = reference_number
-        self.__resolution = resolution
+        self.__resolution = resolution if resolution > 0 else 0
         self.__delimiter = delimiter
         self.__prefix = prefix
         self.__prefix_value = None
@@ -131,7 +131,7 @@ class MFRTLibrary:
         """
         if not self.__reference_number and not self.__resolution and not self.__delimiter and not self.__prefix:
             if isinstance(self.__value, (int | float)):
-                self.__value = self.__rounded_value(value=Decimal(self.__value))
+                self.__value = round(self.__rounded_value(value=Decimal(self.__value)))
             return str(self.__value)
         if isinstance(self.__value, (float, int)):
             if isinstance(self.__value, int):
