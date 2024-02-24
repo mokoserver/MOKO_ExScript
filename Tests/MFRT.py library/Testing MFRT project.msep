@@ -2,11 +2,13 @@
 "project_name":"Testing MFRT project",
 "project_autosave":"true",
 "project_scripts":[
-{"script":"Testing MFRT convert string to float.py","necessary":"true"},
-{"script":"Testing MKFR - float to string function.py","necessary":"true"}
+{"script":"Testing MFRT convert string to float.py","necessary":"false"},
+{"script":"Testing MKFR - float to string function.py","necessary":"false"},
+{"script":"TestOrion.py","necessary":"false"}
 ],
 "project_libraries":[
-
+{"script":"MFRT.py"},
+{"script":"MOKO.py"}
 ],
 "project_templates":[
 {"script":"Report.docx"}
