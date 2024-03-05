@@ -1,0 +1,13 @@
+{
+"project_name":"Port example",
+"project_autosave":"true",
+"project_scripts":[
+{"script":"BK1697.py","necessary":"false"}
+],
+"project_libraries":[
+{"script":"MOKO.py"}
+],
+"project_templates":[
+{"script":"Example.docx"}
+]
+}
