@@ -50,6 +50,12 @@ _UrlUtilityRead: str = 'http://localhost:55001/MOKOSE/system/utilityread'
 _UrlTelegramWrite: str = 'http://localhost:55001/MOKOSE/system/telegramwrite'
 _UrlTelegramRead: str = 'http://localhost:55001/MOKOSE/system/telegramread'
 
+_UrlCmdWrite: str = 'http://localhost:55001/MOKOSE/system/cmdwrite'
+_UrlCmdRead: str = 'http://localhost:55001/MOKOSE/system/cmdread'
+
+_UrlPortWrite: str = 'http://localhost:55001/MOKOSE/system/portwrite'
+_UrlPortRead: str = 'http://localhost:55001/MOKOSE/system/portread'
+
 _UrlProjectStateRead: str = 'http://localhost:55001/MOKOSE/status/projectstate'
 
 
@@ -66,6 +72,35 @@ _UrlProjectStateRead: str = 'http://localhost:55001/MOKOSE/status/projectstate'
     ##          ##      ##        ##    ##########      ##       ###
 
 ###################################################################################################################
+
+def CMD (mode: str, command: str) -> ...:
+    check_project_state()
+
+    URLWrite: str = _UrlCmdWrite
+    URLRead: str = _UrlCmdRead
+
+    command_to_send: str = '{"mode":"'+ str(mode)+'", "command":"'+str(command) +'"}'
+
+    send_request(URLWrite, command_to_send)
+
+    cmddata: str = check_status("cmd", mode, URLRead)
+    return cmddata
+
+def Port(name: str, mode: str, command: str = '', valuetype: str = 'string') -> ...:
+
+    check_project_state()
+
+    URLWrite: str = _UrlPortWrite
+    URLRead: str = _UrlPortRead
+
+    command_to_send: str = '{"name":"' + str(name) + '","mode":"' + str(mode) + '","command":"' + str(command) + '"}'
+    send_request(URLWrite, command_to_send)
+
+    portdata: str = check_status("port", mode, URLRead)
+    print(f"portdata = {portdata}")
+    return portdata
+
+
 
 ###################################################################################################################
 
@@ -109,7 +144,6 @@ def Autoit(title: str, classname: str, method: str, attributes: str = 'void') ->
 
     """
     check_project_state()
-    if is_mode_incorrect(method, ["controlgettext", ]): return None
 
     URLWrite: str = _UrlAutoitWrite
     URLRead: str = _UrlAutoitRead
@@ -118,8 +152,8 @@ def Autoit(title: str, classname: str, method: str, attributes: str = 'void') ->
 
     send_request(URLWrite, command_to_send)
 
-    msgdata: str = check_status("autoit", method, URLRead)
-    return msgdata
+    autoitdata: str = check_status("autoit", method, URLRead)
+    return autoitdata
 
 
 ###################################################################################################################
@@ -262,8 +296,6 @@ def Driver(name: str, mode: str, command: str, valuetype: str = 'string') -> ...
         If valuetype = 'void' and mode = 'get', the error will appear and will be shown in MOKO SE Stage
     """
     check_project_state()
-    if is_mode_incorrect(mode, ["get", "set", "init", "close", "check"]): return None
-    if is_mode_and_valuetype_incorrect(mode, valuetype): return None
 
     URLWrite: str = _UrlDriverWrite
     URLRead: str = _UrlDriverRead
@@ -273,6 +305,7 @@ def Driver(name: str, mode: str, command: str, valuetype: str = 'string') -> ...
 
     drvdata: str = check_status("driver", mode, URLRead)
     return parse_data(drvdata, mode, valuetype)
+
 
 
 ###################################################################################################################
@@ -356,8 +389,6 @@ def Plugin(name: str, mode: str, command: str, valuetype: str = 'void') -> ...:
     """
     # Проверка состояния проекта: Старт/Стоп/Пауза
     check_project_state()
-    if is_mode_incorrect(mode, ["get", "set", "init", "close"]): return None
-    if is_mode_and_valuetype_incorrect(mode, valuetype): return None
 
     URLWrite: str = _UrlPluginWrite
     URLRead: str = _UrlPluginRead
@@ -447,8 +478,6 @@ def Messenger(mode: str, head: str, body: str, valuetype: str = 'void', delaytim
 
     """
     check_project_state()
-    if is_mode_incorrect(mode, ["get", "set"]): return None
-    if is_mode_and_valuetype_incorrect(mode, valuetype): return None
 
     URLWrite: str = _UrlMessengerWrite
     URLRead: str = _UrlMessengerRead
@@ -524,12 +553,6 @@ def Report(name: str, mode: str, kind: str, data: str, valuetype: str = 'void') 
 
     """
     check_project_state()
-    if is_mode_incorrect(mode, ["get", "set", "info", "clear", "delete", "save"]): return None
-    if is_mode_and_valuetype_incorrect(mode, valuetype): return None
-    if ((kind.lower() != 'table') and (kind.lower() != 'string') and (kind.lower() != 'picture') and (kind.lower() != 'strings')):
-        Stage("ERROR IN PYTHON LIBRARY! WRONG REPORT KIND! " + str(kind), 'error')
-        print("ERROR IN PYTHON LIBRARY! WRONG REPORT KIND! " + str(kind))
-        return None
 
     URLWrite: str = _UrlReportWrite
     URLRead: str = _UrlReportRead
@@ -598,8 +621,6 @@ def Utility(name: str, mode: str, command: str, valuetype: str = 'void') -> ...:
         If valuetype = 'void' and mode = 'get', the error will appear and will be shown in MOKO SE Stage
     """
     check_project_state()
-    if is_mode_incorrect(mode, ["get", "set", "init", "check"]): return None
-    if is_mode_and_valuetype_incorrect(mode, valuetype): return None
 
     URLWrite: str = _UrlUtilityWrite
     URLRead: str = _UrlUtilityRead
@@ -654,8 +675,6 @@ def Program(name: str, mode: str, command: str, valuetype: str = 'void') -> ...:
         If valuetype = 'void' and mode = 'get', the error will appear and will be shown in MOKO SE Stage
     """
     check_project_state()
-    if is_mode_incorrect(mode, ["get", "set", "init", "close"]): return None
-    if is_mode_and_valuetype_incorrect(mode, valuetype): return None
 
     URLWrite: str = _UrlProgramWrite
     URLRead: str = _UrlProgramRead
@@ -719,8 +738,6 @@ def Telegram(role: str, mode: str, command: str, valuetype: str = 'void') -> ...
         If valuetype = 'void' and mode = 'get', the error will appear and will be shown in MOKO SE Stage
     """
     check_project_state()
-    if is_mode_incorrect(mode, ["get", "set"]): return None
-    if is_mode_and_valuetype_incorrect(mode, valuetype): return None
 
     URLWrite: str = _UrlTelegramWrite
     URLRead: str = _UrlTelegramRead
@@ -902,35 +919,7 @@ def is_bad_response(badresponse: int) -> bool:
         return True
     return False
 
-def is_mode_and_valuetype_incorrect(mode: str, valuetype: str) -> bool:
-    """
-        This function checks mode and valuetype
 
-        :param str mode: command mode ('get', 'set', 'init', 'close', ...)
-        :param str valuetype: specified value type
-        :return: Will print the error in the console and in the program MOKO SE Stage and return True,
-                 if mode = "get" and valuetype = "void" or "", else - False
-    """
-    if (mode.lower() == 'get') and (valuetype.lower() == 'void' or valuetype.lower() == ''):
-        Stage("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request", 'error')
-        print("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request")
-        return True
-    return False
-
-def is_mode_incorrect(mode: str, modes_list:list) -> bool:
-    """
-        This function checks mode: correct or incorrect
-
-        :param str mode: command mode ('get', 'set', 'init', 'close', ...)
-        :param list modes_list: the list mode that is correct for the given function (Driver, Program,...)
-        :return: Will print the error in the console and in the program MOKO SE Stage and return True,
-                 if there isn't the mode in the modes_list, else - False
-    """
-    if mode.lower() not in modes_list:
-        Stage("ERROR IN PYTHON LIBRARY! Wrong request mode! " + str(mode), 'error')
-        print("ERROR IN PYTHON LIBRARY! Wrong request mode! " + str(mode))
-        return True
-    return False
 
 def send_request(URLWrite: str, request: str) -> None:
     """

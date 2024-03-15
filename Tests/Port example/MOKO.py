@@ -75,8 +75,6 @@ _UrlProjectStateRead: str = 'http://localhost:55001/MOKOSE/status/projectstate'
 
 def CMD (mode: str, command: str) -> ...:
     check_project_state()
-    #if is_mode_incorrect(mode, ["get", "set", "init", "close", "check"]): return None
-    #if is_mode_and_valuetype_incorrect(mode, valuetype): return None
 
     URLWrite: str = _UrlCmdWrite
     URLRead: str = _UrlCmdRead
@@ -91,10 +89,6 @@ def CMD (mode: str, command: str) -> ...:
 def Port(name: str, mode: str, command: str = '', valuetype: str = 'string') -> ...:
 
     check_project_state()
-
-    # I think that check realise in MOKO SE. Why we check this in py script. JR
-    #if is_mode_incorrect(mode, ["init", "interface", "close", "write", "read", "clear"]): return None
-    #if is_mode_and_valuetype_incorrect(mode, valuetype): return None
 
     URLWrite: str = _UrlPortWrite
     URLRead: str = _UrlPortRead
@@ -150,8 +144,6 @@ def Autoit(title: str, classname: str, method: str, attributes: str = 'void') ->
 
     """
     check_project_state()
-    # change mode --> title ? is it right?
-    #if is_mode_incorrect(title, ["controlgettext", ]): return None
 
     URLWrite: str = _UrlAutoitWrite
     URLRead: str = _UrlAutoitRead
@@ -304,8 +296,6 @@ def Driver(name: str, mode: str, command: str, valuetype: str = 'string') -> ...
         If valuetype = 'void' and mode = 'get', the error will appear and will be shown in MOKO SE Stage
     """
     check_project_state()
-    #if is_mode_incorrect(mode, ["get", "set", "init", "close", "check"]): return None
-    #if is_mode_and_valuetype_incorrect(mode, valuetype): return None
 
     URLWrite: str = _UrlDriverWrite
     URLRead: str = _UrlDriverRead
@@ -563,12 +553,6 @@ def Report(name: str, mode: str, kind: str, data: str, valuetype: str = 'void') 
 
     """
     check_project_state()
-    if is_mode_incorrect(mode, ["get", "set", "info", "clear", "delete", "save"]): return None
-    if is_mode_and_valuetype_incorrect(mode, valuetype): return None
-    if ((kind.lower() != 'table') and (kind.lower() != 'string') and (kind.lower() != 'picture') and (kind.lower() != 'strings')):
-        Stage("ERROR IN PYTHON LIBRARY! WRONG REPORT KIND! " + str(kind), 'error')
-        print("ERROR IN PYTHON LIBRARY! WRONG REPORT KIND! " + str(kind))
-        return None
 
     URLWrite: str = _UrlReportWrite
     URLRead: str = _UrlReportRead
@@ -637,8 +621,6 @@ def Utility(name: str, mode: str, command: str, valuetype: str = 'void') -> ...:
         If valuetype = 'void' and mode = 'get', the error will appear and will be shown in MOKO SE Stage
     """
     check_project_state()
-    if is_mode_incorrect(mode, ["get", "set", "init", "check"]): return None
-    if is_mode_and_valuetype_incorrect(mode, valuetype): return None
 
     URLWrite: str = _UrlUtilityWrite
     URLRead: str = _UrlUtilityRead
@@ -693,8 +675,6 @@ def Program(name: str, mode: str, command: str, valuetype: str = 'void') -> ...:
         If valuetype = 'void' and mode = 'get', the error will appear and will be shown in MOKO SE Stage
     """
     check_project_state()
-    if is_mode_incorrect(mode, ["get", "set", "init", "close"]): return None
-    if is_mode_and_valuetype_incorrect(mode, valuetype): return None
 
     URLWrite: str = _UrlProgramWrite
     URLRead: str = _UrlProgramRead
@@ -758,8 +738,6 @@ def Telegram(role: str, mode: str, command: str, valuetype: str = 'void') -> ...
         If valuetype = 'void' and mode = 'get', the error will appear and will be shown in MOKO SE Stage
     """
     check_project_state()
-    if is_mode_incorrect(mode, ["get", "set"]): return None
-    if is_mode_and_valuetype_incorrect(mode, valuetype): return None
 
     URLWrite: str = _UrlTelegramWrite
     URLRead: str = _UrlTelegramRead
@@ -941,35 +919,7 @@ def is_bad_response(badresponse: int) -> bool:
         return True
     return False
 
-def is_mode_and_valuetype_incorrect(mode: str, valuetype: str) -> bool:
-    """
-        This function checks mode and valuetype
 
-        :param str mode: command mode ('get', 'set', 'init', 'close', ...)
-        :param str valuetype: specified value type
-        :return: Will print the error in the console and in the program MOKO SE Stage and return True,
-                 if mode = "get" and valuetype = "void" or "", else - False
-    """
-    if (mode.lower() == 'get') and (valuetype.lower() == 'void' or valuetype.lower() == ''):
-        Stage("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request", 'error')
-        print("ERROR IN PYTHON LIBRARY! Return value type is not specified for GET request")
-        return True
-    return False
-
-def is_mode_incorrect(mode: str, modes_list:list) -> bool:
-    """
-        This function checks mode: correct or incorrect
-
-        :param str mode: command mode ('get', 'set', 'init', 'close', ...)
-        :param list modes_list: the list mode that is correct for the given function (Driver, Program,...)
-        :return: Will print the error in the console and in the program MOKO SE Stage and return True,
-                 if there isn't the mode in the modes_list, else - False
-    """
-    if mode.lower() not in modes_list:
-        Stage("ERROR IN PYTHON LIBRARY! Wrong request mode! " + str(mode), 'error')
-        print("ERROR IN PYTHON LIBRARY! Wrong request mode! " + str(mode))
-        return True
-    return False
 
 def send_request(URLWrite: str, request: str) -> None:
     """
