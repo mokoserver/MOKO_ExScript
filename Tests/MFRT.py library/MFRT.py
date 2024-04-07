@@ -18,7 +18,7 @@ def ConvertStringToFloat(value: str):
 
 def ConvertFloatToString(value: (float, str, int), reference_number: str = None, resolution: int = 0,
                          delimiter: str = None, prefix: str = None, round_type: str = "NORMAL", round_number: int = 0,
-                         type_value_result: str = "String"):
+                         type_value_result: str = "String", enable_rounding: bool = False):
     """
         This function calls the transfer function from the normal system to the CI system
 
@@ -27,7 +27,8 @@ def ConvertFloatToString(value: (float, str, int), reference_number: str = None,
         :param resolution: integer variable: the number of zeros in the fractional part. Defaults to None
         :param delimiter: string variable: separator between number and fractional part. Defaults to None
         :param prefix: string variable: separator between number and fractional part. Defaults to None
-        :param round_type: string variable: rounding method. Defaults to "NORMAL".
+        :param enable_rounding: bool variable: enable rounding mode. Defaults to False
+        :param round_type: string variable: enable_rounding method. Defaults to "NORMAL".
             Allowed values:"NORMAL", "UP", "DOWN"
         :param round_number: integer variable: number of decimal places to round off
         :param type_value_result: string variable: type variable input result. Defaults to "String".
@@ -36,7 +37,8 @@ def ConvertFloatToString(value: (float, str, int), reference_number: str = None,
     """
     library_object = MFRTLibrary(
         value=value, reference_number=reference_number, resolution=resolution, delimiter=delimiter,
-        prefix=prefix, round_type=round_type, round_number=round_number, type_value_result=type_value_result)
+        enable_rounding=enable_rounding, prefix=prefix, round_type=round_type, round_number=round_number,
+        type_value_result=type_value_result)
     value = library_object.translate_value()
     try:
         match library_object.type_value_result:
@@ -65,7 +67,8 @@ class MFRTLibrary:
     
     def __init__(self, value: (float, str, int), reference_number: str = None, resolution: int = None,
                  delimiter: str = None, prefix: str = None, round_type: str = round_types_list[0],
-                 round_number: int = 0, type_value_result: str = type_values_allowed_list[0]):
+                 round_number: int = 0, type_value_result: str = type_values_allowed_list[0],
+                 enable_rounding: bool = False):
 
         self.__value = value
         self.__reference_number = reference_number
@@ -76,6 +79,7 @@ class MFRTLibrary:
         self.type_value_result = (type_value_result if type_value_result in self.type_values_allowed_list
                                   else self.type_values_allowed_list[0])
         self.__get_prefix, self.__check = False, False
+        self.__enable_rounding = enable_rounding
         self.__round_number = round_number
         self.__round_type = round_type if round_type in self.round_types_list else self.round_types_list[0]
         self.__translate_value = self.__reference_number if self.__reference_number else self.__value
@@ -263,18 +267,21 @@ class MFRTLibrary:
             self.__translate_value = self.__translate_value.replace(delimiter_value, '.')
 
     def __rounded_value(self, value: Decimal):
-        if self.__round_number:
-            if self.__round_type == self.round_types_list[0]:
-                value = Decimal(round(value, self.__round_number))
-            elif self.__round_type == self.round_types_list[1]:
-                value = Decimal(
-                    math.ceil(value * 10 ** Decimal(self.__round_number)) / Decimal(10 ** self.__round_number))
-            elif self.__round_type == self.round_types_list[2]:
-                value = Decimal(
-                    math.floor(value * 10 ** Decimal(self.__round_number)) / Decimal(10 ** self.__round_number))
-        else:
-            if self.__round_type == self.round_types_list[1]:
-                value = Decimal(math.ceil(value))
-            elif self.__round_type == self.round_types_list[2]:
-                value = Decimal(math.floor(value))
+        if self.__enable_rounding:
+            if self.__round_number:
+                if self.__round_type == self.round_types_list[0]:
+                    value = Decimal(round(value, self.__round_number))
+                elif self.__round_type == self.round_types_list[1]:
+                    value = Decimal(
+                        math.ceil(value * 10 ** Decimal(self.__round_number)) / Decimal(10 ** self.__round_number))
+                elif self.__round_type == self.round_types_list[2]:
+                    value = Decimal(
+                        math.floor(value * 10 ** Decimal(self.__round_number)) / Decimal(10 ** self.__round_number))
+            else:
+                if self.__round_type == self.round_types_list[0]:
+                    value = Decimal(int(value))
+                elif self.__round_type == self.round_types_list[1]:
+                    value = Decimal(math.ceil(value))
+                elif self.__round_type == self.round_types_list[2]:
+                    value = Decimal(math.floor(value))
         return value
