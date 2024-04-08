@@ -240,7 +240,7 @@ def Stage(stage_string: str, type: str = 'info') -> None:
 ###################################################################################################################
 
 
-def Driver(name: str, mode: str, command: str, valuetype: str = 'string') -> ...:
+def Driver(name: str, mode: str, command: str = 'void', valuetype: str = 'string') -> ...:
     """
         This function works with drivers.
 
@@ -323,7 +323,7 @@ def Driver(name: str, mode: str, command: str, valuetype: str = 'string') -> ...
 ###################################################################################################################
 
 
-def Plugin(name: str, mode: str, command: str, valuetype: str = 'void') -> ...:
+def Plugin(name: str, mode: str, command: str = 'void', valuetype: str = 'void') -> ...:
 
     """
         This function works with plugins.
@@ -415,7 +415,7 @@ def Plugin(name: str, mode: str, command: str, valuetype: str = 'void') -> ...:
 ###################################################################################################################
 
 
-def Messenger(mode: str, head: str, body: str, valuetype: str = 'void', delaytime: str = 'void') -> ...:
+def Messenger(mode: str, head: str = '', body: str = '', valuetype: str = 'void', delaytime: str = 'void') -> ...:
     """
         This function causes a pop-up message to appear on the screen with an optional data entry field.
 
@@ -508,7 +508,7 @@ def Messenger(mode: str, head: str, body: str, valuetype: str = 'void', delaytim
 ###################################################################################################################
 
 
-def Report(name: str, mode: str, kind: str, data: str, valuetype: str = 'void') -> ...:
+def Report(name: str, mode: str, kind: str = 'string', data: str = '', valuetype: str = 'void') -> ...:
     """
         This function works with data in a report.
 
@@ -579,7 +579,7 @@ def Report(name: str, mode: str, kind: str, data: str, valuetype: str = 'void') 
 ###################################################################################################################
 
 
-def Utility(name: str, mode: str, command: str, valuetype: str = 'void') -> ...:
+def Utility(name: str, mode: str, command: str = 'void', valuetype: str = 'void') -> ...:
 
     """
         This function works with utilities.
