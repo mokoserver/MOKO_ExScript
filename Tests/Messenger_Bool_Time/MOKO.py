@@ -828,7 +828,15 @@ def parse_data(data: str, mode: str, valuetype: str = 'void') -> ...:
 
     data: str = check_data(data, splitter)
 
-    if valuetype.lower() == 'boolean':
+    if valuetype.lower() == 'arrayboolean':
+        return to_list(bool, data, splitter)
+    elif valuetype.lower() == 'arrayfloat':
+        return to_list(float, data, splitter)
+    elif valuetype.lower() == 'arrayint':
+        return to_list(int, data, splitter)
+    elif valuetype.lower() == 'arraystring':
+        return to_list(str, data, splitter)
+    elif "bool" in valuetype.lower():
         data: str = data.split(splitter)[0]
         return True if data.lower() == "true" else False
     elif valuetype.lower() == 'float':
@@ -838,14 +846,6 @@ def parse_data(data: str, mode: str, valuetype: str = 'void') -> ...:
         data: str = data.split(splitter)[0]
         data: str = data.split(".")[0]
         return int(data.split(",")[0])
-    elif valuetype.lower() == 'arrayboolean':
-        return to_list(bool, data, splitter)
-    elif valuetype.lower() == 'arrayfloat':
-        return to_list(float, data, splitter)
-    elif valuetype.lower() == 'arrayint':
-        return to_list(int, data, splitter)
-    elif valuetype.lower() == 'arraystring':
-        return to_list(str, data, splitter)
     else: # Используется в качестве valuetype = 'string'
         return data.split(splitter)[0]
 
