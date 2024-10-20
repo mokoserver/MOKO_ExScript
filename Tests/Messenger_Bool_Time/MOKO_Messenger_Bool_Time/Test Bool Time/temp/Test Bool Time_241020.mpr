@@ -1,0 +1,16 @@
+{
+"scripts":
+[
+{"name":"Messenger_Bool_Time","smark":"passed"}
+],
+"report":
+[
+
+],
+"tree":
+[
+{"line":"0","name":"Test Bool Time","type":"project","project":"","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"1","name":"Messenger_Bool_Time","type":"script","project":"Test Bool Time","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"2","name":"Тестирование","type":"region","project":"Test Bool Time","script":"Messenger_Bool_Time","region":"","status":"empty","pcode":"0","pcount":"2"}
+]
+}
