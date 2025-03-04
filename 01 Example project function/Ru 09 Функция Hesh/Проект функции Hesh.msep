@@ -1,17 +1,17 @@
 {
-"project_name":"Проект функции Hesh",
-"project_autosave":"true",
-"project_scripts":[
-{"script":"1 Первый скрипт.py","necessary":"false"},
-{"script":"2 Второй скрипт.py","necessary":"false"},
-{"script":"3 Третий скрипт.py","necessary":"false"},
-{"script":"4 Четвертый скрипт.py","necessary":"false"}
+"name":"Проект функции Hesh",
+"autosave":"true",
+"scripts":[
+{"file":"1 Первый скрипт.py","necessary":"false"},
+{"file":"2 Второй скрипт.py","necessary":"false"},
+{"file":"3 Третий скрипт.py","necessary":"false"},
+{"file":"4 Четвертый скрипт.py","necessary":"false"}
 ],
-"project_libraries":[
-{"script":"MOKO.py"},
-{"script":"MOSC.py"}
+"libraries":[
+{"file":"MOKO.py"},
+{"file":"MOSC.py"}
 ],
-"project_templates":[
-{"script":"Отчет.docx"}
+"templates":[
+{"file":"Отчет.docx"}
 ]
 }

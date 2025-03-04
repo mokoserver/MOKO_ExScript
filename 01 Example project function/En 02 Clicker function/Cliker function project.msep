@@ -1,18 +1,18 @@
 {
-"project_name":"Cliker function project",
-"project_autosave":"true",
-"project_scripts":[
-{"script":"1 Greeting.py","necessary":"true"},
-{"script":"2 Ñommands execution.py","necessary":"false"},
-{"script":"3 Create a report.py","necessary":"false"},
-{"script":"4 Farewell.py","necessary":"true"}
+"name":"Cliker function project",
+"autosave":"true",
+"scripts":[
+{"file":"1 Greeting.py","necessary":"true"},
+{"file":"2 Ñommands execution.py","necessary":"false"},
+{"file":"3 Create a report.py","necessary":"false"},
+{"file":"4 Farewell.py","necessary":"true"}
 ],
-"project_libraries":[
-{"script":"MCLK.py"},
-{"script":"MOKO.py"},
-{"script":"MOSC.py"}
+"libraries":[
+{"file":"MCLK.py"},
+{"file":"MOKO.py"},
+{"file":"MOSC.py"}
 ],
-"project_templates":[
-{"script":"Report.docx"}
+"templates":[
+{"file":"Report.docx"}
 ]
 }

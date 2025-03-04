@@ -1,20 +1,20 @@
 {
-"project_name":"Plugin project (проект Plugin)",
-"project_autosave":"true",
-"project_scripts":[
-{"script":"1 Приветствие.py","necessary":"true"},
-{"script":"2 Функция Plugin init.py","necessary":"false"},
-{"script":"3 Функция Plugin set.py","necessary":"false"},
-{"script":"4 Функция Plugin get.py","necessary":"false"},
-{"script":"5 Функция Plugin close.py","necessary":"false"},
-{"script":"6 Прощание.py","necessary":"true"}
+"name":"Plugin project (проект Plugin)",
+"autosave":"true",
+"scripts":[
+{"file":"1 Приветствие.py","necessary":"true"},
+{"file":"2 Функция Plugin init.py","necessary":"false"},
+{"file":"3 Функция Plugin set.py","necessary":"false"},
+{"file":"4 Функция Plugin get.py","necessary":"false"},
+{"file":"5 Функция Plugin close.py","necessary":"false"},
+{"file":"6 Прощание.py","necessary":"true"}
 ],
-"project_libraries":[
-{"script":"MOKO.py"},
-{"script":"MOSC.py"},
-{"script":"MGPH.py"}
+"libraries":[
+{"file":"MOKO.py"},
+{"file":"MOSC.py"},
+{"file":"MGPH.py"}
 ],
-"project_templates":[
-{"script":"Отчет.docx"}
+"templates":[
+{"file":"Отчет.docx"}
 ]
 }

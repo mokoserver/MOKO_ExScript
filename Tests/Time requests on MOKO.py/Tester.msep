@@ -1,13 +1,13 @@
 {
-"project_name":"Tester",
-"project_autosave":"true",
-"project_scripts":[
-{"script":"Testing requests.py","necessary":"false"}
+"name":"Tester",
+"autosave":"true",
+"scripts":[
+{"file":"Testing requests.py","necessary":"false"}
 ],
-"project_libraries":[
-{"script":"MOKO.py"}
+"libraries":[
+{"file":"MOKO.py"}
 ],
-"project_templates":[
+"templates":[
 
 ]
 }

@@ -1,14 +1,14 @@
 {
-"project_name":"Testing messenger picture",
-"project_autosave":"true",
-"project_scripts":[
-{"script":"Testing messenger picture insert @.py","necessary":"false"}
+"name":"Testing messenger picture",
+"autosave":"true",
+"scripts":[
+{"file":"Testing messenger picture insert @.py","necessary":"false"}
 ],
-"project_libraries":[
-{"script":"MOKO.py"},
-{"script":"MOSC.py"}
+"libraries":[
+{"file":"MOKO.py"},
+{"file":"MOSC.py"}
 ],
-"project_templates":[
-{"script":"Report.docx"}
+"templates":[
+{"file":"Report.docx"}
 ]
 }

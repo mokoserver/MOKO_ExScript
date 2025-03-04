@@ -1,21 +1,21 @@
 {
-"project_name":"Проект выполнения всех функций",
-"project_autosave":"true",
-"project_scripts":[
-{"script":"01 Приветствие.py","necessary":"true"},
-{"script":"02 Пример функции Stage.py","necessary":"false"},
-{"script":"03 Пример функции Messenger.py","necessary":"false"},
-{"script":"04 Пример функции Driver.py","necessary":"false"},
-{"script":"05 Пример функции Utility.py","necessary":"false"},
-{"script":"06 Пример функции Plugin.py","necessary":"false"},
-{"script":"07 Пример функции Program.py","necessary":"false"},
-{"script":"08 Прощание.py","necessary":"true"}
+"name":"Проект выполнения всех функций",
+"autosave":"true",
+"scripts":[
+{"file":"01 Приветствие.py","necessary":"true"},
+{"file":"02 Пример функции Stage.py","necessary":"false"},
+{"file":"03 Пример функции Messenger.py","necessary":"false"},
+{"file":"04 Пример функции Driver.py","necessary":"false"},
+{"file":"05 Пример функции Utility.py","necessary":"false"},
+{"file":"06 Пример функции Plugin.py","necessary":"false"},
+{"file":"07 Пример функции Program.py","necessary":"false"},
+{"file":"08 Прощание.py","necessary":"true"}
 ],
-"project_libraries":[
-{"script":"MOKO.py"},
-{"script":"MOSC.py"}
+"libraries":[
+{"file":"MOKO.py"},
+{"file":"MOSC.py"}
 ],
-"project_templates":[
-{"script":"Отчет.docx"}
+"templates":[
+{"file":"Отчет.docx"}
 ]
 }

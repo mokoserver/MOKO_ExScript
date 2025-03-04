@@ -1,18 +1,18 @@
 {
-"project_name":"Проект функции Report",
-"project_autosave":"true",
-"project_scripts":[
-{"script":"1 Приветствие.py","necessary":"true"},
-{"script":"2 Функция Report - save.py","necessary":"false"},
-{"script":"3 Функция Report - clear.py","necessary":"false"},
-{"script":"4 Функция Report - delete.py","necessary":"false"},
-{"script":"5 Прощание.py","necessary":"true"}
+"name":"Проект функции Report",
+"autosave":"true",
+"scripts":[
+{"file":"1 Приветствие.py","necessary":"true"},
+{"file":"2 Функция Report - save.py","necessary":"false"},
+{"file":"3 Функция Report - clear.py","necessary":"false"},
+{"file":"4 Функция Report - delete.py","necessary":"false"},
+{"file":"5 Прощание.py","necessary":"true"}
 ],
-"project_libraries":[
-{"script":"MOKO.py"},
-{"script":"MOSC.py"}
+"libraries":[
+{"file":"MOKO.py"},
+{"file":"MOSC.py"}
 ],
-"project_templates":[
-{"script":"Отчет.docx"}
+"templates":[
+{"file":"Отчет.docx"}
 ]
 }

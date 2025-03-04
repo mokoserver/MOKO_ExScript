@@ -1,18 +1,18 @@
 {
-"project_name":"Report function project",
-"project_autosave":"true",
-"project_scripts":[
-{"script":"1 Greeting.py","necessary":"true"},
-{"script":"2 Report save.py","necessary":"false"},
-{"script":"3 Report clear.py","necessary":"false"},
-{"script":"4 Report delete.py","necessary":"false"},
-{"script":"5 Farewell.py","necessary":"true"}
+"name":"Report function project",
+"autosave":"true",
+"scripts":[
+{"file":"1 Greeting.py","necessary":"true"},
+{"file":"2 Report save.py","necessary":"false"},
+{"file":"3 Report clear.py","necessary":"false"},
+{"file":"4 Report delete.py","necessary":"false"},
+{"file":"5 Farewell.py","necessary":"true"}
 ],
-"project_libraries":[
-{"script":"MOKO.py"},
-{"script":"MOSC.py"}
+"libraries":[
+{"file":"MOKO.py"},
+{"file":"MOSC.py"}
 ],
-"project_templates":[
-{"script":"Report.docx"}
+"templates":[
+{"file":"Report.docx"}
 ]
 }

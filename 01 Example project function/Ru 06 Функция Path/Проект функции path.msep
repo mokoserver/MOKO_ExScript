@@ -1,15 +1,15 @@
 {
-"project_name":"Проект функции path",
-"project_autosave":"true",
-"project_scripts":[
-{"script":"1 Приветствие.py","necessary":"true"},
-{"script":"2 Прощание.py","necessary":"true"}
+"name":"Проект функции path",
+"autosave":"true",
+"scripts":[
+{"file":"1 Приветствие.py","necessary":"true"},
+{"file":"2 Прощание.py","necessary":"true"}
 ],
-"project_libraries":[
-{"script":"MOKO.py"},
-{"script":"MOSC.py"}
+"libraries":[
+{"file":"MOKO.py"},
+{"file":"MOSC.py"}
 ],
-"project_templates":[
-{"script":"Отчет.docx"}
+"templates":[
+{"file":"Отчет.docx"}
 ]
 }

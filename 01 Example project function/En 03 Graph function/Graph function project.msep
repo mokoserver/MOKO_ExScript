@@ -1,20 +1,20 @@
 {
-"project_name":"Graph function project",
-"project_autosave":"true",
-"project_scripts":[
-{"script":"1 Greeting.py","necessary":"true"},
-{"script":"2 The first graph.py","necessary":"false"},
-{"script":"3 The second graph.py","necessary":"false"},
-{"script":"4 The third graph.py","necessary":"false"},
-{"script":"5 Graph report.py","necessary":"false"},
-{"script":"6 Farewell.py","necessary":"true"}
+"name":"Graph function project",
+"autosave":"true",
+"scripts":[
+{"file":"1 Greeting.py","necessary":"true"},
+{"file":"2 The first graph.py","necessary":"false"},
+{"file":"3 The second graph.py","necessary":"false"},
+{"file":"4 The third graph.py","necessary":"false"},
+{"file":"5 Graph report.py","necessary":"false"},
+{"file":"6 Farewell.py","necessary":"true"}
 ],
-"project_libraries":[
-{"script":"MGPH.py"},
-{"script":"MOKO.py"},
-{"script":"MOSC.py"}
+"libraries":[
+{"file":"MGPH.py"},
+{"file":"MOKO.py"},
+{"file":"MOSC.py"}
 ],
-"project_templates":[
-{"script":"Report.docx"}
+"templates":[
+{"file":"Report.docx"}
 ]
 }

@@ -1,13 +1,13 @@
 {
-"project_name":"StartStopPause",
-"project_autosave":"true",
-"project_scripts":[
+"name":"StartStopPause",
+"autosave":"true",
+"scripts":[
 
 ],
-"project_libraries":[
+"libraries":[
 
 ],
-"project_templates":[
+"templates":[
 
 ]
 }

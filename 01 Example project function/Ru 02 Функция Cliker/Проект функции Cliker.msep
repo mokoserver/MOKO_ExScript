@@ -1,18 +1,18 @@
 {
-"project_name":"Проект функции cliker",
-"project_autosave":"true",
-"project_scripts":[
-{"script":"1 Приветствие.py","necessary":"true"},
-{"script":"2 Выполнение команд.py","necessary":"false"},
-{"script":"3 Создание отчёта.py","necessary":"false"},
-{"script":"4 Прощание.py","necessary":"true"}
+"name":"Проект функции cliker",
+"autosave":"true",
+"scripts":[
+{"file":"1 Приветствие.py","necessary":"true"},
+{"file":"2 Выполнение команд.py","necessary":"false"},
+{"file":"3 Создание отчёта.py","necessary":"false"},
+{"file":"4 Прощание.py","necessary":"true"}
 ],
-"project_libraries":[
-{"script":"MOKO.py"},
-{"script":"MOSC.py"},
-{"script":"MCLK.py"}
+"libraries":[
+{"file":"MOKO.py"},
+{"file":"MOSC.py"},
+{"file":"MCLK.py"}
 ],
-"project_templates":[
-{"script":"Отчет.docx"}
+"templates":[
+{"file":"Отчет.docx"}
 ]
 }

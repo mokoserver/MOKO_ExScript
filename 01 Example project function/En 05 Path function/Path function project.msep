@@ -1,15 +1,15 @@
 {
-"project_name":"Path function project",
-"project_autosave":"true",
-"project_scripts":[
-{"script":"1 Greeting.py","necessary":"true"},
-{"script":"2 Farewell.py","necessary":"true"}
+"name":"Path function project",
+"autosave":"true",
+"scripts":[
+{"file":"1 Greeting.py","necessary":"true"},
+{"file":"2 Farewell.py","necessary":"true"}
 ],
-"project_libraries":[
-{"script":"MOKO.py"},
-{"script":"MOSC.py"}
+"libraries":[
+{"file":"MOKO.py"},
+{"file":"MOSC.py"}
 ],
-"project_templates":[
-{"script":"Report.docx"}
+"templates":[
+{"file":"Report.docx"}
 ]
 }

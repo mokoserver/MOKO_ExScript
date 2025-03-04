@@ -1,13 +1,13 @@
 {
-"project_name":"Test Bool Time",
-"project_autosave":"true",
-"project_scripts":[
-{"script":"Messenger_Bool_Time.py","necessary":"false"}
+"name":"Test Bool Time",
+"autosave":"true",
+"scripts":[
+{"file":"Messenger_Bool_Time.py","necessary":"false"}
 ],
-"project_libraries":[
-{"script":"MOKO.py"}
+"libraries":[
+{"file":"MOKO.py"}
 ],
-"project_templates":[
+"templates":[
 
 ]
 }

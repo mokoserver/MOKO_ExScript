@@ -1,18 +1,18 @@
 {
-"project_name":"Поверка преобразователя давления",
-"project_autosave":"true",
-"project_scripts":[
-{"script":"1. Регистрация образца.py","necessary":"true"},
-{"script":"2. Поверка образца.py","necessary":"true"},
-{"script":"3. Создание протокола.py","necessary":"true"}
+"name":"Поверка преобразователя давления",
+"autosave":"true",
+"scripts":[
+{"file":"1. Регистрация образца.py","necessary":"true"},
+{"file":"2. Поверка образца.py","necessary":"true"},
+{"file":"3. Создание протокола.py","necessary":"true"}
 ],
-"project_libraries":[
-{"script":"MOKO.py"},
-{"script":"MOSC.py"},
-{"script":"pressurelib.py"}
+"libraries":[
+{"file":"MOKO.py"},
+{"file":"MOSC.py"},
+{"file":"pressurelib.py"}
 ],
-"project_templates":[
-{"script":"Протокол ADT761.docx"},
-{"script":"Протоколы ADT761.docx"}
+"templates":[
+{"file":"Протокол ADT761.docx"},
+{"file":"Протоколы ADT761.docx"}
 ]
 }

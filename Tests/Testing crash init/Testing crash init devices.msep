@@ -1,14 +1,14 @@
 {
-"project_name":"Testing crash init devices",
-"project_autosave":"true",
-"project_scripts":[
-{"script":"Test.py","necessary":"true"}
+"name":"Testing crash init devices",
+"autosave":"true",
+"scripts":[
+{"file":"Test.py","necessary":"true"}
 ],
-"project_libraries":[
-{"script":"MOKO.py"},
-{"script":"BK1697B.py"}
+"libraries":[
+{"file":"MOKO.py"},
+{"file":"BK1697B.py"}
 ],
-"project_templates":[
+"templates":[
 
 ]
 }

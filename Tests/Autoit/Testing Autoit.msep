@@ -1,13 +1,13 @@
 {
-"project_name":"Testing Autoit",
-"project_autosave":"true",
-"project_scripts":[
-{"script":"Testing Autoit.py","necessary":"false"}
+"name":"Testing Autoit",
+"autosave":"true",
+"scripts":[
+{"file":"Testing Autoit.py","necessary":"false"}
 ],
-"project_libraries":[
-{"script":"MOKO.py"}
+"libraries":[
+{"file":"MOKO.py"}
 ],
-"project_templates":[
+"templates":[
 
 ]
 }
