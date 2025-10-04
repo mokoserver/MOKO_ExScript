@@ -12,7 +12,7 @@ def ConvertStringToFloat(value: str):
     """
     if not isinstance(value,  str):
         return float(value)
-    library_object = MFRTLibrary(value=value)
+    library_object = MFRTLibrary(value=value, resolution=0)
     return library_object.get_prefix_in_value()
 
 
