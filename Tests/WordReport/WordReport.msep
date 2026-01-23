@@ -1,0 +1,13 @@
+{
+"name":"WordReport",
+"autosave":"true",
+"scripts":[
+{"file":"Exclusive.py","necessary":"false"}
+],
+"libraries":[
+{"file":"MOKO.py"}
+],
+"templates":[
+{"file":"Report.docx"}
+]
+}

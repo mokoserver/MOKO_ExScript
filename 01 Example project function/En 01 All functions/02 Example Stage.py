@@ -12,6 +12,8 @@ Moko.Stage('Program control is implemented through the execution of scripts writ
 Moko.Stage('This script shows how the Stage function works.')
 Moko.Stage('Stage messages can be of a specific type. Each of the types is presented below.')
 Moko.Stage('*Info*. Outputs any information to Stage. Designated as default type', 'Info')
+Moko.Stage('*Success*. Outputs any information to Stage. Designated as default type', 'Success')
+Moko.Stage('*Fail*. Outputs any information to Stage. Designated as default type', 'Fail')
 Moko.Stage('*Error*. Informs about an error that occurred during script execution.', 'Error')
 Moko.Stage('*Plugin*. Displays information related to a plugin.', 'Plugin')
 Moko.Stage('*Driver*. Displays information related to the driver.', 'Driver')
