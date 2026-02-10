@@ -2,7 +2,7 @@
 "name":"WordReport",
 "autosave":"true",
 "scripts":[
-{"file":"Exclusive.py","necessary":"false"}
+{"file":"Test WordReport.py","necessary":"false"}
 ],
 "libraries":[
 {"file":"MOKO.py"}
