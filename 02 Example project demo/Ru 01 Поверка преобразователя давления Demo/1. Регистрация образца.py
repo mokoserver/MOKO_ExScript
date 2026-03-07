@@ -2,7 +2,7 @@ from pressurelib import *
 from MOSC import Utility_to_Report
 
 #Region 1.1 Этапы регистрации:
-#hesh Заполнение формы
+#hash Заполнение формы
 #EndRegion 1.1 Этапы регистрации:
 
 

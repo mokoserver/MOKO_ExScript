@@ -5,7 +5,7 @@ MOKO.Telegram('alpha', 'set', f'********START SCRIPT********')
 MTLG.TelegramClassic('alpha', 'set', f'********START SCRIPT********')
 
 #Region Status
-#hesh Using Telegram
+#hash Using Telegram
 
 text = ''
 id = ''

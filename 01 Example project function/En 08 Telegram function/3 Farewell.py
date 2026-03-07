@@ -2,7 +2,7 @@ import MOKO
 import MTLG
 
 #Region Status
-#hesh Farewell
+#hash Farewell
 
 MOKO.Telegram('alpha', 'set', f'********START SCRIPT********')
 MTLG.TelegramClassic('alpha', 'set', f'********START SCRIPT********')

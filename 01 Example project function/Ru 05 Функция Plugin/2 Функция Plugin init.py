@@ -3,7 +3,7 @@ import MOKO
 language = MOKO.Report("language", 'get', 'string', 'string', 'string')
 
 #Region Status (статус)
-#hesh Plugin init
+#hash Plugin init
 
 MOKO.Messenger('set', 'Plugin - init.png', 'В данном скрипте будет продемонстрирована команда \'\'init\'\', '
                                            'которая запускает плагин.')

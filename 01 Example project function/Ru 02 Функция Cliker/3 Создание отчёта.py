@@ -1,7 +1,7 @@
 import MOKO
 
 #Region Status (статус)
-#hesh Report
+#hash Report
 
 MOKO.Program('control', 'set', 'save word report')
 MOKO.Program('tree', 'set', 'select = ' + 'Report')

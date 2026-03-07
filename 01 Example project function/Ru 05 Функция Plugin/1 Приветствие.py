@@ -1,7 +1,7 @@
 import MOKO
 
 #Region Status (статус)
-#hesh Greeting
+#hash Greeting
 
 MOKO.Messenger('set', 'Приветствие#@hello', 'В текущем проекте будут показаны возможности управления плагином. '
                                          'В данном примере всё будет показываться на основе плагина Graph.')

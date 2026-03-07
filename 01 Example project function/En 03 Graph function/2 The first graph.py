@@ -73,7 +73,7 @@ MGPH.AddLine(name, ArrOy, ArrOx,LineWidth,Color,Visible)
 #description: Frequency;Phase;Width;Color;Visible;
 
 #First Plot
-name = "Plot 1"  #hesh Sinus with phase 90: 40;(40);90;3;Lime;Yes;
+name = "Plot 1"  #hash Sinus with phase 90: 40;(40);90;3;Lime;Yes;
 MOKO.Report('Name1;Name4;Name7;Name10', 'set', 'strings', f'{name};{name};{name};{name}')
 sampling_freq = 100
 start = 0
@@ -95,7 +95,7 @@ MOKO.Program('tree', 'set', 'chosen = passed')
 # Region Status (статус)
 
 #Second Plot
-name = "Plot 2" #hesh Sinus with phase 0: 40;(40);0;3;Aqua;Yes;
+name = "Plot 2" #hash Sinus with phase 0: 40;(40);0;3;Aqua;Yes;
 MOKO.Report('Name2;Name5;Name8;Name11', 'set', 'strings', f'{name};{name};{name};{name}')
 sampling_freq = 100
 start = 0
@@ -117,7 +117,7 @@ MOKO.Program('tree', 'set', 'chosen = passed')
 # Region Status (статус)
 
 #Third Plot
-name = "Plot 3"  #hesh Sinus with phase -90: 40;(40);-90;3;Red;Yes;
+name = "Plot 3"  #hash Sinus with phase -90: 40;(40);-90;3;Red;Yes;
 MOKO.Report('Name3;Name6;Name9;Name12', 'set', 'strings', f'{name};{name};{name};{name}')
 sampling_freq = 100
 start = 0

@@ -4,7 +4,7 @@ MOKO.Messenger('set', 'Greeting#@hello', 'Dear user! Right now, the work of the 
                                       'Happy viewing!')
 
 #Region Status
-#hesh Greeting
+#hash Greeting
 MOKO.Program('tree', 'set', 'select = ' + 'Greeting')
 MOKO.Program('tree', 'set', 'chosen = passed')
 #EndRegion Region Status

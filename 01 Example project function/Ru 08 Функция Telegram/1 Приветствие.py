@@ -11,7 +11,7 @@ MTLG.TelegramClassic('alpha', 'set', f'********Старт скрипта********
 #MOKO.Telegram('alpha', 'set', f'***{scriptname}***')
 
 #Region Status (статус)
-#hesh Greeting
+#hash Greeting
 
 alpha = MOKO.Telegram('alpha', 'get', 'list', 'string')
 

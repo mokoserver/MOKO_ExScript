@@ -8,7 +8,7 @@ MOKO.Report(f'Report', 'set', 'table', '1;2;3;4;5;6;7;8;9')
 MOKO.Report(f'Report_clear', 'set', 'table', '1;2;3;4;5;6;7;8;9')
 MOKO.Report(f'Report_delete', 'set', 'table', '1;2;3;4;5;6;7;8;9')
 #Region Status (статус)
-#hesh Greeting
+#hash Greeting
 
 MOKO.Messenger('set', 'Приветствие#@hello', 'В текущем проекте будут показаны дополнительные возможности Report.')
 

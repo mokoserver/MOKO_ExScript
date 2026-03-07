@@ -37,7 +37,7 @@ MGPH.AddGraphSett(Value_OyOx, Name_Oy, Name_Ox, Autoscale)
 #Region Status (статус)
 #description: Width (толщина);Color (цвет);Visible;(видимость)
 
-name = 'Plot 4' #hesh High mask: 2;Blue (голубой);Yes;(да)
+name = 'Plot 4' #hash High mask: 2;Blue (голубой);Yes;(да)
 MOKO.Report('Name13;Name16;Name19;Name22', 'set', 'strings', f'{name};{name};{name};{name}')
 ArrOx = [2.379,2.383,2.4,2.402,2.422,2.424,2.441,2.445]
 valueOy = -92
@@ -154,7 +154,7 @@ while i < 200:
     array.append(2.433+(2.445-2.433)/200*i)
     i = i + 1
 
-name = 'Plot 5' #hesh Noise signal: 1;Red (красный);Yes;(да)
+name = 'Plot 5' #hash Noise signal: 1;Red (красный);Yes;(да)
 MOKO.Report('Name14;Name17;Name20;Name23', 'set', 'strings', f'{name};{name};{name};{name}')
 ArrOx1 = array
 ArrOy1 = noise
@@ -168,7 +168,7 @@ MOKO.Program('tree', 'set', 'chosen = passed')
 
 #Low Mask
 
-name = 'Plot 6' #hesh Low mask:  2;Lime (лаймовый);Yes;(да)
+name = 'Plot 6' #hash Low mask:  2;Lime (лаймовый);Yes;(да)
 MOKO.Report('Name15;Name18;Name21;Name24', 'set', 'strings', f'{name};{name};{name};{name}')
 ArrOx2 = [2.379,2.383,2.4,2.402,2.422,2.424,2.441,2.445]
 valueOy= -150

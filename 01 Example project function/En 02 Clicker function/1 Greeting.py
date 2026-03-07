@@ -13,7 +13,7 @@ MOKO.Messenger('set', 'Greeting#@hello',
                'the last command is to get the image from the specified path.')
 
 #Region Status
-#hesh Greeting
+#hash Greeting
 
 MOKO.Program('tree', 'set', 'select = ' + 'Greeting')
 MOKO.Program('tree', 'set', 'chosen = passed')

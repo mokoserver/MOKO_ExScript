@@ -2,9 +2,9 @@ import MOKO
 import time
 
 #Region Status (статус)
-#hesh Delete table
-#hesh Delete string
-#hesh Delete picture
+#hash Delete table
+#hash Delete string
+#hash Delete picture
 
 MOKO.Messenger('set', 'Report - delete.jpg', 'В текущем скрипте будет продемонстрирована команда \'\'delete\'\', '
                                              'которая удаляет строки, таблицы и картинки в поле Report.')

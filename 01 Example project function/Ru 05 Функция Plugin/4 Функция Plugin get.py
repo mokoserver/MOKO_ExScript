@@ -2,7 +2,7 @@ import MOKO
 import MGPH
 
 #Region Status (статус)
-#hesh Plugin get
+#hash Plugin get
 
 MOKO.Messenger('set', 'Plugin - get.png', 'В текущем скрипте будет продемонстрирована команда \'\'get\'\', '
                                           'которая передает данные в плагин. '

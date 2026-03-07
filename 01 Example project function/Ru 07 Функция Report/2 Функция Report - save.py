@@ -2,9 +2,9 @@ import MOKO
 
 
 #Region Status (статус)
-#hesh Save table
-#hesh Save string
-#hesh Save picture
+#hash Save table
+#hash Save string
+#hash Save picture
 
 MOKO.Messenger('set', 'Report - save.jpg', 'В данном скрипте будет продемонстрирована команда \'\'save\'\', '
                                            'которая сохраняет строки из Report в текстовые файлы, '

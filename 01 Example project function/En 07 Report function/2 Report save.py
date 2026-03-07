@@ -1,9 +1,9 @@
 import MOKO
 
 #Region Status
-#hesh Save table
-#hesh Save string
-#hesh Save picture
+#hash Save table
+#hash Save string
+#hash Save picture
 
 MOKO.Messenger('set', 'Report - save.jpg', 'This script will demonstrate the \'\'save\'\' command, '
                                            'which saves rows from Report to text files, '

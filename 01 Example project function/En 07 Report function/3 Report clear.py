@@ -2,9 +2,9 @@ import MOKO
 import time
 
 #Region Status
-#hesh Clear table
-#hesh Clear string
-#hesh Clear picture
+#hash Clear table
+#hash Clear string
+#hash Clear picture
 
 MOKO.Messenger('set', 'Report - clear.jpg', 'This script will demonstrate the \'\'clear\'\' command, '
                                                 'which clears the contents of rows, tables and pictures in the Report field.')

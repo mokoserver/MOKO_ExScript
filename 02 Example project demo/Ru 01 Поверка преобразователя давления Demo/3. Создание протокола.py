@@ -2,8 +2,8 @@ from pressurelib import *
 
 #Region 3.1 Этапы формирования:
 
-#hesh Автосохранение результатов
-#hesh Формирование протокола
+#hash Автосохранение результатов
+#hash Формирование протокола
 #EndRegion 3.1 Этапы формирования:
 
 PermissibleError = MOKO.Report('PermissibleError', 'get', 'string', 'string', 'string')  # Пределы допускаемой погрешности

@@ -59,7 +59,7 @@ def read_command(device: str) -> str:
 
 
 #Region Port
-#hesh Port Testing
+#hash Port Testing
 
 work_bk1697(device="BK")
 

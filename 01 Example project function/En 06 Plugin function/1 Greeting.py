@@ -1,7 +1,7 @@
 import MOKO
 
 #Region Status
-#hesh Greeting
+#hash Greeting
 
 MOKO.Messenger('set', 'Greeting#@hello', 'The current project will show the plugin\'s control options. '
                                       'In this example, everything will be shown based on the Graph plugin.')

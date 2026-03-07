@@ -8,7 +8,7 @@ MOKO.Report(f'Messenger', 'set', 'table', '1;2;3;4;5;6;7;8;9')
 MOKO.Report(f'Messenger_clear', 'set', 'table', '1;2;3;4;5;6;7;8;9')
 MOKO.Report(f'Messenger_delete', 'set', 'table', '1;2;3;4;5;6;7;8;9')
 #Region Status
-#hesh Greeting
+#hash Greeting
 
 MOKO.Messenger('set', 'Greeting#@hello', 'Additional features of Messenger will be shown in the current project.')
 

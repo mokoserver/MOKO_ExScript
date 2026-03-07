@@ -3,7 +3,7 @@ import MOKO
 MOKO.Stage("Начало скрипта")
 
 #Region 5.1 Статус
-#hesh Управление SI8
+#hash Управление SI8
 
 MOKO.Messenger('set', 'SI8.jpg', 'В текущем скрипте будет продемонстрирована работа с SI8.', '', '5')
 MOKO.Messenger('set', 'SI8.jpg', 'Узнаем текущее время.' '', '5')

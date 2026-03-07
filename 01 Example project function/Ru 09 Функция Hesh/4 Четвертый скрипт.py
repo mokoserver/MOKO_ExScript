@@ -4,9 +4,9 @@ from time import sleep
 #Region Test script:$4.1
 #description: Script;Point;Result
 
-#hesh  $4.1: Fourth;1;Good
-#hesh  $4.2: Fourth;2;Good
-#hesh  $4.3: Fourth;3;Good
+#hash  $4.1: Fourth;1;Good
+#hash  $4.2: Fourth;2;Good
+#hash  $4.3: Fourth;3;Good
 
 MOKO.Program('tree', 'set', 'select = Test script:$4.1')
 sleep(0.5)

@@ -1,9 +1,9 @@
 import MOKO
 
 #Region Status (статус)
-#hesh Make screenshot
-#hesh Save screenshot
-#hesh Insert screenshot
+#hash Make screenshot
+#hash Save screenshot
+#hash Insert screenshot
 
 MOKO.Messenger('set', 'Messenger - picture#@insert', 'В данном скрипте будет продемонстрирована вставка картинки в Messenger. '
                                                      'Для этого нужно сделать скриншот экрана командой '

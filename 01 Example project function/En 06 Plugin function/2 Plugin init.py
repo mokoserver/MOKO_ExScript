@@ -1,7 +1,7 @@
 import MOKO
 
 #Region Status
-#hesh Plugin init
+#hash Plugin init
 
 MOKO.Messenger('set', 'Plugin - init.png', 'This script will demonstrate the \'\'init\'\' command, '
                                            'which starts the plugin.')

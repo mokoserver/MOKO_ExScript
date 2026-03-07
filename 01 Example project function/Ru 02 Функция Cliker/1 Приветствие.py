@@ -11,7 +11,7 @@ MOKO.Messenger('set', 'Приветствие#@hello', 'В данном през
                                          'последняя команда - получение картинки по указанному пути.')
 
 #Region Status (статус)
-#hesh Greeting
+#hash Greeting
 MOKO.Program('tree', 'set', 'select = ' + 'Greeting')
 MOKO.Program('tree', 'set', 'chosen = passed')
 #EndRegion Region Status

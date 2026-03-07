@@ -3,9 +3,9 @@ import time
 
 
 #Region Status (статус)
-#hesh Delete table
-#hesh Delete string
-#hesh Delete picture
+#hash Delete table
+#hash Delete string
+#hash Delete picture
 
 MOKO.Messenger('set', 'Report - delete#@delete', 'The current script will demonstrate the \'\'delete\'\' command, '
                                                  'which deletes rows, tables and pictures in the Report field.')

@@ -1,7 +1,7 @@
 import MOKO
 
 #Region Status (статус)
-#hesh Plugin close
+#hash Plugin close
 
 MOKO.Messenger('set', 'Plugin - close.png', 'В данном скрипте будет продемонстрирована команда \'\'close\'\', '
                                             'которая закрывает плагин.')

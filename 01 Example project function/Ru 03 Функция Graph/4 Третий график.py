@@ -37,7 +37,7 @@ MGPH.AddGraphSett(Value_OyOx, Name_Oy, Name_Ox, Autoscale)
 #description: Frequency;(частота);Phase (фаза);Width (толщина);Color;(цвет);Visible;(видимость)
 
 #First Plot
-name = "Plot 7" #hesh Sinus with frequency 4: 4;(4);0;2;Magenta;(пурпурный);Yes;(да)
+name = "Plot 7" #hash Sinus with frequency 4: 4;(4);0;2;Magenta;(пурпурный);Yes;(да)
 MOKO.Report('Name25;Name27;Name29;Name31', 'set', 'strings', f'{name};{name};{name};{name}')
 sampling_freq = 1000
 start = 0
@@ -56,7 +56,7 @@ MGPH.AddLine(name, ArrOy, ArrOx,LineWidth,Color,Visible)
 MOKO.Program('tree', 'set', 'select = ' + 'Sinus with frequency 4')
 MOKO.Program('tree', 'set', 'chosen = passed')
 
-name = "Plot 8"     #hesh Sinus with frequency 30:  30;(30);0;2;DarkTurquoise;(темно-голубой);Yes;(да)
+name = "Plot 8"     #hash Sinus with frequency 30:  30;(30);0;2;DarkTurquoise;(темно-голубой);Yes;(да)
 MOKO.Report('Name26;Name28;Name30;Name32', 'set', 'strings', f'{name};{name};{name};{name}')
 start = 0
 stop = 0.5

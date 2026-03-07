@@ -1,7 +1,7 @@
 import MOKO
 
 #Region Status (статус)
-#hesh Greeting
+#hash Greeting
 
 path_temp = 'D:\GitHub\MOKO\MOKO_ExScript\Path\data'
 
