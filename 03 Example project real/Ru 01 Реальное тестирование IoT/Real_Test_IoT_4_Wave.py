@@ -34,12 +34,12 @@ class DemoTestIoTMeasurement:
             amplitude: (str | float | int),
             amplitude_limit: int,
             frequency: (str | float | int),
-            hesh: str,
+            hash: str,
             WireConnection :str,
 
     ) -> None:
 
-        name_table = hesh.split('$')[1]
+        name_table = hash.split('$')[1]
 
         self.MaxError = float((100 + percent_error) / 100)
         self.MinError = float((100 - percent_error) / 100)
@@ -297,10 +297,10 @@ class DemoTestIoTMeasurement:
         if init:
             if self.AutomaticBK1697B or self.Simulation:
                 MOKO.Report('DevicesUsed', 'set', 'table', 'BK1697B;Подключен;')
-                MOSC.hesh_passed()
+                MOSC.hash_passed()
             else:
                 MOKO.Report('DevicesUsed', 'set', 'table', 'BK1697B;Отключен;')
-                MOSC.hesh_failed()
+                MOSC.hash_failed()
 
 ########################################################################################################################
 ########################################################################################################################
@@ -355,10 +355,10 @@ class DemoTestIoTMeasurement:
         if init:
             if self.AutomaticFY6900 or self.Simulation:
                 MOKO.Report('DevicesUsed', 'set', 'table', 'FY6900;Подключен;')
-                MOSC.hesh_passed()
+                MOSC.hash_passed()
             else:
                 MOKO.Report('DevicesUsed', 'set', 'table', 'FY6900;Отключен;')
-                MOSC.hesh_failed()
+                MOSC.hash_failed()
 
 ########################################################################################################################
 ########################################################################################################################
@@ -415,10 +415,10 @@ class DemoTestIoTMeasurement:
         if init:
             if self.AutomaticAPPA207 or self.Simulation:
                 MOKO.Report('DevicesUsed', 'set', 'table', 'APPA207;Подключен;')
-                MOSC.hesh_passed()
+                MOSC.hash_passed()
             else:
                 MOKO.Report('DevicesUsed', 'set', 'table', 'APPA207;Отключен;')
-                MOSC.hesh_failed()
+                MOSC.hash_failed()
 
 ########################################################################################################################
 ########################################################################################################################

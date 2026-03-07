@@ -9,13 +9,13 @@ MOKO.Stage("*************** Сохранение Word отчета *************
 MOKO.Stage("*********************************************************")
 
 #region Word отчет$Word
-MOSC.HeshStatus("$Word")
+MOSC.hashStatus("$Word")
 MOKO.Program('tree', 'set', 'select = Word отчет$Word')
 
 MOKO.Stage("name: control >> mode: set >> command >> save word report", "Program")
 MOKO.Program('control', 'set', 'save word report')
 
-MOSC.hesh_passed()
+MOSC.hash_passed()
 #endregion Word отчет$Word
 
 MOKO.EndScript()

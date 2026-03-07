@@ -46,11 +46,11 @@ class DemoTestIoTMeasurement:
             amplitude: (str | float | int),
             amplitude_limit: int,
             frequency: (str | float | int),
-            hesh: str,
+            hash: str,
 
     ) -> None:
 
-        name_table = self.__init_measurement(hesh=hesh, percent_error=percent_error)
+        name_table = self.__init_measurement(hash=hash, percent_error=percent_error)
 
         f_value = MFRT.ConvertStringToFloat(value)
 
@@ -101,11 +101,11 @@ class DemoTestIoTMeasurement:
             amplitude: (str | float | int),
             amplitude_limit: int,
             frequency: (str | float | int),
-            hesh: str,
+            hash: str,
 
     ) -> None:
 
-        name_table = self.__init_measurement(hesh=hesh, percent_error=percent_error)
+        name_table = self.__init_measurement(hash=hash, percent_error=percent_error)
 
         f_value = MFRT.ConvertStringToFloat(value)
 
@@ -444,8 +444,8 @@ class DemoTestIoTMeasurement:
 ########################################################################################################################
 ########################################################################################################################
 
-    def __init_measurement(self, hesh: str, percent_error: (int | float)) -> str:
-        name_table = hesh.split('$')[1]
+    def __init_measurement(self, hash: str, percent_error: (int | float)) -> str:
+        name_table = hash.split('$')[1]
 
         self.MaxError = float((100 + percent_error) / 100)
         self.MinError = float((100 - percent_error) / 100)
@@ -508,18 +508,18 @@ class DemoTestIoTMeasurement:
 ########################################################################################################################
 
     def check_simulation_mode(self) -> None:
-        hesh_list = ['Initialization BK1697B$Init', 'Initialization FY6900$Init', 'Initialization APPA207$Init']
+        hash_list = ['Initialization BK1697B$Init', 'Initialization FY6900$Init', 'Initialization APPA207$Init']
         if self.APPA207.IsSimulation or self.BK1697B.IsSimulation or self.FY6900.IsSimulation:
 
             self.APPA207.IsSimulation = True
             self.FY6900.IsSimulation = True
             self.BK1697B.IsSimulation = True
 
-            for count, one_hesh in enumerate(hesh_list):
-                status = MOSC.get_hashes_status(hesh=one_hesh)
+            for count, one_hash in enumerate(hash_list):
+                status = MOSC.get_hashes_status(hash=one_hash)
                 if status not in "passed":
-                    MOKO.Program('tree', 'set', f'select = {one_hesh}')
-                    MOSC.hesh_passed()
+                    MOKO.Program('tree', 'set', f'select = {one_hash}')
+                    MOSC.hash_passed()
 
 ########################################################################################################################
 ########################################################################################################################

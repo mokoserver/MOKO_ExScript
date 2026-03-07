@@ -59,10 +59,10 @@ class BK1697B:
         if init:
             if self.IsAutomatic:
                 MOKO.Report('DevicesUsed', 'set', 'table', 'BK1697B;Connected;')
-                MOSC.hesh_passed()
+                MOSC.hash_passed()
             else:
                 MOKO.Report('DevicesUsed', 'set', 'table', 'BK1697B;Disconnected;')
-                MOSC.hesh_failed()
+                MOSC.hash_failed()
 
 #######################################################################################################################
 #############################################  BK1697B Init device  ###################################################

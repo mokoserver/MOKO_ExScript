@@ -268,10 +268,10 @@ class SettingsAndMeasurement:
 
             if accuracy > error:
                 self.Status = 'Failed'
-                MOSC.hesh_failed()
+                MOSC.hash_failed()
             else:
                 self.Status = 'OK'
-                MOSC.hesh_passed()
+                MOSC.hash_passed()
 
             self.Count_meas = 0
             self.ContinueMeasurement = False
@@ -557,17 +557,17 @@ class SettingsAndMeasurement:
 #######################################################################################################################
 
     def check_simulation_mode(self) -> None:
-        hesh_list = ['Initialization AGILENT34401A$Init', 'Initialization FLUKE5520A$Init']
+        hash_list = ['Initialization AGILENT34401A$Init', 'Initialization FLUKE5520A$Init']
         if self.Agilent34401A.IsSimulation or self.Fluke5520A.IsSimulation:
 
             self.Agilent34401A.IsSimulation = True
             self.Fluke5520A.IsSimulation = True
 
-            for count, one_hesh in enumerate(hesh_list):
-                status = MOSC.get_hashes_status(hesh=one_hesh)
+            for count, one_hash in enumerate(hash_list):
+                status = MOSC.get_hashes_status(hash=one_hash)
                 if status not in "passed":
-                    MOKO.Program('tree', 'set', f'select = {one_hesh}')
-                    MOSC.hesh_passed()
+                    MOKO.Program('tree', 'set', f'select = {one_hash}')
+                    MOSC.hash_passed()
 
 ########################################################################################################################
 ########################################################################################################################

@@ -71,9 +71,9 @@ class Fluke5520A:
 
         if init:
             if self.IsAutomatic or self.IsSimulation:
-                MOSC.hesh_passed()
+                MOSC.hash_passed()
             else:
-                MOSC.hesh_failed()
+                MOSC.hash_failed()
 
 #######################################################################################################################
 ############################################  Fluke5520A Init device   ################################################

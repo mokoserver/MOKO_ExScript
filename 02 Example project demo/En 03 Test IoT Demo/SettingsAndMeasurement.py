@@ -44,11 +44,11 @@ class DemoTestIoTMeasurement:
             amplitude: (str | float | int),
             amplitude_limit: int,
             frequency: (str | float | int),
-            hesh: str,
+            hash: str,
 
     ) -> None:
 
-        name_table = self.__init_measurement(hesh=hesh, percent_error=percent_error)
+        name_table = self.__init_measurement(hash=hash, percent_error=percent_error)
 
         f_value = MFRT.ConvertStringToFloat(value)
 
@@ -99,11 +99,11 @@ class DemoTestIoTMeasurement:
             amplitude: (str | float | int),
             amplitude_limit: int,
             frequency: (str | float | int),
-            hesh: str,
+            hash: str,
 
     ) -> None:
 
-        name_table = self.__init_measurement(hesh=hesh, percent_error=percent_error)
+        name_table = self.__init_measurement(hash=hash, percent_error=percent_error)
 
         f_value = MFRT.ConvertStringToFloat(value)
 
@@ -442,8 +442,8 @@ class DemoTestIoTMeasurement:
 ########################################################################################################################
 ########################################################################################################################
 
-    def __init_measurement(self, hesh: str, percent_error: (int | float)) -> str:
-        name_table = hesh.split('$')[1]
+    def __init_measurement(self, hash: str, percent_error: (int | float)) -> str:
+        name_table = hash.split('$')[1]
 
         self.MaxError = float((100 + percent_error) / 100)
         self.MinError = float((100 - percent_error) / 100)

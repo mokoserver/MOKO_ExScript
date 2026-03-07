@@ -6,7 +6,7 @@ MOKO.Stage("********* Registration verification unit script *********")
 MOKO.Stage("*********************************************************")
 
 #region Equipment registration$Reg
-MOSC.HeshStatus("$Reg")
+MOSC.hashStatus("$Reg")
 MOKO.Program('tree', 'set', 'select = Equipment registration$Reg')
 
 MOKO.Utility("IZRCSMinfo", "set", "Registration")
@@ -71,7 +71,7 @@ MOKO.Report("VerificationTools", "set", "table", f"Fluke 5522A Multifunctional C
 MOKO.Report("VerificationTools", "set", "table", f"Universal voltmeter calibrator H4-12 Serial №005211; "
             f"{text_report_voltmeter}")
 
-MOSC.hesh_passed()
+MOSC.hash_passed()
 #endregion Equipment registration$Reg
 
 MOKO.EndScript()

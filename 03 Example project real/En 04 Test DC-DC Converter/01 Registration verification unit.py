@@ -9,7 +9,7 @@ MOKO.Stage("*********************************************************")
 MOKO.Stage(" ")
 
 #region Equipment registration$Reg
-MOSC.Heshstatus("$Reg")
+MOSC.hashstatus("$Reg")
 MOKO.Program('tree', 'set', 'select = Equipment registration$Reg')
 
 MOKO.Utility("IZRCSMinfo", "set", "Registration")
@@ -60,7 +60,7 @@ MOKO.Report("VerificationConditions", "set", "table", f"Humidity; 60%; {Humidity
 MOKO.Report("VerificationConditions", "set", "table", f"Pressure; 100kPa; {Pressure}")
 MOKO.Stage(" ")
 
-MOSC.hesh_passed()
+MOSC.hash_passed()
 #endregion Equipment registration$Reg
 
 MOKO.EndScript()

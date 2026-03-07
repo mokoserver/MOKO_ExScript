@@ -62,10 +62,10 @@ class APPA207:
         if init:
             if self.IsAutomatic:
                 MOKO.Report('DevicesUsed', 'set', 'table', 'APPA207;Connected;')
-                MOSC.hesh_passed()
+                MOSC.hash_passed()
             else:
                 MOKO.Report('DevicesUsed', 'set', 'table', 'APPA207;Disconnected;')
-                MOSC.hesh_failed()
+                MOSC.hash_failed()
 
 #######################################################################################################################
 #############################################  APPA207 Init device  ###################################################

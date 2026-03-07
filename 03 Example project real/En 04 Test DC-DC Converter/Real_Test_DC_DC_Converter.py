@@ -32,7 +32,7 @@ class DemoTestIoTMeasurement:
             range_value: (str | float | int),
             allowable_stabilization_factor: (float | int),
             is_operating_range: bool,
-            hesh: str,
+            hash: str,
             WireConnection :str,
 
     ) -> None:
@@ -40,8 +40,8 @@ class DemoTestIoTMeasurement:
         """
             Calculation and reporting function
         """
-        name_table = hesh.split('$')[1]
-        number_measurement = hesh.split('$')[0][5:]
+        name_table = hash.split('$')[1]
+        number_measurement = hash.split('$')[0][5:]
 
         self.Error = float((100 + allowable_stabilization_factor) / 100)
         
@@ -271,10 +271,10 @@ class DemoTestIoTMeasurement:
         if init:
             if self.AutomaticBK1697B or self.Simulation:
                 MOKO.Report('DevicesUsed', 'set', 'table', 'BK1697B;Connected;')
-                MOSC.hesh_passed()
+                MOSC.hash_passed()
             else:
                 MOKO.Report('DevicesUsed', 'set', 'table', 'BK1697B;Disconnected;')
-                MOSC.hesh_failed()
+                MOSC.hash_failed()
 
 ########################################################################################################################
 ########################################################################################################################
@@ -331,10 +331,10 @@ class DemoTestIoTMeasurement:
         if init:
             if self.AutomaticAPPA207 or self.Simulation:
                 MOKO.Report('DevicesUsed', 'set', 'table', 'APPA207;Connected;')
-                MOSC.hesh_passed()
+                MOSC.hash_passed()
             else:
                 MOKO.Report('DevicesUsed', 'set', 'table', 'APPA207;Disconnected;')
-                MOSC.hesh_failed()
+                MOSC.hash_failed()
 
 ########################################################################################################################
 ########################################################################################################################

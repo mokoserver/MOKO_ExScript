@@ -1,5 +1,5 @@
 import MOKO
-from MOSC import HeshStatus, hesh_passed, hesh_failed
+from MOSC import hashStatus, hash_passed, hash_failed
 from SettingsAndMeasurement import Testing
 import MTLG
 MTLG.TelegramProgram('alpha', 'Measurement script', 'set', 'init', 'string')
@@ -22,14 +22,14 @@ def VDC(
         amplitude: (str | float | int),
         amplitude_limit: int,
         frequency: (str | float | int),
-        hesh: str,
+        hash: str,
         remeasurement: bool = False,
         remeasurement_number: int = 0,
         time_delay: (float | int) = 0.0
 
 ) -> None:
 
-    if HeshStatus(hesh):
+    if hashStatus(hash):
 
         Testing.CheckConnectDevices()
 
@@ -45,13 +45,13 @@ def VDC(
 
         Testing.VDC_Measurement(value=value, value_limit=value_limit, wave=wave, percent_error=percent_error,
                                 amplitude=amplitude, amplitude_limit=amplitude_limit, frequency=frequency,
-                                hesh=hesh)
+                                hash=hash)
         Testing.CreateGraph()
 
         if Testing.Status == 'Failed':
-            hesh_failed()
+            hash_failed()
         else:
-            hesh_passed()
+            hash_passed()
 
 
 def IDC(
@@ -62,14 +62,14 @@ def IDC(
         amplitude: (str | float | int),
         amplitude_limit: int,
         frequency: (str | float | int),
-        hesh: str,
+        hash: str,
         remeasurement: bool = False,
         remeasurement_number: int = 0,
         time_delay: (int, float) = 0.0
 
 ) -> None:
 
-    if HeshStatus(hesh):
+    if hashStatus(hash):
 
         Testing.CheckConnectDevices()
 
@@ -85,13 +85,13 @@ def IDC(
 
         Testing.IDC_MEASUREMENT(value=value, value_limit=value_limit, wave=wave, percent_error=percent_error,
                                 amplitude=amplitude, amplitude_limit=amplitude_limit, frequency=frequency,
-                                hesh=hesh)
+                                hash=hash)
         Testing.CreateGraph()
 
         if Testing.Status == 'Failed':
-            hesh_failed()
+            hash_failed()
         else:
-            hesh_passed()
+            hash_passed()
 
 #region Voltage measurement with generator signal sin$VDC_SIN
 #description: value \nmeasurement, V;value limit, V;percentage of \nallowed error, %;wave amplitude;amplitude, V;amplitude\nlimit, V;frequency, Hz;delay time \nbefore \nmeasurement, s;remeasure,\nTrue or False;number of \nremeasurements
@@ -101,26 +101,26 @@ MOKO.Stage('Set NameGraph => VDC_SIN_GRAPH')
 Testing.NameGraph = 'VDC_SIN_GRAPH'
 MOKO.Stage(" ")
 
-VDC(value=1,   value_limit=40, percent_error=70, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=3.00, remeasurement=True, remeasurement_number=3, hesh='Meas 1$VDC_SIN')  #hash Meas 1$VDC_SIN:   1  ;40  ;70  ;sin ;1  ;10  ;10k  ;3.000  ;True  ;3
-VDC(value=2,   value_limit=40, percent_error=30, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 2$VDC_SIN')  #hash Meas 2$VDC_SIN:   2  ;40  ;30  ;sin ;1  ;10  ;10k  ;1.500  ;True  ;3
-VDC(value=3,   value_limit=40, percent_error=20, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 3$VDC_SIN')  #hash Meas 3$VDC_SIN:   3  ;40  ;20  ;sin ;1  ;10  ;10k  ;1.500  ;True  ;3
-VDC(value=4,   value_limit=40, percent_error=20, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 4$VDC_SIN')  #hash Meas 4$VDC_SIN:   4  ;40  ;20  ;sin ;1  ;10  ;10k  ;1.500  ;True  ;3
-VDC(value=5,   value_limit=40, percent_error=20, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 5$VDC_SIN')  #hash Meas 5$VDC_SIN:   5  ;40  ;20  ;sin ;1  ;10  ;10k  ;1.500  ;True  ;3
-VDC(value=6,   value_limit=40, percent_error=20, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 6$VDC_SIN')  #hash Meas 6$VDC_SIN:   6  ;40  ;20  ;sin ;1  ;10  ;10k  ;1.500  ;True  ;3
-VDC(value=8,   value_limit=40, percent_error=20, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 7$VDC_SIN')  #hash Meas 7$VDC_SIN:   8  ;40  ;20  ;sin ;1  ;10  ;10k  ;1.500  ;True  ;3
-VDC(value=10,  value_limit=40, percent_error=20, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 8$VDC_SIN')  #hash Meas 8$VDC_SIN:   10 ;40  ;20  ;sin ;1  ;10  ;10k  ;1.500  ;True  ;3
-VDC(value=12,  value_limit=40, percent_error=20, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 9$VDC_SIN')  #hash Meas 9$VDC_SIN:   12 ;40  ;20  ;sin ;1  ;10  ;10k  ;1.500  ;True  ;3
-VDC(value=14,  value_limit=40, percent_error=20, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 10$VDC_SIN') #hash Meas 10$VDC_SIN:  14 ;40  ;20  ;sin ;1  ;10  ;10k  ;1.500  ;True  ;3
-VDC(value=16,  value_limit=40, percent_error=20, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 11$VDC_SIN') #hash Meas 11$VDC_SIN:  16 ;40  ;20  ;sin ;1  ;10  ;10k  ;1.500  ;True  ;3
-VDC(value=18,  value_limit=40, percent_error=20, wave='sin',  amplitude=2, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 12$VDC_SIN') #hash Meas 12$VDC_SIN:  18 ;40  ;20  ;sin ;2  ;10  ;10k  ;1.500  ;True  ;3
-VDC(value=20,  value_limit=40, percent_error=20, wave='sin',  amplitude=2, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 13$VDC_SIN') #hash Meas 13$VDC_SIN:  20 ;40  ;20  ;sin ;2  ;10  ;10k  ;1.500  ;True  ;3
-VDC(value=22,  value_limit=40, percent_error=20, wave='sin',  amplitude=2, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 14$VDC_SIN') #hash Meas 14$VDC_SIN:  22 ;40  ;20  ;sin ;2  ;10  ;10k  ;1.500  ;True  ;3
-VDC(value=25,  value_limit=40, percent_error=20, wave='sin',  amplitude=3, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 15$VDC_SIN') #hash Meas 15$VDC_SIN:  25 ;40  ;20  ;sin ;3  ;10  ;10k  ;1.500  ;True  ;3
-VDC(value=28,  value_limit=40, percent_error=20, wave='sin',  amplitude=3, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 16$VDC_SIN') #hash Meas 16$VDC_SIN:  28 ;40  ;20  ;sin ;3  ;10  ;10k  ;1.500  ;True  ;3
-VDC(value=31,  value_limit=40, percent_error=20, wave='sin',  amplitude=4, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 17$VDC_SIN') #hash Meas 17$VDC_SIN:  31 ;40  ;20  ;sin ;4  ;10  ;10k  ;1.500  ;True  ;3
-VDC(value=34,  value_limit=40, percent_error=20, wave='sin',  amplitude=5, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 18$VDC_SIN') #hash Meas 18$VDC_SIN:  34 ;40  ;20  ;sin ;5  ;10  ;10k  ;1.500  ;True  ;3
-VDC(value=37,  value_limit=40, percent_error=20, wave='sin',  amplitude=5, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 19$VDC_SIN') #hash Meas 19$VDC_SIN:  37 ;40  ;20  ;sin ;5  ;10  ;10k  ;1.500  ;True  ;3
-VDC(value=40,  value_limit=40, percent_error=20, wave='sin',  amplitude=5, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 20$VDC_SIN') #hash Meas 20$VDC_SIN:  40 ;40  ;20  ;sin ;5  ;10  ;10k  ;1.500  ;True  ;3
+VDC(value=1,   value_limit=40, percent_error=70, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=3.00, remeasurement=True, remeasurement_number=3, hash='Meas 1$VDC_SIN')  #hash Meas 1$VDC_SIN:   1  ;40  ;70  ;sin ;1  ;10  ;10k  ;3.000  ;True  ;3
+VDC(value=2,   value_limit=40, percent_error=30, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 2$VDC_SIN')  #hash Meas 2$VDC_SIN:   2  ;40  ;30  ;sin ;1  ;10  ;10k  ;1.500  ;True  ;3
+VDC(value=3,   value_limit=40, percent_error=20, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 3$VDC_SIN')  #hash Meas 3$VDC_SIN:   3  ;40  ;20  ;sin ;1  ;10  ;10k  ;1.500  ;True  ;3
+VDC(value=4,   value_limit=40, percent_error=20, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 4$VDC_SIN')  #hash Meas 4$VDC_SIN:   4  ;40  ;20  ;sin ;1  ;10  ;10k  ;1.500  ;True  ;3
+VDC(value=5,   value_limit=40, percent_error=20, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 5$VDC_SIN')  #hash Meas 5$VDC_SIN:   5  ;40  ;20  ;sin ;1  ;10  ;10k  ;1.500  ;True  ;3
+VDC(value=6,   value_limit=40, percent_error=20, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 6$VDC_SIN')  #hash Meas 6$VDC_SIN:   6  ;40  ;20  ;sin ;1  ;10  ;10k  ;1.500  ;True  ;3
+VDC(value=8,   value_limit=40, percent_error=20, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 7$VDC_SIN')  #hash Meas 7$VDC_SIN:   8  ;40  ;20  ;sin ;1  ;10  ;10k  ;1.500  ;True  ;3
+VDC(value=10,  value_limit=40, percent_error=20, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 8$VDC_SIN')  #hash Meas 8$VDC_SIN:   10 ;40  ;20  ;sin ;1  ;10  ;10k  ;1.500  ;True  ;3
+VDC(value=12,  value_limit=40, percent_error=20, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 9$VDC_SIN')  #hash Meas 9$VDC_SIN:   12 ;40  ;20  ;sin ;1  ;10  ;10k  ;1.500  ;True  ;3
+VDC(value=14,  value_limit=40, percent_error=20, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 10$VDC_SIN') #hash Meas 10$VDC_SIN:  14 ;40  ;20  ;sin ;1  ;10  ;10k  ;1.500  ;True  ;3
+VDC(value=16,  value_limit=40, percent_error=20, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 11$VDC_SIN') #hash Meas 11$VDC_SIN:  16 ;40  ;20  ;sin ;1  ;10  ;10k  ;1.500  ;True  ;3
+VDC(value=18,  value_limit=40, percent_error=20, wave='sin',  amplitude=2, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 12$VDC_SIN') #hash Meas 12$VDC_SIN:  18 ;40  ;20  ;sin ;2  ;10  ;10k  ;1.500  ;True  ;3
+VDC(value=20,  value_limit=40, percent_error=20, wave='sin',  amplitude=2, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 13$VDC_SIN') #hash Meas 13$VDC_SIN:  20 ;40  ;20  ;sin ;2  ;10  ;10k  ;1.500  ;True  ;3
+VDC(value=22,  value_limit=40, percent_error=20, wave='sin',  amplitude=2, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 14$VDC_SIN') #hash Meas 14$VDC_SIN:  22 ;40  ;20  ;sin ;2  ;10  ;10k  ;1.500  ;True  ;3
+VDC(value=25,  value_limit=40, percent_error=20, wave='sin',  amplitude=3, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 15$VDC_SIN') #hash Meas 15$VDC_SIN:  25 ;40  ;20  ;sin ;3  ;10  ;10k  ;1.500  ;True  ;3
+VDC(value=28,  value_limit=40, percent_error=20, wave='sin',  amplitude=3, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 16$VDC_SIN') #hash Meas 16$VDC_SIN:  28 ;40  ;20  ;sin ;3  ;10  ;10k  ;1.500  ;True  ;3
+VDC(value=31,  value_limit=40, percent_error=20, wave='sin',  amplitude=4, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 17$VDC_SIN') #hash Meas 17$VDC_SIN:  31 ;40  ;20  ;sin ;4  ;10  ;10k  ;1.500  ;True  ;3
+VDC(value=34,  value_limit=40, percent_error=20, wave='sin',  amplitude=5, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 18$VDC_SIN') #hash Meas 18$VDC_SIN:  34 ;40  ;20  ;sin ;5  ;10  ;10k  ;1.500  ;True  ;3
+VDC(value=37,  value_limit=40, percent_error=20, wave='sin',  amplitude=5, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 19$VDC_SIN') #hash Meas 19$VDC_SIN:  37 ;40  ;20  ;sin ;5  ;10  ;10k  ;1.500  ;True  ;3
+VDC(value=40,  value_limit=40, percent_error=20, wave='sin',  amplitude=5, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 20$VDC_SIN') #hash Meas 20$VDC_SIN:  40 ;40  ;20  ;sin ;5  ;10  ;10k  ;1.500  ;True  ;3
 
 Testing.GetScreenshot()
 Testing.BK1697B.SET_OUTPUT_OFF()
@@ -134,26 +134,26 @@ MOKO.Program('tree', 'set', 'select = Voltage measurement with generator signal 
 MOKO.Stage('Set NameGraph => VDC_SQUARE_GRAPH')
 Testing.NameGraph = 'VDC_SQUARE_GRAPH'
 
-VDC(value=1,   value_limit=40, percent_error=70,  wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=3.00, remeasurement=True, remeasurement_number=3, hesh='Meas 1$VDC_SQUARE')  #hash Meas 1$VDC_SQUARE:   1  ;40  ;70  ;square ;1  ;10  ;10k  ;3.000  ;True  ;3
-VDC(value=2,   value_limit=40, percent_error=30,  wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 2$VDC_SQUARE')  #hash Meas 2$VDC_SQUARE:   2  ;40  ;30  ;square ;1  ;10  ;10k  ;1.500  ;True  ;3
-VDC(value=3,   value_limit=40, percent_error=20,  wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 3$VDC_SQUARE')  #hash Meas 3$VDC_SQUARE:   3  ;40  ;20  ;square ;1  ;10  ;10k  ;1.500  ;True  ;3
-VDC(value=4,   value_limit=40, percent_error=20,  wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 4$VDC_SQUARE')  #hash Meas 4$VDC_SQUARE:   4  ;40  ;20  ;square ;1  ;10  ;10k  ;1.500  ;True  ;3
-VDC(value=5,   value_limit=40, percent_error=20,  wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 5$VDC_SQUARE')  #hash Meas 5$VDC_SQUARE:   5  ;40  ;20  ;square ;1  ;10  ;10k  ;1.500  ;True  ;3
-VDC(value=6,   value_limit=40, percent_error=20,  wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 6$VDC_SQUARE')  #hash Meas 6$VDC_SQUARE:   6  ;40  ;20  ;square ;1  ;10  ;10k  ;1.500  ;True  ;3
-VDC(value=8,   value_limit=40, percent_error=20,  wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 7$VDC_SQUARE')  #hash Meas 7$VDC_SQUARE:   8  ;40  ;20  ;square ;1  ;10  ;10k  ;1.500  ;True  ;3
-VDC(value=10,  value_limit=40, percent_error=20,  wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 8$VDC_SQUARE')  #hash Meas 8$VDC_SQUARE:   10 ;40  ;20  ;square ;1  ;10  ;10k  ;1.500  ;True  ;3
-VDC(value=12,  value_limit=40, percent_error=20,  wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 9$VDC_SQUARE')  #hash Meas 9$VDC_SQUARE:   12 ;40  ;20  ;square ;1  ;10  ;10k  ;1.500  ;True  ;3
-VDC(value=14,  value_limit=40, percent_error=20,  wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 10$VDC_SQUARE') #hash Meas 10$VDC_SQUARE:  14 ;40  ;20  ;square ;1  ;10  ;10k  ;1.500  ;True  ;3
-VDC(value=16,  value_limit=40, percent_error=20,  wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 11$VDC_SQUARE') #hash Meas 11$VDC_SQUARE:  16 ;40  ;20  ;square ;1  ;10  ;10k  ;1.500  ;True  ;3
-VDC(value=18,  value_limit=40, percent_error=20,  wave='square',  amplitude=2, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 12$VDC_SQUARE') #hash Meas 12$VDC_SQUARE:  18 ;40  ;20  ;square ;2  ;10  ;10k  ;1.500  ;True  ;3
-VDC(value=20,  value_limit=40, percent_error=20,  wave='square',  amplitude=2, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 13$VDC_SQUARE') #hash Meas 13$VDC_SQUARE:  20 ;40  ;20  ;square ;2  ;10  ;10k  ;1.500  ;True  ;3
-VDC(value=22,  value_limit=40, percent_error=20,  wave='square',  amplitude=2, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 14$VDC_SQUARE') #hash Meas 14$VDC_SQUARE:  22 ;40  ;20  ;square ;2  ;10  ;10k  ;1.500  ;True  ;3
-VDC(value=25,  value_limit=40, percent_error=20,  wave='square',  amplitude=3, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 15$VDC_SQUARE') #hash Meas 15$VDC_SQUARE:  25 ;40  ;20  ;square ;3  ;10  ;10k  ;1.500  ;True  ;3
-VDC(value=28,  value_limit=40, percent_error=20,  wave='square',  amplitude=3, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 16$VDC_SQUARE') #hash Meas 16$VDC_SQUARE:  28 ;40  ;20  ;square ;3  ;10  ;10k  ;1.500  ;True  ;3
-VDC(value=31,  value_limit=40, percent_error=20,  wave='square',  amplitude=4, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 17$VDC_SQUARE') #hash Meas 17$VDC_SQUARE:  31 ;40  ;20  ;square ;4  ;10  ;10k  ;1.500  ;True  ;3
-VDC(value=34,  value_limit=40, percent_error=20,  wave='square',  amplitude=5, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 18$VDC_SQUARE') #hash Meas 18$VDC_SQUARE:  34 ;40  ;20  ;square ;5  ;10  ;10k  ;1.500  ;True  ;3
-VDC(value=37,  value_limit=40, percent_error=20,  wave='square',  amplitude=5, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 19$VDC_SQUARE') #hash Meas 19$VDC_SQUARE:  37 ;40  ;20  ;square ;5  ;10  ;10k  ;1.500  ;True  ;3
-VDC(value=40,  value_limit=40, percent_error=20,  wave='square',  amplitude=5, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 20$VDC_SQUARE') #hash Meas 20$VDC_SQUARE:  40 ;40  ;20  ;square ;5  ;10  ;10k  ;1.500  ;True  ;3
+VDC(value=1,   value_limit=40, percent_error=70,  wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=3.00, remeasurement=True, remeasurement_number=3, hash='Meas 1$VDC_SQUARE')  #hash Meas 1$VDC_SQUARE:   1  ;40  ;70  ;square ;1  ;10  ;10k  ;3.000  ;True  ;3
+VDC(value=2,   value_limit=40, percent_error=30,  wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 2$VDC_SQUARE')  #hash Meas 2$VDC_SQUARE:   2  ;40  ;30  ;square ;1  ;10  ;10k  ;1.500  ;True  ;3
+VDC(value=3,   value_limit=40, percent_error=20,  wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 3$VDC_SQUARE')  #hash Meas 3$VDC_SQUARE:   3  ;40  ;20  ;square ;1  ;10  ;10k  ;1.500  ;True  ;3
+VDC(value=4,   value_limit=40, percent_error=20,  wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 4$VDC_SQUARE')  #hash Meas 4$VDC_SQUARE:   4  ;40  ;20  ;square ;1  ;10  ;10k  ;1.500  ;True  ;3
+VDC(value=5,   value_limit=40, percent_error=20,  wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 5$VDC_SQUARE')  #hash Meas 5$VDC_SQUARE:   5  ;40  ;20  ;square ;1  ;10  ;10k  ;1.500  ;True  ;3
+VDC(value=6,   value_limit=40, percent_error=20,  wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 6$VDC_SQUARE')  #hash Meas 6$VDC_SQUARE:   6  ;40  ;20  ;square ;1  ;10  ;10k  ;1.500  ;True  ;3
+VDC(value=8,   value_limit=40, percent_error=20,  wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 7$VDC_SQUARE')  #hash Meas 7$VDC_SQUARE:   8  ;40  ;20  ;square ;1  ;10  ;10k  ;1.500  ;True  ;3
+VDC(value=10,  value_limit=40, percent_error=20,  wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 8$VDC_SQUARE')  #hash Meas 8$VDC_SQUARE:   10 ;40  ;20  ;square ;1  ;10  ;10k  ;1.500  ;True  ;3
+VDC(value=12,  value_limit=40, percent_error=20,  wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 9$VDC_SQUARE')  #hash Meas 9$VDC_SQUARE:   12 ;40  ;20  ;square ;1  ;10  ;10k  ;1.500  ;True  ;3
+VDC(value=14,  value_limit=40, percent_error=20,  wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 10$VDC_SQUARE') #hash Meas 10$VDC_SQUARE:  14 ;40  ;20  ;square ;1  ;10  ;10k  ;1.500  ;True  ;3
+VDC(value=16,  value_limit=40, percent_error=20,  wave='square',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 11$VDC_SQUARE') #hash Meas 11$VDC_SQUARE:  16 ;40  ;20  ;square ;1  ;10  ;10k  ;1.500  ;True  ;3
+VDC(value=18,  value_limit=40, percent_error=20,  wave='square',  amplitude=2, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 12$VDC_SQUARE') #hash Meas 12$VDC_SQUARE:  18 ;40  ;20  ;square ;2  ;10  ;10k  ;1.500  ;True  ;3
+VDC(value=20,  value_limit=40, percent_error=20,  wave='square',  amplitude=2, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 13$VDC_SQUARE') #hash Meas 13$VDC_SQUARE:  20 ;40  ;20  ;square ;2  ;10  ;10k  ;1.500  ;True  ;3
+VDC(value=22,  value_limit=40, percent_error=20,  wave='square',  amplitude=2, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 14$VDC_SQUARE') #hash Meas 14$VDC_SQUARE:  22 ;40  ;20  ;square ;2  ;10  ;10k  ;1.500  ;True  ;3
+VDC(value=25,  value_limit=40, percent_error=20,  wave='square',  amplitude=3, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 15$VDC_SQUARE') #hash Meas 15$VDC_SQUARE:  25 ;40  ;20  ;square ;3  ;10  ;10k  ;1.500  ;True  ;3
+VDC(value=28,  value_limit=40, percent_error=20,  wave='square',  amplitude=3, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 16$VDC_SQUARE') #hash Meas 16$VDC_SQUARE:  28 ;40  ;20  ;square ;3  ;10  ;10k  ;1.500  ;True  ;3
+VDC(value=31,  value_limit=40, percent_error=20,  wave='square',  amplitude=4, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 17$VDC_SQUARE') #hash Meas 17$VDC_SQUARE:  31 ;40  ;20  ;square ;4  ;10  ;10k  ;1.500  ;True  ;3
+VDC(value=34,  value_limit=40, percent_error=20,  wave='square',  amplitude=5, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 18$VDC_SQUARE') #hash Meas 18$VDC_SQUARE:  34 ;40  ;20  ;square ;5  ;10  ;10k  ;1.500  ;True  ;3
+VDC(value=37,  value_limit=40, percent_error=20,  wave='square',  amplitude=5, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 19$VDC_SQUARE') #hash Meas 19$VDC_SQUARE:  37 ;40  ;20  ;square ;5  ;10  ;10k  ;1.500  ;True  ;3
+VDC(value=40,  value_limit=40, percent_error=20,  wave='square',  amplitude=5, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 20$VDC_SQUARE') #hash Meas 20$VDC_SQUARE:  40 ;40  ;20  ;square ;5  ;10  ;10k  ;1.500  ;True  ;3
 
 Testing.GetScreenshot()
 Testing.BK1697B.SET_OUTPUT_OFF()
@@ -166,26 +166,26 @@ MOKO.Program('tree', 'set', 'select = Current measurement with generator signal 
 MOKO.Stage('Set NameGraph => IDC_RAMP_GRAPH')
 Testing.NameGraph = 'IDC_RAMP_GRAPH'
 
-IDC(value=0.01, value_limit=5, percent_error=250, wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=3.00, remeasurement=True, remeasurement_number=3, hesh='Meas 1$IDC_RAMP')   #hash Meas 1$IDC_RAMP:  0.01 ;5  ;250 ;ramp ;1  ;10  ;10k  ;3.000  ;True  ;3
-IDC(value=0.03, value_limit=5, percent_error=110, wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 2$IDC_RAMP')   #hash Meas 2$IDC_RAMP:  0.03 ;5  ;110 ;ramp ;1  ;10  ;10k  ;1.500  ;True  ;3
-IDC(value=0.05, value_limit=5, percent_error=55,  wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 3$IDC_RAMP')   #hash Meas 3$IDC_RAMP:  0.05 ;5  ;55  ;ramp ;1  ;10  ;10k  ;1.500  ;True  ;3
-IDC(value=0.1,  value_limit=5, percent_error=35,  wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 4$IDC_RAMP')   #hash Meas 4$IDC_RAMP:  0.1  ;5  ;35  ;ramp ;1  ;10  ;10k  ;1.500  ;True  ;3
-IDC(value=0.15, value_limit=5, percent_error=20,  wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 5$IDC_RAMP')   #hash Meas 5$IDC_RAMP:  0.15 ;5  ;20  ;ramp ;1  ;10  ;10k  ;1.500  ;True  ;3
-IDC(value=0.2,  value_limit=5, percent_error=20,  wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 6$IDC_RAMP')   #hash Meas 6$IDC_RAMP:  0.2  ;5  ;20  ;ramp ;1  ;10  ;10k  ;1.500  ;True  ;3
-IDC(value=0.25, value_limit=5, percent_error=20,  wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 7$IDC_RAMP')   #hash Meas 7$IDC_RAMP:  0.25 ;5  ;20  ;ramp ;1  ;10  ;10k  ;1.500  ;True  ;3
-IDC(value=0.3,  value_limit=5, percent_error=20,  wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 8$IDC_RAMP')   #hash Meas 8$IDC_RAMP:  0.3  ;5  ;20  ;ramp ;1  ;10  ;10k  ;1.500  ;True  ;3
-IDC(value=0.4,  value_limit=5, percent_error=20,  wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 9$IDC_RAMP')   #hash Meas 9$IDC_RAMP:  0.4  ;5  ;20  ;ramp ;1  ;10  ;10k  ;1.500  ;True  ;3
-IDC(value=0.5,  value_limit=5, percent_error=20,  wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 10$IDC_RAMP')  #hash Meas 10$IDC_RAMP: 0.5  ;5  ;20  ;ramp ;1  ;10  ;10k  ;1.500  ;True  ;3
-IDC(value=0.6,  value_limit=5, percent_error=20,  wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 11$IDC_RAMP')  #hash Meas 11$IDC_RAMP: 0.6  ;5  ;20  ;ramp ;1  ;10  ;10k  ;1.500  ;True  ;3
-IDC(value=0.8,  value_limit=5, percent_error=20,  wave='ramp', amplitude=2,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 12$IDC_RAMP')  #hash Meas 12$IDC_RAMP: 0.8  ;5  ;20  ;ramp ;2  ;10  ;10k  ;1.500  ;True  ;3
-IDC(value=1,    value_limit=5, percent_error=20,  wave='ramp', amplitude=2,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 13$IDC_RAMP')  #hash Meas 13$IDC_RAMP: 1    ;5  ;20  ;ramp ;2  ;10  ;10k  ;1.500  ;True  ;3
-IDC(value=1.2,  value_limit=5, percent_error=20,  wave='ramp', amplitude=2,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 14$IDC_RAMP')  #hash Meas 14$IDC_RAMP: 1.2  ;5  ;20  ;ramp ;2  ;10  ;10k  ;1.500  ;True  ;3
-IDC(value=1.5,  value_limit=5, percent_error=20,  wave='ramp', amplitude=3,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 15$IDC_RAMP')  #hash Meas 15$IDC_RAMP: 1.5  ;5  ;20  ;ramp ;3  ;10  ;10k  ;1.500  ;True  ;3
-IDC(value=2,    value_limit=5, percent_error=20,  wave='ramp', amplitude=3,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 16$IDC_RAMP')  #hash Meas 16$IDC_RAMP: 2    ;5  ;20  ;ramp ;3  ;10  ;10k  ;1.500  ;True  ;3
-IDC(value=2.5,  value_limit=5, percent_error=20,  wave='ramp', amplitude=4,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 17$IDC_RAMP')  #hash Meas 17$IDC_RAMP: 2.5  ;5  ;20  ;ramp ;4  ;10  ;10k  ;1.500  ;True  ;3
-IDC(value=3,    value_limit=5, percent_error=20,  wave='ramp', amplitude=5,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 18$IDC_RAMP')  #hash Meas 18$IDC_RAMP: 3    ;5  ;20  ;ramp ;5  ;10  ;10k  ;1.500  ;True  ;3
-IDC(value=4,    value_limit=5, percent_error=20,  wave='ramp', amplitude=5,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 19$IDC_RAMP')  #hash Meas 19$IDC_RAMP: 4    ;5  ;20  ;ramp ;5  ;10  ;10k  ;1.500  ;True  ;3
-IDC(value=5,    value_limit=5, percent_error=20,  wave='ramp', amplitude=5,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 20$IDC_RAMP')  #hash Meas 20$IDC_RAMP: 5    ;5  ;20  ;ramp ;5  ;10  ;10k  ;1.500  ;True  ;3
+IDC(value=0.01, value_limit=5, percent_error=250, wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=3.00, remeasurement=True, remeasurement_number=3, hash='Meas 1$IDC_RAMP')   #hash Meas 1$IDC_RAMP:  0.01 ;5  ;250 ;ramp ;1  ;10  ;10k  ;3.000  ;True  ;3
+IDC(value=0.03, value_limit=5, percent_error=110, wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 2$IDC_RAMP')   #hash Meas 2$IDC_RAMP:  0.03 ;5  ;110 ;ramp ;1  ;10  ;10k  ;1.500  ;True  ;3
+IDC(value=0.05, value_limit=5, percent_error=55,  wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 3$IDC_RAMP')   #hash Meas 3$IDC_RAMP:  0.05 ;5  ;55  ;ramp ;1  ;10  ;10k  ;1.500  ;True  ;3
+IDC(value=0.1,  value_limit=5, percent_error=35,  wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 4$IDC_RAMP')   #hash Meas 4$IDC_RAMP:  0.1  ;5  ;35  ;ramp ;1  ;10  ;10k  ;1.500  ;True  ;3
+IDC(value=0.15, value_limit=5, percent_error=20,  wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 5$IDC_RAMP')   #hash Meas 5$IDC_RAMP:  0.15 ;5  ;20  ;ramp ;1  ;10  ;10k  ;1.500  ;True  ;3
+IDC(value=0.2,  value_limit=5, percent_error=20,  wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 6$IDC_RAMP')   #hash Meas 6$IDC_RAMP:  0.2  ;5  ;20  ;ramp ;1  ;10  ;10k  ;1.500  ;True  ;3
+IDC(value=0.25, value_limit=5, percent_error=20,  wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 7$IDC_RAMP')   #hash Meas 7$IDC_RAMP:  0.25 ;5  ;20  ;ramp ;1  ;10  ;10k  ;1.500  ;True  ;3
+IDC(value=0.3,  value_limit=5, percent_error=20,  wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 8$IDC_RAMP')   #hash Meas 8$IDC_RAMP:  0.3  ;5  ;20  ;ramp ;1  ;10  ;10k  ;1.500  ;True  ;3
+IDC(value=0.4,  value_limit=5, percent_error=20,  wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 9$IDC_RAMP')   #hash Meas 9$IDC_RAMP:  0.4  ;5  ;20  ;ramp ;1  ;10  ;10k  ;1.500  ;True  ;3
+IDC(value=0.5,  value_limit=5, percent_error=20,  wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 10$IDC_RAMP')  #hash Meas 10$IDC_RAMP: 0.5  ;5  ;20  ;ramp ;1  ;10  ;10k  ;1.500  ;True  ;3
+IDC(value=0.6,  value_limit=5, percent_error=20,  wave='ramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 11$IDC_RAMP')  #hash Meas 11$IDC_RAMP: 0.6  ;5  ;20  ;ramp ;1  ;10  ;10k  ;1.500  ;True  ;3
+IDC(value=0.8,  value_limit=5, percent_error=20,  wave='ramp', amplitude=2,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 12$IDC_RAMP')  #hash Meas 12$IDC_RAMP: 0.8  ;5  ;20  ;ramp ;2  ;10  ;10k  ;1.500  ;True  ;3
+IDC(value=1,    value_limit=5, percent_error=20,  wave='ramp', amplitude=2,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 13$IDC_RAMP')  #hash Meas 13$IDC_RAMP: 1    ;5  ;20  ;ramp ;2  ;10  ;10k  ;1.500  ;True  ;3
+IDC(value=1.2,  value_limit=5, percent_error=20,  wave='ramp', amplitude=2,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 14$IDC_RAMP')  #hash Meas 14$IDC_RAMP: 1.2  ;5  ;20  ;ramp ;2  ;10  ;10k  ;1.500  ;True  ;3
+IDC(value=1.5,  value_limit=5, percent_error=20,  wave='ramp', amplitude=3,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 15$IDC_RAMP')  #hash Meas 15$IDC_RAMP: 1.5  ;5  ;20  ;ramp ;3  ;10  ;10k  ;1.500  ;True  ;3
+IDC(value=2,    value_limit=5, percent_error=20,  wave='ramp', amplitude=3,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 16$IDC_RAMP')  #hash Meas 16$IDC_RAMP: 2    ;5  ;20  ;ramp ;3  ;10  ;10k  ;1.500  ;True  ;3
+IDC(value=2.5,  value_limit=5, percent_error=20,  wave='ramp', amplitude=4,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 17$IDC_RAMP')  #hash Meas 17$IDC_RAMP: 2.5  ;5  ;20  ;ramp ;4  ;10  ;10k  ;1.500  ;True  ;3
+IDC(value=3,    value_limit=5, percent_error=20,  wave='ramp', amplitude=5,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 18$IDC_RAMP')  #hash Meas 18$IDC_RAMP: 3    ;5  ;20  ;ramp ;5  ;10  ;10k  ;1.500  ;True  ;3
+IDC(value=4,    value_limit=5, percent_error=20,  wave='ramp', amplitude=5,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 19$IDC_RAMP')  #hash Meas 19$IDC_RAMP: 4    ;5  ;20  ;ramp ;5  ;10  ;10k  ;1.500  ;True  ;3
+IDC(value=5,    value_limit=5, percent_error=20,  wave='ramp', amplitude=5,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 20$IDC_RAMP')  #hash Meas 20$IDC_RAMP: 5    ;5  ;20  ;ramp ;5  ;10  ;10k  ;1.500  ;True  ;3
 
 Testing.GetScreenshot()
 Testing.BK1697B.SET_OUTPUT_OFF()
@@ -198,26 +198,26 @@ MOKO.Program('tree', 'set', 'select = Current measurement with generator signal 
 MOKO.Stage('Set NameGraph => IDC_NEGRAMP_GRAPH')
 Testing.NameGraph = 'IDC_NEGRAMP_GRAPH'
 
-IDC(value=0.01, value_limit=5, percent_error=250, wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=3.00, remeasurement=True, remeasurement_number=3, hesh='Meas 1$IDC_NEGRAMP')   #hash Meas 1$IDC_NEGRAMP:  0.01 ;5  ;250 ;negramp ;1  ;10  ;10k  ;3.000  ;True  ;3
-IDC(value=0.03, value_limit=5, percent_error=110, wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 2$IDC_NEGRAMP')   #hash Meas 2$IDC_NEGRAMP:  0.03 ;5  ;110 ;negramp ;1  ;10  ;10k  ;1.500  ;True  ;3
-IDC(value=0.05, value_limit=5, percent_error=55,  wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 3$IDC_NEGRAMP')   #hash Meas 3$IDC_NEGRAMP:  0.05 ;5  ;55  ;negramp ;1  ;10  ;10k  ;1.500  ;True  ;3
-IDC(value=0.1,  value_limit=5, percent_error=35,  wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 4$IDC_NEGRAMP')   #hash Meas 4$IDC_NEGRAMP:  0.1  ;5  ;35  ;negramp ;1  ;10  ;10k  ;1.500  ;True  ;3
-IDC(value=0.15, value_limit=5, percent_error=20,  wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 5$IDC_NEGRAMP')   #hash Meas 5$IDC_NEGRAMP:  0.15 ;5  ;20  ;negramp ;1  ;10  ;10k  ;1.500  ;True  ;3
-IDC(value=0.2,  value_limit=5, percent_error=20,  wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 6$IDC_NEGRAMP')   #hash Meas 6$IDC_NEGRAMP:  0.2  ;5  ;20  ;negramp ;1  ;10  ;10k  ;1.500  ;True  ;3
-IDC(value=0.25, value_limit=5, percent_error=20,  wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 7$IDC_NEGRAMP')   #hash Meas 7$IDC_NEGRAMP:  0.25 ;5  ;20  ;negramp ;1  ;10  ;10k  ;1.500  ;True  ;3
-IDC(value=0.3,  value_limit=5, percent_error=20,  wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 8$IDC_NEGRAMP')   #hash Meas 8$IDC_NEGRAMP:  0.3  ;5  ;20  ;negramp ;1  ;10  ;10k  ;1.500  ;True  ;3
-IDC(value=0.4,  value_limit=5, percent_error=20,  wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 9$IDC_NEGRAMP')   #hash Meas 9$IDC_NEGRAMP:  0.4  ;5  ;20  ;negramp ;1  ;10  ;10k  ;1.500  ;True  ;3
-IDC(value=0.5,  value_limit=5, percent_error=20,  wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 10$IDC_NEGRAMP')  #hash Meas 10$IDC_NEGRAMP: 0.5  ;5  ;20  ;negramp ;1  ;10  ;10k  ;1.500  ;True  ;3
-IDC(value=0.6,  value_limit=5, percent_error=20,  wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 11$IDC_NEGRAMP')  #hash Meas 11$IDC_NEGRAMP: 0.6  ;5  ;20  ;negramp ;1  ;10  ;10k  ;1.500  ;True  ;3
-IDC(value=0.8,  value_limit=5, percent_error=20,  wave='negramp', amplitude=2,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 12$IDC_NEGRAMP')  #hash Meas 12$IDC_NEGRAMP: 0.8  ;5  ;20  ;negramp ;2  ;10  ;10k  ;1.500  ;True  ;3
-IDC(value=1,    value_limit=5, percent_error=20,  wave='negramp', amplitude=2,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 13$IDC_NEGRAMP')  #hash Meas 13$IDC_NEGRAMP: 1    ;5  ;20  ;negramp ;2  ;10  ;10k  ;1.500  ;True  ;3
-IDC(value=1.2,  value_limit=5, percent_error=20,  wave='negramp', amplitude=2,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 14$IDC_NEGRAMP')  #hash Meas 14$IDC_NEGRAMP: 1.2  ;5  ;20  ;negramp ;2  ;10  ;10k  ;1.500  ;True  ;3
-IDC(value=1.5,  value_limit=5, percent_error=20,  wave='negramp', amplitude=3,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 15$IDC_NEGRAMP')  #hash Meas 15$IDC_NEGRAMP: 1.5  ;5  ;20  ;negramp ;3  ;10  ;10k  ;1.500  ;True  ;3
-IDC(value=2,    value_limit=5, percent_error=20,  wave='negramp', amplitude=3,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 16$IDC_NEGRAMP')  #hash Meas 16$IDC_NEGRAMP: 2    ;5  ;20  ;negramp ;3  ;10  ;10k  ;1.500  ;True  ;3
-IDC(value=2.5,  value_limit=5, percent_error=20,  wave='negramp', amplitude=4,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 17$IDC_NEGRAMP')  #hash Meas 17$IDC_NEGRAMP: 2.5  ;5  ;20  ;negramp ;4  ;10  ;10k  ;1.500  ;True  ;3
-IDC(value=3,    value_limit=5, percent_error=20,  wave='negramp', amplitude=5,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 18$IDC_NEGRAMP')  #hash Meas 18$IDC_NEGRAMP: 3    ;5  ;20  ;negramp ;5  ;10  ;10k  ;1.500  ;True  ;3
-IDC(value=4,    value_limit=5, percent_error=20,  wave='negramp', amplitude=5,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 19$IDC_NEGRAMP')  #hash Meas 19$IDC_NEGRAMP: 4    ;5  ;20  ;negramp ;5  ;10  ;10k  ;1.500  ;True  ;3
-IDC(value=5,    value_limit=5, percent_error=20,  wave='negramp', amplitude=5,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hesh='Meas 20$IDC_NEGRAMP')  #hash Meas 20$IDC_NEGRAMP: 5    ;5  ;20  ;negramp ;5  ;10  ;10k  ;1.500  ;True  ;3
+IDC(value=0.01, value_limit=5, percent_error=250, wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=3.00, remeasurement=True, remeasurement_number=3, hash='Meas 1$IDC_NEGRAMP')   #hash Meas 1$IDC_NEGRAMP:  0.01 ;5  ;250 ;negramp ;1  ;10  ;10k  ;3.000  ;True  ;3
+IDC(value=0.03, value_limit=5, percent_error=110, wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 2$IDC_NEGRAMP')   #hash Meas 2$IDC_NEGRAMP:  0.03 ;5  ;110 ;negramp ;1  ;10  ;10k  ;1.500  ;True  ;3
+IDC(value=0.05, value_limit=5, percent_error=55,  wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 3$IDC_NEGRAMP')   #hash Meas 3$IDC_NEGRAMP:  0.05 ;5  ;55  ;negramp ;1  ;10  ;10k  ;1.500  ;True  ;3
+IDC(value=0.1,  value_limit=5, percent_error=35,  wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 4$IDC_NEGRAMP')   #hash Meas 4$IDC_NEGRAMP:  0.1  ;5  ;35  ;negramp ;1  ;10  ;10k  ;1.500  ;True  ;3
+IDC(value=0.15, value_limit=5, percent_error=20,  wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 5$IDC_NEGRAMP')   #hash Meas 5$IDC_NEGRAMP:  0.15 ;5  ;20  ;negramp ;1  ;10  ;10k  ;1.500  ;True  ;3
+IDC(value=0.2,  value_limit=5, percent_error=20,  wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 6$IDC_NEGRAMP')   #hash Meas 6$IDC_NEGRAMP:  0.2  ;5  ;20  ;negramp ;1  ;10  ;10k  ;1.500  ;True  ;3
+IDC(value=0.25, value_limit=5, percent_error=20,  wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 7$IDC_NEGRAMP')   #hash Meas 7$IDC_NEGRAMP:  0.25 ;5  ;20  ;negramp ;1  ;10  ;10k  ;1.500  ;True  ;3
+IDC(value=0.3,  value_limit=5, percent_error=20,  wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 8$IDC_NEGRAMP')   #hash Meas 8$IDC_NEGRAMP:  0.3  ;5  ;20  ;negramp ;1  ;10  ;10k  ;1.500  ;True  ;3
+IDC(value=0.4,  value_limit=5, percent_error=20,  wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 9$IDC_NEGRAMP')   #hash Meas 9$IDC_NEGRAMP:  0.4  ;5  ;20  ;negramp ;1  ;10  ;10k  ;1.500  ;True  ;3
+IDC(value=0.5,  value_limit=5, percent_error=20,  wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 10$IDC_NEGRAMP')  #hash Meas 10$IDC_NEGRAMP: 0.5  ;5  ;20  ;negramp ;1  ;10  ;10k  ;1.500  ;True  ;3
+IDC(value=0.6,  value_limit=5, percent_error=20,  wave='negramp', amplitude=1,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 11$IDC_NEGRAMP')  #hash Meas 11$IDC_NEGRAMP: 0.6  ;5  ;20  ;negramp ;1  ;10  ;10k  ;1.500  ;True  ;3
+IDC(value=0.8,  value_limit=5, percent_error=20,  wave='negramp', amplitude=2,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 12$IDC_NEGRAMP')  #hash Meas 12$IDC_NEGRAMP: 0.8  ;5  ;20  ;negramp ;2  ;10  ;10k  ;1.500  ;True  ;3
+IDC(value=1,    value_limit=5, percent_error=20,  wave='negramp', amplitude=2,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 13$IDC_NEGRAMP')  #hash Meas 13$IDC_NEGRAMP: 1    ;5  ;20  ;negramp ;2  ;10  ;10k  ;1.500  ;True  ;3
+IDC(value=1.2,  value_limit=5, percent_error=20,  wave='negramp', amplitude=2,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 14$IDC_NEGRAMP')  #hash Meas 14$IDC_NEGRAMP: 1.2  ;5  ;20  ;negramp ;2  ;10  ;10k  ;1.500  ;True  ;3
+IDC(value=1.5,  value_limit=5, percent_error=20,  wave='negramp', amplitude=3,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 15$IDC_NEGRAMP')  #hash Meas 15$IDC_NEGRAMP: 1.5  ;5  ;20  ;negramp ;3  ;10  ;10k  ;1.500  ;True  ;3
+IDC(value=2,    value_limit=5, percent_error=20,  wave='negramp', amplitude=3,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 16$IDC_NEGRAMP')  #hash Meas 16$IDC_NEGRAMP: 2    ;5  ;20  ;negramp ;3  ;10  ;10k  ;1.500  ;True  ;3
+IDC(value=2.5,  value_limit=5, percent_error=20,  wave='negramp', amplitude=4,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 17$IDC_NEGRAMP')  #hash Meas 17$IDC_NEGRAMP: 2.5  ;5  ;20  ;negramp ;4  ;10  ;10k  ;1.500  ;True  ;3
+IDC(value=3,    value_limit=5, percent_error=20,  wave='negramp', amplitude=5,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 18$IDC_NEGRAMP')  #hash Meas 18$IDC_NEGRAMP: 3    ;5  ;20  ;negramp ;5  ;10  ;10k  ;1.500  ;True  ;3
+IDC(value=4,    value_limit=5, percent_error=20,  wave='negramp', amplitude=5,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 19$IDC_NEGRAMP')  #hash Meas 19$IDC_NEGRAMP: 4    ;5  ;20  ;negramp ;5  ;10  ;10k  ;1.500  ;True  ;3
+IDC(value=5,    value_limit=5, percent_error=20,  wave='negramp', amplitude=5,  amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 20$IDC_NEGRAMP')  #hash Meas 20$IDC_NEGRAMP: 5    ;5  ;20  ;negramp ;5  ;10  ;10k  ;1.500  ;True  ;3
 
 Testing.GetScreenshot()
 Testing.BK1697B.SET_OUTPUT_OFF()

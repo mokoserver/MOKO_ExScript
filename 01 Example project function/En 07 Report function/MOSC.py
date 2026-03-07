@@ -153,10 +153,10 @@ def ScriptState() -> None:
         MOKO.EndScript('failed')
 
 #####################################
-#                TREE & HESH
+#                TREE & hash
 #####################################
 
-def hesh_failed() -> None:
+def hash_failed() -> None:
     """
         This function sets a hash to pass with an error
 
@@ -164,7 +164,7 @@ def hesh_failed() -> None:
     """
     MOKO.Program('tree', 'set', 'chosen=failed')
 
-def hesh_passed() -> None:
+def hash_passed() -> None:
     """
         This function sets a hash to pass without any errors
 
@@ -172,14 +172,14 @@ def hesh_passed() -> None:
     """
     MOKO.Program('tree', 'set', 'chosen=passed')
 
-def status_tree(hesh: str) -> bool:
+def status_tree(hash: str) -> bool:
     """
-        This function selects tree hesh and checks it content
+        This function selects tree hash and checks it content
 
-        :return: True if hesh status not equal 'canceled' else False
+        :return: True if hash status not equal 'canceled' else False
     """
-    MOKO.Program('tree', 'set', 'select = ' + hesh)
-    status = MOKO.Program('tree', 'get', 'hesh ' + hesh, 'string')
+    MOKO.Program('tree', 'set', 'select = ' + hash)
+    status = MOKO.Program('tree', 'get', 'hash ' + hash, 'string')
     if status != 'canceled':
         return True
     return False
@@ -187,19 +187,19 @@ def status_tree(hesh: str) -> bool:
 # Обновления 23.11.2022 Johnny Respect
 
 
-def get_hashes_status(hesh: str) -> str:
-    status = MOKO.Program('tree', 'get', 'hesh ' + hesh, 'string')
+def get_hashes_status(hash: str) -> str:
+    status = MOKO.Program('tree', 'get', 'hash ' + hash, 'string')
     return status
 
 
-def HeshStatus(hesh: str) -> bool:
+def hashStatus(hash: str) -> bool:
     """
-        This function selects tree hesh and checks it content
+        This function selects tree hash and checks it content
 
-        :return: True if hesh status not equal 'canceled' else False
+        :return: True if hash status not equal 'canceled' else False
     """
-    MOKO.Program('tree', 'set', 'select = ' + hesh)
-    status = MOKO.Program('tree', 'get', 'hesh ' + hesh, 'string')
+    MOKO.Program('tree', 'set', 'select = ' + hash)
+    status = MOKO.Program('tree', 'get', 'hash ' + hash, 'string')
     if status == 'empty':
         return True
     return False
@@ -279,16 +279,16 @@ def table_report(report_name: str, result: list) -> None:
 #####################################
 
 # Test function should have standard input & output:
-# input -- [list of input parameters], HESH
+# input -- [list of input parameters], hash
 # output -- [list of output parameters, where [0] element is a result of trial 'Good'/'Normal'/'Bad']
 def iteration_structure(test_function, iterations = 3): # Decorator of iteration function
-    def wrapper(input_paremeters, test_hesh):   # Wrapper of the function
+    def wrapper(input_paremeters, test_hash):   # Wrapper of the function
         test_result = 0
-        if status_tree(test_hesh):      # Checking up hesh
+        if status_tree(test_hash):      # Checking up hash
             test_iterator = 0           # Setting test iteration counter to 0
             while test_iterator < iterations:    # While cycle for trial
                 # Here should be actual trial block, but in this example a user will choose trial's result
-                test_result = test_function(input_paremeters, test_hesh)
+                test_result = test_function(input_paremeters, test_hash)
                 # This part sets up script's status after trial's result check, but you can use your local variable
                 if test_result[0] == 'Good':
                     Done()

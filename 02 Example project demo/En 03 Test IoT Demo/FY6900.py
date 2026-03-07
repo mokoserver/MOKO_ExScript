@@ -58,10 +58,10 @@ class FY6900:
         if init:
             if self.IsAutomatic:
                 MOKO.Report('DevicesUsed', 'set', 'table', 'FY6900;Connected;')
-                MOSC.hesh_passed()
+                MOSC.hash_passed()
             else:
                 MOKO.Report('DevicesUsed', 'set', 'table', 'FY6900;Disconnected;')
-                MOSC.hesh_failed()
+                MOSC.hash_failed()
 
 #######################################################################################################################
 ############################################  FY6900 Init device  #####################################################
