@@ -1,5 +1,5 @@
 {
-"name":"Verification Fluke5520A Agilent34460A",
+"name":"Verification FLUKE5520A Agilent34460A",
 "autosave":"true",
 "scripts":[
 {"file":"01 Registration verification unit.py","necessary":"true"},

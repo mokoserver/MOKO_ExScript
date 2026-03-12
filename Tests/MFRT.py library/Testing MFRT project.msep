@@ -3,8 +3,7 @@
 "autosave":"true",
 "scripts":[
 {"file":"Testing MFRT convert string to float.py","necessary":"false"},
-{"file":"Testing MKFR - float to string function.py","necessary":"false"},
-{"file":"TestOrion.py","necessary":"false"}
+{"file":"Testing MKFR - float to string function.py","necessary":"false"}
 ],
 "libraries":[
 {"file":"MFRT.py"},

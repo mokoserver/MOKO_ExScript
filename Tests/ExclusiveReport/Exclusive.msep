@@ -1,5 +1,5 @@
 {
-"name":"Tester",
+"name":"Exclusive",
 "autosave":"true",
 "scripts":[
 {"file":"Exclusive.py","necessary":"false"}

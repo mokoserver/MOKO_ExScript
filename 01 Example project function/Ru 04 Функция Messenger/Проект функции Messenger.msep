@@ -1,19 +1,19 @@
 {
-"name":"Проект функции Messenger",
+"name":"РџСЂРѕРµРєС‚ С„СѓРЅРєС†РёРё Messenger",
 "autosave":"true",
 "scripts":[
-{"file":"1 Приветствие.py","necessary":"true"},
-{"file":"2 Функция Messenger - Report save.py","necessary":"false"},
-{"file":"3 Функция Messenger - Report clear.py","necessary":"false"},
-{"file":"4 Функция Messenger - Report delete.py","necessary":"false"},
-{"file":"5 Изображение messenger.py","necessary":"false"},
-{"file":"6 Прощание.py","necessary":"true"}
+{"file":"1 РџСЂРёРІРµС‚СЃС‚РІРёРµ.py","necessary":"true"},
+{"file":"2 Р¤СѓРЅРєС†РёСЏ Messenger - Report save.py","necessary":"false"},
+{"file":"3 Р¤СѓРЅРєС†РёСЏ Messenger - Report clear.py","necessary":"false"},
+{"file":"4 Р¤СѓРЅРєС†РёСЏ Messenger - Report delete.py","necessary":"false"},
+{"file":"5 РР·РѕР±СЂР°Р¶РµРЅРёРµ messenger.py","necessary":"false"},
+{"file":"6 РџСЂРѕС‰Р°РЅРёРµ.py","necessary":"true"}
 ],
 "libraries":[
 {"file":"MOKO.py"},
 {"file":"MOSC.py"}
 ],
 "templates":[
-{"file":"Отчет.docx"}
+{"file":"РћС‚С‡РµС‚.docx"}
 ]
 }

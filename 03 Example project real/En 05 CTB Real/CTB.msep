@@ -1,19 +1,19 @@
 {
-"name":"Демонстрационный проект",
+"name":"CTB",
 "autosave":"true",
 "scripts":[
-{"file":"1 Начало.py","necessary":"false"},
-{"file":"2 Управление DO.py","necessary":"false"},
-{"file":"3 Управление DI.py","necessary":"false"},
-{"file":"4 Съем показаний с ELait3.py","necessary":"false"},
-{"file":"5 Управление SI8.py","necessary":"false"},
-{"file":"6 Формирование протокола.py","necessary":"false"}
+{"file":"1 РќР°С‡Р°Р»Рѕ.py","necessary":"false"},
+{"file":"2 РЈРїСЂР°РІР»РµРЅРёРµ DO.py","necessary":"false"},
+{"file":"3 РЈРїСЂР°РІР»РµРЅРёРµ DI.py","necessary":"false"},
+{"file":"4 РЎСЉРµРј РїРѕРєР°Р·Р°РЅРёР№ СЃ ELait3.py","necessary":"false"},
+{"file":"5 РЈРїСЂР°РІР»РµРЅРёРµ SI8.py","necessary":"false"},
+{"file":"6 Р¤РѕСЂРјРёСЂРѕРІР°РЅРёРµ РїСЂРѕС‚РѕРєРѕР»Р°.py","necessary":"false"}
 ],
 "libraries":[
 {"file":"MOKO.py"},
 {"file":"MTLG.py"}
 ],
 "templates":[
-{"file":"Отчёт.docx"}
+{"file":"РћС‚С‡С‘С‚.docx"}
 ]
 }

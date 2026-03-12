@@ -3,7 +3,7 @@
 "autosave":"true",
 "scripts":[
 {"file":"1 Greeting.py","necessary":"true"},
-{"file":"2 Ñommands execution.py","necessary":"false"},
+{"file":"2 Commands execution.py","necessary":"false"},
 {"file":"3 Create a report.py","necessary":"false"},
 {"file":"4 Farewell.py","necessary":"true"}
 ],
