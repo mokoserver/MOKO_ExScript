@@ -1,193 +1,152 @@
+'''
+Библиотека MCLK.py
+===================
+
+Эта библиотека предоставляет высокоуровневый интерфейс для взаимодействия
+с плагином "MOKO Clicker" в MOKO SE.
+
+Она инкапсулирует вызовы `MOKO.Plugin("Clicker", ...)` в удобные функции для
+автоматизации действий с мышью и работы со скриншотами.
+'''
 import MOKO
 
+# region ### Initialization / Инициализация ###
 
-# Library version 2.10.24.1
-# Added commands description at 24.10.2022
+# region --- ClickerInit / Инициализация Clicker ---
 
-# **init**
-# ClickerInit() - this function initializes plugin MOKO Clicker
-# **set**
-# MouseLeftClick() - this function imitates pressing mouse left button
-# MouseRightClick() - this function imitates pressing mouse right button
-# MouseMiddleClick() - this function imitates pressing mouse middle button
-# MouseMove() - this function moves mouse cursor to the point (x,y)
-# Screenshot() - this function makes a screenshot
-# PngPath() - this function sets a path to the png file
-# **get**
-# GetScreenshot() - this function makes a screenshot and returns it in base64 format
-# GetPngFile() - this function returns png file in base64 format from the chosen png path
-# GetCoordinates() - this function returns coordinates (x,y)
-
-
-###########################################################################################
-
-    ################       ####        ##      ################      ##################
-           ##              ## ##       ##             ##                     ##
-           ##              ##  ##      ##             ##                     ##
-           ##              ##   ##     ##             ##                     ##
-           ##              ##    ##    ##             ##                     ##
-           ##              ##     ##   ##             ##                     ##
-           ##              ##      ##  ##             ##                     ##
-           ##              ##       ## ##             ##                     ##
-    ################       ##        ####      ################              ##
-
-###########################################################################################
-
-
+# -- ClickerInit --
 def ClickerInit() -> None:
     """
-        This function initializes plugin MOKO Clicker
+    Инициализирует плагин MOKO Clicker.
 
-        :return: None
-
-        >>> ClickerInit()
+    Этот метод должен быть вызван перед использованием любых других функций
+    из этой библиотеки.
     """
     MOKO.Plugin("Clicker", "init", "")
+# endregion
 
-    # The next code strings was commented because of inoperability
-    # processes = Popen('tasklist', stdin=PIPE, stderr=PIPE, stdout=PIPE).communicate()[0]
-    # while processes.find("MOKO Clicker".encode("utf8")) == -1:
-    #     MOKO.Stage("Waiting for the plugin to run...")
-    #     processes = Popen('tasklist', stdin=PIPE, stderr=PIPE, stdout=PIPE).communicate()[0]
+# endregion
 
+# region ### Set Commands (Actions) / Команды Установки (Действия) ###
 
-###########################################################################################
+# region --- Mouse Clicks / Клики Мыши ---
 
-     #########      ###########      ##################
-    ##              ##                       ##
-    ##              ##                       ##
-    ##              ##                       ##
-     ########       #########                ##
-            ##      ##                       ##
-            ##      ##                       ##
-            ##      ##                       ##
-    #########       ###########              ##
-
-###########################################################################################
-
-
-def MouseLeftClick(x:int, y:int) -> None:
+# -- MouseLeftClick --
+def MouseLeftClick(x: int, y: int) -> None:
     """
-        This function imitates pressing mouse left button
+    Имитирует клик левой кнопкой мыши по указанным координатам.
 
-        :param x: axis Ox value
-        :param y: axis Oy value
-
-        :return: None
-
-        >>> MouseLeftClick(1000, 2000)
-        >>> MouseLeftClick("1000", "2000")
+    Args:
+        x (int): Координата X на экране.
+        y (int): Координата Y на экране.
     """
     MOKO.Plugin("Clicker", "set", f"MouseLeftClick = {x} {y}")
-    return None
 
-def MouseRightClick(x:int, y:int) -> None:
+# -- MouseRightClick --
+def MouseRightClick(x: int, y: int) -> None:
     """
-        This function imitates pressing mouse right button
+    Имитирует клик правой кнопкой мыши по указанным координатам.
 
-        :param x: axis Ox value
-        :param y: axis Oy value
-
-        :return: None
-
-        >>> MouseRightClick(1000, 2000)
-        >>> MouseRightClick("1000", "2000")
+    Args:
+        x (int): Координата X на экране.
+        y (int): Координата Y на экране.
     """
     MOKO.Plugin("Clicker", "set", f"MouseRightClick = {x} {y}")
 
-def MouseMiddleClick(x:int, y:int) -> None:
+# -- MouseMiddleClick --
+def MouseMiddleClick(x: int, y: int) -> None:
     """
-        This function imitates pressing mouse middle button
+    Имитирует клик средней кнопкой мыши по указанным координатам.
 
-        :param x: axis Ox value
-        :param y: axis Oy value
-
-        :return: None
-
-        >>> MouseMiddleClick(1000, 2000)
-        >>> MouseMiddleClick("1000", "2000")
+    Args:
+        x (int): Координата X на экране.
+        y (int): Координата Y на экране.
     """
     MOKO.Plugin("Clicker", "set", f"MouseMiddleClick = {x} {y}")
+# endregion
 
-def MouseMove(x:int, y:int) -> None:
+# region --- Mouse Movement / Перемещение Мыши ---
+
+# -- MouseMove --
+def MouseMove(x: int, y: int) -> None:
     """
-        This function moves mouse cursor to the point (x,y)
+    Перемещает курсор мыши в указанные координаты.
 
-        :param x: axis Ox value
-        :param y: axis Oy value
-
-        :return: None
-
-        >>> MouseMove(1000, 2000)
-        >>> MouseMove("1000", "2000")
+    Args:
+        x (int): Координата X на экране.
+        y (int): Координата Y на экране.
     """
     MOKO.Plugin("Clicker", "set", f"MouseMove = {x} {y}")
+# endregion
 
+# region --- Screenshots & Files / Скриншоты и Файлы ---
+
+# -- Screenshot --
 def Screenshot() -> None:
     """
-        This function makes a screenshot. The screenshot is saved in "C:/MOKO SE/Plugins/MOKO Clicker/screenshots/"
+    Делает скриншот всего экрана.
 
-        :return: None
-
-        >>> Screenshot()
+    Скриншот сохраняется в стандартную директорию плагина:
+    "C:/MOKO SE/Plugins/MOKO Clicker/screenshots/"
     """
-    MOKO.Plugin("Clicker", "set", f"Screenshot")
+    MOKO.Plugin("Clicker", "set", "Screenshot")
 
-def PngPath(path:str) -> None:
+# -- PngPath --
+def PngPath(path: str) -> None:
     """
-        This function sets a path to the png file
+    Устанавливает путь к PNG-файлу для последующих операций.
 
-        :return: None
-
-        >>> PngPath("C:/MOKO SE/Plugins/MOKO Clicker/screenshots/Clicker.png")
+    Args:
+        path (str): Полный путь к PNG-файлу.
     """
     MOKO.Plugin("Clicker", "set", f"PngPath = {path}")
+# endregion
 
+# endregion
 
-###########################################################################################
+# region ### Get Commands (Data Retrieval) / Команды Получения Данных ###
 
-     #########      ###########      ##################
-    ##              ##                       ##
-    ##              ##                       ##
-    ##              ##                       ##
-    ##    #####     #########                ##
-    ##    #  ##     ##                       ##
-    ##       ##     ##                       ##
-    ##       ##     ##                       ##
-     #########      ###########              ##
+# region --- GetScreenshot / Получить Скриншот ---
 
-###########################################################################################
-
+# -- GetScreenshot --
 def GetScreenshot() -> str:
     """
-        This function makes a screenshot and returns it in base64 format
+    Делает скриншот и возвращает его в формате Base64.
 
-        :return: Returns the screenshot in base64 format
-
-        >>> screenshot = GetScreenshot()
+    Returns:
+        str: Строка с изображением в кодировке Base64.
     """
-    screenshot = MOKO.Plugin("Clicker", "get", f"Screenshot", "string")
+    screenshot = MOKO.Plugin("Clicker", "get", "Screenshot", "string")
     return screenshot
+# endregion
 
+# region --- GetPngFile / Получить PNG Файл ---
+
+# -- GetPngFile --
 def GetPngFile() -> str:
     """
-        This function returns png file in base64 format from the chosen png path
+    Возвращает содержимое PNG-файла (указанного через PngPath) в формате Base64.
 
-        :return: Returns png file in base64 format
-
-        >>> png_file = GetPngFile()
+    Returns:
+        str: Строка с изображением в кодировке Base64.
     """
-    png_file = MOKO.Plugin("Clicker", "get", f"PngFile", "string")
+    png_file = MOKO.Plugin("Clicker", "get", "PngFile", "string")
     return png_file
+# endregion
 
+# region --- GetCoordinates / Получить Координаты ---
+
+# -- GetCoordinates --
 def GetCoordinates() -> list:
     """
-        This function returns coordinates (x,y)
+    Возвращает координаты (x, y), найденные плагином.
+    (Предположительно, после поиска изображения на экране)
 
-        :return: Returns coordinates (x,y)
-
-        >>> coordinates = GetCoordinates()
+    Returns:
+        list: Список из двух целых чисел [x, y].
     """
-    coordinates = MOKO.Plugin("Clicker", "get", f"Coordinates", "arrayint")
+    coordinates = MOKO.Plugin("Clicker", "get", "Coordinates", "arrayint")
     return coordinates
+# endregion
 
+# endregion

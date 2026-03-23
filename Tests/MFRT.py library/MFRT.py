@@ -1,44 +1,104 @@
+"""
+MFRT.py - Библиотека для форматирования чисел MOKO
+====================================================
+
+Эта библиотека предоставляет расширенные возможности для форматирования и преобразования чисел
+между стандартными типами Python (float, int, str) и строковым представлением, использующим
+SI-префиксы (например, '1.2k', '500m', '10G').
+
+Она предназначена для выполнения сложных преобразований, включая:
+- Парсинг чисел с префиксами и разделителями.
+- Форматирование чисел с заданной точностью и префиксом.
+- Расширенные опции округления (математическое, в большую или меньшую сторону).
+
+Примеры использования:
+--------------------
+
+**1. Преобразование строки с префиксом в число:**
+```python
+import MFRT
+
+frequency_str = "1.25k"
+frequency_float = MFRT.ConvertStringToFloat(frequency_str)
+# frequency_float будет равен 1250.0
+```
+
+**2. Преобразование числа в строку с префиксом:**
+```python
+import MFRT
+
+voltage = 0.05
+# Преобразуем в строку с префиксом 'm' (милли) и 2 знаками после запятой
+voltage_str = MFRT.ConvertFloatToString(voltage, prefix='m', resolution=2, delimiter=',')
+# voltage_str будет равен "50,00m"
+```
+"""
 import decimal
 import math
 from decimal import Decimal
 
+# region ### Public API Functions / Публичные функции API ###
 
+# region --- ConvertStringToFloat / Преобразовать строку в float ---
 def ConvertStringToFloat(value: str):
     """
-        This function calls the transfer function from the СI system to the normal system
+    Преобразует строку с SI-префиксом в число с плавающей точкой (float).
 
-        :param value: str variable: input variable
-        :return: translation value in type float
+    Args:
+        value (str): Входная строка с числом (например, "1.25k").
+
+    Returns:
+        float: Преобразованное число.
     """
-    if not isinstance(value,  str):
+    if not isinstance(value, str):
         return float(value)
     library_object = MFRTLibrary(value=value, resolution=0)
     return library_object.get_prefix_in_value()
+# endregion
 
-
-def ConvertFloatToString(value: (float, str, int), reference_number: str = None, resolution: int = 0,
-                         delimiter: str = None, prefix: str = None, round_type: str = "NORMAL", round_number: int = 0,
-                         type_value_result: str = "String", enable_rounding: bool = False):
+# region --- ConvertFloatToString / Преобразовать float в строку ---
+def ConvertFloatToString(value: (float, str, int),
+                         reference_number: str = None,
+                         resolution: int = 0,
+                         delimiter: str = None,
+                         prefix: str = None,
+                         round_type: str = "NORMAL",
+                         round_number: int = 0,
+                         type_value_result: str = "String",
+                         enable_rounding: bool = False,
+                         abs_number: bool = False):
     """
-        This function calls the transfer function from the normal system to the CI system
+    Преобразует число в строку с SI-префиксом и заданным форматированием.
 
-        :param value: float, string and int variable: translated number
-        :param reference_number: string variable: a string number that will be the template to be converted
-        :param resolution: integer variable: the number of zeros in the fractional part. Defaults to None
-        :param delimiter: string variable: separator between number and fractional part. Defaults to None
-        :param prefix: string variable: separator between number and fractional part. Defaults to None
-        :param enable_rounding: bool variable: enable rounding mode. Defaults to False
-        :param round_type: string variable: enable_rounding method. Defaults to "NORMAL".
-            Allowed values:"NORMAL", "UP", "DOWN"
-        :param round_number: integer variable: number of decimal places to round off
-        :param type_value_result: string variable: type variable input result. Defaults to "String".
-            Allowed values:"Float", "String", "Decimal", "Integer"
-        :return: translation value for output in definition
+    Это мощная функция с множеством настроек для форматирования, округления и
+    представления числа по шаблону.
+
+    Args:
+        value: Входное число для преобразования.
+        reference_number (str, optional): Строка-шаблон для форматирования.
+        resolution (int, optional): Количество знаков после запятой.
+        delimiter (str, optional): Символ-разделитель для дробной части.
+        prefix (str, optional): Желаемый SI-префикс для вывода.
+        round_type (str, optional): Метод округления ("NORMAL", "UP", "DOWN"). Defaults to "NORMAL".
+        round_number (int, optional): Количество знаков для округления.
+        type_value_result (str, optional): Тип возвращаемого значения ("String", "Float", "Decimal", "Integer"). Defaults to "String".
+        enable_rounding (bool, optional): Включает режим округления. Defaults to False.
+        abs_number (bool, optional): Использовать абсолютное значение числа. Defaults to False.
+
+    Returns:
+        Преобразованное значение в указанном формате.
     """
     library_object = MFRTLibrary(
-        value=value, reference_number=reference_number, resolution=resolution, delimiter=delimiter,
-        enable_rounding=enable_rounding, prefix=prefix, round_type=round_type, round_number=round_number,
-        type_value_result=type_value_result)
+        value=value,
+        reference_number=reference_number,
+        resolution=resolution,
+        delimiter=delimiter,
+        prefix=prefix,
+        round_type=round_type,
+        round_number=round_number,
+        type_value_result=type_value_result,
+        enable_rounding=enable_rounding,
+        abs_number=abs_number)
     value = library_object.translate_value()
     try:
         match library_object.type_value_result:
@@ -54,22 +114,26 @@ def ConvertFloatToString(value: (float, str, int), reference_number: str = None,
                 return str(value)
     except ValueError:
         return str(value)
+# endregion
 
+# endregion
 
-#######################################################################################################################
-
-
+# region ### Core Formatting Class / Основной класс форматирования ###
 class MFRTLibrary:
+    # region --- Constants & Initialization / Константы и инициализация ---
+
+    # -- Константы --
     round_types_list = ["NORMAL", "UP", "DOWN"]
     type_values_allowed_list = ["String", "Float", "Decimal", "Integer"]
     list_prefix_english = ['P', 'T', 'G', 'M', 'k', '-', 'm', 'u', 'n', 'p', 'f']
     list_prefix_russian = ['П', 'Т', 'Г', 'М', 'к', '-', 'м', 'мк', 'н', 'п', 'ф']
-    
+
+    # -- __init__ --
     def __init__(self, value: (float, str, int), reference_number: str = None, resolution: int = None,
                  delimiter: str = None, prefix: str = None, round_type: str = round_types_list[0],
                  round_number: int = 0, type_value_result: str = type_values_allowed_list[0],
-                 enable_rounding: bool = False):
-
+                 enable_rounding: bool = False, abs_number: bool = False):
+        """Инициализирует ядро форматера со всеми необходимыми параметрами."""
         self.__value = value
         self.__reference_number = reference_number
         self.__resolution = resolution if resolution > 0 else 0
@@ -81,15 +145,22 @@ class MFRTLibrary:
         self.__get_prefix, self.__check = False, False
         self.__enable_rounding = enable_rounding
         self.__round_number = round_number
+        self.__abs_number = abs_number
         self.__round_type = round_type if round_type in self.round_types_list else self.round_types_list[0]
         self.__translate_value = self.__reference_number if self.__reference_number else self.__value
+    # endregion
 
+    # region --- Public Methods / Публичные методы ---
+
+    # -- get_prefix_in_value --
     def get_prefix_in_value(self):
         """
-            The function of converting a number to normal form and the function of obtaining a prefix
+        Конвертирует число из строки с префиксом в нормальную форму (float).
+        Также может быть использован для извлечения префикса из строки.
 
-            :return: a float number if the function was called to translate a number, otherwise returns the
-            prefix of the number
+        Returns:
+            float: Число, если функция вызывалась для преобразования.
+            str: Префикс числа, в противном случае.
         """
         if self.__translate_value[-2:] in self.list_prefix_english + self.list_prefix_russian:
             ind = 2
@@ -109,29 +180,13 @@ class MFRTLibrary:
         self.__translate_value = self.__translate_value * self.__create_translation_constant()
         return float(f'{self.__translate_value:.14f}')
 
-    def __create_translation_constant(self):
-        """
-            The function of obtaining a float value,
-            increasing or decreasing the translated number by the number of times
-
-            :return: a float value in which it is worth increasing or decreasing the number for translation
-        """
-        if self.__prefix_value in self.list_prefix_english and self.__prefix_value != '-':
-            list_prefix = self.list_prefix_english
-        elif self.__prefix_value in self.list_prefix_russian and self.__prefix_value != '-':
-            list_prefix = self.list_prefix_russian
-        else:
-            return Decimal(1.0)
-        index = list_prefix.index(self.__prefix_value)
-        len_lst_prefix = len(list_prefix)
-        const_resolution = (len_lst_prefix // 2 - index) * 3
-        return Decimal(round(10 ** const_resolution, (len(list_prefix) - 1) // 2 * 3))
-
+    # -- translate_value --
     def translate_value(self):
         """
-            Function to convert from float or int to CI
+        Основная функция, выполняющая преобразование числа из float или int в строку с SI-префиксом.
 
-            :return: translation value for output in definition
+        Returns:
+            Преобразованное значение для вывода.
         """
         if not self.__reference_number and not self.__resolution and not self.__delimiter and not self.__prefix:
             if isinstance(self.__value, (int | float)):
@@ -175,12 +230,36 @@ class MFRTLibrary:
             if not self.__check_prefix_in_value():
                 return self.__value
             return self.__translate_variable_reference_number_and_prefix()
+    # endregion
 
+    # region --- Internal Helper Methods / Внутренние вспомогательные методы ---
+
+    # -- __create_translation_constant --
+    def __create_translation_constant(self):
+        """
+        Создает множитель (float) на основе SI-префикса для увеличения или уменьшения числа.
+
+        Returns:
+            Decimal: Множитель для преобразования.
+        """
+        if self.__prefix_value in self.list_prefix_english and self.__prefix_value != '-':
+            list_prefix = self.list_prefix_english
+        elif self.__prefix_value in self.list_prefix_russian and self.__prefix_value != '-':
+            list_prefix = self.list_prefix_russian
+        else:
+            return Decimal(1.0)
+        index = list_prefix.index(self.__prefix_value)
+        len_lst_prefix = len(list_prefix)
+        const_resolution = (len_lst_prefix // 2 - index) * 3
+        return Decimal(round(10 ** const_resolution, (len(list_prefix) - 1) // 2 * 3))
+
+    # -- __translate_variable_not_reference_number --
     def __translate_variable_not_reference_number(self):
         """
-             Function to convert from value in out format when absent reference_number
+        Преобразует значение в выходной формат, когда не задан шаблон (reference_number).
 
-             :return: translated number
+        Returns:
+            Преобразованное число.
         """
         if self.__resolution:
             self.__delimiter = next((x for x in self.__value[1: len(self.__value)] if not x.isdigit()), None)
@@ -196,11 +275,13 @@ class MFRTLibrary:
         else:
             return self.__rounded_value(self.__value)
 
+    # -- __translate_variable_reference_number_and_prefix --
     def __translate_variable_reference_number_and_prefix(self):
         """
-            Function to convert from value in out format when there is a reference_number
+        Преобразует значение в выходной формат, когда задан шаблон (reference_number).
 
-            :return: translated number
+        Returns:
+            Преобразованное число.
         """
         if self.__prefix:
             self.__translate_value = self.__value
@@ -222,11 +303,13 @@ class MFRTLibrary:
         self.__value = self.__rounded_value(self.__value)
         return self.__translate_variable_not_reference_number()
 
+    # -- __check_zeros_after_point_in_string --
     def __check_zeros_after_point_in_string(self):
         """
-            Converting a number from float to string
+        Финальное форматирование числа из float в строку с нужной точностью и префиксом.
 
-            :return: translation value for output in definition
+        Returns:
+            Преобразованное значение для вывода.
         """
         if self.__prefix:
             self.__prefix_value = self.__prefix
@@ -247,7 +330,9 @@ class MFRTLibrary:
         return (formatted_translation_value[0] + self.__delimiter + formatted_translation_value[1][:self.__resolution] +
                 self.__prefix)
 
+    # -- __check_prefix_in_value --
     def __check_prefix_in_value(self):
+        """Проверяет корректность заданного префикса."""
         if self.__check:
             self.__check = False
             if (self.__prefix not in self.list_prefix_english + self.list_prefix_russian) and self.__prefix:
@@ -259,15 +344,21 @@ class MFRTLibrary:
             self.__list_prefix = self.list_prefix_russian
         return True
 
+    # -- __get_delimiter_value --
     def __get_delimiter_value(self, ind: int = None):
+        """Определяет и заменяет разделитель в строке на точку."""
         delimiter_value = next(
             (x for x in self.__translate_value[1: -(len(self.__prefix_value))] if not x.isdigit()), None)
         self.__translate_value = self.__translate_value[:-ind] if ind != 0 else self.__translate_value
         if delimiter_value:
             self.__translate_value = self.__translate_value.replace(delimiter_value, '.')
 
+    # -- __rounded_value --
     def __rounded_value(self, value: Decimal):
+        """Выполняет округление числа в соответствии с заданными параметрами."""
+        value = abs(value) if self.__abs_number else value
         if self.__enable_rounding:
+            value += Decimal(0.0000000000000000000001)
             if self.__round_number:
                 if self.__round_type == self.round_types_list[0]:
                     value = Decimal(round(value, self.__round_number))
@@ -279,9 +370,11 @@ class MFRTLibrary:
                         math.floor(value * 10 ** Decimal(self.__round_number)) / Decimal(10 ** self.__round_number))
             else:
                 if self.__round_type == self.round_types_list[0]:
-                    value = Decimal(int(value))
+                    value = Decimal(round(value))
                 elif self.__round_type == self.round_types_list[1]:
                     value = Decimal(math.ceil(value))
                 elif self.__round_type == self.round_types_list[2]:
                     value = Decimal(math.floor(value))
         return value
+    # endregion
+# endregion
