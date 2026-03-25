@@ -32,12 +32,15 @@ HTTP-сервер, запущенный MOKO SE по адресу `http://localh
 - 24.01.2022: Внесены исправления для корректной работы команд start/pause/stop.
 - 22.08.2022: Обновлена функция парсинга и проведена рефакторинг.
 - 09.09.2022: Параметр 'type' заменен на 'mode' в JSON-запросах (обратная совместимость нарушена).
+- 25.03.2026: Добавление регионов и комментариев в новом формате (обратная совместимость нарушена).
+- 26.03.2026: Подготовка к исключению библиотеки MOSK (обратная совместимость нарушена).
 '''
 
 import time
 import requests
 import json
 import sys
+from typing import Literal
 
 requests = requests.Session()
 
@@ -309,6 +312,31 @@ def Utility(name: str, mode: str, command: str = 'void', valuetype: str = 'void'
     return parse_data(utldata, mode, valuetype)
 # endregion
 
+# region --- Telegram / Телеграм ---
+def Telegram(role: str, mode: str, command: str, valuetype: str = 'void') -> ...:
+    """
+    Работает с Telegram ботом MOKO SE.
+
+    Args:
+        role (str): Принадлежность к группе для отправки сообщений ('alpha', 'beta', 'gamma', 'delta' - разработчик).
+        mode (str): Режим работы ('get', 'set').
+        command (str): Команда для выполнения.
+        valuetype (str, optional): Ожидаемый тип данных при чтении (только для mode='get'). Defaults to 'void'.
+
+    Returns:
+        Зависит от режима:
+        - 'set': None
+        - 'get': Данные, полученные от Telegram.
+    """
+    check_project_state()
+    URLWrite: str = _UrlTelegramWrite
+    URLRead: str = _UrlTelegramRead
+    command_to_send: str = f'{{"role":"{str(role)}","mode":"{str(mode)}","command":"{str(command)}"}}'
+    send_request(URLWrite, command_to_send)
+    tgmdata: str = check_status("telegram", mode, URLRead)
+    return parse_data(tgmdata, mode, valuetype)
+# endregion
+
 # region --- Program / Программа ---
 def Program(name: str, mode: str, command: str, valuetype: str = 'void') -> ...:
     """
@@ -331,6 +359,10 @@ def Program(name: str, mode: str, command: str, valuetype: str = 'void') -> ...:
     progdata: str = check_status("program", mode, URLRead)
     return parse_data(progdata, mode, valuetype)
 # endregion
+
+# endregion
+
+# region ### Execution Control / Управление выполнением ###
 
 # region --- EndScript / Завершение скрипта ---
 def EndScript(command: str = None) -> None:
@@ -380,7 +412,7 @@ def EndScript(command: str = None) -> None:
 
 # region --- Tree & Hash / Дерево и Хэши ---
 
-# -- ScriptResult --
+# region -- ScriptResult / Результат скрипта --
 def ScriptResult() -> str:
     """
     Получает результат выполнения текущего скрипта из дерева MOKO SE.
@@ -388,9 +420,10 @@ def ScriptResult() -> str:
     Returns:
         str: Статус выполнения ('passed', 'failed', 'done').
     """
-    return Program('tree', 'get', 'script status', 'string')
+    return Program('tree', 'get', 'ScriptStatus', 'string')
+# endregion
 
-# -- ProjectResult --
+# region -- ProjectResult / Результат проекта --
 def ProjectResult() -> str:
     """
     Получает результат выполнения всего проекта из дерева MOKO SE.
@@ -399,9 +432,10 @@ def ProjectResult() -> str:
         str: Статус выполнения проекта ('passed', 'failed', 'done').
     """
     return Program('tree', 'get', 'ProjectStatus', 'string')
+# endregion
 
-# -- SetHash --
-def SetHash(command: str = 'done') -> None:
+# region -- SetHash / Установить HASH --
+def SetHash(command: Literal['done', 'passed', 'failed'] = 'done') -> None:
     """
     Устанавливает результат выполнения в дереве (Hash).
 
@@ -413,9 +447,22 @@ def SetHash(command: str = 'done') -> None:
                                  - 'failed': Не пройдено (красный цвет).
                                  Defaults to 'done'.
     """
-    Program('tree', 'set', f'{command}')
+    Program('tree', 'set', f'chosen={command}')
+# endregion
 
-# -- SelectCheckHash --
+# region -- SelectHash / Выбрать HASH --
+def SelectHash(hash: str) -> None:
+    """
+    Выбирает хэш в дереве.
+
+    Args:
+        hash (str): Хэш для выбора.
+    """
+    Program('tree', 'set', 'select = ' + hash)
+    return
+# endregion
+
+# region -- SelectCheckHash / Выбрать и проверить HASH --
 def SelectCheckHash(hash: str) -> bool:
     """
     Выбирает хэш в дереве и проверяет, является ли он пустым.
@@ -431,6 +478,10 @@ def SelectCheckHash(hash: str) -> bool:
     if status == 'empty':
         return True
     return False
+# endregion
+
+# endregion
+
 # endregion
 
 # region ### Internal Helper Functions / Внутренние вспомогательные функции ###
@@ -484,7 +535,7 @@ def check_status(system: str, mode: str, URLRead: str) -> str:
         else:
             y = json.loads(response.content)
             status: str = y.get(f'{system}status')
-            if (mode.lower() in ['get', 'check']):
+            if mode.lower() in ('get', 'check', 'init'):
                 data: str = y.get(f'{system}data')
         if system in ['messenger', 'driver', 'plugin', 'utility']:
             time.sleep(0.05)
@@ -545,7 +596,7 @@ def check_data(data: str, splitter: str = ";") -> str:
     Returns:
         str: Очищенная строка.
     """
-    if data.endswith(splitter):
+    if data.rfind(splitter) == len(data)-1:
         data: str = data[:-1]
     return data
 # endregion
@@ -593,12 +644,12 @@ def is_semicolon_error(data: str, splitter: str, valuetype: str) -> bool:
     Returns:
         bool: True, если ошибка найдена, иначе False.
     """
-    if data.endswith(f"{splitter}{splitter}"):
-        Stage(f'ERROR IN PYTHON LIBRARY!', 'error')
-        Stage(f'INPUT DATA CONTAINS MORE THAN 1 \'{splitter}\' AT THE END!', 'error')
+    if data[-2:] == f"{2*splitter}":
+        Stage(f'ERROR IN PYTHON LIBRARY!','error')
+        Stage(f'INPUT DATA CONTAINS MORE THAN 1 \'\'{splitter}\'\' AT THE END!', 'error')
         Stage(f'DATA: {data}     =>     VALUETYPE: {valuetype.upper()}', 'error')
         print(f'ERROR IN PYTHON LIBRARY!')
-        print(f'INPUT DATA CONTAINS MORE THAN 1 \'{splitter}\' AT THE END!')
+        print(f'INPUT DATA CONTAINS MORE THAN 1 \'\'{splitter}\'\' AT THE END!')
         print(f'DATA: {data}     =>     VALUETYPE: {valuetype.upper()}')
         return True
     return False
