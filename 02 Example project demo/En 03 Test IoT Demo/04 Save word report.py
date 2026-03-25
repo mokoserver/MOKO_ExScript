@@ -2,7 +2,7 @@ import MOKO
 import MTLG
 import MOSC
 
-MTLG.TelegramProgram('alpha', 'Word report script', 'set', 'init', 'string')
+MTLG.TelegramProgram('alpha', 'Word report script', 'set', 'init')
 
 MOKO.Stage("*********************************************************")
 MOKO.Stage("***************** Word report script *******************")

@@ -2,7 +2,7 @@ import MOKO
 import MTLG
 import MOSC
 
-MTLG.TelegramProgram('alpha', 'Registration unit', 'set', 'registration', 'string')
+MTLG.TelegramProgram('alpha', 'Registration unit', 'set', 'registration')
 MOKO.Stage("*********************************************************")
 MOKO.Stage("*************** Registration unit script ****************")
 MOKO.Stage("*********************************************************")

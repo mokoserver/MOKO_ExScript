@@ -2,7 +2,7 @@ import MOKO
 from MOSC import hashStatus, hash_passed, hash_failed
 from SettingsAndMeasurement import Testing
 import MTLG
-MTLG.TelegramProgram('alpha', 'Measurement script', 'set', 'init', 'string')
+MTLG.TelegramProgram('alpha', 'Measurement script', 'set', 'init')
 MOKO.Stage("*********************************************************")
 MOKO.Stage("****************** Measurement script *******************")
 MOKO.Stage("*********************************************************")

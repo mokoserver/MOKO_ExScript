@@ -2,7 +2,7 @@ import MOKO
 import MTLG
 from SettingsAndMeasurement import Testing
 
-MTLG.TelegramProgram('alpha', 'Initialization devices', 'set', 'init', 'string')
+MTLG.TelegramProgram('alpha', 'Initialization devices', 'set', 'init')
 
 MOKO.Stage("*********************************************************")
 MOKO.Stage("***************** Init device  script *******************")
