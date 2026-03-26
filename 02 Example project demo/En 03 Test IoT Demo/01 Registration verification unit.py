@@ -8,20 +8,21 @@ MOKO.Stage("*************** Registration unit script ****************")
 MOKO.Stage("*********************************************************")
 MOKO.Stage(" ")
 
+info = "TestInfo"
 #region Equipment registration$Reg
 MOSC.hashStatus("$Reg")
 MOKO.Program('tree', 'set', 'select = Equipment registration$Reg')
 
-MOKO.Utility("IZRCSMinfo", "set", "Registration")
+MOKO.Utility(info, "set", "Registration")
 
-ProtocolNumber = MOKO.Utility("IZRCSMinfo", "get", "ProtocolNumber", "string")
-CurrentDate = MOKO.Utility("IZRCSMinfo", "get", "CurrentDate", "string")
-ModelDevice = MOKO.Utility("IZRCSMinfo", "get", "ModelDevice", "string")
-SerialNumber = MOKO.Utility("IZRCSMinfo", "get", "SerialNumber", "string")
-Owner = MOKO.Utility("IZRCSMinfo", "get", "owner", "string")
-Request = MOKO.Utility("IZRCSMinfo", "get", "Request", "string")
-Verifier = MOKO.Utility("IZRCSMinfo", "get", "Verifier", "string")
-VerificationDate = MOKO.Utility("IZRCSMinfo", "get", "CurrentDate", "string")
+ProtocolNumber = MOKO.Utility(info, "get", "ProtocolNumber", "string")
+CurrentDate = MOKO.Utility(info, "get", "CurrentDate", "string")
+ModelDevice = MOKO.Utility(info, "get", "ModelDevice", "string")
+SerialNumber = MOKO.Utility(info, "get", "SerialNumber", "string")
+Owner = MOKO.Utility(info, "get", "owner", "string")
+Request = MOKO.Utility(info, "get", "Request", "string")
+Verifier = MOKO.Utility(info, "get", "Verifier", "string")
+VerificationDate = MOKO.Utility(info, "get", "CurrentDate", "string")
 
 MOKO.Report("REGISTRATION_ProtocolNumber", "info", "string", "Measurement protocol number")
 MOKO.Report("REGISTRATION_CurrentDate", "info", "string", "The current date")
@@ -45,11 +46,11 @@ MOKO.Report("REGISTRATION_VerificationDate", "set", "string", VerificationDate)
 MOKO.Report("REGISTRATION_FormNumber", "set", "string", "432-164")
 MOKO.Report("REGISTRATION_GosNumber", "set", "string", "52147-12")
 
-MOKO.Utility("IZRCSMinfo", "set", "Conditions")
+MOKO.Utility(info, "set", "Conditions")
 
-Temperature = MOKO.Utility("IZRCSMinfo", "get", "Temperature", "string")
-Humidity = MOKO.Utility("IZRCSMinfo", "get", "Humidity", "string")
-Pressure = MOKO.Utility("IZRCSMinfo", "get", "Pressure", "string")
+Temperature = MOKO.Utility(info, "get", "Temperature", "string")
+Humidity = MOKO.Utility(info, "get", "Humidity", "string")
+Pressure = MOKO.Utility(info, "get", "Pressure", "string")
 
 MOKO.Report('VerificationConditions', 'info', 'table', "Controlled parameters#150;"
                                                        "ND requirements#100;"
