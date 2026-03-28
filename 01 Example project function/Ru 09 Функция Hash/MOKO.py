@@ -87,7 +87,7 @@ _UrlPortRead: str = f"{_BASE_URL}/system/portread"
 
 # region ### MOKO SE API Functions / Функции MOKO SE API ###
 
-# region --- CMD / Командная строка ---
+# region --- CMD / Командная строка --- +-
 def CMD(mode: str, command: str) -> ...:
     """
     Выполняет команду в командной строке (CMD) через MOKO SE.
@@ -109,7 +109,12 @@ def CMD(mode: str, command: str) -> ...:
 # endregion
 
 # region --- Port / Порт ---
-def Port(name: str, mode: str, command: str = '', valuetype: str = 'string') -> ...:
+def Port(
+    name: str,
+    mode: Literal['init', 'interface', 'write', 'read','clear'],
+    command: str = '',
+    valuetype: Literal['string', 'int', 'float', 'bool', 'arrayint', 'arrayfloat', 'arrayboolean', 'arraystring'] = 'string'
+) -> ...:
     """
     Управляет портами и устройствами, настроенными в MOKO SE.
 
@@ -124,7 +129,8 @@ def Port(name: str, mode: str, command: str = '', valuetype: str = 'string') -> 
 
     Returns:
         str: Результат операции. Например:
-             - Для 'init' и 'interface': 'ok' в случае успеха.
+             - Для 'init' и 'interface': 'ok' в случае успеха, 'error' в случаи не подключения.
+             - Для 'write': 'ok' в случае успеха, 'error' в случаи ошибки.
              - Для 'read': прочитанные данные.
              - В случае ошибки может возвращать 'error'.
     """
@@ -135,7 +141,7 @@ def Port(name: str, mode: str, command: str = '', valuetype: str = 'string') -> 
     send_request(URLWrite, command_to_send)
     portdata: str = check_status("port", mode, URLRead)
     print(f"portdata = {portdata}")
-    return portdata
+    return parse_data(portdata, mode, valuetype)
 # endregion
 
 # region --- Autoit / Автоматизация GUI ---
