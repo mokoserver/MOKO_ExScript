@@ -1,19 +1,18 @@
-from datetime import datetime
 import MOKO
-import MOSC
+from MOKO import Stage, StageError, StageInfo,StageSuccess
 
-StartTime = datetime.now()
+#region Создание протокола$REPORT
+#description: MS Word;
+MOKO.ExecuteStep("Создание протокола$REPORT")
 
-MOKO.Program('tree', 'set', 'select = Шаг 4: Сохранить отчет$REPORT')
-MOKO.Stage("--- Шаг 4: Сохранить отчет ---")
-if MOSC.hashStatus('Шаг 4: Сохранить отчет$REPORT'):
+if MOKO.SelectCheckHash('Создание протокола$REPORT'):
     try:
-        MOKO.Program('control', 'set', 'save word report')
-        MOKO.Stage("Команда на генерацию Word-отчета отправлена.")
-        MOSC.hash_passed()
+        MOKO.SaveReport("Word")
+        MOKO.StageSuccess("Word-отчет сгенерирован")
+        MOKO.SetHash('passed')
     except Exception as e:
-        MOKO.Stage(f"Ошибка во время генерации отчета: {e}", "error")
-        MOSC.hash_failed()
+        MOKO.StageError(f"Ошибка во время генерации отчета: {e}")
+        MOKO.SetHash('failed')
 
-MOSC.ScriptExecutionTime(StartTime)
+MOKO.TimeReport('add',"RU")
 MOKO.EndScript()

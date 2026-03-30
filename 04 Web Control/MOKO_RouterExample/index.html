@@ -72,6 +72,19 @@
 
             <button id="reboot-btn">Reboot Router</button>
 
+            <!-- Test Modal Buttons -->
+            <div class="settings-group">
+                <h3>Test Actions</h3>
+                <div class="action-buttons">
+                    <a href="#" onclick="editProfile('Radio', 'z_24_ax','aplisteditform','approfile1');">
+                        <img src="data/settings.png" class="ez_img" align="absmiddle" title="Edit Profile 1">
+                    </a>
+                    <a href="#" onclick="editProfile('Radio', 'z_5_ax','aplisteditform','approfile2');">
+                        <img src="data/settings.png" class="ez_img" align="absmiddle" title="Edit Profile 2">
+                    </a>
+                </div>
+            </div>
+
             <div class="log-area">
                 <h3>Log</h3>
                 <pre id="log-output"></pre>
@@ -80,5 +93,23 @@
     </div>
 
     <script src="script.js"></script>
+
+    <!-- Modal Structure -->
+    <div id="modal-backdrop" class="hidden"></div>
+    <div id="generic-modal" class="modal hidden">
+        <div class="modal-header">
+            <h3 id="modal-title">Edit Profile</h3>
+        </div>
+        <div class="modal-body">
+            <p>Editing item: <strong id="modal-param-1"></strong></p>
+            <p>Unique ID: <strong id="modal-param-2"></strong></p>
+            <p>Form: <strong id="modal-param-3"></strong></p>
+            <p>Profile: <strong id="modal-param-4"></strong></p>
+        </div>
+        <div class="modal-footer">
+            <button id="modal-ok-btn">OK</button>
+            <button id="modal-cancel-btn" class="cancel-btn">Cancel</button>
+        </div>
+    </div>
 </body>
 </html>

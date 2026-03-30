@@ -34,13 +34,17 @@ HTTP-сервер, запущенный MOKO SE по адресу `http://localh
 - 09.09.2022: Параметр 'type' заменен на 'mode' в JSON-запросах (обратная совместимость нарушена).
 - 25.03.2026: Добавление регионов и комментариев в новом формате (обратная совместимость нарушена).
 - 26.03.2026: Подготовка к исключению библиотеки MOSK (обратная совместимость нарушена).
+- 30.03.2026: Добавлены сокращения для Stage (StageError, StageInfo и т.д.).
+- 30.03.2026: Добавлены функции  Tree & Hash, Time, Report
 '''
 
 import time
 import requests
 import json
 import sys
+import os
 from typing import Literal
+from functools import partial
 
 requests = requests.Session()
 
@@ -85,7 +89,7 @@ _UrlPortWrite: str = f"{_BASE_URL}/system/portwrite"
 _UrlPortRead: str = f"{_BASE_URL}/system/portread"
 # endregion
 
-# region ### MOKO SE API Functions / Функции MOKO SE API ###
+# region ### MOKO SE API Functions / Функции MOKO SE API #####################
 
 # region --- CMD / Командная строка --- +-
 def CMD(mode: str, command: str) -> ...:
@@ -182,10 +186,34 @@ def Stage(stage_string: str, type: str = 'info') -> None:
                               Возможные значения: 'Info', 'Error', 'Plugin', 'Driver', 'Report', 'Warning'.
                               Defaults to 'info'.
     """
+    type = type.lower()
     check_project_state()
     URLWrite: str = _UrlStageWrite
     command_to_send: str = f'{{"string" :"{str(stage_string)}", "type":"{str(type)}"}}'
     send_request(URLWrite, command_to_send)
+# endregion
+
+# region --- Stage Shortcuts / Сокращения для Stage --- <-- ИЗМЕНЕНИЕ 3: Новый регион
+# Информационные
+StageInfo = partial(Stage, type='info')
+StageSuccess = partial(Stage, type='success')
+StageFail = partial(Stage, type='fail')
+StageEmpty = partial(Stage, type='empty')
+StageError = partial(Stage, type='error')
+StageWarning = partial(Stage, type='warning')
+# Имитирующие
+StageTelegram = partial(Stage, type='telegram')
+StageMessenger = partial(Stage, type='messenger')
+StageUtility = partial(Stage, type='utility')
+StageAutoit = partial(Stage, type='autoit')
+StageCmd = partial(Stage, type='cmd')
+StagePort = partial(Stage, type='port')
+StageDriver = partial(Stage, type='driver')
+StagePlugin = partial(Stage, type='plugin')
+StageReport = partial(Stage, type='report')
+# Системные
+StageProject = partial(Stage, type='project')
+StageScript = partial(Stage, type='script')
 # endregion
 
 # region --- Driver / Драйвер ---
@@ -366,11 +394,11 @@ def Program(name: str, mode: str, command: str, valuetype: str = 'void') -> ...:
     return parse_data(progdata, mode, valuetype)
 # endregion
 
-# endregion
+# endregion ##################################################################
 
-# region ### Execution Control / Управление выполнением ###
+# region ### Execution Control / Управление выполнением ######################
 
-# region --- EndScript / Завершение скрипта ---
+# region ******* EndScript / Завершает выполнение текущего скрипта. *******
 def EndScript(command: str = None) -> None:
     """
     Завершает выполнение текущего скрипта.
@@ -414,11 +442,11 @@ def EndScript(command: str = None) -> None:
 
     Program('script', 'set', command)
     sys.exit()
-# endregion
+# endregion *****************************************
 
-# region --- Tree & Hash / Дерево и Хэши ---
+# region ******* Tree & Hash / Дерево и Хэши *********************
 
-# region -- ScriptResult / Результат скрипта --
+# region --- ScriptResult / Получает результат выполнения текущего скрипта из дерева MOKO SE. --
 def ScriptResult() -> str:
     """
     Получает результат выполнения текущего скрипта из дерева MOKO SE.
@@ -429,7 +457,7 @@ def ScriptResult() -> str:
     return Program('tree', 'get', 'ScriptStatus', 'string')
 # endregion
 
-# region -- ProjectResult / Результат проекта --
+# region --- ProjectResult / Получает результат выполнения всего проекта из дерева MOKO SE. --
 def ProjectResult() -> str:
     """
     Получает результат выполнения всего проекта из дерева MOKO SE.
@@ -440,7 +468,7 @@ def ProjectResult() -> str:
     return Program('tree', 'get', 'ProjectStatus', 'string')
 # endregion
 
-# region -- SetHash / Установить HASH --
+# region --- SetHash / Устанавливает результат выполнения в дереве (Hash). --
 def SetHash(command: Literal['done', 'passed', 'failed'] = 'done') -> None:
     """
     Устанавливает результат выполнения в дереве (Hash).
@@ -456,7 +484,7 @@ def SetHash(command: Literal['done', 'passed', 'failed'] = 'done') -> None:
     Program('tree', 'set', f'chosen={command}')
 # endregion
 
-# region -- SelectHash / Выбрать HASH --
+# region --- SelectHash / Выбирает хэш(Hash) в дереве. --
 def SelectHash(hash: str) -> None:
     """
     Выбирает хэш в дереве.
@@ -468,7 +496,41 @@ def SelectHash(hash: str) -> None:
     return
 # endregion
 
-# region -- SelectCheckHash / Выбрать и проверить HASH --
+# region --- ExecuteStep / Выполняет шаг: выбирает его в дереве и выводит название в Stage. --
+def ExecuteStep(step_string: str) -> None:
+    """
+    Выполняет шаг: выбирает его в дереве и выводит название в Stage.
+
+    Ожидает строку в формате 'Название шага$HASH_ID'.
+    Если символ '$' отсутствует, вся строка передается как хэш.
+
+    Args:
+        step_string (str): Строка с описанием шага и хэшем.
+    """
+    # Удаляем пробелы в начале и в конце строки во избежание ошибок
+    step_string = step_string.strip()
+
+    # Разделяем строку по символу '$' максимум 1 раз
+    parts = step_string.split('$', 1)
+
+    if len(parts) == 2:
+        step_name = parts[0]
+        step_id = parts[1]
+
+        # Выбираем хэш в дереве (склеиваем обратно название и ID)
+        SelectHash(f"{step_name}${step_id}")
+        # Выводим информационное сообщение о начале шага
+        Stage(f"--- {step_name} ---")
+    else:
+        # Если символа $ в строке нет, используем всю строку как хэш
+        SelectHash(step_string)
+        # Выводим строку в Stage как есть
+        Stage(f"--- {step_string} ---")
+
+    return
+# endregion
+
+# region --- SelectCheckHash / Выбирает хэш в дереве и проверяет, является ли он пустым. --
 def SelectCheckHash(hash: str) -> bool:
     """
     Выбирает хэш в дереве и проверяет, является ли он пустым.
@@ -486,9 +548,200 @@ def SelectCheckHash(hash: str) -> bool:
     return False
 # endregion
 
+# endregion *******************************************************
+
+# region ******* Time / Время **************************************
+
+# region --- TimeParameter / Литералы времени MOKO SE
+TimeParameter = Literal[
+    # Текущая дата и время
+    "Current", "CurrentDateAndTime",
+    # Текущая дата
+    "CurrentDate",
+    # Текущее время
+    "CurrentTime",
+
+    # Дата и время запуска проекта
+    "ProjectStart", "ProjectStartDateAndTime",
+    # Дата запуска проекта
+    "ProjectStartDate", "ProjectStartTime",
+    # Время выполнения проекта
+    "ProjectExecution", "TotalExecution",
+    # Время когда проект не выполнялся
+    "ProjectStop", "TotalStop",
+    "ProjectIdle", "TotalIdle",
+    # Общее время ошибок в проекте
+    "ProjectError", "TotalError",
+
+    # Дата и время запуска скрипта
+    "ScriptStart", "ScriptStartDateAndTime",
+    # Дата запуска скрипта
+    "ScriptStartDate", "ScriptStartTime",
+
+    # Время выполнения скрипта
+    "ScriptExecution",
+    # Время когда скрипт не выполнялся
+    "ScriptStop", "ScriptIdle",
+    # Время ошибок в скрипте
+    "ScriptError"
+]
 # endregion
 
+# region --- GetTime / Получает параметры времени через системную функцию MOKO.Program.
+def GetTime(command: TimeParameter = "Current"):
+    """
+    Получает параметры времени через системную функцию MOKO.Program.
+
+    Args:
+        command (TimeParameter, optional): Запрашиваемый параметр времени.
+                                           По умолчанию 'Current'.
+
+    Returns:
+        Результат выполнения MOKO.Program.
+    """
+    return Program('time', 'get', command)
 # endregion
+
+# region --- TimeReport / Управляет таблицей со временем выполнения скрипта. ---
+def TimeReport(action: Literal["init", "add", "set"] = "init", lang: Literal["RU", "EN"] = "EN") -> None:
+    """
+    Управляет таблицей со временем выполнения скрипта.
+
+    Args:
+        action (Literal["init", "add", "set"]):
+            - 'init': Создает таблицу с заголовками.
+            - 'add' или 'set': Добавляет строку с данными о выполнении.
+        lang (Literal["RU", "EN"]): Язык заголовков и ID таблицы. По умолчанию 'EN'.
+    """
+    # Задаем заголовок и ID таблицы в зависимости от языка
+    if lang == "RU":
+        table_title = "Время выполнения скрипта"
+        headers = (
+            "Название скрипта#350;"
+            "Время запуска#120;"
+            "Время окончания#120;"
+            "Время исполнения#150"
+        )
+    else:  # EN (по умолчанию)
+        table_title = "Script Execution Time"
+        headers = (
+            "Script Name#350;"
+            "Start Time#120;"
+            "End Time#120;"
+            "Execution Time#150"
+        )
+
+    if action == "init":
+        # Используем table_title как визуальный заголовок
+        Report(table_title, "info", "table", headers)
+
+    elif action in ("add", "set"):
+        # Получаем имя файла и универсально отрезаем любое расширение
+        script_name, _ = os.path.splitext(os.path.basename(sys.argv[0]))
+
+        row_data = (
+            f"{script_name};"
+            f"{GetTime('ScriptStart')};"
+            f"{GetTime('CurrentDateAndTime')};"
+            f"{GetTime('ScriptExecution')}"
+        )
+        # Используем тот же table_title как ID для обновления таблицы
+        Report(table_title, "set", "table", row_data)
+# endregion
+
+# endregion ********************************************************
+
+# region ******* Report / Отчет ************************************
+
+# region --- ReportTableInfo / Упрощенный вызов Report для создания таблиц. ---
+def ReportTableInfo(title: str, columns: str, base_width: int = 15) -> None:
+    """
+    Упрощенный вызов Report для создания таблиц.
+    Автоматически рассчитывает ширину колонок (#XX) на основе длины самой длинной строки.
+    Формула: base_width + (символы - 1) * 6.
+
+    Поддерживает многострочные заголовки через \\n (ширина считается по самой длинной строке).
+    Пробелы справа сохраняются для ручного увеличения ширины.
+    Пробелы слева перед \\n автоматически удаляются при сборке финальной строки.
+
+    Args:
+        title (str): Заголовок таблицы.
+        columns (str): Названия колонок через точку с запятой.
+                       Пример: "ID\\n точки;Канал \\n какойто;Мощность      "
+        base_width (int): Базовая ширина для колонки из 1 символа. По умолчанию 15.
+    """
+    column_list = columns.split(';')
+    formatted_columns = []
+
+    for col in column_list:
+        # Убираем пробелы только СЛЕВА у всей колонки (если они были после ;)
+        col = col.lstrip()
+
+        max_len = 0
+        cleaned_lines = []  # Сюда будем собирать строки без левых пробелов
+
+        # Разбиваем колонку на отдельные строки по символу переноса
+        lines = col.split('\n')
+
+        for line in lines:
+            # Убираем пробелы слева у каждой строки, но сохраняем справа
+            clean_line = line.lstrip()
+            cleaned_lines.append(clean_line)  # Сохраняем очищенную версию для финальной строки
+
+            # Считаем длину этой конкретной строки
+            line_len = len(clean_line)
+
+            # Запоминаем максимальную длину среди всех строк колонки
+            if line_len > max_len:
+                max_len = line_len
+
+        # Применяем формулу с переменной base_width
+        width = base_width + (max_len - 1) * 6
+
+        # Склеиваем очищенные строки обратно через \n (пробелы перед \n исчезнут)
+        final_col = "\n".join(cleaned_lines)
+
+        # Добавляем рассчитанную ширину
+        formatted_columns.append(f"{final_col}#{width}")
+
+    # Собираем всё обратно в одну строку через точку с запятой
+    final_string = ";".join(formatted_columns)
+
+    # Вызываем оригинальную функцию Report
+    Report(title, 'info', 'table', final_string)
+
+    return
+# endregion ****************************************************
+
+# region --- SaveReport / Сохраняет отчет в указанном формате. ---
+def SaveReport(report_format: Literal["Word", "PDF", "Word as", "Pdf as"] = "Word") -> None:
+    """
+    Сохраняет отчет в указанном формате.
+
+    Args:
+        report_format (Literal): Формат сохранения отчета.
+                                 Допустимые значения: 'Word', 'PDF', 'Word as', 'Pdf as'.
+                                 По умолчанию 'Word'.
+    """
+    # Точно сопоставляем ввод программиста с тем, что понимает сервер
+    server_commands = {
+        "Word": "SaveWordReport",
+        "PDF": "SavePdfReport",
+        "Word as": "SaveWordReportAs",
+        "Pdf as": "SavePdfReportAs"
+    }
+
+    # Достаем нужную команду из словаря
+    command = server_commands[report_format]
+
+    # Вызываем команду дважды
+    Program('control', 'set', command)
+    return
+# endregion ---------------------------------------------------------
+
+# endregion ********************************************************
+
+# endregion ##########################################################################
 
 # region ### Internal Helper Functions / Внутренние вспомогательные функции ###
 

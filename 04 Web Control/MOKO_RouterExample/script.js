@@ -82,4 +82,43 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     log('Admin panel script initialized.');
+
+    // --- Modal Logic ---
+    const modal = document.getElementById('generic-modal');
+    const backdrop = document.getElementById('modal-backdrop');
+    const modalOkBtn = document.getElementById('modal-ok-btn');
+    const modalCancelBtn = document.getElementById('modal-cancel-btn');
+
+    // Function to show the modal
+    window.editProfile = function(param1, param2, param3, param4) {
+        log(`Opening modal with params: ${param1}, ${param2}, ${param3}, ${param4}`);
+        
+        // Populate modal with data from the button
+        document.getElementById('modal-param-1').textContent = param1;
+        document.getElementById('modal-param-2').textContent = param2;
+        document.getElementById('modal-param-3').textContent = param3;
+        document.getElementById('modal-param-4').textContent = param4;
+        
+        // Show the modal and backdrop
+        modal.classList.remove('hidden');
+        backdrop.classList.remove('hidden');
+    }
+
+    // Function to hide the modal
+    function closeModal() {
+        modal.classList.add('hidden');
+        backdrop.classList.add('hidden');
+        log('Modal closed.');
+    }
+
+    // Event listeners for modal buttons
+    modalOkBtn.addEventListener('click', () => {
+        const p2 = document.getElementById('modal-param-2').textContent;
+        alert(`'OK' clicked for profile ${p2}!`);
+        log(`Modal confirmed for profile ${p2}.`);
+        closeModal();
+    });
+
+    modalCancelBtn.addEventListener('click', closeModal);
+    backdrop.addEventListener('click', closeModal); // Also close on backdrop click
 });

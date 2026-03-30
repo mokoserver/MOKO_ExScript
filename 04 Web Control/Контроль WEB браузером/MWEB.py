@@ -5,17 +5,20 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
-from selenium.common.exceptions import NoAlertPresentException
+from selenium.common.exceptions import NoAlertPresentException, TimeoutException
 _GLOBAL_MWEB = None
 
 class MWeb:
-    def __init__(self):
+    def __init__(self, block_input_method=None):
         self.driver = None
+        self.block_method = block_input_method
         chrome_options = Options()
         chrome_options.add_argument("--start-maximized")
         chrome_options.add_argument("--disable-infobars")
         chrome_options.add_argument("--disable-extensions")
         chrome_options.add_argument("--disable-notifications")
+        if self.block_method == 'headless':
+            chrome_options.add_argument("--headless")
         self.options = chrome_options
 
     def open(self, url):
@@ -25,6 +28,8 @@ class MWeb:
         try:
             self.driver = webdriver.Chrome(options=self.options)
             self.driver.get(url)
+            if self.block_method == 'overlay':
+                self.block_user_input()
             global _GLOBAL_MWEB
             _GLOBAL_MWEB = self
         except Exception as e:
@@ -54,7 +59,13 @@ class MWeb:
 
     def click(self, strategy, selector):
         element = self._find_element(strategy, selector)
-        element.click()
+        try:
+            self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
+            self.driver.execute_script("arguments[0].click();", element)
+            print(f"Выполнен JS-клик по элементу: {selector}")
+        except Exception as e:
+            print(f"JS-клик не удался, пробую стандартный метод. Ошибка: {e}")
+            element.click()
 
     def send_keys(self, strategy, selector, text):
         element = self._find_element(strategy, selector)
@@ -99,6 +110,43 @@ class MWeb:
         if not self.driver:
             raise Exception("Браузер не открыт.")
         self.driver.minimize_window()
+
+    def block_user_input(self):
+        """Блокирует ввод пользователя, создавая прозрачный оверлей."""
+        if not self.driver:
+            raise Exception("Браузер не открыт.")
+        
+        overlay_id = "mweb-input-blocker"
+        script = f"""
+            if (document.getElementById('{overlay_id}')) return;
+            var overlay = document.createElement('div');
+            overlay.id = '{overlay_id}';
+            overlay.style.position = 'fixed';
+            overlay.style.top = '0';
+            overlay.style.left = '0';
+            overlay.style.width = '100vw';
+            overlay.style.height = '100vh';
+            overlay.style.backgroundColor = 'rgba(0,0,0,0.0)';
+            overlay.style.zIndex = '10000';
+            document.body.appendChild(overlay);
+        """
+        self.driver.execute_script(script)
+        print("Ввод пользователя заблокирован.")
+
+    def unblock_user_input(self):
+        """Разблокирует ввод, удаляя оверлей."""
+        if not self.driver:
+            raise Exception("Браузер не открыт.")
+            
+        overlay_id = "mweb-input-blocker"
+        script = f"""
+            var overlay = document.getElementById('{overlay_id}');
+            if (overlay) {{
+                overlay.parentNode.removeChild(overlay);
+            }}
+        """
+        self.driver.execute_script(script)
+        print("Ввод пользователя разблокирован.")
 
 def close_global():
     global _GLOBAL_MWEB
