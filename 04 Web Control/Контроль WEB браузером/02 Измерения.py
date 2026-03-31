@@ -5,7 +5,6 @@ from MOKO import EndScript
 from MOKO import Stage, StageError, StageInfo,StageSuccess
 
 
-
 try:
     #region Шаг 1: Инициализация и вход$INIT
     MOKO.ExecuteStep("Шаг 1: Инициализация и вход$INIT")
@@ -39,6 +38,8 @@ try:
     MOKO.ReportTableInfo("Производительность Wi-Fi Дополнительно",
                          "ID точки;Уровень\n мощности  ;Канал ;Мощность\n передачи   ;Эффективная  \n скорость;")
 
+
+    MOKO.Port("hghgh","init","Ghbdtn")
     ta.run_test_point_additional(browser, 'Измерение 11$MEASURE2', 11, 'low',    1)        #hash Измерение 11$MEASURE2: 11;low;1
     ta.run_test_point_additional(browser, 'Измерение 12$MEASURE2', 12, 'low',    6)        #hash Измерение 12$MEASURE2: 12;low;6
     ta.run_test_point_additional(browser, 'Измерение 13$MEASURE2', 13, 'low',    11)       #hash Измерение 13$MEASURE2: 13;low;11

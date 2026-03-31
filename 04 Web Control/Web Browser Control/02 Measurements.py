@@ -1,5 +1,7 @@
 
 import os
+
+import MOKO
 import WebActions as wa
 from MOKO import Stage, EndScript, Program, Report
 from datetime import datetime

@@ -10,6 +10,7 @@ except Exception as e:
         subprocess.run([sys.executable, "-m", "ensurepip", "--upgrade"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         subprocess.run([sys.executable, "-m", "pip", "install", "-U", "selenium", "--user"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         from MWEB import MWeb
+
         Stage("Автоустановка selenium выполнена, повторяю импорт MWEB", "info")
     except Exception as e2:
         Stage(f"Не удалось установить selenium автоматически: {e2}", "error")

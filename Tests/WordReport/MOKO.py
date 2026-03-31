@@ -34,13 +34,17 @@ HTTP-сервер, запущенный MOKO SE по адресу `http://localh
 - 09.09.2022: Параметр 'type' заменен на 'mode' в JSON-запросах (обратная совместимость нарушена).
 - 25.03.2026: Добавление регионов и комментариев в новом формате (обратная совместимость нарушена).
 - 26.03.2026: Подготовка к исключению библиотеки MOSK (обратная совместимость нарушена).
+- 30.03.2026: Добавлены сокращения для Stage (StageError, StageInfo и т.д.).
+- 30.03.2026: Добавлены функции  Tree & Hash, Time, Report
 '''
 
 import time
 import requests
 import json
 import sys
-from typing import Literal
+import os
+from typing import Literal,overload
+from functools import partial
 
 requests = requests.Session()
 
@@ -85,10 +89,11 @@ _UrlPortWrite: str = f"{_BASE_URL}/system/portwrite"
 _UrlPortRead: str = f"{_BASE_URL}/system/portread"
 # endregion
 
-# region ### MOKO SE API Functions / Функции MOKO SE API ###
+# region ### MOKO SE API Functions / Функции MOKO SE API #####################
 
 # region --- CMD / Командная строка --- +-
-def CMD(mode: str, command: str) -> ...:
+def CMD(mode: Literal['set', 'get'],
+        command: str) -> ...:
     """
     Выполняет команду в командной строке (CMD) через MOKO SE.
 
@@ -140,12 +145,14 @@ def Port(
     command_to_send: str = f'{{"name":"{str(name)}","mode":"{str(mode)}","command":"{str(command)}"}}'
     send_request(URLWrite, command_to_send)
     portdata: str = check_status("port", mode, URLRead)
-    print(f"portdata = {portdata}")
     return parse_data(portdata, mode, valuetype)
 # endregion
 
 # region --- Autoit / Автоматизация GUI ---
-def Autoit(title: str, classname: str, method: str, attributes: str = 'void') -> ...:
+def Autoit(title: str,
+           classname: str,
+           method: Literal['ControlClick', 'ControlGetText', 'ControlSetText'],
+           attributes: str = 'void') -> ...:
     """
     Взаимодействует с элементами GUI внешних приложений, используя технологию AutoIt.
 
@@ -170,26 +177,56 @@ def Autoit(title: str, classname: str, method: str, attributes: str = 'void') ->
 # endregion
 
 # region --- Stage / Логирование этапов ---
-def Stage(stage_string: str, type: str = 'info') -> None:
+def Stage(message: str = '',
+          type: Literal['info', 'success', 'fail', 'empty', 'error', 'warning',
+                        'telegram', 'messenger', 'utility', 'cmd', 'port', 'driver', 'plugin', 'report', 'autoit',
+                        'project', 'script'] = "info") -> None:
     """
     Отправляет и отображает сообщение в окне "Stage" в MOKO SE.
 
     Используется для логирования и информирования пользователя во время выполнения скрипта.
 
     Args:
-        stage_string (str): Текст сообщения для вывода.
+        message (str): Текст сообщения для вывода.
         type (str, optional): Тип сообщения. Влияет на его отображение.
                               Возможные значения: 'Info', 'Error', 'Plugin', 'Driver', 'Report', 'Warning'.
                               Defaults to 'info'.
     """
+    type = type.lower()
     check_project_state()
     URLWrite: str = _UrlStageWrite
-    command_to_send: str = f'{{"string" :"{str(stage_string)}", "type":"{str(type)}"}}'
+    command_to_send: str = f'{{"string" :"{str(message)}", "type":"{str(type)}"}}'
     send_request(URLWrite, command_to_send)
 # endregion
 
+# region --- Stage Shortcuts / Сокращения для Stage --- <-- ИЗМЕНЕНИЕ 3: Новый регион
+# Информационные
+StageInfo = partial(Stage, type='info')
+StageSuccess = partial(Stage, type='success')
+StageFail = partial(Stage, type='fail')
+StageEmpty = partial(Stage, type='empty')
+StageError = partial(Stage, type='error')
+StageWarning = partial(Stage, type='warning')
+# Имитирующие
+StageTelegram = partial(Stage, type='telegram')
+StageMessenger = partial(Stage, type='messenger')
+StageUtility = partial(Stage, type='utility')
+StageAutoit = partial(Stage, type='autoit')
+StageCmd = partial(Stage, type='cmd')
+StagePort = partial(Stage, type='port')
+StageDriver = partial(Stage, type='driver')
+StagePlugin = partial(Stage, type='plugin')
+StageReport = partial(Stage, type='report')
+# Системные
+StageProject = partial(Stage, type='project')
+StageScript = partial(Stage, type='script')
+# endregion
+
 # region --- Driver / Драйвер ---
-def Driver(name: str, mode: str, command: str = 'void', valuetype: str = 'string') -> ...:
+def Driver(name: str,
+           mode: Literal['set', 'get','init','check','close'],
+           command: str = 'void',
+           valuetype: Literal['string', 'int', 'float', 'bool', 'arrayint', 'arrayfloat', 'arrayboolean', 'arraystring'] = 'string') -> ...:
     """
     Управляет драйверами устройств через MOKO SE.
 
@@ -214,7 +251,10 @@ def Driver(name: str, mode: str, command: str = 'void', valuetype: str = 'string
 # endregion
 
 # region --- Plugin / Плагин ---
-def Plugin(name: str, mode: str, command: str = 'void', valuetype: str = 'void') -> ...:
+def Plugin(name: str,
+           mode: Literal['set', 'get','init','check','close'],
+           command: str = 'void',
+           valuetype: Literal['string', 'int', 'float', 'bool', 'arrayint', 'arrayfloat', 'arrayboolean', 'arraystring'] = 'string') -> ...:
     """
     Управляет плагинами в MOKO SE.
 
@@ -239,7 +279,11 @@ def Plugin(name: str, mode: str, command: str = 'void', valuetype: str = 'void')
 # endregion
 
 # region --- Messenger / Сообщения ---
-def Messenger(mode: str, head: str = '', body: str = '', valuetype: str = 'void', delaytime: str = 'void') -> ...:
+def Messenger(mode: Literal['set', 'get'],
+              head: str = '',
+              body: str = '',
+              valuetype: str = 'void',
+              delaytime: str = 'void') -> ...:
     """
     Отображает всплывающее окно (мессенджер) в MOKO SE для взаимодействия с пользователем.
 
@@ -268,7 +312,11 @@ def Messenger(mode: str, head: str = '', body: str = '', valuetype: str = 'void'
 # endregion
 
 # region --- Report / Отчет ---
-def Report(name: str, mode: str, kind: str = 'string', data: str = '', valuetype: str = 'void') -> ...:
+def Report(name: str,
+           mode: Literal['info', 'set','get','clear','delete','save'],
+           kind: Literal['string', 'table', 'picture', 'strings'] = 'string',
+           data: str = '',
+           valuetype: Literal['string', 'int', 'float', 'bool', 'arrayint', 'arrayfloat', 'arrayboolean', 'arraystring'] = 'string') -> ...:
     """
     Работает с данными в отчете MOKO SE.
 
@@ -294,7 +342,10 @@ def Report(name: str, mode: str, kind: str = 'string', data: str = '', valuetype
 # endregion
 
 # region --- Utility / Утилита ---
-def Utility(name: str, mode: str, command: str = 'void', valuetype: str = 'void') -> ...:
+def Utility(name: str,
+            mode: Literal['set', 'get'],
+            command: str = 'void',
+            valuetype: Literal['string', 'int', 'float', 'bool', 'arrayint', 'arrayfloat', 'arrayboolean', 'arraystring'] = 'string') -> ...:
     """
     Управляет утилитами в MOKO SE.
 
@@ -319,7 +370,10 @@ def Utility(name: str, mode: str, command: str = 'void', valuetype: str = 'void'
 # endregion
 
 # region --- Telegram / Телеграм ---
-def Telegram(role: str, mode: str, command: str, valuetype: str = 'void') -> ...:
+def Telegram(role: Literal['alpha', 'beta', 'gamma', 'delta', 'xi'] = 'alpha',
+             mode: Literal['set'] = 'set',
+             command: str = '',
+             valuetype: Literal['void'] = 'void') -> ...:
     """
     Работает с Telegram ботом MOKO SE.
 
@@ -343,19 +397,176 @@ def Telegram(role: str, mode: str, command: str, valuetype: str = 'void') -> ...
     return parse_data(tgmdata, mode, valuetype)
 # endregion
 
-# region --- Program / Программа ---
-def Program(name: str, mode: str, command: str, valuetype: str = 'void') -> ...:
+# region *** Program / Программа *******************************
+# region -------   Collection Literal Program
+# ==========================================
+# 1. ОПИСЫВАЕМ КОМАНДЫ (Type Aliases)
+# Это сделает код ниже чистым и читаемым
+# ==========================================
+
+# Для tree (есть и set, и get)
+TreeGetStaticCmd = Literal['hash =',
+                     'script', 'ScriptStatus',
+                     'project', 'ProjectStatus']
+TreeGetCmd = TreeGetStaticCmd  | str
+TreeSetStaticCmd = Literal['select = ', 'info = ', 'chosen = done', 'chosen = failed', 'chosen = passed',
+                                                   'chosen = canceled','chosen = frozen',
+                                                    'chosen = empty','chosen = reset']
+TreeSetCmd = TreeSetStaticCmd | str
+
+# Для control (есть и set, и get)
+ControlSetStaticCmd = Literal[# ------- main -------
+                        'Minimized', 'OpenProject', 'SaveProject',
+                        # ------- Panel Control -------
+                        'Start', 'Pause', 'Stop', 'Reset','EditExecution', 'ProjectHistory', 'PersonalProjects',
+                        # ------- Project -------
+                        'SaveProjectReport', 'SaveTempProjectReport', 'SaveProjectReportAs','LoadProjectReport',
+                        # ------- Word / Pdf-------
+                        'SaveWordReport', 'SaveWordReportAs', 'SavePdfReport','SavePdfReportAs',
+                        # ------- Stage -------
+                        'StageClear','SaveStageReport',
+                        # ------- Help Links -------
+                        'License', 'Documentation','YouTube','Telegram','GitHub','AboutCompany',
+                        # ------- Edit Report -------
+                        'EditData','AddAllReports','AddNameReports','SaveAllReportsToAFolder',
+                        # ------- Report Settings --------
+                        'UseCustomReportName = true', 'UseCustomReportName = false','UseCustomPathName = true','UseCustomPathName = false',
+                        'UserReportName =','UserPathName = ',
+                        # ------- Language -------
+                        'Language']
+ControlGetCmd = Literal['Version', 'screenshot']
+
+ControlSetCmd = ControlSetStaticCmd | str
+
+# Для script (допустим, ТОЛЬКО set)
+ScriptSetStaticCmd = Literal['Script = done', 'Script = failed', 'Script = passed','Script = start','Script = canceled']
+ScriptSetCmd = ScriptSetStaticCmd | str
+
+# Для project (есть set)
+ProjectSetCmd = Literal['start', 'done', 'pause', 'stop', 'reset']
+
+# Для Time (есть  get)
+TimeGetCmd = Literal[# ________ Current _________
+                        'Current', 'CurrentDateAndTime', 'CurrentDate', 'CurrentTime',
+                        # ________ Project _________
+                        'ProjectStart', 'ProjectStartDateAndTime', 'ProjectStartDate', 'ProjectStartTime',
+                        'ProjectExecution', 'TotalExecution',
+                        'ProjectIdle', 'ProjectStop', 'TotalIdle', 'TotalStop',
+                        'ProjectError', 'TotalError',
+                        # ________  Script _________
+                        "ScriptStart", "ScriptStartDateAndTime",
+                        "ScriptStartDate", "ScriptStartTime",
+                        "ScriptExecution", "ScriptIdle", "ScriptStop",
+                        "ScriptError"]
+# endregion
+
+# region  -------   Overload Program ---
+
+# ==========================================
+# 2. ПЕРЕГРУЗКИ ФУНКЦИИ (@overload)
+# Строго связываем: Имя -> Режим -> Команды
+# ==========================================
+# --- TREE SET---
+@overload
+def Program(
+    name: Literal['tree'],
+    mode: Literal['set'],
+    command: TreeSetCmd # Используем SET команду
+) -> str: ...
+
+# --- TREE GET---
+@overload
+def Program(
+    name: Literal['tree'],
+    mode: Literal['get'],
+    command: TreeGetCmd, # Используем GET команду
+    valuetype: Literal['string'] = 'string'
+) -> str: ...
+
+# --- CONTROL SET---
+@overload
+def Program(
+    name: Literal['control'],
+    mode: Literal['set'],
+    command: ControlSetCmd
+) -> str: ...
+
+# --- CONTROL GET---
+@overload
+def Program(
+    name: Literal['control'],
+    mode: Literal['get'], # Исправлен комментарий и режим
+    command: ControlGetCmd,
+    valuetype: Literal['string'] = 'string'
+) -> str: ...
+
+# --- SCRIPT SET---
+@overload
+def Program(
+    name: Literal['script'],
+    mode: Literal['set'], # Если name='script', mode может быть ТОЛЬКО 'set'
+    command: ScriptSetCmd
+) -> str: ...
+
+# --- PROJECT SET---
+@overload
+def Program(
+    name: Literal['project'],
+    mode: Literal['set'],
+    command: ProjectSetCmd
+) -> str: ...
+
+# --- TIME GET---
+@overload
+def Program(
+    name: Literal['time'],
+    mode: Literal['get'], # Только 'get'
+    command: TimeGetCmd,
+    valuetype: Literal['void', 'string'] = 'void'
+) -> str: ...
+# endregion
+
+# region ------  Program / Программа ---
+
+# ==========================================
+# 3. ОСНОВНАЯ РЕАЛИЗАЦИЯ (Ваша логика)
+# ==========================================
+def Program(
+            name: str = 'control',
+            mode: str = 'set',
+            command: str = '',
+            valuetype: str = 'void'
+) -> str:
     """
-    Управляет состоянием программы MOKO SE (скрипты, проекты и т.д.).
+    Центральная функция управления внутренней логикой и интерфейсом MOKO SE.
+    Работает как маршрутизатор: конкретное действие определяется комбинацией параметров `name`, `mode` и `command`.
+
+    Поддерживаемые подсистемы (параметр `name`):
+      - 'tree': Управление деревом проекта (выделение хэшей, установка статусов, получение ScriptStatus).
+      - 'control': Программное управление GUI MOKO SE (нажатие кнопок Start/Stop, вызов меню сохранения отчетов).
+      - 'script': Установка финального статуса выполнения текущего скрипта (например, 'Script = passed').
+      - 'project': Глобальное управление состоянием проекта ('start', 'stop', 'pause').
+      - 'time': Запрос системных таймеров и метрик времени ('Current', 'ProjectExecution', 'ScriptError' и др.).
 
     Args:
-        name (str): Тип управляемого объекта ('script', 'project', ???).
-        mode (str): Режим работы (на данный момент только 'set').
-        command (str): Выполняемая команда (например, 'done' для скрипта).
-        valuetype (str, optional): Ожидаемый тип данных (для будущего режима 'get'). Defaults to 'void'.
+        name (str): Имя подсистемы, к которой обращается команда.
+        mode (str): Режим работы. 'set' (отправить команду/изменить состояние)
+                    или 'get' (запросить данные). Допустимые режимы зависят от выбранной подсистемы.
+        command (str): Текст команды. Формат строго зависит от `name` и `mode`.
+                       Примеры: 'select = <hash>', 'ScriptStatus', 'Start', 'CurrentDate'.
+        valuetype (str, optional): Ожидаемый тип данных при mode='get'.
+                                   Поддерживаются: 'string', 'int', 'float', 'bool', 'array...'.
+                                   При mode='set' игнорируется. Defaults to 'void'.
 
     Returns:
-        ???.
+        str | int | float | bool | list | None:
+            - При mode='get' возвращает данные от сервера, приведенные к типу `valuetype`.
+            - При mode='set' всегда возвращает None.
+
+    Notes:
+        Функция имеет встроенную защиту от рассинхрона: если проект в MOKO SE поставлен
+        на паузу, выполнение Python-скрипта в этой функции заморозится до снятия паузы.
+        Если проект остановлен, скрипт принудительно завершится (sys.exit).
     """
     check_project_state()
     URLWrite: str = _UrlProgramWrite
@@ -366,11 +577,13 @@ def Program(name: str, mode: str, command: str, valuetype: str = 'void') -> ...:
     return parse_data(progdata, mode, valuetype)
 # endregion
 
-# endregion
+# endregion ********************************************************************
 
-# region ### Execution Control / Управление выполнением ###
+# endregion ##################################################################
 
-# region --- EndScript / Завершение скрипта ---
+# region ### Execution Control / Управление выполнением ######################
+
+# region ******* EndScript / Завершает выполнение текущего скрипта. *******
 def EndScript(command: str = None) -> None:
     """
     Завершает выполнение текущего скрипта.
@@ -414,11 +627,38 @@ def EndScript(command: str = None) -> None:
 
     Program('script', 'set', command)
     sys.exit()
-# endregion
+# endregion *****************************************
 
-# region --- Tree & Hash / Дерево и Хэши ---
+# region ******* RestartProject / Перезапускает текущий проект с нуля. *******
+def RestartProject() -> None:
+    """
+    Перезапускает текущий проект с нуля.
 
-# region -- ScriptResult / Результат скрипта --
+    Выполняет полный цикл перезапуска проекта в MOKO SE, состоящий из трёх этапов:
+    1. Очищает текущую стадию выполнения (StageClear).
+    2. Сбрасывает все накопленные результаты и состояние проекта (Reset).
+    3. Завершает текущий скрипт с нейтральным статусом (Done).
+
+    Функция не принимает аргументов и не возвращает значения.
+
+    Использование:
+        Вызовите эту функцию в любой точке скрипта, когда необходимо
+        полностью перезапустить проект и начать выполнение заново.
+        После вызова скрипт завершается, и MOKO SE инициирует
+        новый цикл запуска.
+
+    Пример:
+        >>> RestartProject()
+    """
+    Program('control', 'set', 'StageClear')
+    Program('control', 'set', 'reset')
+    Program('script', 'set', 'done')
+    sys.exit()
+# endregion *****************************************
+
+# region ******* Tree & Hash / Дерево и Хэши *********************
+
+# region --- ScriptResult / Получает результат выполнения текущего скрипта из дерева MOKO SE. --
 def ScriptResult() -> str:
     """
     Получает результат выполнения текущего скрипта из дерева MOKO SE.
@@ -429,7 +669,7 @@ def ScriptResult() -> str:
     return Program('tree', 'get', 'ScriptStatus', 'string')
 # endregion
 
-# region -- ProjectResult / Результат проекта --
+# region --- ProjectResult / Получает результат выполнения всего проекта из дерева MOKO SE. --
 def ProjectResult() -> str:
     """
     Получает результат выполнения всего проекта из дерева MOKO SE.
@@ -440,7 +680,7 @@ def ProjectResult() -> str:
     return Program('tree', 'get', 'ProjectStatus', 'string')
 # endregion
 
-# region -- SetHash / Установить HASH --
+# region --- SetHash / Устанавливает результат выполнения в дереве (Hash). --
 def SetHash(command: Literal['done', 'passed', 'failed'] = 'done') -> None:
     """
     Устанавливает результат выполнения в дереве (Hash).
@@ -453,10 +693,10 @@ def SetHash(command: Literal['done', 'passed', 'failed'] = 'done') -> None:
                                  - 'failed': Не пройдено (красный цвет).
                                  Defaults to 'done'.
     """
-    Program('tree', 'set', f'chosen={command}')
+    Program('tree', 'set', f'chosen = {command}')
 # endregion
 
-# region -- SelectHash / Выбрать HASH --
+# region --- SelectHash / Выбирает хэш(Hash) в дереве. --
 def SelectHash(hash: str) -> None:
     """
     Выбирает хэш в дереве.
@@ -468,7 +708,41 @@ def SelectHash(hash: str) -> None:
     return
 # endregion
 
-# region -- SelectCheckHash / Выбрать и проверить HASH --
+# region --- ExecuteStep / Выполняет шаг: выбирает его в дереве и выводит название в Stage. --
+def ExecuteStep(step_string: str) -> None:
+    """
+    Выполняет шаг: выбирает его в дереве и выводит название в Stage.
+
+    Ожидает строку в формате 'Название шага$HASH_ID'.
+    Если символ '$' отсутствует, вся строка передается как хэш.
+
+    Args:
+        step_string (str): Строка с описанием шага и хэшем.
+    """
+    # Удаляем пробелы в начале и в конце строки во избежание ошибок
+    step_string = step_string.strip()
+
+    # Разделяем строку по символу '$' максимум 1 раз
+    parts = step_string.split('$', 1)
+
+    if len(parts) == 2:
+        step_name = parts[0]
+        step_id = parts[1]
+
+        # Выбираем хэш в дереве (склеиваем обратно название и ID)
+        SelectHash(f"{step_name}${step_id}")
+        # Выводим информационное сообщение о начале шага
+        Stage(f"--- {step_name} ---")
+    else:
+        # Если символа $ в строке нет, используем всю строку как хэш
+        SelectHash(step_string)
+        # Выводим строку в Stage как есть
+        Stage(f"--- {step_string} ---")
+
+    return
+# endregion
+
+# region --- SelectCheckHash / Выбирает хэш в дереве и проверяет, является ли он пустым. --
 def SelectCheckHash(hash: str) -> bool:
     """
     Выбирает хэш в дереве и проверяет, является ли он пустым.
@@ -479,16 +753,208 @@ def SelectCheckHash(hash: str) -> bool:
     Returns:
         bool: True, если статус хэша 'empty', иначе False.
     """
-    Program('tree', 'set', 'select = ' + hash)
-    status = Program('tree', 'get', 'hash ' + hash, 'string')
+    Program('tree', 'set', f'select = {hash}')
+    status = Program('tree', 'get', f'hash = {hash}', 'string')
+
     if status == 'empty':
         return True
     return False
 # endregion
 
+# endregion *******************************************************
+
+# region ******* Time / Время **************************************
+
+# region --- TimeParameter / Литералы времени MOKO SE
+TimeParameter = Literal[
+    # Текущая дата и время
+    "Current", "CurrentDateAndTime",
+    # Текущая дата
+    "CurrentDate",
+    # Текущее время
+    "CurrentTime",
+
+    # Дата и время запуска проекта
+    "ProjectStart", "ProjectStartDateAndTime",
+    # Дата запуска проекта
+    "ProjectStartDate", "ProjectStartTime",
+    # Время выполнения проекта
+    "ProjectExecution", "TotalExecution",
+    # Время когда проект не выполнялся
+    "ProjectStop", "TotalStop",
+    "ProjectIdle", "TotalIdle",
+    # Общее время ошибок в проекте
+    "ProjectError", "TotalError",
+
+    # Дата и время запуска скрипта
+    "ScriptStart", "ScriptStartDateAndTime",
+    # Дата запуска скрипта
+    "ScriptStartDate", "ScriptStartTime",
+
+    # Время выполнения скрипта
+    "ScriptExecution",
+    # Время когда скрипт не выполнялся
+    "ScriptStop", "ScriptIdle",
+    # Время ошибок в скрипте 00:00:00
+    "ScriptError"
+]
 # endregion
 
+# region --- GetTime / Получает параметры времени через системную функцию MOKO.Program.
+def GetTime(command: TimeParameter = "Current"):
+    """
+    Получает параметры времени через системную функцию MOKO.Program.
+
+    Args:
+        command (TimeParameter, optional): Запрашиваемый параметр времени.
+                                           По умолчанию 'Current'.
+
+    Returns:
+        Результат выполнения MOKO.Program.
+    """
+    return Program('time', 'get', command)
 # endregion
+
+# region --- TimeReport / Управляет таблицей со временем выполнения скрипта. ---
+def TimeReport(action: Literal["init", "add", "set"] = "init", lang: Literal["RU", "EN"] = "EN") -> None:
+    """
+    Управляет таблицей со временем выполнения скрипта.
+
+    Args:
+        action (Literal["init", "add", "set"]):
+            - 'init': Создает таблицу с заголовками.
+            - 'add' или 'set': Добавляет строку с данными о выполнении.
+        lang (Literal["RU", "EN"]): Язык заголовков и ID таблицы. По умолчанию 'EN'.
+    """
+    # Задаем заголовок и ID таблицы в зависимости от языка
+    if lang == "RU":
+        table_title = "Время выполнения скрипта"
+        headers = (
+            "Название скрипта#350;"
+            "Время запуска#120;"
+            "Время окончания#120;"
+            "Время исполнения#150"
+        )
+    else:  # EN (по умолчанию)
+        table_title = "Script Execution Time"
+        headers = (
+            "Script Name#350;"
+            "Start Time#120;"
+            "End Time#120;"
+            "Execution Time#150"
+        )
+
+    if action == "init":
+        # Используем table_title как визуальный заголовок
+        Report(table_title, "info", "table", headers)
+
+    elif action in ("add", "set"):
+        # Получаем имя файла и универсально отрезаем любое расширение
+        script_name, _ = os.path.splitext(os.path.basename(sys.argv[0]))
+
+        row_data = (
+            f"{script_name};"
+            f"{GetTime('ScriptStart')};"
+            f"{GetTime('CurrentDateAndTime')};"
+            f"{GetTime('ScriptExecution')}"
+        )
+        # Используем тот же table_title как ID для обновления таблицы
+        Report(table_title, "set", "table", row_data)
+# endregion
+
+# endregion ********************************************************
+
+# region ******* Report / Отчет ************************************
+
+# region --- ReportTableInfo / Упрощенный вызов Report для создания таблиц. ---
+def ReportTableInfo(title: str, columns: str, base_width: int = 15) -> None:
+    """
+    Упрощенный вызов Report для создания таблиц.
+    Автоматически рассчитывает ширину колонок (#XX) на основе длины самой длинной строки.
+    Формула: base_width + (символы - 1) * 6.
+
+    Поддерживает многострочные заголовки через \\n (ширина считается по самой длинной строке).
+    Пробелы справа сохраняются для ручного увеличения ширины.
+    Пробелы слева перед \\n автоматически удаляются при сборке финальной строки.
+
+    Args:
+        title (str): Заголовок таблицы.
+        columns (str): Названия колонок через точку с запятой.
+                       Пример: "ID\\n точки;Канал \\n какойто;Мощность      "
+        base_width (int): Базовая ширина для колонки из 1 символа. По умолчанию 15.
+    """
+    column_list = columns.split(';')
+    formatted_columns = []
+
+    for col in column_list:
+        # Убираем пробелы только СЛЕВА у всей колонки (если они были после ;)
+        col = col.lstrip()
+
+        max_len = 0
+        cleaned_lines = []  # Сюда будем собирать строки без левых пробелов
+
+        # Разбиваем колонку на отдельные строки по символу переноса
+        lines = col.split('\n')
+
+        for line in lines:
+            # Убираем пробелы слева у каждой строки, но сохраняем справа
+            clean_line = line.lstrip()
+            cleaned_lines.append(clean_line)  # Сохраняем очищенную версию для финальной строки
+
+            # Считаем длину этой конкретной строки
+            line_len = len(clean_line)
+
+            # Запоминаем максимальную длину среди всех строк колонки
+            if line_len > max_len:
+                max_len = line_len
+
+        # Применяем формулу с переменной base_width
+        width = base_width + (max_len - 1) * 6
+
+        # Склеиваем очищенные строки обратно через \n (пробелы перед \n исчезнут)
+        final_col = "\n".join(cleaned_lines)
+
+        # Добавляем рассчитанную ширину
+        formatted_columns.append(f"{final_col}#{width}")
+
+    # Собираем всё обратно в одну строку через точку с запятой
+    final_string = ";".join(formatted_columns)
+
+    # Вызываем оригинальную функцию Report
+    Report(title, 'info', 'table', final_string)
+
+    return
+# endregion ****************************************************
+
+# region --- SaveReport / Сохраняет отчет в указанном формате. ---
+def SaveReport(report_format: Literal["Word", "PDF", "Word as", "Pdf as"] = "Word") -> None:
+    """
+    Сохраняет отчет в указанном формате.
+
+    Args:
+        report_format (Literal): Формат сохранения отчета.
+                                 Допустимые значения: 'Word', 'PDF', 'Word as', 'Pdf as'.
+                                 По умолчанию 'Word'.
+    """
+    # Точно сопоставляем ввод программиста с тем, что понимает сервер
+    server_commands = {
+        "Word": "SaveWordReport",
+        "PDF": "SavePdfReport",
+        "Word as": "SaveWordReportAs",
+        "Pdf as": "SavePdfReportAs"
+    }
+
+    # Достаем нужную команду из словаря
+    command = server_commands[report_format]
+
+    # Вызываем команду
+    Program('control', 'set', command)
+    return
+# endregion ---------------------------------------------------------
+
+# endregion ********************************************************
+
+# endregion ##########################################################################
 
 # region ### Internal Helper Functions / Внутренние вспомогательные функции ###
 
@@ -536,7 +1002,6 @@ def check_status(system: str, mode: str, URLRead: str) -> str:
         response = requests.get(URLRead)
         if (response.status_code != 200):
             Stage(f"ERROR IN PYTHON LIBRARY! BAD RESPONSE CODE! {str(response.status_code)}", 'error')
-            print(f"ERROR IN PYTHON LIBRARY! BAD RESPONSE CODE! {str(response.status_code)}\n{str(10 - badresponse)} TRIES LEFT")
             badresponse += 1
         else:
             y = json.loads(response.content)
@@ -550,7 +1015,7 @@ def check_status(system: str, mode: str, URLRead: str) -> str:
 # endregion
 
 # region --- parse_data / Разбор данных ---
-def parse_data(data: str, mode: str, valuetype: str = 'void') -> ...:
+def parse_data(data: str = '', mode: str = '', valuetype: str = 'void') -> ...:
     """
     Преобразует строковые данные от сервера в нужный тип Python.
 
@@ -651,12 +1116,9 @@ def is_semicolon_error(data: str, splitter: str, valuetype: str) -> bool:
         bool: True, если ошибка найдена, иначе False.
     """
     if data[-2:] == f"{2*splitter}":
-        Stage(f'ERROR IN PYTHON LIBRARY!','error')
+        Stage(f'ERROR IN PYTHON LIBRARY!', 'error')
         Stage(f'INPUT DATA CONTAINS MORE THAN 1 \'\'{splitter}\'\' AT THE END!', 'error')
         Stage(f'DATA: {data}     =>     VALUETYPE: {valuetype.upper()}', 'error')
-        print(f'ERROR IN PYTHON LIBRARY!')
-        print(f'INPUT DATA CONTAINS MORE THAN 1 \'\'{splitter}\'\' AT THE END!')
-        print(f'DATA: {data}     =>     VALUETYPE: {valuetype.upper()}')
         return True
     return False
 # endregion
@@ -674,7 +1136,6 @@ def is_bad_response(badresponse: int) -> bool:
     """
     if (badresponse >= 10):
         Stage("ERROR IN PYTHON LIBRARY! FUNCTION EXIT BECAUSE OF BAD RESPONSES", 'error')
-        print("ERROR IN PYTHON LIBRARY! FUNCTION EXIT BECAUSE OF BAD RESPONSES")
         return True
     return False
 # endregion
@@ -690,7 +1151,6 @@ def send_request(URLWrite: str, request: str) -> None:
     """
     headers: dict = {'Content-Type': 'application/json; charset=utf-8'}
     response = requests.post(URLWrite, headers=headers, data=request.encode('utf-8'))
-    print(response.content)
 # endregion
 
 # endregion

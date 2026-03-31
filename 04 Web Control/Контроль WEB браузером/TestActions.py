@@ -16,7 +16,8 @@ def _run_test_with_report(report_name, browser, hash, point_id, power_level, cha
             transmit_power = wa._read_transmit_power(browser)
             effective_rate = wa._read_effective_rate(browser)
 
-            Program('tree', 'set', f'info = Точка {point_id}; Уровень {power_level}; Канал {channel}; Мощность {transmit_power}; Скорость {effective_rate}')
+            Program('tree', 'set',
+                    f'info = Точка {point_id}; Уровень {power_level}; Канал {channel}; Мощность {transmit_power}; Скорость {effective_rate}')
             report_data = f"{point_id};{power_level};{channel};{transmit_power};{effective_rate}"
             Report(report_name, 'set', 'table', report_data)
             Stage("Данные записаны в отчет.")
@@ -28,7 +29,7 @@ def _run_test_with_report(report_name, browser, hash, point_id, power_level, cha
             SetHash('failed')
             Stage(f"Ошибка при выполнении шага #{point_id}: {e}", "error")
         finally:
-             Stage("---")
+            Stage("---")
 
 def run_test_point(browser, hash, point_id, power_level, channel):
     return _run_test_with_report("Производительность Wi-Fi", browser, hash, point_id, power_level, channel)
