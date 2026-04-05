@@ -1,0 +1,55 @@
+import TestActions as ta
+from WebActions import initialize_browser, login_to_router, minimize_browser, close_browser,hide_browser
+import MOKO
+from MOKO import Stage, EndScript, Program, Report
+from MOKO import Stage, StageError, StageInfo,StageSuccess
+
+browser = None
+
+try:
+    #region Шаг 1: Инициализация и вход (Пакет 2)$INIT2
+    MOKO.ExecuteStep("Шаг 1: Инициализация и вход (Пакет 2)$INIT2")
+    browser = initialize_browser()
+    login_to_router(browser, "admin", "password123")
+    #endregion
+
+    #region Скрыть браузер (Пакет 2)$HIDE2
+    MOKO.ExecuteStep("Скрыть браузер (Пакет 2)$HIDE2")
+    hide_browser(browser)
+    #endregion
+
+    #region Шаг 2: Проведение измерений (Пакет 2)$MEASURE2
+    #description: ID точки;Уровень мощности;Канал;
+    MOKO.ExecuteStep("Шаг 2: Проведение измерений (Пакет 2)$MEASURE2")
+    MOKO.ReportTableInfo("Производительность Wi-Fi Пакет 2",
+                         "ID точки;Уровень\n мощности  ;Канал ;Мощность\n передачи   ;Эффективная  \n скорость;")
+
+    ta.run_test_point_batch2(browser, 'Измерение 21$MEASURE2', 21, 'low',    'auto') #hash Измерение 21$MEASURE2: 21;low;auto
+    ta.run_test_point_batch2(browser, 'Измерение 22$MEASURE2', 22, 'low',    1)      #hash Измерение 22$MEASURE2: 22;low;1
+    ta.run_test_point_batch2(browser, 'Измерение 23$MEASURE2', 23, 'low',    6)      #hash Измерение 23$MEASURE2: 23;low;6
+    ta.run_test_point_batch2(browser, 'Измерение 24$MEASURE2', 24, 'low',    11)     #hash Измерение 24$MEASURE2: 24;low;11
+    ta.run_test_point_batch2(browser, 'Измерение 25$MEASURE2', 25, 'medium', 'auto') #hash Измерение 25$MEASURE2: 25;medium;auto
+    ta.run_test_point_batch2(browser, 'Измерение 26$MEASURE2', 26, 'medium', 1)      #hash Измерение 26$MEASURE2: 26;medium;1
+    ta.run_test_point_batch2(browser, 'Измерение 27$MEASURE2', 27, 'medium', 6)      #hash Измерение 27$MEASURE2: 27;medium;6
+    ta.run_test_point_batch2(browser, 'Измерение 28$MEASURE2', 28, 'high',   'auto') #hash Измерение 28$MEASURE2: 28;high;auto
+    ta.run_test_point_batch2(browser, 'Измерение 29$MEASURE2', 29, 'high',   1)      #hash Измерение 29$MEASURE2: 29;high;1
+    ta.run_test_point_batch2(browser, 'Измерение 30$MEASURE2', 30, 'high',   11)     #hash Измерение 30$MEASURE2: 30;high;11
+    #endregion
+
+    StageSuccess("Сценарий измерений (Пакет 2) успешно выполнен!")
+
+except Exception as e:
+    StageError(f"Произошла критическая ошибка: {e}")
+finally:
+    if 'browser' in locals() and browser:
+        #region Шаг 3: Закрыть браузер (Пакет 2)$CLOSE2
+        MOKO.ExecuteStep("Шаг 3: Закрыть браузер (Пакет 2)$CLOSE2")
+        close_browser(browser)
+        #endregion
+
+
+    MOKO.TimeReport("add","RU")
+
+    MOKO.RestartProject()
+
+

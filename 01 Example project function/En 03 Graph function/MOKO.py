@@ -36,6 +36,7 @@ HTTP-сервер, запущенный MOKO SE по адресу `http://localh
 - 26.03.2026: Подготовка к исключению библиотеки MOSK (обратная совместимость нарушена).
 - 30.03.2026: Добавлены сокращения для Stage (StageError, StageInfo и т.д.).
 - 30.03.2026: Добавлены функции  Tree & Hash, Time, Report
+- 05.04.2026: Добавлена функции  мессенджера MAX
 '''
 
 import time
@@ -81,6 +82,9 @@ _UrlUtilityRead: str = f"{_BASE_URL}/system/utilityread"
 
 _UrlTelegramWrite: str = f"{_BASE_URL}/system/telegramwrite"
 _UrlTelegramRead: str = f"{_BASE_URL}/system/telegramread"
+
+_UrlMaxWrite: str = f"{_BASE_URL}/system/maxwrite"
+_UrlMaxRead: str = f"{_BASE_URL}/system/maxread"
 
 _UrlCmdWrite: str = f"{_BASE_URL}/system/cmdwrite"
 _UrlCmdRead: str = f"{_BASE_URL}/system/cmdread"
@@ -209,6 +213,7 @@ StageError = partial(Stage, type='error')
 StageWarning = partial(Stage, type='warning')
 # Имитирующие
 StageTelegram = partial(Stage, type='telegram')
+StageMax = partial(Stage, type='max')
 StageMessenger = partial(Stage, type='messenger')
 StageUtility = partial(Stage, type='utility')
 StageAutoit = partial(Stage, type='autoit')
@@ -369,9 +374,9 @@ def Utility(name: str,
     return parse_data(utldata, mode, valuetype)
 # endregion
 
-# region --- Telegram / Телеграм ---
-def Telegram(role: Literal['alpha', 'beta', 'gamma', 'delta', 'xi'] = 'alpha',
-             mode: Literal['set'] = 'set',
+# region --- Telegram / Мессенджер Телеграм ---
+def Telegram(role: Literal['alpha', 'beta', 'gamma', 'delta', 'xi', 'id'] = 'alpha',
+             mode: Literal['set','get'] = 'set',
              command: str = '',
              valuetype: Literal['void'] = 'void') -> ...:
     """
@@ -395,6 +400,34 @@ def Telegram(role: Literal['alpha', 'beta', 'gamma', 'delta', 'xi'] = 'alpha',
     send_request(URLWrite, command_to_send)
     tgmdata: str = check_status("telegram", mode, URLRead)
     return parse_data(tgmdata, mode, valuetype)
+# endregion
+
+# region --- MAX / Мессенджер MAX ---
+def Max(role: Literal['alpha', 'beta', 'gamma', 'delta', 'xi', 'id'] = 'alpha',
+             mode: Literal['set','get'] = 'set',
+             command: str = '',
+             valuetype: Literal['void'] = 'void') -> ...:
+    """
+    Работает с MAX ботом MOKO SE.
+
+    Args:
+        role (str): Принадлежность к группе для отправки сообщений ('alpha', 'beta', 'gamma', 'delta' - разработчик).
+        mode (str): Режим работы ('get', 'set').
+        command (str): Команда для выполнения.
+        valuetype (str, optional): Ожидаемый тип данных при чтении (только для mode='get'). Defaults to 'void'.
+
+    Returns:
+        Зависит от режима:
+        - 'set': None
+        - 'get': Данные, полученные от Max.
+    """
+    check_project_state()
+    URLWrite: str = _UrlMaxWrite
+    URLRead: str = _UrlMaxRead
+    command_to_send: str = f'{{"role":"{str(role)}","mode":"{str(mode)}","command":"{str(command)}"}}'
+    send_request(URLWrite, command_to_send)
+    maxdata: str = check_status("max", mode, URLRead)
+    return parse_data(maxdata, mode, valuetype)
 # endregion
 
 # region *** Program / Программа *******************************
