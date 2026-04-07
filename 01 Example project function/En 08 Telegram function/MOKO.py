@@ -37,6 +37,7 @@ HTTP-сервер, запущенный MOKO SE по адресу `http://localh
 - 30.03.2026: Добавлены сокращения для Stage (StageError, StageInfo и т.д.).
 - 30.03.2026: Добавлены функции  Tree & Hash, Time, Report
 - 05.04.2026: Добавлена функции  мессенджера MAX
+- 07.04.2026: Испаравлено _request = requests.Session()
 '''
 
 import time
@@ -47,7 +48,7 @@ import os
 from typing import Literal,overload
 from functools import partial
 
-requests = requests.Session()
+_request = requests.Session()
 
 # region ### URLs for MOKO SE API / URL-адреса для MOKO SE API ###
 _BASE_URL = "http://localhost:55001/MOKOSE"
@@ -959,7 +960,7 @@ def ReportTableInfo(title: str, columns: str, base_width: int = 15) -> None:
     return
 # endregion ****************************************************
 
-# region --- SaveReport / Сохраняет отчет в указанном формате. ---
+# Region --- SaveReport / Сохраняет отчет в указанном формате. ---
 def SaveReport(report_format: Literal["Word", "PDF", "Word as", "Pdf as"] = "Word") -> None:
     """
     Сохраняет отчет в указанном формате.
@@ -1003,7 +1004,7 @@ def check_project_state() -> None:
     URLPSRead: str = _UrlProjectStateRead
     projectstate: str = ''
     while (projectstate.lower() != 'run'):
-        serverstate = requests.get(URLPSRead)
+        serverstate = _request.get(URLPSRead)
         JSONprojectstate = json.loads(serverstate.content)
         projectstate: str = JSONprojectstate.get('projectstate')
         if (projectstate.lower() == 'stop'):
@@ -1032,7 +1033,7 @@ def check_status(system: str, mode: str, URLRead: str) -> str:
     badresponse: int = 0
     status: str = "none"
     while ((status.lower() != 'ready') and (badresponse < 10)):
-        response = requests.get(URLRead)
+        response = _request.get(URLRead)
         if (response.status_code != 200):
             Stage(f"ERROR IN PYTHON LIBRARY! BAD RESPONSE CODE! {str(response.status_code)}", 'error')
             badresponse += 1
@@ -1183,7 +1184,7 @@ def send_request(URLWrite: str, request: str) -> None:
         request (str): Тело запроса в виде строки JSON.
     """
     headers: dict = {'Content-Type': 'application/json; charset=utf-8'}
-    response = requests.post(URLWrite, headers=headers, data=request.encode('utf-8'))
+    response = _request.post(URLWrite, headers=headers, data=request.encode('utf-8'))
 # endregion
 
 # endregion
