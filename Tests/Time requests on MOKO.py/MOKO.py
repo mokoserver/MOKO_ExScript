@@ -69,8 +69,8 @@ _UrlDriverRead: str = f"{_BASE_URL}/system/driverread"
 _UrlPluginWrite: str = f"{_BASE_URL}/system/pluginwrite"
 _UrlPluginRead: str = f"{_BASE_URL}/system/pluginread"
 
-_UrlMessengerWrite: str = f"{_BASE_URL}/system/messengerwrite"
-_UrlMessengerRead: str = f"{_BASE_URL}/system/messengerread"
+_UrlMessageWrite: str = f"{_BASE_URL}/system/messagewrite"
+_UrlMessageRead: str = f"{_BASE_URL}/system/messageread"
 
 _UrlReportWrite: str = f"{_BASE_URL}/system/reportwrite"
 _UrlReportRead: str = f"{_BASE_URL}/system/reportread"
@@ -285,7 +285,7 @@ def Plugin(name: str,
 # endregion
 
 # region --- Messenger / Сообщения ---
-def Messenger(mode: Literal['set', 'get'],
+def Message(mode: Literal['set', 'get'],
               head: str = '',
               body: str = '',
               valuetype: str = 'void',
@@ -306,8 +306,8 @@ def Messenger(mode: Literal['set', 'get'],
         - 'get': Данные, введенные пользователем.
     """
     check_project_state()
-    URLWrite: str = _UrlMessengerWrite
-    URLRead: str = _UrlMessengerRead
+    URLWrite: str = _UrlMessageWrite
+    URLRead: str = _UrlMessageRead
     if (delaytime == 'void'):
         command_to_send: str = f'{{"mode":"{str(mode)}","head":"{str(head)}","body":"{str(body)}","value":"{str(valuetype)}"}}'
     else:
@@ -315,6 +315,10 @@ def Messenger(mode: Literal['set', 'get'],
     send_request(URLWrite, command_to_send)
     msgdata: str = check_status("messenger", mode, URLRead)
     return parse_data(msgdata, mode, valuetype)
+
+
+# --- Обратная совместимость со старыми скриптами ---
+Messenger = Message
 # endregion
 
 # region --- Report / Отчет ---
@@ -617,8 +621,8 @@ def Program(
 
 # region ### Execution Control / Управление выполнением ######################
 
-# region ******* EndScript / Завершает выполнение текущего скрипта. *******
-def EndScript(command: str = None) -> None:
+# region ******* ScriptEnd / Завершает выполнение текущего скрипта. *******
+def ScriptEnd(command: str = None) -> None:
     """
     Завершает выполнение текущего скрипта.
 
@@ -661,10 +665,13 @@ def EndScript(command: str = None) -> None:
 
     Program('script', 'set', command)
     sys.exit()
+
+# --- Обратная совместимость со старыми скриптами ---
+EndScript = ScriptEnd
 # endregion *****************************************
 
-# region ******* RestartProject / Перезапускает текущий проект с нуля. *******
-def RestartProject() -> None:
+# region ******* ProjectRestart / Перезапускает текущий проект с нуля. *******
+def ProjectRestart() -> None:
     """
     Перезапускает текущий проект с нуля.
 
@@ -682,7 +689,7 @@ def RestartProject() -> None:
         новый цикл запуска.
 
     Пример:
-        >>> RestartProject()
+        >>> ProjectRestart()
     """
     Program('control', 'set', 'StageClear')
     Program('control', 'set', 'reset')
@@ -714,8 +721,8 @@ def ProjectResult() -> str:
     return Program('tree', 'get', 'ProjectStatus', 'string')
 # endregion
 
-# region --- SetHash / Устанавливает результат выполнения в дереве (Hash). --
-def SetHash(command: Literal['done', 'passed', 'failed'] = 'done') -> None:
+# region --- HashSet / Устанавливает результат выполнения в дереве (Hash). --
+def HashSet(command: Literal['done', 'passed', 'failed'] = 'done') -> None:
     """
     Устанавливает результат выполнения в дереве (Hash).
 
@@ -730,8 +737,8 @@ def SetHash(command: Literal['done', 'passed', 'failed'] = 'done') -> None:
     Program('tree', 'set', f'chosen = {command}')
 # endregion
 
-# region --- SelectHash / Выбирает хэш(Hash) в дереве. --
-def SelectHash(hash: str) -> None:
+# region --- HashSelect / Выбирает хэш(Hash) в дереве. --
+def HashSelect(hash: str) -> None:
     """
     Выбирает хэш в дереве.
 
@@ -742,8 +749,8 @@ def SelectHash(hash: str) -> None:
     return
 # endregion
 
-# region --- ExecuteStep / Выполняет шаг: выбирает его в дереве и выводит название в Stage. --
-def ExecuteStep(step_string: str) -> None:
+# region --- HashExecuteStep / Выполняет шаг: выбирает его в дереве и выводит название в Stage. --
+def HashExecuteStep(step_string: str) -> None:
     """
     Выполняет шаг: выбирает его в дереве и выводит название в Stage.
 
@@ -764,20 +771,20 @@ def ExecuteStep(step_string: str) -> None:
         step_id = parts[1]
 
         # Выбираем хэш в дереве (склеиваем обратно название и ID)
-        SelectHash(f"{step_name}${step_id}")
+        HashSelect(f"{step_name}${step_id}")
         # Выводим информационное сообщение о начале шага
         Stage(f"--- {step_name} ---")
     else:
         # Если символа $ в строке нет, используем всю строку как хэш
-        SelectHash(step_string)
+        HashSelect(step_string)
         # Выводим строку в Stage как есть
         Stage(f"--- {step_string} ---")
 
     return
 # endregion
 
-# region --- SelectCheckHash / Выбирает хэш в дереве и проверяет, является ли он пустым. --
-def SelectCheckHash(hash: str) -> bool:
+# region --- HashSelectCheck / Выбирает хэш в дереве и проверяет, является ли он пустым. --
+def HashSelectCheck(hash: str) -> bool:
     """
     Выбирает хэш в дереве и проверяет, является ли он пустым.
 
@@ -834,8 +841,8 @@ TimeParameter = Literal[
 ]
 # endregion
 
-# region --- GetTime / Получает параметры времени через системную функцию MOKO.Program.
-def GetTime(command: TimeParameter = "Current"):
+# region --- TimeGet / Получает параметры времени через системную функцию MOKO.Program.
+def TimeGet(command: TimeParameter = "Current"):
     """
     Получает параметры времени через системную функцию MOKO.Program.
 
@@ -849,8 +856,8 @@ def GetTime(command: TimeParameter = "Current"):
     return Program('time', 'get', command)
 # endregion
 
-# region --- TimeReport / Управляет таблицей со временем выполнения скрипта. ---
-def TimeReport(action: Literal["init", "add", "set"] = "init", lang: Literal["RU", "EN"] = "EN") -> None:
+# region --- ReportTimeAdd / Управляет таблицей со временем выполнения скрипта. ---
+def ReportTimeAdd(action: Literal["init", "add", "set"] = "init", lang: Literal["RU", "EN"] = "EN") -> None:
     """
     Управляет таблицей со временем выполнения скрипта.
 
@@ -888,9 +895,9 @@ def TimeReport(action: Literal["init", "add", "set"] = "init", lang: Literal["RU
 
         row_data = (
             f"{script_name};"
-            f"{GetTime('ScriptStart')};"
-            f"{GetTime('CurrentDateAndTime')};"
-            f"{GetTime('ScriptExecution')}"
+            f"{TimeGet('ScriptStart')};"
+            f"{TimeGet('CurrentDateAndTime')};"
+            f"{TimeGet('ScriptExecution')}"
         )
         # Используем тот же table_title как ID для обновления таблицы
         Report(table_title, "set", "table", row_data)
@@ -900,8 +907,8 @@ def TimeReport(action: Literal["init", "add", "set"] = "init", lang: Literal["RU
 
 # region ******* Report / Отчет ************************************
 
-# region --- ReportTableInfo / Упрощенный вызов Report для создания таблиц. ---
-def ReportTableInfo(title: str, columns: str, base_width: int = 15) -> None:
+# region --- ReportTableCreate / Упрощенный вызов Report для создания таблиц. ---
+def ReportTableCreate(title: str, columns: str, base_width: int = 15) -> None:
     """
     Упрощенный вызов Report для создания таблиц.
     Автоматически рассчитывает ширину колонок (#XX) на основе длины самой длинной строки.
@@ -960,8 +967,8 @@ def ReportTableInfo(title: str, columns: str, base_width: int = 15) -> None:
     return
 # endregion ****************************************************
 
-# Region --- SaveReport / Сохраняет отчет в указанном формате. ---
-def SaveReport(report_format: Literal["Word", "PDF", "Word as", "Pdf as"] = "Word") -> None:
+# Region --- ReportSave / Сохраняет отчет в указанном формате. ---
+def ReportSave(report_format: Literal["Word", "PDF", "Word as", "Pdf as"] = "Word") -> None:
     """
     Сохраняет отчет в указанном формате.
 

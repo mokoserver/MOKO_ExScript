@@ -5,10 +5,10 @@
 Эта библиотека предоставляет высокоуровневый интерфейс для взаимодействия
 с плагином "MOKO Clicker" в MOKO SE.
 
-Она инкапсулирует вызовы `MOKO.Plugin("Clicker", ...)` в удобные функции для
+Она инкапсулирует вызовы `Plugin("Clicker", ...)` в удобные функции для
 автоматизации действий с мышью и работы со скриншотами.
 '''
-import MOKO
+from MOKO import Plugin
 
 # region ### Initialization / Инициализация ###
 
@@ -22,7 +22,7 @@ def ClickerInit() -> None:
     Этот метод должен быть вызван перед использованием любых других функций
     из этой библиотеки.
     """
-    MOKO.Plugin("Clicker", "init", "")
+    Plugin("Clicker", "init", "")
 # endregion
 
 # endregion
@@ -40,7 +40,7 @@ def MouseLeftClick(x: int, y: int) -> None:
         x (int): Координата X на экране.
         y (int): Координата Y на экране.
     """
-    MOKO.Plugin("Clicker", "set", f"MouseLeftClick = {x} {y}")
+    Plugin("Clicker", "set", f"MouseLeftClick = {x} {y}")
 
 # -- MouseRightClick --
 def MouseRightClick(x: int, y: int) -> None:
@@ -51,7 +51,7 @@ def MouseRightClick(x: int, y: int) -> None:
         x (int): Координата X на экране.
         y (int): Координата Y на экране.
     """
-    MOKO.Plugin("Clicker", "set", f"MouseRightClick = {x} {y}")
+    Plugin("Clicker", "set", f"MouseRightClick = {x} {y}")
 
 # -- MouseMiddleClick --
 def MouseMiddleClick(x: int, y: int) -> None:
@@ -62,7 +62,7 @@ def MouseMiddleClick(x: int, y: int) -> None:
         x (int): Координата X на экране.
         y (int): Координата Y на экране.
     """
-    MOKO.Plugin("Clicker", "set", f"MouseMiddleClick = {x} {y}")
+    Plugin("Clicker", "set", f"MouseMiddleClick = {x} {y}")
 # endregion
 
 # region --- Mouse Movement / Перемещение Мыши ---
@@ -76,7 +76,7 @@ def MouseMove(x: int, y: int) -> None:
         x (int): Координата X на экране.
         y (int): Координата Y на экране.
     """
-    MOKO.Plugin("Clicker", "set", f"MouseMove = {x} {y}")
+    Plugin("Clicker", "set", f"MouseMove = {x} {y}")
 # endregion
 
 # region --- Screenshots & Files / Скриншоты и Файлы ---
@@ -89,7 +89,7 @@ def Screenshot() -> None:
     Скриншот сохраняется в стандартную директорию плагина:
     "C:/MOKO SE/Plugins/MOKO Clicker/screenshots/"
     """
-    MOKO.Plugin("Clicker", "set", "Screenshot")
+    Plugin("Clicker", "set", "Screenshot")
 
 # -- PngPath --
 def PngPath(path: str) -> None:
@@ -99,7 +99,7 @@ def PngPath(path: str) -> None:
     Args:
         path (str): Полный путь к PNG-файлу.
     """
-    MOKO.Plugin("Clicker", "set", f"PngPath = {path}")
+    Plugin("Clicker", "set", f"PngPath = {path}")
 # endregion
 
 # endregion
@@ -116,7 +116,7 @@ def GetScreenshot() -> str:
     Returns:
         str: Строка с изображением в кодировке Base64.
     """
-    screenshot = MOKO.Plugin("Clicker", "get", "Screenshot", "string")
+    screenshot = Plugin("Clicker", "get", "Screenshot", "string")
     return screenshot
 # endregion
 
@@ -130,7 +130,7 @@ def GetPngFile() -> str:
     Returns:
         str: Строка с изображением в кодировке Base64.
     """
-    png_file = MOKO.Plugin("Clicker", "get", "PngFile", "string")
+    png_file = Plugin("Clicker", "get", "PngFile", "string")
     return png_file
 # endregion
 
@@ -145,7 +145,7 @@ def GetCoordinates() -> list:
     Returns:
         list: Список из двух целых чисел [x, y].
     """
-    coordinates = MOKO.Plugin("Clicker", "get", "Coordinates", "arrayint")
+    coordinates = Plugin("Clicker", "get", "Coordinates", "arrayint")
     return coordinates
 # endregion
 

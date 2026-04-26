@@ -39,7 +39,7 @@ MGPH.AddGraphSett(
 )
 ```
 '''
-import MOKO
+from MOKO import Plugin
 
 PLUGIN_NAME: str = "Graph"
 
@@ -53,7 +53,7 @@ def GraphInit() -> None:
     Инициализирует плагин MOKO Graph.
     Этот метод должен быть вызван перед использованием любых других функций из этой библиотеки.
     """
-    MOKO.Plugin(PLUGIN_NAME, "init", "")
+    Plugin(PLUGIN_NAME, "init", "")
 # endregion
 
 # endregion
@@ -63,7 +63,12 @@ def GraphInit() -> None:
 # region --- Line Management / Управление Линиями ---
 
 # -- AddLine --
-def AddLine(name: str, ArrOy: list, ArrOx: list, LineWidth: str = "3", Color: str = "000000", Visible: str = "True") -> None:
+def AddLine(name: str,
+            ArrOy: list,
+            ArrOx: list,
+            LineWidth: str = "3",
+            Color: str = "000000",
+            Visible: str = "True") -> None:
     """
     Добавляет новую линию на график.
 
@@ -75,11 +80,17 @@ def AddLine(name: str, ArrOy: list, ArrOx: list, LineWidth: str = "3", Color: st
         Color (str, optional): Цвет линии в HEX-формате (например, "0000FF" для синего). Defaults to "000000".
         Visible (str, optional): Видимость линии ("True" или "False"). Defaults to "True".
     """
-    MOKO.Plugin(PLUGIN_NAME, 'set', f"Add Line={name};{ArrOy};{ArrOx};{LineWidth};{Color};{Visible}")
-    MOKO.Plugin(PLUGIN_NAME, 'set', "Write Graph")
+    Plugin(PLUGIN_NAME, 'set', f"Add Line={name};{ArrOy};{ArrOx};{LineWidth};{Color};{Visible}")
+    Plugin(PLUGIN_NAME, 'set', "Write Graph")
 
 # -- ChangeLine --
-def ChangeLine(numLine: str, name: str, ArrOy: list, ArrOx: list, LineWidth: str = "3", Color: str = "000000", Visible: str = "True") -> None:
+def ChangeLine(numLine: str,
+               name: str,
+               ArrOy: list,
+               ArrOx: list,
+               LineWidth: str = "3",
+               Color: str = "000000",
+               Visible: str = "True") -> None:
     """
     Изменяет существующую линию на графике.
 
@@ -92,7 +103,7 @@ def ChangeLine(numLine: str, name: str, ArrOy: list, ArrOx: list, LineWidth: str
         Color (str, optional): Новый цвет линии в HEX-формате. Defaults to "000000".
         Visible (str, optional): Новая видимость линии. Defaults to "True".
     """
-    MOKO.Plugin(PLUGIN_NAME, 'set', f"Change Line={numLine};{name};{ArrOy};{ArrOx};{LineWidth};{Color};{Visible}")
+    Plugin(PLUGIN_NAME, 'set', f"Change Line={numLine};{name};{ArrOy};{ArrOx};{LineWidth};{Color};{Visible}")
 
 # -- DeleteLine --
 def DeleteLine(numLine: list | str | int) -> None:
@@ -105,7 +116,7 @@ def DeleteLine(numLine: list | str | int) -> None:
                  - int: номер одной линии для удаления.
                  - list: список номеров или имен линий для удаления.
     """
-    MOKO.Plugin(PLUGIN_NAME, 'set', f"Delete Line={numLine}")
+    Plugin(PLUGIN_NAME, 'set', f"Delete Line={numLine}")
 
 # -- HideLine --
 def HideLine(numLine: list | str | int) -> None:
@@ -115,7 +126,7 @@ def HideLine(numLine: list | str | int) -> None:
     Args:
         numLine: "All", номер линии (int) или список номеров/имен (list).
     """
-    MOKO.Plugin(PLUGIN_NAME, 'set', f"Hide Line={numLine}")
+    Plugin(PLUGIN_NAME, 'set', f"Hide Line={numLine}")
 
 # -- ShowLine --
 def ShowLine(numLine: list | str | int) -> None:
@@ -125,7 +136,7 @@ def ShowLine(numLine: list | str | int) -> None:
     Args:
         numLine: "All", номер линии (int) или список номеров/имен (list).
     """
-    MOKO.Plugin(PLUGIN_NAME, 'set', f"Show Line={numLine}")
+    Plugin(PLUGIN_NAME, 'set', f"Show Line={numLine}")
 
 # -- ShowLineOnly --
 def ShowLineOnly(numLine: list | str | int) -> None:
@@ -135,7 +146,7 @@ def ShowLineOnly(numLine: list | str | int) -> None:
     Args:
         numLine: Номер линии (int) или список номеров/имен (list) для отображения.
     """
-    MOKO.Plugin(PLUGIN_NAME, 'set', f"Show Line=Only;{numLine}")
+    Plugin(PLUGIN_NAME, 'set', f"Show Line=Only;{numLine}")
 # endregion
 
 # region --- Graph & Axis Settings / Настройки Графика и Осей ---
@@ -151,7 +162,7 @@ def AddGraphSett(Value_OyOx: list, Name_Oy: str, Name_Ox: str, Autoscale: str = 
         Name_Ox (str): Название оси X.
         Autoscale (str, optional): Режим автомасштабирования ("Yes", "No", "OnlyOy", "OnlyOx"). Defaults to "Yes".
     """
-    MOKO.Plugin(PLUGIN_NAME, 'set', f"Add Graph Settings={Value_OyOx};{Name_Oy};{Name_Ox};{Autoscale}")
+    Plugin(PLUGIN_NAME, 'set', f"Add Graph Settings={Value_OyOx};{Name_Oy};{Name_Ox};{Autoscale}")
 
 # -- Autoscale --
 def Autoscale(mode: str = "Yes") -> None:
@@ -161,14 +172,14 @@ def Autoscale(mode: str = "Yes") -> None:
     Args:
         mode (str, optional): Режим ("Yes", "No", "OnlyOy", "OnlyOx"). Defaults to "Yes".
     """
-    MOKO.Plugin(PLUGIN_NAME, 'set', f"Autoscale={mode}")
+    Plugin(PLUGIN_NAME, 'set', f"Autoscale={mode}")
 
 # -- Legend --
 def Legend() -> None:
     """
     Переключает видимость легенды графика (показать/скрыть).
     """
-    MOKO.Plugin(PLUGIN_NAME, 'set', "Legend")
+    Plugin(PLUGIN_NAME, 'set', "Legend")
 # endregion
 
 # region --- General Commands / Общие Команды ---
@@ -178,14 +189,14 @@ def WriteGraph() -> None:
     """
     Принудительно перерисовывает график, отображая все последние изменения.
     """
-    MOKO.Plugin(PLUGIN_NAME, 'set', "Write Graph")
+    Plugin(PLUGIN_NAME, 'set', "Write Graph")
 
 # -- ClearGraph --
 def ClearGraph() -> None:
     """
     Полностью очищает область графика, удаляя все линии и настройки.
     """
-    MOKO.Plugin(PLUGIN_NAME, 'set', "Clear Graph")
+    Plugin(PLUGIN_NAME, 'set', "Clear Graph")
 # endregion
 
 # region --- Screenshot Commands / Команды Скриншотов ---
@@ -196,7 +207,7 @@ def ScreenshotWindow() -> None:
     Делает скриншот всего окна плагина "MOKO Graph".
     Файл сохраняется в стандартную директорию плагина.
     """
-    MOKO.Plugin(PLUGIN_NAME, 'set', "Screenshot Window")
+    Plugin(PLUGIN_NAME, 'set', "Screenshot Window")
 
 # -- ScreenshotGraph --
 def ScreenshotGraph() -> None:
@@ -204,7 +215,7 @@ def ScreenshotGraph() -> None:
     Делает скриншот только области самого графика.
     Файл сохраняется в стандартную директорию плагина.
     """
-    MOKO.Plugin(PLUGIN_NAME, 'set', "Screenshot Graph")
+    Plugin(PLUGIN_NAME, 'set', "Screenshot Graph")
 # endregion
 
 # endregion
@@ -221,8 +232,7 @@ def GetScreenshotWindow() -> str:
     Returns:
         str: Строка с изображением в кодировке Base64.
     """
-    screen = MOKO.Plugin(PLUGIN_NAME, 'get', "ScreenshotWindow", 'string')
-    return screen
+    return Plugin(PLUGIN_NAME, 'get', "ScreenshotWindow", 'string')
 # endregion
 
 # region --- GetScreenshotGraph / Получить Скриншот Графика ---
@@ -235,7 +245,7 @@ def GetScreenshotGraph() -> str:
     Returns:
         str: Строка с изображением в кодировке Base64.
     """
-    screen = MOKO.Plugin(PLUGIN_NAME, 'get', "ScreenshotGraph", 'string')
+    screen = Plugin(PLUGIN_NAME, 'get', "ScreenshotGraph", 'string')
     return screen
 # endregion
 
