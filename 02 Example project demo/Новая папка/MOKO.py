@@ -10,7 +10,7 @@
 ---------------------
 - **Управление устройствами:** Взаимодействие с драйверами (`Driver`) и портами (`Port`).
 - **Автоматизация GUI:** Управление элементами интерфейса внешних приложений (`Autoit`).
-- **Взаимодействие с пользователем:** Отображение информационных окон и диалогов (`Messenger`).
+- **Взаимодействие с пользователем:** Отображение информационных окон и диалогов (`Message`).
 - **Логирование и отчеты:** Отправка сообщений в лог (`Stage`) и управление отчетами (`Report`).
 - **Управление системой:** Выполнение команд (`CMD`), работа с плагинами (`Plugin`) и утилитами (`Utility`).
 - **Синхронизация:** Контроль за состоянием выполнения проекта (`check_project_state`).
@@ -184,7 +184,7 @@ def Autoit(title: str,
 # region --- Stage / Логирование этапов ---
 def Stage(message: str = '',
           type: Literal['info', 'success', 'fail', 'empty', 'error', 'warning',
-                        'telegram', 'messenger', 'utility', 'cmd', 'port', 'driver', 'plugin', 'report', 'autoit',
+                        'telegram', 'message', 'utility', 'cmd', 'port', 'driver', 'plugin', 'report', 'autoit',
                         'project', 'script'] = "info") -> None:
     """
     Отправляет и отображает сообщение в окне "Stage" в MOKO SE.
@@ -215,7 +215,7 @@ StageWarning = partial(Stage, type='warning')
 # Имитирующие
 StageTelegram = partial(Stage, type='telegram')
 StageMax = partial(Stage, type='max')
-StageMessenger = partial(Stage, type='messenger')
+StageMessage = partial(Stage, type='message')
 StageUtility = partial(Stage, type='utility')
 StageAutoit = partial(Stage, type='autoit')
 StageCmd = partial(Stage, type='cmd')
@@ -284,7 +284,7 @@ def Plugin(name: str,
     return parse_data(plgdata, mode, valuetype)
 # endregion
 
-# region --- Messenger / Сообщения ---
+# region --- Message / Сообщения ---
 def Message(mode: Literal['set', 'get'],
               head: str = '',
               body: str = '',
@@ -313,7 +313,7 @@ def Message(mode: Literal['set', 'get'],
     else:
         command_to_send: str = f'{{"mode":"{str(mode)}","head":"{str(head)}","body":"{str(body)}","time":"{str(delaytime)}"}}'
     send_request(URLWrite, command_to_send)
-    msgdata: str = check_status("messenger", mode, URLRead)
+    msgdata: str = check_status("message", mode, URLRead)
     return parse_data(msgdata, mode, valuetype)
 
 
@@ -1049,7 +1049,7 @@ def check_status(system: str, mode: str, URLRead: str) -> str:
             status: str = y.get(f'{system}status')
             if mode.lower() in ('get', 'check', 'init'):
                 data: str = y.get(f'{system}data')
-        if system in ['messenger', 'driver', 'plugin', 'utility']:
+        if system in ['message', 'driver', 'plugin', 'utility']:
             time.sleep(0.05)
     if is_bad_response(badresponse): return ""
     return data
