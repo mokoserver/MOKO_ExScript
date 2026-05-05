@@ -12,20 +12,20 @@ StartTime = datetime.now()
 
 try:
     #region Шаг 1: Инициализация и вход (Пакет 3)$INIT3
-    MOKO.ExecuteStep("Шаг 1: Инициализация и вход (Пакет 3)$INIT3")
+    MOKO.HashExecuteStep("Шаг 1: Инициализация и вход (Пакет 3)$INIT3")
     browser = initialize_browser()
     login_to_router(browser, "admin", "password123")
     #endregion
 
     #region Свернуть браузер (Пакет 3)$MIN3
-    MOKO.ExecuteStep("Свернуть браузер (Пакет 3)$MIN3")
+    MOKO.HashExecuteStep("Свернуть браузер (Пакет 3)$MIN3")
     minimize_browser(browser)
     #endregion
 
     #region Шаг 2: Проведение измерений (Пакет 3)$MEASURE3
     #description: ID точки;Уровень мощности;Канал;
-    MOKO.ExecuteStep("Шаг 2: Проведение измерений (Пакет 3)$MEASURE3")
-    MOKO.ReportTableInfo("Производительность Wi-Fi Пакет 3",
+    MOKO.HashExecuteStep("Шаг 2: Проведение измерений (Пакет 3)$MEASURE3")
+    MOKO.ReportTableCreate("Производительность Wi-Fi Пакет 3",
                          "ID точки;Уровень\n мощности  ;Канал ;Мощность\n передачи   ;Эффективная  \n скорость;")
 
     ta.run_test_point_batch3(browser, 'Измерение 31$MEASURE3', 31, 'low',     'auto') #hash Измерение 31$MEASURE3: 31;low;auto
@@ -43,9 +43,9 @@ except Exception as e:
 finally:
     if 'browser' in locals() and browser:
         #region Шаг 3: Закрыть браузер (Пакет 3)$CLOSE3
-        MOKO.ExecuteStep("Шаг 3: Закрыть браузер (Пакет 3)$CLOSE3")
+        MOKO.HashExecuteStep("Шаг 3: Закрыть браузер (Пакет 3)$CLOSE3")
         close_browser(browser)
         #endregion
 
-    MOKO.TimeReport("add","RU")
+    MOKO.ReportTimeAdd("add","RU")
     EndScript()

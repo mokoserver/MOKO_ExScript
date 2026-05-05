@@ -1,6 +1,6 @@
 
 import time
-from MOKO import Stage, Report, Program, SelectCheckHash, SetHash
+from MOKO import Stage
 try:
     from MWEB import MWeb
 except Exception as e:

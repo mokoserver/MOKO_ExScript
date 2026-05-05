@@ -1,14 +1,14 @@
 import TestActions as ta
-from WebActions import initialize_browser, login_to_router, minimize_browser, close_browser
+from WebActions import initialize_browser, login_to_router, close_browser
 import MOKO
 from MOKO import EndScript
 from MOKO import Stage, StageError, StageInfo,StageSuccess
 
+# region Шаг 1: Инициализация и вход$INIT
+MOKO.HashExecuteStep("Шаг 1: Инициализация и вход$INIT")
+browser = initialize_browser()
 
 try:
-    #region Шаг 1: Инициализация и вход$INIT
-    MOKO.ExecuteStep("Шаг 1: Инициализация и вход$INIT")
-    browser = initialize_browser()
     login_to_router(browser,
                        "admin",
                        "password123")
@@ -16,8 +16,8 @@ try:
 
     #region Шаг 2: Проведение измерений$MEASURE
     #description: ID точки;Уровень мощности;Канал;
-    MOKO.ExecuteStep("Шаг 2: Проведение измерений$MEASURE")
-    MOKO.ReportTableInfo("Производительность Wi-Fi Пакет 1",
+    MOKO.HashExecuteStep("Шаг 2: Проведение измерений$MEASURE")
+    MOKO.ReportTableCreate("Производительность Wi-Fi Пакет 1",
                          "ID точки;Уровень\n мощности  ;Канал ;Мощность\n передачи   ;Эффективная  \n скорость;")
 
     ta.run_test_point_batch1(browser, 'Измерение 1$MEASURE', 1, 'low',    'auto') #hash Измерение 1$MEASURE: 1;low;auto
@@ -34,8 +34,8 @@ try:
 
     #region Шаг 3: Дополнительные измерения$MEASURE2
     #description: ID точки;Уровень мощности;Канал;
-    MOKO.ExecuteStep("Шаг 3: Дополнительные измерения$MEASURE2")
-    MOKO.ReportTableInfo("Производительность Wi-Fi Дополнительно",
+    MOKO.HashExecuteStep("Шаг 3: Дополнительные измерения$MEASURE2")
+    MOKO.ReportTableCreate("Производительность Wi-Fi Дополнительно",
                          "ID точки;Уровень\n мощности  ;Канал ;Мощность\n передачи   ;Эффективная  \n скорость;")
 
 
@@ -60,9 +60,9 @@ except Exception as e:
 finally:
     if 'browser' in locals() and browser:
         #region Шаг 4: Закрыть браузер$CLOSE1
-        MOKO.ExecuteStep("Шаг 4: Закрыть браузер$CLOSE1")
+        MOKO.HashExecuteStep("Шаг 4: Закрыть браузер$CLOSE1")
         close_browser(browser)
         #endregion
 
-    MOKO.TimeReport("add","RU")
+    MOKO.ReportTimeAdd("add","RU")
     EndScript()

@@ -5,7 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
-from selenium.common.exceptions import NoAlertPresentException, TimeoutException
+from selenium.common.exceptions import NoAlertPresentException
 _GLOBAL_MWEB = None
 
 class MWeb:
@@ -93,6 +93,16 @@ class MWeb:
             alert = self.driver.switch_to.alert
             alert_text = alert.text
             alert.accept()
+            return alert_text
+        except NoAlertPresentException:
+            return None
+
+    def dismiss_alert(self, wait_time=1):
+        try:
+            WebDriverWait(self.driver, wait_time).until(EC.alert_is_present())
+            alert = self.driver.switch_to.alert
+            alert_text = alert.text
+            alert.dismiss()
             return alert_text
         except NoAlertPresentException:
             return None

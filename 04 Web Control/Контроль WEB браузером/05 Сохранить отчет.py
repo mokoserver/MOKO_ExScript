@@ -3,16 +3,16 @@ from MOKO import Stage, StageError, StageInfo,StageSuccess
 
 #region Создание протокола$REPORT
 #description: MS Word;
-MOKO.ExecuteStep("Создание протокола$REPORT")
+MOKO.HashExecuteStep("Создание протокола$REPORT")
 
-if MOKO.SelectCheckHash('Создание протокола$REPORT'):
+if MOKO.HashSelectCheck('Создание протокола$REPORT'):
     try:
-        MOKO.SaveReport("Word")
+        MOKO.ReportSave("Word")
         MOKO.StageSuccess("Word-отчет сгенерирован")
-        MOKO.SetHash('passed')
+        MOKO.HashSet('passed')
     except Exception as e:
         MOKO.StageError(f"Ошибка во время генерации отчета: {e}")
-        MOKO.SetHash('failed')
+        MOKO.HashSet('failed')
 
-MOKO.TimeReport('add',"RU")
+MOKO.ReportTimeAdd('add',"RU")
 MOKO.EndScript()

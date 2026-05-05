@@ -1,12 +1,12 @@
 
 import time
 import WebActions as wa
-from MOKO import Stage, Report, Program, SelectCheckHash, SetHash
+from MOKO import Stage, Report, Program, HashSelectCheck, HashSet
 
 # region --- High-Level Test Function ---
 def _run_test_with_report(report_name, browser, hash, point_id, power_level, channel):
     if (browser := wa.ensure_browser(browser)) is None: return
-    if SelectCheckHash(hash):
+    if HashSelectCheck(hash):
         try:
             Stage(f"--- Выполнение точки измерения #{point_id} ---")
             wa._set_power_level(browser, power_level)
@@ -22,11 +22,11 @@ def _run_test_with_report(report_name, browser, hash, point_id, power_level, cha
             Report(report_name, 'set', 'table', report_data)
             Stage("Данные записаны в отчет.")
 
-            SetHash('passed')
+            HashSet('passed')
             Stage("Статус шага: ПРОЙДЕНО.", "info")
 
         except Exception as e:
-            SetHash('failed')
+            HashSet('failed')
             Stage(f"Ошибка при выполнении шага #{point_id}: {e}", "error")
         finally:
             Stage("---")
