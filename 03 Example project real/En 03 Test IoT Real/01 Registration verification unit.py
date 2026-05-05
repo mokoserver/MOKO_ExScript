@@ -2,7 +2,7 @@ import MOKO
 import MTLG
 import MOSC
 
-MTLG.TelegramProgram('alpha', 'Registration unit', 'set', 'registration', 'string')
+MTLG.TelegramProgram('alpha', 'Registration unit', 'set', 'registration')
 MOKO.Stage("*********************************************************")
 MOKO.Stage("*************** Registration unit script ****************")
 MOKO.Stage("*********************************************************")
@@ -12,16 +12,16 @@ MOKO.Stage(" ")
 MOSC.hashStatus("$Reg")
 MOKO.Program('tree', 'set', 'select = Equipment registration$Reg')
 
-MOKO.Utility("IZRCSMinfo", "set", "Registration")
+MOKO.Utility("CSMinfo", "set", "Registration")
 
-ProtocolNumber = MOKO.Utility("IZRCSMinfo", "get", "ProtocolNumber", "string")
-CurrentDate = MOKO.Utility("IZRCSMinfo", "get", "CurrentDate", "string")
-ModelDevice = MOKO.Utility("IZRCSMinfo", "get", "ModelDevice", "string")
-SerialNumber = MOKO.Utility("IZRCSMinfo", "get", "SerialNumber", "string")
-Owner = MOKO.Utility("IZRCSMinfo", "get", "owner", "string")
-Request = MOKO.Utility("IZRCSMinfo", "get", "Request", "string")
-Verifier = MOKO.Utility("IZRCSMinfo", "get", "Verifier", "string")
-VerificationDate = MOKO.Utility("IZRCSMinfo", "get", "CurrentDate", "string")
+ProtocolNumber = MOKO.Utility("CSMinfo", "get", "ProtocolNumber", "string")
+CurrentDate = MOKO.Utility("CSMinfo", "get", "CurrentDate", "string")
+ModelDevice = MOKO.Utility("CSMinfo", "get", "ModelDevice", "string")
+SerialNumber = MOKO.Utility("CSMinfo", "get", "SerialNumber", "string")
+Owner = MOKO.Utility("CSMinfo", "get", "owner", "string")
+Request = MOKO.Utility("CSMinfo", "get", "Request", "string")
+Verifier = MOKO.Utility("CSMinfo", "get", "Verifier", "string")
+VerificationDate = MOKO.Utility("CSMinfo", "get", "CurrentDate", "string")
 
 MOKO.Report("REGISTRATION_ProtocolNumber", "info", "string", "Measurement protocol number")
 MOKO.Report("REGISTRATION_CurrentDate", "info", "string", "The current date")
@@ -45,11 +45,11 @@ MOKO.Report("REGISTRATION_VerificationDate", "set", "string", VerificationDate)
 MOKO.Report("REGISTRATION_FormNumber", "set", "string", "432-164")
 MOKO.Report("REGISTRATION_GosNumber", "set", "string", "52147-12")
 
-MOKO.Utility("IZRCSMinfo", "set", "Conditions")
+MOKO.Utility("CSMinfo", "set", "Conditions")
 
-Temperature = MOKO.Utility("IZRCSMinfo", "get", "Temperature", "string")
-Humidity = MOKO.Utility("IZRCSMinfo", "get", "Humidity", "string")
-Pressure = MOKO.Utility("IZRCSMinfo", "get", "Pressure", "string")
+Temperature = MOKO.Utility("CSMinfo", "get", "Temperature", "string")
+Humidity = MOKO.Utility("CSMinfo", "get", "Humidity", "string")
+Pressure = MOKO.Utility("CSMinfo", "get", "Pressure", "string")
 
 MOKO.Report('VerificationConditions', 'info', 'table', "Controlled parameters#150;"
                                                        "ND requirements#100;"
