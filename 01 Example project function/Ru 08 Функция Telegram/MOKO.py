@@ -38,6 +38,7 @@ HTTP-сервер, запущенный MOKO SE по адресу `http://localh
 - 30.03.2026: Добавлены функции  Tree & Hash, Time, Report
 - 05.04.2026: Добавлена функции  мессенджера MAX
 - 07.04.2026: Испаравлено _request = requests.Session()
+- 05.05.2026: Серверный путь исправлен с MOKOSE на SE
 '''
 
 import time
@@ -51,7 +52,7 @@ from functools import partial
 _request = requests.Session()
 
 # region ### URLs for MOKO SE API / URL-адреса для MOKO SE API ###
-_BASE_URL = "http://localhost:55001/MOKOSE"
+_BASE_URL = "http://localhost:55001/SE"
 
 # --- Status ---
 _UrlProjectStateRead: str = f"{_BASE_URL}/status/projectstate"
