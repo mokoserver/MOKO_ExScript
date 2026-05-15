@@ -93,6 +93,9 @@ def IDC(
         else:
             hash_passed()
 
+MOKO.Driver("AgilentDMM","set","Function = VDC")
+MOKO.Driver("Fluke5000","set","VDC = 5")
+paramVDC = MOKO.Driver("AgilentDMM","get","read")
 #region Voltage measurement with generator signal sin$VDC_SIN
 #description: value \nmeasurement, V;value limit, V;percentage of \nallowed error, %;wave amplitude;amplitude, V;amplitude\nlimit, V;frequency, Hz;delay time \nbefore \nmeasurement, s;remeasure,\nTrue or False;number of \nremeasurements
 MOKO.Program('tree', 'set', 'select = Voltage measurement with generator signal sin$VDC_SIN')
