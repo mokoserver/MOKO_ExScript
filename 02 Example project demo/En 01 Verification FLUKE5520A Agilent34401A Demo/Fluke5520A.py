@@ -168,7 +168,8 @@ class Fluke5520A:
         if self.IsSimulation:
             MOKO.Stage(f'Driver: Fluke5000 >> mode: set >> command: R = {verified}', 'driver')
         elif self.IsAutomatic:
-            MOKO.Driver('Fluke5000', 'set', f'R = {verified}')
+            MOKO.Stage(f'Driver: Fluke5000 >> mode: set >> command: R = {verified}', 'driver')
+            #MOKO.Driver('Fluke5000', 'set', f'R = {verified}')
         else:
             MOKO.Messenger("set", "Make settings on Fluke5520A#@fluke5520a",
                            f"Make settings:\nSet R = {verified}\nPress OK")

@@ -2,7 +2,7 @@ import MOKO
 import MTLG
 from Demo_Test_IoT_4_Wave import Testing
 
-MTLG.TelegramProgram('alpha', 'Инициализация устройств', 'set', '', 'string')
+MTLG.TelegramProgram('alpha', 'Инициализация устройств', 'set', '')
 
 MOKO.Stage("*********************************************************")
 MOKO.Stage("*************** Инициализация устройств *****************")

@@ -8,7 +8,7 @@ MOKO.Stage("*************** Registration unit script ****************")
 MOKO.Stage("*********************************************************")
 MOKO.Stage(" ")
 
-info = "TestInfo"
+info = "moko_test"
 #region Equipment registration$Reg
 MOSC.hashStatus("$Reg")
 MOKO.Program('tree', 'set', 'select = Equipment registration$Reg')

@@ -6,7 +6,7 @@ from MOSC import Utility_to_Report
 #EndRegion 1.1 Этапы регистрации:
 
 
-UN = 'PressureGauge'  # Utility Name
+UN = 'moko_pressure_gauge'  # Utility Name
 reports = ['AccuracyClass',  # класс точности
            'UnitOfMeasure',  # единицы измерения
            'ScaleMax',  # Предельное значение давления на шкале прибора

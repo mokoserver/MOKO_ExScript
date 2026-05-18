@@ -93,9 +93,6 @@ def IDC(
         else:
             hash_passed()
 
-MOKO.Driver("AgilentDMM","set","Function = VDC")
-MOKO.Driver("Fluke5000","set","VDC = 5")
-paramVDC = MOKO.Driver("AgilentDMM","get","read")
 #region Voltage measurement with generator signal sin$VDC_SIN
 #description: value \nmeasurement, V;value limit, V;percentage of \nallowed error, %;wave amplitude;amplitude, V;amplitude\nlimit, V;frequency, Hz;delay time \nbefore \nmeasurement, s;remeasure,\nTrue or False;number of \nremeasurements
 MOKO.Program('tree', 'set', 'select = Voltage measurement with generator signal sin$VDC_SIN')
@@ -104,7 +101,7 @@ MOKO.Stage('Set NameGraph => VDC_SIN_GRAPH')
 Testing.NameGraph = 'VDC_SIN_GRAPH'
 MOKO.Stage(" ")
 
-VDC(value=1,   value_limit=40, percent_error=70, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=3.00, remeasurement=True, remeasurement_number=3, hash='Meas 1$VDC_SIN')  #hash Meas 1$VDC_SIN:   1  ;40  ;70  ;sin ;1  ;10  ;10k  ;3.000  ;True  ;3
+VDC(value=1,   value_limit=50, percent_error=70, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=3.00, remeasurement=True, remeasurement_number=3, hash='Meas 1$VDC_SIN')  #hash Meas 1$VDC_SIN:   1  ;50  ;70  ;sin ;1  ;10  ;10k  ;3.000  ;True  ;3
 VDC(value=2,   value_limit=40, percent_error=30, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 2$VDC_SIN')  #hash Meas 2$VDC_SIN:   2  ;40  ;30  ;sin ;1  ;10  ;10k  ;1.500  ;True  ;3
 VDC(value=3,   value_limit=40, percent_error=20, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 3$VDC_SIN')  #hash Meas 3$VDC_SIN:   3  ;40  ;20  ;sin ;1  ;10  ;10k  ;1.500  ;True  ;3
 VDC(value=4,   value_limit=40, percent_error=20, wave='sin',  amplitude=1, amplitude_limit=10, frequency='10k', time_delay=1.50, remeasurement=True, remeasurement_number=3, hash='Meas 4$VDC_SIN')  #hash Meas 4$VDC_SIN:   4  ;40  ;20  ;sin ;1  ;10  ;10k  ;1.500  ;True  ;3

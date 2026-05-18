@@ -2,12 +2,13 @@ import MOKO
 import MTLG
 import MOSC
 
-MTLG.TelegramProgram('alpha', 'Проверка регистрации', 'set', 'Регистрация', 'string')
+MTLG.TelegramProgram('alpha', 'Проверка регистрации', 'set', 'Регистрация')
 MOKO.Stage("*********************************************************")
 MOKO.Stage("*************** Проверка регистрации ****************")
 MOKO.Stage("*********************************************************")
 MOKO.Stage(" ")
-info = "TestInfo"
+
+info = "moko_test"
 #region Регистрация оборудования$Reg
 MOSC.hashStatus("$Reg")
 MOKO.Program('tree', 'set', 'select = Регистрация оборудования$Reg')

@@ -2,7 +2,7 @@ import MOKO
 from MOSC import hashStatus, hash_passed, hash_failed
 from Demo_Test_IoT_4_Wave import Testing
 import MTLG
-MTLG.TelegramProgram('alpha', 'Демо Tестирование IoT - 4 сигнала', 'set', '', 'string')
+MTLG.TelegramProgram('alpha', 'Демо Tестирование IoT - 4 сигнала', 'set', '')
 MOKO.Stage("*********************************************************************")
 MOKO.Stage("*************** Демо Tестирование IoT - 4 сигнала *******************")
 MOKO.Stage("*********************************************************************")

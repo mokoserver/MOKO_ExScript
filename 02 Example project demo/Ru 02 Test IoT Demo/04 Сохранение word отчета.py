@@ -2,7 +2,7 @@ import MOKO
 import MTLG
 import MOSC
 
-MTLG.TelegramProgram('alpha', 'Сохранение Word отчета', 'set', 'init', 'string')
+MTLG.TelegramProgram('alpha', 'Сохранение Word отчета', 'set', 'init')
 
 MOKO.Stage("*********************************************************")
 MOKO.Stage("*************** Сохранение Word отчета ******************")
