@@ -39,6 +39,7 @@ HTTP-сервер, запущенный MOKO SE по адресу `http://localh
 - 05.04.2026: Добавлена функции  мессенджера MAX
 - 07.04.2026: Испаравлено _request = requests.Session()
 - 05.05.2026: Серверный путь исправлен с MOKOSE на SE
+- 20.05.2026: Добавлено DriverSet и DriverGet
 '''
 
 import time
@@ -256,6 +257,41 @@ def Driver(name: str,
     drvdata: str = check_status("driver", mode, URLRead)
     return parse_data(drvdata, mode, valuetype)
 # endregion
+
+# region --- DriverSet / Установка команды драйверу ---
+def DriverSet(name: str, command: str = 'void') -> None:
+    """
+    Устанавливает команду драйверу (упрощённая обёртка для Driver с mode='set').
+
+    Args:
+        name (str): Имя драйвера.
+        command (str, optional): Команда для драйвера. Defaults to 'void'.
+
+    Returns:
+        None
+    """
+    Driver(name, mode='set', command=command)
+# endregion
+
+# region --- DriverGet / Получение данных от драйвера ---
+def DriverGet(name: str,
+              command: str = 'void',
+              valuetype: Literal['string', 'int', 'float', 'bool',
+                                 'arrayint', 'arrayfloat', 'arrayboolean', 'arraystring'] = 'string') -> ...:
+    """
+    Получает данные от драйвера (упрощённая обёртка для Driver с mode='get').
+
+    Args:
+        name (str): Имя драйвера.
+        command (str, optional): Команда для драйвера. Defaults to 'void'.
+        valuetype (str, optional): Ожидаемый тип данных. Defaults to 'string'.
+
+    Returns:
+        Данные от драйвера, преобразованные к типу valuetype.
+    """
+    return Driver(name, mode='get', command=command, valuetype=valuetype)
+# endregion
+
 
 # region --- Plugin / Плагин ---
 def Plugin(name: str,
