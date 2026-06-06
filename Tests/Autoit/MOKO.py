@@ -47,12 +47,13 @@ import requests
 import json
 import sys
 import os
-from typing import Literal,overload
+from typing import Literal, overload, Any, Union, Optional
 from functools import partial
 
+
+# region ### URLs for SE API / URL-адреса для SE API ###
 _request = requests.Session()
 
-# region ### URLs for MOKO SE API / URL-адреса для MOKO SE API ###
 _BASE_URL = "http://localhost:55001/SE"
 
 # --- Status ---
@@ -96,11 +97,15 @@ _UrlPortWrite: str = f"{_BASE_URL}/system/portwrite"
 _UrlPortRead: str = f"{_BASE_URL}/system/portread"
 # endregion
 
-# region ### MOKO SE API Functions / Функции MOKO SE API #####################
+###############################################################
+### SE API Functions / Функции SE API #########################
+###############################################################
 
-# region --- CMD / Командная строка --- +-
+#  ---------------------- CMD --------------------------------------
+
+# region --- CMD() / Командная строка ---
 def CMD(mode: Literal['set', 'get'],
-        command: str) -> ...:
+        command: str) -> Any:
     """
     Выполняет команду в командной строке (CMD) через MOKO SE.
 
@@ -120,13 +125,15 @@ def CMD(mode: Literal['set', 'get'],
     return cmddata
 # endregion
 
-# region --- Port / Порт ---
+#  ---------------------- Port -------------------------------------
+
+# region --- Port() / Порт ---
 def Port(
     name: str,
     mode: Literal['init', 'interface', 'write', 'read','clear'],
     command: str = '',
     valuetype: Literal['string', 'int', 'float', 'bool', 'arrayint', 'arrayfloat', 'arrayboolean', 'arraystring'] = 'string'
-) -> ...:
+) -> Any:
     """
     Управляет портами и устройствами, настроенными в MOKO SE.
 
@@ -155,11 +162,13 @@ def Port(
     return parse_data(portdata, mode, valuetype)
 # endregion
 
-# region --- Autoit / Автоматизация GUI ---
+#  ---------------------- Autoit  ----------------------------------
+
+# region --- Autoit() / Автоматизация GUI ---
 def Autoit(title: str,
            classname: str,
            method: Literal['ControlClick', 'ControlGetText', 'ControlSetText'],
-           attributes: str = 'void') -> ...:
+           attributes: str = 'void') -> Any:
     """
     Взаимодействует с элементами GUI внешних приложений, используя технологию AutoIt.
 
@@ -183,7 +192,9 @@ def Autoit(title: str,
     return autoitdata
 # endregion
 
-# region --- Stage / Логирование этапов ---
+#  ---------------------- Stage  -----------------------------------
+
+# region --- Stage() / Логирование этапов ---
 def Stage(message: str = '',
           type: Literal['info', 'success', 'fail', 'empty', 'error', 'warning',
                         'telegram', 'message', 'utility', 'cmd', 'port', 'driver', 'plugin', 'report', 'autoit',
@@ -206,7 +217,7 @@ def Stage(message: str = '',
     send_request(URLWrite, command_to_send)
 # endregion
 
-# region --- Stage Shortcuts / Сокращения для Stage --- <-- ИЗМЕНЕНИЕ 3: Новый регион
+# region --- Stage...() - Shortcuts / Сокращения для Stage --- <-- ИЗМЕНЕНИЕ 3: Новый регион
 # Информационные
 StageInfo = partial(Stage, type='info')
 StageSuccess = partial(Stage, type='success')
@@ -230,11 +241,14 @@ StageProject = partial(Stage, type='project')
 StageScript = partial(Stage, type='script')
 # endregion
 
-# region --- Driver / Драйвер ---
+
+#  ---------------------- Driver  ----------------------------------
+
+# region --- Driver() / Драйвер ---
 def Driver(name: str,
            mode: Literal['set', 'get','init','check','close'],
            command: str = 'void',
-           valuetype: Literal['string', 'int', 'float', 'bool', 'arrayint', 'arrayfloat', 'arrayboolean', 'arraystring'] = 'string') -> ...:
+           valuetype: Literal['string', 'int', 'float', 'bool', 'arrayint', 'arrayfloat', 'arrayboolean', 'arraystring'] = 'string') -> Any:
     """
     Управляет драйверами устройств через MOKO SE.
 
@@ -258,7 +272,22 @@ def Driver(name: str,
     return parse_data(drvdata, mode, valuetype)
 # endregion
 
-# region --- DriverSet / Установка команды драйверу ---
+# region --- DriverInit() / Инициализация драйвера ---
+def DriverInit(name: str) -> None:
+    """
+    Инициализирует драйвер (упрощённая обёртка для Driver с mode='init').
+
+    Args:
+        name (str): Имя драйвера.
+        command (str, optional): Команда для драйвера. Defaults to 'void'.
+
+    Returns:
+        None
+    """
+    Driver(name, mode='init', command='void')
+# endregion
+
+# region --- DriverSet() / Установка команды драйверу ---
 def DriverSet(name: str, command: str = 'void') -> None:
     """
     Устанавливает команду драйверу (упрощённая обёртка для Driver с mode='set').
@@ -273,11 +302,11 @@ def DriverSet(name: str, command: str = 'void') -> None:
     Driver(name, mode='set', command=command)
 # endregion
 
-# region --- DriverGet / Получение данных от драйвера ---
+# region --- DriverGet() / Получение данных от драйвера ---
 def DriverGet(name: str,
               command: str = 'void',
               valuetype: Literal['string', 'int', 'float', 'bool',
-                                 'arrayint', 'arrayfloat', 'arrayboolean', 'arraystring'] = 'string') -> ...:
+                                 'arrayint', 'arrayfloat', 'arrayboolean', 'arraystring'] = 'string') -> Any:
     """
     Получает данные от драйвера (упрощённая обёртка для Driver с mode='get').
 
@@ -292,12 +321,13 @@ def DriverGet(name: str,
     return Driver(name, mode='get', command=command, valuetype=valuetype)
 # endregion
 
+#  ---------------------- Plugin  ----------------------------------
 
-# region --- Plugin / Плагин ---
+# region --- Plugin() / Плагин ---
 def Plugin(name: str,
            mode: Literal['set', 'get','init','check','close'],
            command: str = 'void',
-           valuetype: Literal['string', 'int', 'float', 'bool', 'arrayint', 'arrayfloat', 'arrayboolean', 'arraystring'] = 'string') -> ...:
+           valuetype: Literal['string', 'int', 'float', 'bool', 'arrayint', 'arrayfloat', 'arrayboolean', 'arraystring'] = 'string') -> Any:
     """
     Управляет плагинами в MOKO SE.
 
@@ -321,12 +351,78 @@ def Plugin(name: str,
     return parse_data(plgdata, mode, valuetype)
 # endregion
 
-# region --- Message / Сообщения ---
+# region --- PluginInit() / Инициализация плагина ---
+def PluginInit(name: str, command: str = 'void') -> None:
+    """
+    Инициализирует плагин (упрощённая обёртка для Plugin с mode='init').
+
+    Args:
+        name (str): Имя плагина.
+        command (str, optional): Команда для плагина. Defaults to 'void'.
+
+    Returns:
+        None
+    """
+    Plugin(name, mode='init', command=command)
+# endregion
+
+# region --- PluginSet() / Установка команды плагину ---
+def PluginSet(name: str, command: str = 'void') -> None:
+    """
+    Устанавливает команду плагину (упрощённая обёртка для Plugin с mode='set').
+
+    Args:
+        name (str): Имя плагина.
+        command (str, optional): Команда для плагина. Defaults to 'void'.
+
+    Returns:
+        None
+    """
+    Plugin(name, mode='set', command=command)
+# endregion
+
+# region --- PluginGet() / Получение данных от плагина ---
+def PluginGet(name: str,
+              command: str = 'void',
+              valuetype: Literal['string', 'int', 'float', 'bool',
+                                 'arrayint', 'arrayfloat', 'arrayboolean', 'arraystring'] = 'string') -> Any:
+    """
+    Получает данные от плагина (упрощённая обёртка для Plugin с mode='get').
+
+    Args:
+        name (str): Имя плагина.
+        command (str, optional): Команда для плагина. Defaults to 'void'.
+        valuetype (str, optional): Ожидаемый тип данных. Defaults to 'string'.
+
+    Returns:
+        Данные от плагина, преобразованные к типу valuetype.
+    """
+    return Plugin(name, mode='get', command=command, valuetype=valuetype)
+# endregion
+
+# region --- PluginClose() / Закрытие плагина ---
+def PluginClose(name: str, command: str = 'void') -> None:
+    """
+    Закрывает плагин (упрощённая обёртка для Plugin с mode='close').
+
+    Args:
+        name (str): Имя плагина.
+        command (str, optional): Команда для плагина. Defaults to 'void'.
+
+    Returns:
+        None
+    """
+    Plugin(name, mode='close', command=command)
+# endregion
+
+#  ---------------------- Message  ---------------------------------
+
+# region --- Message() / Сообщения ---
 def Message(mode: Literal['set', 'get'],
               head: str = '',
               body: str = '',
               valuetype: str = 'void',
-              delaytime: str = 'void') -> ...:
+              delaytime: str = 'void') -> Any:
     """
     Отображает всплывающее окно (мессенджер) в MOKO SE для взаимодействия с пользователем.
 
@@ -358,12 +454,82 @@ def Message(mode: Literal['set', 'get'],
 Messenger = Message
 # endregion
 
-# region --- Report / Отчет ---
+# region --- MessageSet() / Установка сообщения ---
+def MessageSet(head: str,
+               body: str,
+               delaytime: Optional[Union[int, float, str]] = None) -> None:
+    """
+    Показать информационное сообщение.
+
+    Args:
+        Заголовок окна. Может содержать специальные директивы и пути к картинкам:
+              - "#@warning"  – иконка предупреждения
+              - "#@error"    – иконка ошибки
+              - "#@info"     – иконка информации
+              - "#C:\MOKO SE\Data\Extra images\MOKO SE.png" – абсолютный путь
+              - "#FLUKE5520A_AGILENT34401A.png" – имя файла из папки Data/Extra images
+              - "#folder\image.png" – относительный путь внутри Data/Extra images
+              Примеры:
+                  "Заголовок#@warning"
+                  "Результат#C:\MOKO SE\Data\Extra images\MOKO SE.png"
+                  "Статус#FLUKE5520A_AGILENT34401A.png"
+                  "График#folder\FLUKE5520A_AGILENT34401A.png"
+        body: Текст сообщения.
+        delaytime: Время авто-закрытия в секундах (число или строка, например 5, "9", "0").
+                   None или "void" — поле "time" не отправляется (окно висит до закрытия).
+                   Любое другое значение (включая "0") отправляется как строка в поле "time".
+    """
+    # Если delaytime не указан или явно 'void' — не добавляем time в JSON
+    if delaytime is None or delaytime == 'void':
+        delaytime = None
+    else:
+        # Преобразуем любое значение в строку для JSON (числа тоже станут строками)
+        delaytime = str(delaytime)
+
+    # Вызов базовой Message (которая ожидает delaytime=None или строку)
+    # Убедитесь, что ваша базовая Message добавляет поле "time" только если delaytime не None
+    Message('set', head=head, body=body, delaytime=delaytime)
+# endregion
+
+# region --- MessageSetWithImage() / Сообщение с картинкой ---
+def MessageSetWithImage(head: str,
+                        body: str,
+                        image_path: str,
+                        delaytime: Optional[Union[int, float, str]] = None) -> None:
+    """
+    Показать сообщение с пользовательской картинкой.
+
+    Args:
+        head: Заголовок окна (без символа #, он добавится автоматически вместе с image_path).
+              Можно комбинировать с директивами (#@warning, #@error, #@info), но тогда директива
+              должна быть указана в самом head, а image_path будет добавлен через ещё один #.
+              Рекомендуется либо использовать картинку, либо директиву, не смешивая.
+        body: Текст сообщения.
+                image_path: Путь к изображению. Может быть:
+                    - абсолютным: "C:\MOKO SE\Data\Extra images\MOKO SE.png"
+                    - относительным (относительно Data/Extra images): "folder\FLUKE5520A_AGILENT34401A.png"
+                    - просто именем файла: "FLUKE5520A_AGILENT34401A.png"
+                    Поддерживаются PNG, JPG, BMP и др.
+        delaytime: Время авто-закрытия (число или строка, например 5, "9", "0").
+    """
+    full_head = f"{head}#{image_path}"
+    MessageSet(full_head, body, delaytime=delaytime)
+# endregion
+
+# MessageGet
+# MessageGetBool
+# MessageGetChoice
+# MessageGetPath
+
+
+#  ---------------------- Report  ----------------------------------
+
+# region --- Report() / Отчет ---
 def Report(name: str,
            mode: Literal['info', 'set','get','clear','delete','save'],
            kind: Literal['string', 'table', 'picture', 'strings'] = 'string',
            data: str = '',
-           valuetype: Literal['string', 'int', 'float', 'bool', 'arrayint', 'arrayfloat', 'arrayboolean', 'arraystring'] = 'string') -> ...:
+           valuetype: Literal['string', 'int', 'float', 'bool', 'arrayint', 'arrayfloat', 'arrayboolean', 'arraystring'] = 'string') -> Any:
     """
     Работает с данными в отчете MOKO SE.
 
@@ -388,11 +554,146 @@ def Report(name: str,
     return parse_data(repdata, mode, valuetype)
 # endregion
 
-# region --- Utility / Утилита ---
+# region --- ReportTableCreate() / Упрощенный вызов Report для создания таблиц. ---
+def ReportTableCreate(title: str, columns: str, base_width: int = 15) -> None:
+    """
+    Упрощенный вызов Report для создания таблиц.
+    Автоматически рассчитывает ширину колонок (#XX) на основе длины самой длинной строки.
+    Формула: base_width + (символы - 1) * 6.
+
+    Поддерживает многострочные заголовки через \\n (ширина считается по самой длинной строке).
+    Пробелы справа сохраняются для ручного увеличения ширины.
+    Пробелы слева перед \\n автоматически удаляются при сборке финальной строки.
+
+    Args:
+        title (str): Заголовок таблицы.
+        columns (str): Названия колонок через точку с запятой.
+                       Пример: "ID\\n точки;Канал \\n какойто;Мощность      "
+        base_width (int): Базовая ширина для колонки из 1 символа. По умолчанию 15.
+    """
+    column_list = columns.split(';')
+    formatted_columns = []
+
+    for col in column_list:
+        # Убираем пробелы только СЛЕВА у всей колонки (если они были после ;)
+        col = col.lstrip()
+
+        max_len = 0
+        cleaned_lines = []  # Сюда будем собирать строки без левых пробелов
+
+        # Разбиваем колонку на отдельные строки по символу переноса
+        lines = col.split('\n')
+
+        for line in lines:
+            # Убираем пробелы слева у каждой строки, но сохраняем справа
+            clean_line = line.lstrip()
+            cleaned_lines.append(clean_line)  # Сохраняем очищенную версию для финальной строки
+
+            # Считаем длину этой конкретной строки
+            line_len = len(clean_line)
+
+            # Запоминаем максимальную длину среди всех строк колонки
+            if line_len > max_len:
+                max_len = line_len
+
+        # Применяем формулу с переменной base_width
+        width = base_width + (max_len - 1) * 6
+
+        # Склеиваем очищенные строки обратно через \n (пробелы перед \n исчезнут)
+        final_col = "\n".join(cleaned_lines)
+
+        # Добавляем рассчитанную ширину
+        formatted_columns.append(f"{final_col}#{width}")
+
+    # Собираем всё обратно в одну строку через точку с запятой
+    final_string = ";".join(formatted_columns)
+
+    # Вызываем оригинальную функцию Report
+    Report(title, 'info', 'table', final_string)
+
+    return
+# endregion ****************************************************
+
+# region --- ReportSave() / Сохраняет отчет в указанном формате. ---
+def ReportSave(report_format: Literal["Word", "PDF", "Word as", "Pdf as"] = "Word") -> None:
+    """
+    Сохраняет отчет в указанном формате.
+
+    Args:
+        report_format (Literal): Формат сохранения отчета.
+                                 Допустимые значения: 'Word', 'PDF', 'Word as', 'Pdf as'.
+                                 По умолчанию 'Word'.
+    """
+    # Точно сопоставляем ввод программиста с тем, что понимает сервер
+    server_commands = {
+        "Word": "SaveWordReport",
+        "PDF": "SavePdfReport",
+        "Word as": "SaveWordReportAs",
+        "Pdf as": "SavePdfReportAs"
+    }
+
+    # Достаем нужную команду из словаря
+    command = server_commands[report_format]
+
+    # Вызываем команду
+    Program('control', 'set', command)
+    return
+# endregion ---------------------------------------------------------
+
+# region --- ReportTimeAdd / Управляет таблицей со временем выполнения скрипта. ---
+def ReportTimeAdd(action: Literal["init", "add", "set"] = "init", lang: Literal["RU", "EN"] = "EN") -> None:
+    """
+    Управляет таблицей со временем выполнения скрипта.
+
+    Args:
+        action (Literal["init", "add", "set"]):
+            - 'init': Создает таблицу с заголовками.
+            - 'add' или 'set': Добавляет строку с данными о выполнении.
+        lang (Literal["RU", "EN"]): Язык заголовков и ID таблицы. По умолчанию 'EN'.
+    """
+    # Задаем заголовок и ID таблицы в зависимости от языка
+    if lang == "RU":
+        table_title = "Время выполнения скрипта"
+        headers = (
+            "Название скрипта#350;"
+            "Время запуска#120;"
+            "Время окончания#120;"
+            "Время исполнения#150"
+        )
+    else:  # EN (по умолчанию)
+        table_title = "Script Execution Time"
+        headers = (
+            "Script Name#350;"
+            "Start Time#120;"
+            "End Time#120;"
+            "Execution Time#150"
+        )
+
+    if action == "init":
+        # Используем table_title как визуальный заголовок
+        Report(table_title, "info", "table", headers)
+
+    elif action in ("add", "set"):
+        # Получаем имя файла и универсально отрезаем любое расширение
+        script_name, _ = os.path.splitext(os.path.basename(sys.argv[0]))
+
+        row_data = (
+            f"{script_name};"
+            f"{TimeGet('ScriptStart')};"
+            f"{TimeGet('CurrentDateAndTime')};"
+            f"{TimeGet('ScriptExecution')}"
+        )
+        # Используем тот же table_title как ID для обновления таблицы
+        Report(table_title, "set", "table", row_data)
+# endregion
+
+#  ---------------------- Utility  ---------------------------------
+
+# region --- Utility() / Утилита ---
 def Utility(name: str,
             mode: Literal['set', 'get'],
             command: str = 'void',
-            valuetype: Literal['string', 'int', 'float', 'bool', 'arrayint', 'arrayfloat', 'arrayboolean', 'arraystring'] = 'string') -> ...:
+            valuetype: Literal['string', 'int', 'float', 'bool', 'arrayint', 'arrayfloat', 'arrayboolean', 'arraystring'] = 'string') -> Any:
     """
     Управляет утилитами в MOKO SE.
 
@@ -416,11 +717,88 @@ def Utility(name: str,
     return parse_data(utldata, mode, valuetype)
 # endregion
 
-# region --- Telegram / Мессенджер Телеграм ---
+# region --- UtilitySet() / Установка команды утилите ---
+def UtilitySet(name: str, command: str = 'void') -> None:
+    """
+    Устанавливает команду утилите (упрощённая обёртка для Utility с mode='set').
+
+    Args:
+        name (str): Имя утилиты.
+        command (str, optional): Команда для утилиты. Defaults to 'void'.
+
+    Returns:
+        None
+    """
+    Utility(name, mode='set', command=command)
+# endregion
+
+# region --- UtilityGet() / Получение данных от утилиты ---
+def UtilityGet(name: str,
+               command: str = 'void',
+               valuetype: Literal['string', 'int', 'float', 'bool',
+                                  'arrayint', 'arrayfloat', 'arrayboolean', 'arraystring'] = 'string') -> Any:
+    """
+    Получает данные от утилиты (упрощённая обёртка для Utility с mode='get').
+
+    Args:
+        name (str): Имя утилиты.
+        command (str, optional): Команда для утилиты. Defaults to 'void'.
+        valuetype (str, optional): Ожидаемый тип данных. Defaults to 'string'.
+
+    Returns:
+        Данные от утилиты, преобразованные к типу valuetype.
+    """
+    return Utility(name, mode='get', command=command, valuetype=valuetype)
+# endregion
+
+# region --- UtilityGetParseKeyValue() / Получение данных от утилиты List ---
+def UtilityGetParseKeyValue(utility_name: str, command: str = "info") -> dict:
+    """
+    Получает от утилиты MOKO строку в формате "ключ:значение;ключ:значение;..."
+    и преобразует её в словарь.
+
+    Ожидаемый формат строки от сервера / утилиты:
+        - Строка не содержит пробелов вокруг разделителей (но допустимо)
+        - Пары "ключ:значение" разделены точкой с запятой ';'
+        - Внутри пары ключ и значение разделены двоеточием ':'
+        - Двоеточие может быть только одно (первое) в паре, значение может содержать ';'? обычно нет
+        - Регистр сохраняется
+
+    Пример реальной строки:
+        "ProtocolNumber:12345;SerialNumber:AB-001;YearOfRealese:2023;Customer:ООО Ромашка;Temperature:23.5"
+
+    После парсинга вернётся словарь:
+        {
+            "ProtocolNumber": "12345",
+            "SerialNumber": "AB-001",
+            "YearOfRealese": "2023",
+            "Customer": "ООО Ромашка",
+            "Temperature": "23.5"
+        }
+
+    Args:
+        utility_name (str): Имя утилиты (например, "MNIPI")
+        command (str, optional): Команда утилиты. По умолчанию "info"
+
+    Returns:
+        dict: Словарь с ключами и значениями-строками (типы не преобразуются)
+    """
+    # Получаем сырой массив от утилиты (valuetype='arraystring', чтобы избежать автоматического разбиения по ';')
+    array_string: str = Utility(utility_name, "get", command, "arraystring")
+
+    # Однострочник для парсинга списка в словарь
+    data = dict(item.split(':', 1) for item in array_string if ':' in item)
+    data = {k.strip(): v.strip() for k, v in data.items()}
+    return data
+# endregion
+
+#  ---------------------- Messengers (Telegram, Max) ---------------
+
+# region --- Telegram() / Мессенджер Телеграм ---
 def Telegram(role: Literal['alpha', 'beta', 'gamma', 'delta', 'xi', 'id'] = 'alpha',
              mode: Literal['set','get'] = 'set',
              command: str = '',
-             valuetype: Literal['void'] = 'void') -> ...:
+             valuetype: Literal['void'] = 'void') -> Any:
     """
     Работает с Telegram ботом MOKO SE.
 
@@ -444,11 +822,11 @@ def Telegram(role: Literal['alpha', 'beta', 'gamma', 'delta', 'xi', 'id'] = 'alp
     return parse_data(tgmdata, mode, valuetype)
 # endregion
 
-# region --- MAX / Мессенджер MAX ---
+# region --- Max() / Мессенджер MAX ---
 def Max(role: Literal['alpha', 'beta', 'gamma', 'delta', 'xi', 'id'] = 'alpha',
              mode: Literal['set','get'] = 'set',
              command: str = '',
-             valuetype: Literal['void'] = 'void') -> ...:
+             valuetype: Literal['void'] = 'void') -> Any:
     """
     Работает с MAX ботом MOKO SE.
 
@@ -472,8 +850,9 @@ def Max(role: Literal['alpha', 'beta', 'gamma', 'delta', 'xi', 'id'] = 'alpha',
     return parse_data(maxdata, mode, valuetype)
 # endregion
 
-# region *** Program / Программа *******************************
-# region -------   Collection Literal Program
+#  ---------------------- Program / Программа ---------------------
+
+# region -------   Collection Literal Program / Коллекция литералов для Program
 # ==========================================
 # 1. ОПИСЫВАЕМ КОМАНДЫ (Type Aliases)
 # Это сделает код ниже чистым и читаемым
@@ -535,7 +914,7 @@ TimeGetCmd = Literal[# ________ Current _________
                         "ScriptError"]
 # endregion
 
-# region  -------   Overload Program ---
+# region  -------   Overload Program / Перезагрузка контекста функций Program ---
 
 # ==========================================
 # 2. ПЕРЕГРУЗКИ ФУНКЦИИ (@overload)
@@ -597,11 +976,11 @@ def Program(
     name: Literal['time'],
     mode: Literal['get'], # Только 'get'
     command: TimeGetCmd,
-    valuetype: Literal['void', 'string'] = 'void'
+    valuetype: Literal['string'] = 'string'
 ) -> str: ...
 # endregion
 
-# region ------  Program / Программа ---
+# region ------     Program() / Программа ---
 
 # ==========================================
 # 3. ОСНОВНАЯ РЕАЛИЗАЦИЯ (Ваша логика)
@@ -652,13 +1031,20 @@ def Program(
     return parse_data(progdata, mode, valuetype)
 # endregion
 
-# endregion ********************************************************************
+#  ---------------------- Script / Скрипт  -------------------------
 
-# endregion ##################################################################
+# region --- ScriptResult / Получает результат выполнения текущего скрипта из дерева MOKO SE. --
+def ScriptResult() -> str:
+    """
+    Получает результат выполнения текущего скрипта из дерева MOKO SE.
 
-# region ### Execution Control / Управление выполнением ######################
+    Returns:
+        str: Статус выполнения ('passed', 'failed', 'done').
+    """
+    return Program('tree', 'get', 'ScriptStatus', 'string')
+# endregion
 
-# region ******* ScriptEnd / Завершает выполнение текущего скрипта. *******
+# region --- ScriptEnd() / Завершает выполнение текущего скрипта. *******
 def ScriptEnd(command: str = None) -> None:
     """
     Завершает выполнение текущего скрипта.
@@ -707,7 +1093,20 @@ def ScriptEnd(command: str = None) -> None:
 EndScript = ScriptEnd
 # endregion *****************************************
 
-# region ******* ProjectRestart / Перезапускает текущий проект с нуля. *******
+#  ---------------------- Project / Проект  ------------------------
+
+# region --- ProjectResult / Получает результат выполнения всего проекта из дерева MOKO SE. --
+def ProjectResult() -> str:
+    """
+    Получает результат выполнения всего проекта из дерева MOKO SE.
+
+    Returns:
+        str: Статус выполнения проекта ('passed', 'failed', 'done').
+    """
+    return Program('tree', 'get', 'ProjectStatus', 'string')
+# endregion
+
+# region --- ProjectRestart() / Перезапускает текущий проект с нуля. *******
 def ProjectRestart() -> None:
     """
     Перезапускает текущий проект с нуля.
@@ -734,29 +1133,7 @@ def ProjectRestart() -> None:
     sys.exit()
 # endregion *****************************************
 
-# region ******* Tree & Hash / Дерево и Хэши *********************
-
-# region --- ScriptResult / Получает результат выполнения текущего скрипта из дерева MOKO SE. --
-def ScriptResult() -> str:
-    """
-    Получает результат выполнения текущего скрипта из дерева MOKO SE.
-
-    Returns:
-        str: Статус выполнения ('passed', 'failed', 'done').
-    """
-    return Program('tree', 'get', 'ScriptStatus', 'string')
-# endregion
-
-# region --- ProjectResult / Получает результат выполнения всего проекта из дерева MOKO SE. --
-def ProjectResult() -> str:
-    """
-    Получает результат выполнения всего проекта из дерева MOKO SE.
-
-    Returns:
-        str: Статус выполнения проекта ('passed', 'failed', 'done').
-    """
-    return Program('tree', 'get', 'ProjectStatus', 'string')
-# endregion
+#  ---------------------- Hash & Tree  / Дерево и Хэши  ------------
 
 # region --- HashSet / Устанавливает результат выполнения в дереве (Hash). --
 def HashSet(command: Literal['done', 'passed', 'failed'] = 'done') -> None:
@@ -839,9 +1216,27 @@ def HashSelectCheck(hash: str) -> bool:
     return False
 # endregion
 
-# endregion *******************************************************
+# region --- HashTreeInfo / Устанавливает информационную заметку ---
+def HashTreeInfo(info_text: str) -> None:
+    """
+    Устанавливает информационную заметку в поле "информация для выполнения"("Execution info").
 
-# region ******* Time / Время **************************************
+    Данная заметка отображается под деревом MOKO SE и может содержать
+    любую текстовую информацию о ходе выполнения, результатах измерения и т.д.
+
+    Args:
+        info_text (str): Текст информационной заметки.
+
+    Example:
+        >>> HashTreeInfo("Измерение напряжения: 5.2 В")
+        >>> HashTreeInfo("Ошибка: превышен лимит времени")
+    """
+    Program('tree', 'set', f'info = {info_text}')
+
+TreeInfo = HashTreeInfo
+# endregion
+
+#  ---------------------- Time / Время -----------------------------
 
 # region --- TimeParameter / Литералы времени MOKO SE
 TimeParameter = Literal[
@@ -893,146 +1288,9 @@ def TimeGet(command: TimeParameter = "Current"):
     return Program('time', 'get', command)
 # endregion
 
-# region --- ReportTimeAdd / Управляет таблицей со временем выполнения скрипта. ---
-def ReportTimeAdd(action: Literal["init", "add", "set"] = "init", lang: Literal["RU", "EN"] = "EN") -> None:
-    """
-    Управляет таблицей со временем выполнения скрипта.
-
-    Args:
-        action (Literal["init", "add", "set"]):
-            - 'init': Создает таблицу с заголовками.
-            - 'add' или 'set': Добавляет строку с данными о выполнении.
-        lang (Literal["RU", "EN"]): Язык заголовков и ID таблицы. По умолчанию 'EN'.
-    """
-    # Задаем заголовок и ID таблицы в зависимости от языка
-    if lang == "RU":
-        table_title = "Время выполнения скрипта"
-        headers = (
-            "Название скрипта#350;"
-            "Время запуска#120;"
-            "Время окончания#120;"
-            "Время исполнения#150"
-        )
-    else:  # EN (по умолчанию)
-        table_title = "Script Execution Time"
-        headers = (
-            "Script Name#350;"
-            "Start Time#120;"
-            "End Time#120;"
-            "Execution Time#150"
-        )
-
-    if action == "init":
-        # Используем table_title как визуальный заголовок
-        Report(table_title, "info", "table", headers)
-
-    elif action in ("add", "set"):
-        # Получаем имя файла и универсально отрезаем любое расширение
-        script_name, _ = os.path.splitext(os.path.basename(sys.argv[0]))
-
-        row_data = (
-            f"{script_name};"
-            f"{TimeGet('ScriptStart')};"
-            f"{TimeGet('CurrentDateAndTime')};"
-            f"{TimeGet('ScriptExecution')}"
-        )
-        # Используем тот же table_title как ID для обновления таблицы
-        Report(table_title, "set", "table", row_data)
-# endregion
-
-# endregion ********************************************************
-
-# region ******* Report / Отчет ************************************
-
-# region --- ReportTableCreate / Упрощенный вызов Report для создания таблиц. ---
-def ReportTableCreate(title: str, columns: str, base_width: int = 15) -> None:
-    """
-    Упрощенный вызов Report для создания таблиц.
-    Автоматически рассчитывает ширину колонок (#XX) на основе длины самой длинной строки.
-    Формула: base_width + (символы - 1) * 6.
-
-    Поддерживает многострочные заголовки через \\n (ширина считается по самой длинной строке).
-    Пробелы справа сохраняются для ручного увеличения ширины.
-    Пробелы слева перед \\n автоматически удаляются при сборке финальной строки.
-
-    Args:
-        title (str): Заголовок таблицы.
-        columns (str): Названия колонок через точку с запятой.
-                       Пример: "ID\\n точки;Канал \\n какойто;Мощность      "
-        base_width (int): Базовая ширина для колонки из 1 символа. По умолчанию 15.
-    """
-    column_list = columns.split(';')
-    formatted_columns = []
-
-    for col in column_list:
-        # Убираем пробелы только СЛЕВА у всей колонки (если они были после ;)
-        col = col.lstrip()
-
-        max_len = 0
-        cleaned_lines = []  # Сюда будем собирать строки без левых пробелов
-
-        # Разбиваем колонку на отдельные строки по символу переноса
-        lines = col.split('\n')
-
-        for line in lines:
-            # Убираем пробелы слева у каждой строки, но сохраняем справа
-            clean_line = line.lstrip()
-            cleaned_lines.append(clean_line)  # Сохраняем очищенную версию для финальной строки
-
-            # Считаем длину этой конкретной строки
-            line_len = len(clean_line)
-
-            # Запоминаем максимальную длину среди всех строк колонки
-            if line_len > max_len:
-                max_len = line_len
-
-        # Применяем формулу с переменной base_width
-        width = base_width + (max_len - 1) * 6
-
-        # Склеиваем очищенные строки обратно через \n (пробелы перед \n исчезнут)
-        final_col = "\n".join(cleaned_lines)
-
-        # Добавляем рассчитанную ширину
-        formatted_columns.append(f"{final_col}#{width}")
-
-    # Собираем всё обратно в одну строку через точку с запятой
-    final_string = ";".join(formatted_columns)
-
-    # Вызываем оригинальную функцию Report
-    Report(title, 'info', 'table', final_string)
-
-    return
-# endregion ****************************************************
-
-# Region --- ReportSave / Сохраняет отчет в указанном формате. ---
-def ReportSave(report_format: Literal["Word", "PDF", "Word as", "Pdf as"] = "Word") -> None:
-    """
-    Сохраняет отчет в указанном формате.
-
-    Args:
-        report_format (Literal): Формат сохранения отчета.
-                                 Допустимые значения: 'Word', 'PDF', 'Word as', 'Pdf as'.
-                                 По умолчанию 'Word'.
-    """
-    # Точно сопоставляем ввод программиста с тем, что понимает сервер
-    server_commands = {
-        "Word": "SaveWordReport",
-        "PDF": "SavePdfReport",
-        "Word as": "SaveWordReportAs",
-        "Pdf as": "SavePdfReportAs"
-    }
-
-    # Достаем нужную команду из словаря
-    command = server_commands[report_format]
-
-    # Вызываем команду
-    Program('control', 'set', command)
-    return
-# endregion ---------------------------------------------------------
-
-# endregion ********************************************************
-
-# endregion ##########################################################################
+###############################################################
+###############################################################
+###############################################################
 
 # region ### Internal Helper Functions / Внутренние вспомогательные функции ###
 
@@ -1093,7 +1351,7 @@ def check_status(system: str, mode: str, URLRead: str) -> str:
 # endregion
 
 # region --- parse_data / Разбор данных ---
-def parse_data(data: str = '', mode: str = '', valuetype: str = 'void') -> ...:
+def parse_data(data: str = '', mode: str = '', valuetype: str = 'void') -> Any:
     """
     Преобразует строковые данные от сервера в нужный тип Python.
 
@@ -1151,7 +1409,7 @@ def check_data(data: str, splitter: str = ";") -> str:
 # endregion
 
 # region --- to_list / Преобразовать в список ---
-def to_list(func, data: str, splitter: str = ";") -> ...:
+def to_list(func, data: str, splitter: str = ";") -> Any:
     """
     Разделяет строку на список и преобразует каждый элемент к заданному типу.
 
