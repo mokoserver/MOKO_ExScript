@@ -1,33 +1,66 @@
-import MOKO as Moko
+import MOKO
 
 
-Moko.Stage('*Messenger*')
-Moko.Messenger('set', 'Messenger_1', 'Message №1. It has the type \'\'set\'\'. Displays a window with some title and '
-                                     'content. Each message has a title and content that may be empty. '
-                                     'After pressing the \'\'OK\'\' button, the message closes.')
-Moko.Messenger('set', 'Messenger_2', 'Message №2. It has the type \'\'set\'\'. Has a timer after which the message closes'
-                                     '. After pressing the \'\'OK\'\' button, the message will be closed regardless of '
-                                     'whether the timer has expired.', 'void', str(5))
-c = Moko.Messenger('get', 'Messenger_3', 'Message №3. It has the type \'\'get\'\'. Gets data from a message of a specific'
-                                         'type. The default is \'\'void\'\'. Messages like \'\'get\'\' do not have a timer.',
-                                         'string')
-Moko.Messenger('set', 'Messenger_4', 'Message №4. You entered: ' + c)
-Moko.Report("exmessenger", 'set', 'string', c)
-b = Moko.Messenger('get', 'Messenger_5', 'Message №5. It has the type \'\'get\'\'. '
-                                         'Retrieves \'\'string\'\' data from the message.', 'string')
-Moko.Messenger('set', 'Messenger_6', 'Message №6. You entered: ' + b)
-Moko.Report("exmessenger_1", 'set', 'string', b)
-a = Moko.Messenger('get', 'Messenger_7', 'Message №7. It has the type \'\'get\'\'. '
-                                         'Retrieves boolean data from the message. '
-                                         'When you click on the \'\'Yes\'\' button, returns True, when you click on \'\'No\'\','
-                                         ' it returns False.', 'boolean')
-if a == True:
-    Moko.Messenger('set', 'True', 'You clicked on the \'\'Yes\'\' button.')
-    Moko.Report("exmessenger_2", 'set', 'string', 'True')
+MOKO.Stage('*Messenger*')
+MOKO.MessageSet('Message 1',
+                'Message №1. It has the type \'\'set\'\'. \n'
+                'Displays a window with some title and content.\n'
+                'Each message has a title and content that may be empty. \n'
+                'After pressing the \'\'OK\'\' button, the message closes.',)
+
+MOKO.MessageSet('Message 2',
+                'Message №2. It has the type \'\'set\'\'.\n'
+                'Has a timer after which the message closes.\n'
+                'After pressing the \'\'OK\'\' button, the message will be closed \n'
+                'regardless of whether the timer has expired.',
+                '3')
+
+c = MOKO.MessageGetString('Message 3',
+                    'Message №3. It has the type \'\'get\'\'.\n'
+                    'Gets data from a message of a specific type. \n'
+                    'The default is \'\'void\'\'. Messages like \'\'get\'\' do not have a timer.')
+
+
+MOKO.MessageSet( 'Message 4',
+                 f'Message №4. You entered: {c}')
+
+MOKO.ReportSetString('exmessenger',f'{c}')
+
+
+b = MOKO.MessageGetString('Message 5',
+                          'Message №5. It has the type \'\'get\'\'. \n'
+                          'Retrieves \'\'string\'\' data from the message.\n')
+
+MOKO.MessageSet('Message 6',
+                f'Message №6. You entered: {b}')
+
+MOKO.ReportSetString("exmessenger_1",
+                     f'{b}')
+
+
+a = MOKO.MessageGetBool('Messenger 7',
+                        'Message №7. It has the type \'\'get\'\'. \n'
+                              'Retrieves boolean data from the message. \n'
+                              'When you click on the \'\'Yes\'\' button, returns True, \n'
+                              'when you click on \'\'No\'\', it returns False.',
+                        False)
+
+
+MOKO.Stage(f'{a}')
+
+if a:
+    MOKO.MessageSet('True',
+                    'You clicked on the \'\'Yes\'\' button.')
+    MOKO.ReportSetString("exmessenger_2",
+                         'True')
 else:
-    Moko.Messenger('set', 'False', 'You clicked on the \'\'No\'\' button.')
-    Moko.Report("exmessenger_2", 'set', 'string', 'False')
-Moko.Report("exmessenger_3", 'set', 'string', 'The script completed successfully.')
+    MOKO.MessageSet('False',
+                    'You clicked on the \'\'No\'\' button.')
+    MOKO.ReportSetString("exmessenger_2",
+                         'False')
+
+MOKO.ReportSetString("exmessenger_3",
+                      'The script completed successfully.')
 
 
-Moko.EndScript()
+MOKO.ScriptEnd()

@@ -193,12 +193,17 @@ def Autoit(title: str,
 # endregion
 
 #  ---------------------- Stage  -----------------------------------
+# region --- StageType = Literal ---
+StageType = Literal[
+    'info', 'success', 'fail', 'empty', 'error', 'warning',
+    'telegram', 'max', 'message', 'utility', 'autoit', 'cmd',
+    'port', 'driver', 'plugin', 'report', 'project', 'script'
+]
+# endregion
 
 # region --- Stage() / Логирование этапов ---
 def Stage(message: str = '',
-          type: Literal['info', 'success', 'fail', 'empty', 'error', 'warning',
-                        'telegram', 'message', 'utility', 'cmd', 'port', 'driver', 'plugin', 'report', 'autoit',
-                        'project', 'script'] = "info") -> None:
+          type: StageType = "info") -> None:
     """
     Отправляет и отображает сообщение в окне "Stage" в MOKO SE.
 
@@ -241,6 +246,44 @@ StageProject = partial(Stage, type='project')
 StageScript = partial(Stage, type='script')
 # endregion
 
+# region --- StageSeparator() / Декоративный разделитель в лог ---
+def StageSeparator(
+    word: str = '',
+    width: int = 80,
+    fillchar: str = '*',
+    align: Literal['center', 'left', 'right'] = 'center',
+    stage_type: StageType  = 'info'
+) -> None:
+    """
+    Выводит в Stage декоративный разделитель – строку, заполненную символами,
+    с опциональным словом посередине (или слева/справа).
+
+    Args:
+        word (str): Слово для вставки в разделитель. Если пусто – сплошная линия.
+        width (int): Общая ширина разделителя (в символах). По умолчанию 80.
+        fillchar (str): Символ-заполнитель (один символ). По умолчанию '*'.
+        align (str): Выравнивание слова:
+                     - 'center' – слово по центру,
+                     - 'left'   – слово слева, остальное заполнитель справа,
+                     - 'right'  – слово справа, остальное заполнитель слева.
+        stage_type (str): Тип сообщения Stage (см. Stage). По умолчанию 'info'.
+    """
+    if not word:
+        # Пустое слово → сплошная линия
+        line = fillchar * width
+    else:
+        # Длина слова может быть больше ширины – обрежем?
+        if len(word) > width:
+            word = word[:width-3] + '...'  # чтобы не разрывать Stage
+        if align == 'center':
+            line = f"{word:{fillchar}^{width}}"
+        elif align == 'left':
+            line = f"{word:{fillchar}<{width}}"
+        else:  # right
+            line = f"{word:{fillchar}>{width}}"
+    Stage(line, stage_type)
+
+# endregion
 
 #  ---------------------- Driver  ----------------------------------
 
@@ -516,11 +559,62 @@ def MessageSetWithImage(head: str,
     MessageSet(full_head, body, delaytime=delaytime)
 # endregion
 
-# MessageGet
 # MessageGetBool
 # MessageGetChoice
 # MessageGetPath
 
+# region --- MessageGet() / Получение ввода от пользователя ---
+def MessageGet(head: str,
+               body: str = '',
+               valuetype: str = 'void') -> Any:
+    """
+    Отображает диалоговое окно для ввода данных пользователем.
+
+    Args:
+        head (str): Заголовок окна. Можно использовать директивы:
+                    '#@warning', '#@error', '#@info' или путь к картинке после '#'.
+        body (str, optional): Текст сообщения или подсказка. Defaults to ''.
+        valuetype (str, optional): Ожидаемый тип возвращаемого значения.
+                                   Поддерживаются: 'void', 'string', 'boolean', 'choice', 'path'.
+                                   Defaults to 'string'.
+
+    Returns:
+        Any: Введённое пользователем значение, преобразованное к типу `valuetype` = 'string' .
+    """
+    return Message(mode='get', head=head, body=body, valuetype=valuetype)
+# endregion
+
+# region --- MessageGetString() / Упрощённые варианты MessageGetString ---
+def MessageGetString(head: str, body: str = '') -> str:
+    """Возвращает строку, введённую пользователем."""
+    return MessageGet(head, body, valuetype='string')
+# endregion
+
+# region --- MessageGetBool() / Упрощённые варианты MessageGetBool ---
+def MessageGetBool(head: str,
+                   body: str = '',
+                   boolean: bool = False,
+                   timeout: Optional[Union[int, float]] = None) -> bool:
+    """
+    Отображает диалог Да/Нет и возвращает bool.
+
+    Args:
+        head: Заголовок окна.
+        body: Текст сообщения.
+        default: Значение по умолчанию (True = Да, False = Нет).
+        timeout: Время авто-закрытия в секундах (None = бесконечно).
+    """
+    # Формируем строку valuetype, как в примерах пользователя:
+    # "boolean = false", "boolean = true time = 6" и т.д.
+    valuetype = f"boolean = {str(boolean).lower()}"
+    if timeout is not None:
+        valuetype += f" time = {timeout}"
+
+    # Вызываем стандартную Message (delaytime='void', т.к. таймаут уже внутри valuetype)
+    result = Message(mode='get', head=head, body=body,valuetype=valuetype, delaytime='void')
+
+    return result
+# endregion
 
 #  ---------------------- Report  ----------------------------------
 
@@ -552,6 +646,70 @@ def Report(name: str,
     send_request(URLWrite, command_to_send)
     repdata: str = check_status("report", mode, URLRead)
     return parse_data(repdata, mode, valuetype)
+# endregion
+
+# region --- ReportSetString() / Упрощённая запись в отчёт строки ---
+def ReportSetString(name: str, data: str) -> None:
+    """
+    Записывает строковые данные в указанный отчёт (или закладку Word).
+
+    Args:
+        name (str): Имя отчёта или закладки в документе Word.
+        data (str): Строка, которая будет записана.
+    """
+    Report(name, mode='set', kind='string', data=data)
+# endregion
+
+# region --- ReportSetTable() / Упрощённая запись в отчёт таблицу ---
+def ReportSetTable(name: str, data: str) -> None:
+    """
+    Записывает табличные данные в указанный отчёт.
+
+    Формат данных `data` должен соответствовать требованиям MOKO SE:
+    - Строки разделены точкой с запятой ';'
+    - Колонки внутри строки – тоже ';'
+    - Для задания ширины колонки используется '#<ширина>' после заголовка.
+    Пример: "Имя#100;Значение#50;Результат#80"
+
+    Args:
+        name (str): Имя отчёта или закладки.
+        data (str): Данные таблицы в виде строки.
+    """
+    Report(name, mode='set', kind='table', data=data)
+# endregion
+
+# region --- ReportSetPicture() / Упрощённая запись в отчёт картинку ---
+def ReportSetPicture(name: str, data: str) -> None:
+    """
+    Вставляет изображение в отчёт.
+
+    Args:
+        name (str): Имя отчёта или закладки.
+        data (str): Путь к файлу изображения (абсолютный или относительный)
+                    или другие данные, поддерживаемые MOKO SE для вставки картинок.
+    """
+    Report(name, mode='set', kind='picture', data=data)
+
+
+# Синоним для удобства (оба имени ведут к одной функции)
+ReportSetImage = ReportSetPicture
+# endregion
+
+# region --- ReportGet() / Получение данных из отчёта ---
+def ReportGet(name: str,
+              valuetype: Literal['string', 'int', 'float', 'bool',
+                                 'arrayint', 'arrayfloat', 'arrayboolean', 'arraystring'] = 'string') -> Any:
+    """
+    Получает данные из отчёта MOKO SE.
+
+    Args:
+        name (str): Имя отчёта или закладки в документе Word.
+        valuetype (str, optional): Ожидаемый тип возвращаемого значения. По умолчанию 'string'.
+
+    Returns:
+        Any: Данные из отчёта, преобразованные к типу `valuetype`.
+    """
+    return Report(name, mode='get', kind='string', data='', valuetype=valuetype)
 # endregion
 
 # region --- ReportTableCreate() / Упрощенный вызов Report для создания таблиц. ---

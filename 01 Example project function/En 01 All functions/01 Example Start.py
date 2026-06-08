@@ -1,13 +1,17 @@
-import MOKO as Moko
+import MOKO
 from MOSC import stars
 
-Moko.Stage(stars('*'))
-Moko.Stage(stars('START'))
-Moko.Stage(stars('*'))
+MOKO.StageSeparator()
+MOKO.StageSeparator('START')
+MOKO.StageSeparator()
 
-Moko.Messenger('set', 'Greeting#@hello', 'Dear User!\nThanks for installing MOKO SE.\nEnjoyable using!')
+MOKO.MessageSetWithImage('Greeting',
+                         'Dear User!\nThanks for installing MOKO SE.\nEnjoyable using!',
+                         '@hello',
+                         '3')
 
-Moko.Stage(stars('*'))
-Moko.Stage(stars('NEXT SCRIPT'))
-Moko.Stage(stars('*'))
-Moko.EndScript()
+MOKO.StageSeparator()
+MOKO.StageSeparator('NEXT SCRIPT')
+MOKO.StageSeparator()
+
+MOKO.ScriptEnd()

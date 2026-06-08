@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2a18d8f8-42d5-43f7-aab4-f7156d54231a" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../01 Example project function/En 01 All functions/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/../01 Example project function/En 01 All functions/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../01 Example project function/En 02 Clicker function/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/../01 Example project function/En 02 Clicker function/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../01 Example project function/En 03 Graph function/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/../01 Example project function/En 03 Graph function/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../01 Example project function/En 04 Messenger function/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/../01 Example project function/En 04 Messenger function/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../01 Example project function/En 05 Path function/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/../01 Example project function/En 05 Path function/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../01 Example project function/En 06 Plugin function/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/../01 Example project function/En 06 Plugin function/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../01 Example project function/En 07 Report function/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/../01 Example project function/En 07 Report function/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../01 Example project function/En 08 Telegram function/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/../01 Example project function/En 08 Telegram function/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../01 Example project function/En 09 Hash function/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/../01 Example project function/En 09 Hash function/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../01 Example project function/En 10 Time function/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/../01 Example project function/En 10 Time function/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../01 Example project function/Ru 01 Пример всех функции/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/../01 Example project function/Ru 01 Пример всех функции/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../01 Example project function/Ru 02 Функция Cliker/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/../01 Example project function/Ru 02 Функция Cliker/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../01 Example project function/Ru 03 Функция Graph/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/../01 Example project function/Ru 03 Функция Graph/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../01 Example project function/Ru 04 Функция Messenger/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/../01 Example project function/Ru 04 Функция Messenger/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../01 Example project function/Ru 05 Функция Plugin/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/../01 Example project function/Ru 05 Функция Plugin/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../01 Example project function/Ru 06 Функция Path/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/../01 Example project function/Ru 06 Функция Path/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../01 Example project function/Ru 07 Функция Report/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/../01 Example project function/Ru 07 Функция Report/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../01 Example project function/Ru 08 Функция Telegram/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/../01 Example project function/Ru 08 Функция Telegram/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../01 Example project function/Ru 09 Функция Hash/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/../01 Example project function/Ru 09 Функция Hash/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/En 01 Verification FLUKE5520A Agilent34401A Demo/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/En 01 Verification FLUKE5520A Agilent34401A Demo/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/En 02 Verification FLUKE5520A Agilent34460A Demo/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/En 02 Verification FLUKE5520A Agilent34460A Demo/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/En 03 Test IoT Demo/01 Registration verification unit.py" beforeDir="false" afterPath="$PROJECT_DIR$/En 03 Test IoT Demo/01 Registration verification unit.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/En 03 Test IoT Demo/02 Initialization devices. Drivers BK1697, APPA207, FY6900.py" beforeDir="false" afterPath="$PROJECT_DIR$/En 03 Test IoT Demo/02 Initialization devices. Drivers BK1697, APPA207, FY6900.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/En 03 Test IoT Demo/03 Demo Test IoT 4 Wave.py" beforeDir="false" afterPath="$PROJECT_DIR$/En 03 Test IoT Demo/03 Demo Test IoT 4 Wave.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/En 03 Test IoT Demo/03 Demo Test IoT 8 Wave.py" beforeDir="false" afterPath="$PROJECT_DIR$/En 03 Test IoT Demo/03 Demo Test IoT 8 Wave.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/En 03 Test IoT Demo/04 Save word report.py" beforeDir="false" afterPath="$PROJECT_DIR$/En 03 Test IoT Demo/04 Save word report.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/En 03 Test IoT Demo/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/En 03 Test IoT Demo/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ru 01 Поверка преобразователя давления Demo/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ru 01 Поверка преобразователя давления Demo/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ru 02 Test IoT Demo/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ru 02 Test IoT Demo/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Новая папка/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/Новая папка/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../03 Example project real/En 01 Verification FLUKE5520A Agilent34401A Real/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/../03 Example project real/En 01 Verification FLUKE5520A Agilent34401A Real/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../03 Example project real/En 02 Verification FLUKE5520A Agilent34460A Real/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/../03 Example project real/En 02 Verification FLUKE5520A Agilent34460A Real/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../03 Example project real/En 03 Test IoT Real/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/../03 Example project real/En 03 Test IoT Real/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../03 Example project real/En 04 Test DC-DC Converter/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/../03 Example project real/En 04 Test DC-DC Converter/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../03 Example project real/En 05 CTB Real/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/../03 Example project real/En 05 CTB Real/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../03 Example project real/Ru 01 Реальное тестирование IoT/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/../03 Example project real/Ru 01 Реальное тестирование IoT/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Tests/Autoit/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Tests/Autoit/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Tests/ExclusiveReport/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Tests/ExclusiveReport/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Tests/MFRT.py library/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Tests/MFRT.py library/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Tests/Messenger picture/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Tests/Messenger picture/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Tests/Messenger_Bool_Time/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Tests/Messenger_Bool_Time/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Tests/Port example/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Tests/Port example/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Tests/StartStopPause/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Tests/StartStopPause/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Tests/Testing crash init/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Tests/Testing crash init/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Tests/Time requests on MOKO.py/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Tests/Time requests on MOKO.py/MOKO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Tests/WordReport/MOKO.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Tests/WordReport/MOKO.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 3
+}]]></component>
+  <component name="ProjectId" id="3BPgiE0HasqLO3t59rhd0A338mf" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "ai.playground.ignore.import.keys.banner.in.settings": "true",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "master",
+    "junie.onboarding.icon.badge.shown": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-PY-253.31033.139" />
+        <option value="bundled-python-sdk-2653e85de345-6d6dccd035ac-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-253.31033.139" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2a18d8f8-42d5-43f7-aab4-f7156d54231a" name="Changes" comment="" />
+      <created>1774396244771</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1774396244771</updated>
+      <workItem from="1774396245860" duration="315000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

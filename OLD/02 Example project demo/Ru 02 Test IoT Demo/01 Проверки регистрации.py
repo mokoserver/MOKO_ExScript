@@ -1,0 +1,67 @@
+import MOKO
+import MTLG
+import MOSC
+
+MTLG.TelegramProgram('alpha', 'Проверка регистрации', 'set', 'Регистрация')
+MOKO.Stage("*********************************************************")
+MOKO.Stage("*************** Проверка регистрации ****************")
+MOKO.Stage("*********************************************************")
+MOKO.Stage(" ")
+
+info = "moko_test"
+#region Регистрация оборудования$Reg
+MOSC.hashStatus("$Reg")
+MOKO.Program('tree', 'set', 'select = Регистрация оборудования$Reg')
+
+MOKO.Utility(info, "set", "Registration")
+
+ProtocolNumber = MOKO.Utility(info, "get", "ProtocolNumber", "string")
+CurrentDate = MOKO.Utility(info, "get", "CurrentDate", "string")
+ModelDevice = MOKO.Utility(info, "get", "ModelDevice", "string")
+SerialNumber = MOKO.Utility(info, "get", "SerialNumber", "string")
+Owner = MOKO.Utility(info, "get", "owner", "string")
+Request = MOKO.Utility(info, "get", "Request", "string")
+Verifier = MOKO.Utility(info, "get", "Verifier", "string")
+VerificationDate = MOKO.Utility(info, "get", "CurrentDate", "string")
+
+MOKO.Report("REGISTRATION_ProtocolNumber", "info", "string", "Номер протокола измерения")
+MOKO.Report("REGISTRATION_CurrentDate", "info", "string", "Текущая дата")
+MOKO.Report("REGISTRATION_ModelDevice", "info", "string", "Модель тестируемого устройства")
+MOKO.Report("REGISTRATION_SerialNumber", "info", "string", "Серийный номер устройства")
+MOKO.Report("REGISTRATION_Owner", "info", "string", "Владелец")
+MOKO.Report("REGISTRATION_Request", "info", "string", "Запрос")
+MOKO.Report("REGISTRATION_Verifier", "info", "string", "Поверяющий")
+MOKO.Report("REGISTRATION_VerificationDate", "info", "string", "Дата поверки")
+MOKO.Report("REGISTRATION_FormNumber", "info", "string", "Номер формы")
+MOKO.Report("REGISTRATION_GosNumber", "info", "string", "Номер измерения")
+
+MOKO.Report("REGISTRATION_ProtocolNumber", "set", "string", ProtocolNumber)
+MOKO.Report("REGISTRATION_CurrentDate", "set", "string", CurrentDate)
+MOKO.Report("REGISTRATION_ModelDevice", "set", "string", ModelDevice)
+MOKO.Report("REGISTRATION_SerialNumber", "set", "string", SerialNumber)
+MOKO.Report("REGISTRATION_Owner", "set", "string", Owner)
+MOKO.Report("REGISTRATION_Request", "set", "string", Request)
+MOKO.Report("REGISTRATION_Verifier", "set", "string", Verifier)
+MOKO.Report("REGISTRATION_VerificationDate", "set", "string", VerificationDate)
+MOKO.Report("REGISTRATION_FormNumber", "set", "string", "432-164")
+MOKO.Report("REGISTRATION_GosNumber", "set", "string", "52147-12")
+
+MOKO.Utility(info, "set", "Conditions")
+
+Temperature = MOKO.Utility(info, "get", "Temperature", "string")
+Humidity = MOKO.Utility(info, "get", "Humidity", "string")
+Pressure = MOKO.Utility(info, "get", "Pressure", "string")
+
+MOKO.Report('VerificationConditions', 'info', 'table', "Controlled parameters#150;"
+                                                       "ND requirements#100;"
+                                                       "Measured values#100;")
+
+MOKO.Report("VerificationConditions", "set", "table", f"Температура; 20°C; {Temperature}")
+MOKO.Report("VerificationConditions", "set", "table", f"Влажность; 60%; {Humidity}")
+MOKO.Report("VerificationConditions", "set", "table", f"Давление; 100kPa; {Pressure}")
+MOKO.Stage(" ")
+
+MOSC.hash_passed()
+#endregion Регистрация оборудования$Reg
+
+MOKO.EndScript()

@@ -1,14 +1,15 @@
-import MOKO as Moko
+import MOKO
 from MOSC import stars
 
-Moko.Stage(stars('*'))
-Moko.Stage(stars('NEW SCRIPT'))
-Moko.Stage(stars('*'))
+MOKO.StageSeparator()
+MOKO.StageSeparator('NEW SCRIPT')
+MOKO.StageSeparator()
 
-Moko.Messenger('set', 'Farewell#@bye', 'Previous messages demonstrated the work of the Messenger. '
+MOKO.MessageSet( 'Farewell#@bye', 'Previous messages demonstrated the work of the Messenger. '
                                        'Thanks for using MOKO SE. Good luck!')
-Moko.Stage(stars('*'))
-Moko.Stage(stars('END'))
-Moko.Stage(stars('*'))
 
-Moko.EndScript()
+MOKO.StageSeparator()
+MOKO.StageSeparator('END')
+MOKO.StageSeparator()
+
+MOKO.EndScript()
